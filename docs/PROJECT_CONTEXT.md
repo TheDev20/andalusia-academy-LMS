@@ -158,14 +158,3 @@ andalusia-academy-LMS/
 
 ---
 
-## 6. Implementation Roadmap & Milestones
-
-1. **Step 01: Project Inception & CI/CD** (✅ Completed)
-2. **Step 02: Directory Skeleton Setup (Zero Files, Zero AI)** (✅ Completed)
-3. **Milestone 1: Business Rules & Domain Contracts** (Next)
-4. **Milestone 2: Foundation (ASP.NET Core 10 API, EF Core DbContext, React Vite Setup)**
-5. **Milestone 3: Catalog & CMS Slice**
-6. **Milestone 4: Admissions & Payment Transaction Slice**
-7. **Milestone 5: Learning Delivery (Sessions, Attendance, Submissions)**
-8. **Milestone 6: Operations, Compensation & Background Worker**
-9. **Milestone 7: Production Hardening & Instructor Sign-Off**
