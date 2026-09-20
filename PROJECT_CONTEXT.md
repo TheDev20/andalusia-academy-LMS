@@ -17,4 +17,11 @@ For the complete technical blueprint, ADRs, database secrets, branching workflow
   * Dev Staging: `DevALMSdb` (`tcp:lmsacademy.database.windows.net,1433`)
   * Production: `andalusia-lms-db` (`tcp:lmsacademy.database.windows.net,1433`)
 * **Azure App Service**: `AndalusiaAcademyLMS` (`https://andalusiaacademylms-ffegckcff9clxhkc2.westeurope-01.azurewebsites.net`)
+* **Sprint Schedule**:
+  * Sprint 1 (24 Sep): Foundation + Public Website
+  * Sprint 2 (1 Oct): Catalog & Discovery
+  * Sprint 3 (8 Oct): Identity → Application → Payment → Enrollment
+  * Sprint 4 (15 Oct): Learning Experience + Instructor + Admin
+  * Final Sprint (22 Oct): CMS + Notifications + Integration + Quality
+  * Graduation (29 Oct): Final Demonstration & Handover
 * **Specifications**: Stored in [`docs/architecture/`](docs/architecture/)
