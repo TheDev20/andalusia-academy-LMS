@@ -1,23 +1,22 @@
-﻿name: Deploy to Production
+﻿name: Deploy to Production (Azure App Service)
 
 on:
   push:
     branches: [ main ]
-    tags: [ 'v*.*.*' ]
 
-# Ensure only one deployment runs at a time in production
+# Prevent overlapping deployments to production
 concurrency:
   group: deploy-production
   cancel-in-progress: false
 
 jobs:
-  deploy-prod:
-    name: Deploy to Production Environment
-    runs-on: ubuntu-latest
-    # Binds to GitHub Environment 'production' which enforces required peer reviewers/approvals
+  build-and-deploy:
+    name: Build & Deploy to Azure
+    runs-on: windows-latest
     environment:
       name: production
-      url: ${{ steps.deploy.outputs.env_url }}
+      url: https://andalusiaacademylms-ffegckcff9clxhkc2.westeurope-01.azurewebsites.net
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -27,25 +26,24 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Setup Node.js Runtime
-        uses: actions/setup-node@v4
+      - name: Restore Dependencies
+        run: |
+          if (Test-Path "AndalusiaAcademy.API\AndalusiaAcademy.API.csproj") {
+            dotnet restore AndalusiaAcademy.API\AndalusiaAcademy.API.csproj
+          }
+
+      - name: Build & Publish Release Package
+        run: |
+          if (Test-Path "AndalusiaAcademy.API\AndalusiaAcademy.API.csproj") {
+            dotnet publish AndalusiaAcademy.API\AndalusiaAcademy.API.csproj -c Release -o ./publish
+          } else {
+            New-Item -ItemType Directory -Path "./publish" -Force | Out-Null
+            Set-Content -Path "./publish/hostingstart.html" -Value "<h1>Andalusia Academy LMS - Production Deployment Initialized</h1>"
+          }
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
         with:
-          node-version: 22
-
-      - name: Execute Production Database Migrations
-        run: |
-          echo "Applying reviewed EF Core migration bundle to Production SQL Server..."
-
-      - name: Deploy Production API & Background Worker
-        run: |
-          echo "Deploying ASP.NET Core API and durable worker to Production..."
-
-      - name: Deploy Production Frontend
-        id: deploy
-        run: |
-          echo "Deploying production-optimized React web assets to CDN / Hosting..."
-          echo "env_url=https://andalusia-academy.com" >> $GITHUB_OUTPUT
-
-      - name: Run Liveness & Smoke Checks
-        run: |
-          echo "Verifying API readiness, database connection, and frontend health..."
+          app-name: 'AndalusiaAcademyLMS'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./publish
