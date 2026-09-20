@@ -11,7 +11,6 @@
 **Andalusia Academy LMS** is an enterprise-grade learning management system designed for physical and hybrid academy operations. 
 
 ### Phase 1 MVB (Minimum Viable Baseline) Scope
-* **Target Audience**: Visitors, prospective applicants, enrolled learners, instructors, operations managers, and system administrators.
 * **Core Visitor-to-Learner Journey**:
   1. Public course and program discovery and comparison.
   2. Student application submission.
