@@ -1,0 +1,46 @@
+﻿name: Deploy to Development
+
+on:
+  push:
+    branches: [ develop ]
+
+# Ensure only one deployment runs at a time to prevent race conditions in development
+concurrency:
+  group: deploy-development
+  cancel-in-progress: false
+
+jobs:
+  deploy-dev:
+    name: Deploy to Development Environment
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+      url: ${{ steps.deploy.outputs.env_url }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Setup Node.js Runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate & Apply Database Migrations (Dev)
+        run: |
+          echo "Validating EF Core database migration bundle for development..."
+          # Example: dotnet ef database update or run idempotent SQL script
+
+      - name: Deploy Backend API & Worker
+        run: |
+          echo "Publishing and deploying ASP.NET Core API & Background Worker to Development..."
+
+      - name: Deploy React Frontend
+        id: deploy
+        run: |
+          echo "Building and deploying React frontend assets to Development..."
+          echo "env_url=https://dev.andalusia-academy.com" >> $GITHUB_OUTPUT

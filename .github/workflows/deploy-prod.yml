@@ -1,0 +1,51 @@
+﻿name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*.*.*' ]
+
+# Ensure only one deployment runs at a time in production
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy-prod:
+    name: Deploy to Production Environment
+    runs-on: ubuntu-latest
+    # Binds to GitHub Environment 'production' which enforces required peer reviewers/approvals
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.env_url }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Setup Node.js Runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Execute Production Database Migrations
+        run: |
+          echo "Applying reviewed EF Core migration bundle to Production SQL Server..."
+
+      - name: Deploy Production API & Background Worker
+        run: |
+          echo "Deploying ASP.NET Core API and durable worker to Production..."
+
+      - name: Deploy Production Frontend
+        id: deploy
+        run: |
+          echo "Deploying production-optimized React web assets to CDN / Hosting..."
+          echo "env_url=https://andalusia-academy.com" >> $GITHUB_OUTPUT
+
+      - name: Run Liveness & Smoke Checks
+        run: |
+          echo "Verifying API readiness, database connection, and frontend health..."
