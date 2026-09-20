@@ -13,35 +13,23 @@ export default function PublicFooter({ onNavigate }) {
 
   return (
     <footer className="public-footer" role="contentinfo">
+      {/* Compact, elegant trust strip */}
       <div className="footer-top-trust">
         <div className="footer-container">
-          <div className="trust-grid">
-            <div className="trust-item">
-              <div className="trust-icon-box">
-                <ShieldCheck size={26} className="trust-icon" aria-hidden="true" />
-              </div>
-              <div className="trust-text">
-                <h4>Industry-Aligned Standards</h4>
-                <p>Curricula built upon production-grade software engineering and enterprise cloud architecture.</p>
-              </div>
+          <div className="trust-strip-compact">
+            <div className="trust-pill-compact">
+              <ShieldCheck size={16} className="trust-pill-icon" aria-hidden="true" />
+              <span>Industry-Aligned Standards</span>
             </div>
-            <div className="trust-item">
-              <div className="trust-icon-box">
-                <Award size={26} className="trust-icon" aria-hidden="true" />
-              </div>
-              <div className="trust-text">
-                <h4>Verified Technical Credentials</h4>
-                <p>Recognized professional diplomas, accredited lab hours, and public GitHub portfolio capstones.</p>
-              </div>
+            <span className="trust-sep-dot" aria-hidden="true">·</span>
+            <div className="trust-pill-compact">
+              <Award size={16} className="trust-pill-icon" aria-hidden="true" />
+              <span>Verified Technical Credentials</span>
             </div>
-            <div className="trust-item">
-              <div className="trust-icon-box">
-                <MapPin size={26} className="trust-icon" aria-hidden="true" />
-              </div>
-              <div className="trust-text">
-                <h4>Physical Tech Hubs & Hybrid Labs</h4>
-                <p>In-person classroom cohorts and coding studios across Cairo, Alexandria, and Jeddah.</p>
-              </div>
+            <span className="trust-sep-dot" aria-hidden="true">·</span>
+            <div className="trust-pill-compact">
+              <MapPin size={16} className="trust-pill-icon" aria-hidden="true" />
+              <span>Physical Tech Hubs & Hybrid Labs</span>
             </div>
           </div>
         </div>
@@ -50,66 +38,55 @@ export default function PublicFooter({ onNavigate }) {
       <div className="footer-main">
         <div className="footer-container">
           <div className="footer-columns-grid">
-            {/* Col 1: Brand & Heritage */}
+            {/* Col 1: Brand & Contact */}
             <div className="footer-col brand-col">
               <div className="footer-brand-wrap">
                 <Brand href="#home" onClick={handleNav('home')} />
               </div>
               <p className="footer-desc">
-                The premier technology and professional education academy. Dedicated to shaping the next generation of software engineers, AI developers, data scientists, and digital innovators.
+                The premier technology institute empowering software developers, AI engineers, and data leaders.
               </p>
               <div className="footer-contact-items">
                 <div className="contact-line">
-                  <Phone size={14} aria-hidden="true" />
-                  <span>Admissions Hotline: <strong>16781</strong></span>
+                  <Phone size={13} aria-hidden="true" />
+                  <span>Admissions: <strong>16781</strong></span>
                 </div>
                 <div className="contact-line">
-                  <Mail size={14} aria-hidden="true" />
+                  <Mail size={13} aria-hidden="true" />
                   <span>admissions@andalusia-academy.com</span>
-                </div>
-                <div className="contact-line">
-                  <MapPin size={14} aria-hidden="true" />
-                  <span>Cairo Tech Hub · Alexandria · Jeddah</span>
                 </div>
               </div>
             </div>
 
-            {/* Col 2: Programs & Tracks */}
+            {/* Col 2: Programs */}
             <div className="footer-col">
-              <h5 className="footer-heading">Technical Tracks</h5>
+              <h5 className="footer-heading">Programs</h5>
               <ul className="footer-links">
-                <li><a href="#courses" onClick={handleNav('home')}>Full-Stack Software Engineering</a></li>
-                <li><a href="#courses" onClick={handleNav('home')}>Applied Generative AI & LLMs</a></li>
+                <li><a href="#courses" onClick={handleNav('home')}>Software Engineering</a></li>
+                <li><a href="#courses" onClick={handleNav('home')}>Applied Generative AI</a></li>
                 <li><a href="#courses" onClick={handleNav('home')}>Data Science & BigQuery</a></li>
-                <li><a href="#courses" onClick={handleNav('home')}>Cloud Architecture & DevOps</a></li>
-                <li><a href="#courses" onClick={handleNav('home')}>Cybersecurity & DevSecOps</a></li>
-                <li><a href="#courses" onClick={handleNav('home')}>Mobile App Engineering</a></li>
+                <li><a href="#courses" onClick={handleNav('home')}>Cloud & DevOps</a></li>
               </ul>
             </div>
 
-            {/* Col 3: Academy & Community */}
+            {/* Col 3: Academy */}
             <div className="footer-col">
               <h5 className="footer-heading">Academy</h5>
               <ul className="footer-links">
                 <li><a href="#about" onClick={handleNav('about')}>About Andalusia Academy</a></li>
-                <li><a href="#about" onClick={handleNav('about')}>Technical Vision & Pedagogy</a></li>
-                <li><a href="#about" onClick={handleNav('about')}>Industry Faculty & Mentors</a></li>
-                <li><a href="#about" onClick={handleNav('about')}>Computing Studios & Facilities</a></li>
-                <li><a href="#corporate" onClick={handleNav('home')}>Corporate Enterprise Training</a></li>
-                <li><a href="#contact" onClick={handleNav('contact')}>Contact & Campus Hubs</a></li>
+                <li><a href="#about" onClick={handleNav('about')}>Faculty & Mentors</a></li>
+                <li><a href="#corporate" onClick={handleNav('home')}>Corporate Training</a></li>
+                <li><a href="#contact" onClick={handleNav('contact')}>Campus Hubs</a></li>
               </ul>
             </div>
 
-            {/* Col 4: Portals & Legal */}
+            {/* Col 4: Portals */}
             <div className="footer-col">
-              <h5 className="footer-heading">Portals & Access</h5>
+              <h5 className="footer-heading">Portals</h5>
               <ul className="footer-links">
                 <li><a href="#login" onClick={handleNav('login')}>Learner LMS Portal</a></li>
-                <li><a href="#signup" onClick={handleNav('signup')}>New Applicant Enrollment</a></li>
-                <li><a href="#login" onClick={handleNav('login')}>Instructor Workspace</a></li>
-                <li><a href="#corporate" onClick={handleNav('home')}>Enterprise Corporate Portal</a></li>
-                <li><a href="#contact" onClick={handleNav('contact')}>Certificate Verification</a></li>
-                <li><a href="#contact" onClick={handleNav('contact')}>Technical Support Desk</a></li>
+                <li><a href="#signup" onClick={handleNav('signup')}>New Application</a></li>
+                <li><a href="#contact" onClick={handleNav('contact')}>Support Desk</a></li>
               </ul>
             </div>
           </div>
@@ -121,7 +98,7 @@ export default function PublicFooter({ onNavigate }) {
             <div className="footer-legal-links">
               <a href="#about" onClick={handleNav('about')}>Privacy Policy</a>
               <span>·</span>
-              <a href="#about" onClick={handleNav('about')}>Terms of Enrollment</a>
+              <a href="#about" onClick={handleNav('about')}>Terms</a>
               <span>·</span>
               <a href="#about" onClick={handleNav('about')}>Academic Standards</a>
             </div>

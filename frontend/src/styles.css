@@ -208,10 +208,10 @@ button:focus-visible, a:focus-visible, input:focus-visible {
 }
 
 .public-footer .brand-logo-img {
-  height: 68px;
-  max-height: 68px;
+  height: 38px;
+  max-height: 38px;
   width: auto;
-  filter: brightness(1.25) contrast(1.1);
+  filter: brightness(1.2) contrast(1.1);
 }
 
 .form-panel header .brand-logo-img {
@@ -2694,127 +2694,92 @@ h2 em {
   border-top: 1px solid rgba(174, 138, 88, 0.2);
 }
 .footer-top-trust {
-  padding: 38px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.15);
 }
-.trust-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 36px;
-}
-@media (max-width: 900px) {
-  .trust-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-}
-.trust-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.trust-icon-box {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: rgba(212, 163, 89, 0.12);
-  border: 1px solid rgba(212, 163, 89, 0.25);
-  color: #d4a359;
+.trust-strip-compact {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 11.5px;
+  color: #bdafa0;
 }
-.trust-icon {
+.trust-pill-compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 500;
+}
+.trust-pill-icon {
   color: #d4a359;
   flex-shrink: 0;
 }
-.trust-text {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.trust-text h4,
-.trust-item h4 {
-  font-family: 'Libre Caslon Display', Georgia, serif;
-  font-size: 16px;
-  color: #f7f4ee;
-  margin: 0;
-  font-weight: 400;
-  letter-spacing: 0.3px;
-}
-.trust-text p,
-.trust-item p {
-  font-size: 12px;
-  line-height: 1.5;
-  color: #b0a395;
-  margin: 0;
+.trust-sep-dot {
+  color: rgba(212, 163, 89, 0.35);
+  font-weight: bold;
 }
 .footer-main {
-  padding: clamp(48px, 7vh, 72px) 0 32px;
+  padding: 36px 0 20px;
 }
 .footer-columns-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
-  gap: clamp(28px, 4vw, 56px);
-  margin-bottom: 48px;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: clamp(20px, 3.5vw, 44px);
+  margin-bottom: 28px;
 }
 @media (max-width: 960px) {
   .footer-columns-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 36px;
+    gap: 28px;
   }
 }
 @media (max-width: 540px) {
   .footer-columns-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 24px;
   }
 }
 .footer-brand-wrap {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-.footer-brand-title {
-  font-family: Georgia, serif;
-  font-size: 16px;
-  letter-spacing: 1.5px;
-  color: #f7f4ee;
+  margin-bottom: 10px;
 }
 .footer-desc {
-  font-size: 12.5px;
-  line-height: 1.65;
-  color: #b0a395;
-  margin: 0 0 22px;
-  max-width: 360px;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: #9c8e80;
+  margin: 0 0 14px;
+  max-width: 320px;
 }
 .footer-contact-items {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  font-size: 12.5px;
+  gap: 6px;
+  font-size: 11.5px;
 }
 .contact-line {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #d8cfc2;
+  color: #c9bfb2;
 }
 .contact-line svg {
   color: #d4a359;
+  flex-shrink: 0;
 }
 .contact-line strong {
   color: #d4a359;
 }
 .footer-heading {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.9px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
   color: #d4a359;
-  margin: 0 0 16px;
+  margin: 0 0 12px;
 }
 .footer-links {
   list-style: none;
@@ -2822,11 +2787,11 @@ h2 em {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 7px;
 }
 .footer-links a {
-  color: #ad9e8e;
-  font-size: 12px;
+  color: #9e9082;
+  font-size: 11.5px;
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -2839,10 +2804,10 @@ h2 em {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   font-size: 11px;
-  color: #8c7e70;
+  color: #7d7065;
   flex-wrap: wrap;
   gap: 12px;
 }
