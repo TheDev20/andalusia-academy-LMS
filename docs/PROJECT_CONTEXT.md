@@ -60,7 +60,7 @@
 The development team consists of **3 concurrent contributors** and **1 lead instructor/reviewer**.
 
 ### Team Members & Reviewers
-* **Primary Contributor**: Karim Emad Eldin (@TheDev20)
+* **Primary Contributors**: Karim Emad Eldin (@TheDev20) Youmna Yasser (@Dev-queen) Farah Essam (@Farahelbehiry)
 * **Instructor / Reviewer**: **AlyZakaria** ([GitHub Profile](https://github.com/AlyZakaria))
   * **Email**: `ali.zakariya1929@outlook.com`
   * **Mandatory Rule**: **No code merges into `main` without instructor review and approval**.
