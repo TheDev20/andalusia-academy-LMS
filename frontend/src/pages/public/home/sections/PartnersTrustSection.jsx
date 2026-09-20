@@ -60,9 +60,9 @@ export default function PartnersTrustSection() {
                   <Icon size={26} aria-hidden="true" />
                 </div>
                 <div className="partner-info">
-                  <span className="partner-name">{partner.name}</span>
-                  <span className="partner-type">{partner.type}</span>
-                  <small className="partner-sub">{partner.sub}</small>
+                  <h4 className="partner-name">{partner.name}</h4>
+                  <p className="partner-type">{partner.type}</p>
+                  <span className="partner-sub">{partner.sub}</span>
                 </div>
               </div>
             );

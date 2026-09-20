@@ -17,22 +17,28 @@ export default function PublicFooter({ onNavigate }) {
         <div className="footer-container">
           <div className="trust-grid">
             <div className="trust-item">
-              <ShieldCheck size={28} className="trust-icon" aria-hidden="true" />
-              <div>
+              <div className="trust-icon-box">
+                <ShieldCheck size={26} className="trust-icon" aria-hidden="true" />
+              </div>
+              <div className="trust-text">
                 <h4>Industry-Aligned Standards</h4>
                 <p>Curricula built upon production-grade software engineering and enterprise cloud architecture.</p>
               </div>
             </div>
             <div className="trust-item">
-              <Award size={28} className="trust-icon" aria-hidden="true" />
-              <div>
+              <div className="trust-icon-box">
+                <Award size={26} className="trust-icon" aria-hidden="true" />
+              </div>
+              <div className="trust-text">
                 <h4>Verified Technical Credentials</h4>
                 <p>Recognized professional diplomas, accredited lab hours, and public GitHub portfolio capstones.</p>
               </div>
             </div>
             <div className="trust-item">
-              <MapPin size={28} className="trust-icon" aria-hidden="true" />
-              <div>
+              <div className="trust-icon-box">
+                <MapPin size={26} className="trust-icon" aria-hidden="true" />
+              </div>
+              <div className="trust-text">
                 <h4>Physical Tech Hubs & Hybrid Labs</h4>
                 <p>In-person classroom cohorts and coding studios across Cairo, Alexandria, and Jeddah.</p>
               </div>

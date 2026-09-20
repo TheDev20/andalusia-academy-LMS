@@ -208,10 +208,10 @@ button:focus-visible, a:focus-visible, input:focus-visible {
 }
 
 .public-footer .brand-logo-img {
-  height: 54px;
-  max-height: 54px;
+  height: 68px;
+  max-height: 68px;
   width: auto;
-  filter: brightness(1.18) contrast(1.05);
+  filter: brightness(1.25) contrast(1.1);
 }
 
 .form-panel header .brand-logo-img {
@@ -2042,62 +2042,79 @@ h2 em {
 }
 .prog-track-label {
   font-size: 11px;
-  font-weight: 600;
-  color: #9c8e80;
+  font-weight: 700;
+  color: #927351;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
+.prog-title,
 .prog-card-title {
   font-family: 'Libre Caslon Display', Georgia, serif;
-  font-size: 20px;
+  font-size: 21px;
+  line-height: 1.35;
   color: #352b21;
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   font-weight: 400;
-  line-height: 1.25;
 }
-.prog-audience-line {
-  font-size: 12px;
-  color: #635749;
-  margin: 0 0 14px;
-}
-.prog-audience-line em {
-  color: #8b6648;
-}
+.prog-highlight,
 .prog-highlight-text {
-  font-size: 12px;
+  font-size: 12.5px;
   line-height: 1.6;
-  color: #726454;
-  margin: 0 0 24px;
+  color: #6d5e4f;
+  margin: 0 0 20px;
   flex: 1;
 }
-.coming-soon-card-footer {
+.prog-details-meta {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 16px;
-  border-top: 1px solid #eee8df;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  background: #f7f4ee;
+  border: 1px solid #e8e0d4;
+  border-radius: 14px;
+  margin-bottom: 22px;
 }
-.seats-note {
-  font-size: 11px;
-  color: #8c7e70;
-  font-weight: 500;
+.prog-target,
+.prog-capacity {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.meta-label {
+  font-weight: 700;
+  color: #8b6648;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 11.5px;
+}
+.meta-val {
+  color: #4b3f33;
 }
 .btn-pre-register {
+  width: 100%;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
   background: #8b6648;
   color: #ffffff;
   border: none;
-  padding: 8px 16px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
-  transition: all 0.2s;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(139, 102, 72, 0.2);
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 .btn-pre-register:hover {
   background: #77553b;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(139, 102, 72, 0.3);
 }
 .pre-register-drawer {
   margin-top: 32px;
@@ -2363,42 +2380,75 @@ h2 em {
 }
 .partners-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 960px) {
+  .partners-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 580px) {
+  .partners-grid {
+    grid-template-columns: 1fr;
+  }
 }
 .partner-card {
   background: #ffffff;
   border: 1px solid #ded6c8;
-  border-radius: 16px;
-  padding: 20px 16px;
+  border-radius: 18px;
+  padding: 30px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  transition: all 0.2s;
+  box-shadow: 0 4px 18px rgba(67, 57, 47, 0.03);
+  transition: all 0.25s ease;
 }
 .partner-card:hover {
   border-color: #a58358;
   transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(67, 57, 47, 0.08);
 }
 .partner-icon-frame {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(174, 138, 88, 0.12);
   color: #8b6648;
-  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+.partner-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 .partner-name {
-  font-size: 13px;
+  display: block;
+  font-size: 15px;
   font-weight: 700;
-  color: #3b3024;
-  margin-bottom: 4px;
+  color: #31261c;
+  margin: 0 0 6px;
+  line-height: 1.35;
 }
 .partner-type {
-  font-size: 11px;
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
   color: #8c765c;
-  margin-bottom: 2px;
+  margin: 0 0 6px;
+  line-height: 1.4;
 }
 .partner-sub {
-  font-size: 9px;
-  color: #a89d90;
+  display: block;
+  font-size: 11px;
+  color: #9c8e80;
+  line-height: 1.4;
+  margin: 0;
 }
 
 /* 8. Testimonials Section */
@@ -2644,35 +2694,60 @@ h2 em {
   border-top: 1px solid rgba(174, 138, 88, 0.2);
 }
 .footer-top-trust {
-  padding: 32px 0;
+  padding: 38px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 .trust-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  gap: 36px;
+}
+@media (max-width: 900px) {
+  .trust-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 }
 .trust-item {
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
+  align-items: center;
+  gap: 16px;
+}
+.trust-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(212, 163, 89, 0.12);
+  border: 1px solid rgba(212, 163, 89, 0.25);
+  color: #d4a359;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 .trust-icon {
   color: #d4a359;
   flex-shrink: 0;
-  margin-top: 2px;
 }
+.trust-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.trust-text h4,
 .trust-item h4 {
   font-family: 'Libre Caslon Display', Georgia, serif;
   font-size: 16px;
   color: #f7f4ee;
-  margin: 0 0 4px;
+  margin: 0;
   font-weight: 400;
+  letter-spacing: 0.3px;
 }
+.trust-text p,
 .trust-item p {
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.5;
-  color: #ad9e8e;
+  color: #b0a395;
   margin: 0;
 }
 .footer-main {
@@ -2680,15 +2755,27 @@ h2 em {
 }
 .footer-columns-grid {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr 1fr;
-  gap: 40px;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: clamp(28px, 4vw, 56px);
   margin-bottom: 48px;
+}
+@media (max-width: 960px) {
+  .footer-columns-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+}
+@media (max-width: 540px) {
+  .footer-columns-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
 }
 .footer-brand-wrap {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 .footer-brand-title {
   font-family: Georgia, serif;
@@ -2697,17 +2784,17 @@ h2 em {
   color: #f7f4ee;
 }
 .footer-desc {
-  font-size: 12px;
-  line-height: 1.6;
-  color: #ad9e8e;
-  margin: 0 0 20px;
-  max-width: 320px;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: #b0a395;
+  margin: 0 0 22px;
+  max-width: 360px;
 }
 .footer-contact-items {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  font-size: 12px;
+  gap: 10px;
+  font-size: 12.5px;
 }
 .contact-line {
   display: flex;
