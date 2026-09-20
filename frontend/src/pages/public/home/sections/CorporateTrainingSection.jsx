@@ -1,7 +1,7 @@
 import React from 'react';
 import SectionHeading from '../../../../components/ui/SectionHeading';
 import Badge from '../../../../components/common/Badge';
-import { Building2, Users2, ShieldCheck, BarChart3, ArrowRight, Check, Code2, Brain, Cloud } from 'lucide-react';
+import { Building2, Users2, ShieldCheck, BarChart3, ArrowRight, Code2, Brain, Cloud } from 'lucide-react';
 
 export default function CorporateTrainingSection({ onNavigate }) {
   const corporatePillars = [
@@ -42,15 +42,15 @@ export default function CorporateTrainingSection({ onNavigate }) {
 
             <div className="corporate-checklist">
               <div className="check-item">
-                <Check size={18} className="check-icon" aria-hidden="true" />
+                <span className="clean-dot-accent" />
                 <span>Sponsored team cohorts & corporate volume seat discounts</span>
               </div>
               <div className="check-item">
-                <Check size={18} className="check-icon" aria-hidden="true" />
+                <span className="clean-dot-accent" />
                 <span>Dedicated technical lead and custom capstone design</span>
               </div>
               <div className="check-item">
-                <Check size={18} className="check-icon" aria-hidden="true" />
+                <span className="clean-dot-accent" />
                 <span>Executive competency reports & verified project portfolios</span>
               </div>
             </div>

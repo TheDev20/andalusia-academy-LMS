@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, PhoneCall, CheckCircle, Sparkles } from 'lucide-react';
+import { ArrowRight, PhoneCall, Sparkles } from 'lucide-react';
 import Badge from '../../../../components/common/Badge';
 
 export default function CtaSection({ onNavigate }) {
@@ -24,15 +24,15 @@ export default function CtaSection({ onNavigate }) {
 
             <div className="cta-perks-row">
               <div className="cta-perk">
-                <CheckCircle size={16} aria-hidden="true" />
+                <span className="clean-dot-accent" />
                 <span>Production-Grade Capstones</span>
               </div>
               <div className="cta-perk">
-                <CheckCircle size={16} aria-hidden="true" />
+                <span className="clean-dot-accent" />
                 <span>Physical Tech Labs & Offline Sessions</span>
               </div>
               <div className="cta-perk">
-                <CheckCircle size={16} aria-hidden="true" />
+                <span className="clean-dot-accent" />
                 <span>Flexible Installment Plans</span>
               </div>
             </div>

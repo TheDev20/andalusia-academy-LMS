@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import SectionHeading from '../../../../components/ui/SectionHeading';
 import CourseCard from '../../../../components/ui/CourseCard';
-import { ArrowRight, Filter, Terminal } from 'lucide-react';
+import { ArrowRight, Terminal } from 'lucide-react';
 
 export default function FeaturedCoursesSection({ searchQuery = '', onSelectCourse }) {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -14,13 +14,12 @@ export default function FeaturedCoursesSection({ searchQuery = '', onSelectCours
       badge: 'FLAGSHIP PROGRAM',
       badgeVariant: 'bronze',
       duration: '6 Months · 180 Lab Hours',
-      format: 'Hybrid · Offline Cohort & Labs',
+      format: 'Hybrid · Offline & Online',
       intake: 'Oct 15, 2026',
       rating: 4.96,
       reviewsCount: 142,
       level: 'Intermediate to Advanced',
-      summary: 'Architect high-performance distributed systems using .NET 10, EF Core code-first migrations, Microsoft SQL Server, Clean Architecture, and Redis caching.',
-      image: '/images/tech-lab.jpg'
+      summary: 'Architect high-performance distributed systems using .NET 10, EF Core code-first migrations, SQL Server, Clean Architecture, and Redis caching.'
     },
     {
       id: 'applied-genai-llm',
@@ -34,8 +33,7 @@ export default function FeaturedCoursesSection({ searchQuery = '', onSelectCours
       rating: 4.98,
       reviewsCount: 184,
       level: 'All Developers',
-      summary: 'Build production-ready agentic AI systems using LangChain, vector databases (Chroma/Pinecone), RAG architectures, prompt engineering, and fine-tuned open-source LLMs.',
-      image: '/images/tech-hero.jpg'
+      summary: 'Build production-ready agentic AI systems using LangChain, vector databases (Chroma/Pinecone), RAG architectures, and fine-tuned open-source LLMs.'
     },
     {
       id: 'react-fullstack-architecture',
@@ -49,8 +47,7 @@ export default function FeaturedCoursesSection({ searchQuery = '', onSelectCours
       rating: 4.92,
       reviewsCount: 128,
       level: 'Frontend & Full-Stack',
-      summary: 'Master Next.js App Router, React Server Components, state management, full-stack typed APIs, performance optimization, and scalable modular design systems.',
-      image: '/images/tech-lab.jpg'
+      summary: 'Master Next.js App Router, React Server Components, state management, full-stack typed APIs, and scalable modular design systems.'
     },
     {
       id: 'data-science-ml',
@@ -64,8 +61,7 @@ export default function FeaturedCoursesSection({ searchQuery = '', onSelectCours
       rating: 4.94,
       reviewsCount: 96,
       level: 'Data Professionals',
-      summary: 'Master statistical machine learning with Python, Pandas, Scikit-Learn, PyTorch neural networks, feature engineering pipelines, and production MLOps tracking.',
-      image: '/images/tech-hero.jpg'
+      summary: 'Master statistical machine learning with Python, Pandas, Scikit-Learn, PyTorch neural networks, feature engineering, and production MLOps.'
     },
     {
       id: 'bigdata-spark-bigquery',
@@ -79,8 +75,7 @@ export default function FeaturedCoursesSection({ searchQuery = '', onSelectCours
       rating: 4.91,
       reviewsCount: 79,
       level: 'Software & Data Engineers',
-      summary: 'Process massive streaming datasets using Apache Spark, build scalable cloud data warehouses on BigQuery, and automate enterprise DBT transformation pipelines.',
-      image: '/images/tech-lab.jpg'
+      summary: 'Process massive streaming datasets using Apache Spark, build scalable cloud data warehouses on BigQuery, and automate enterprise DBT pipelines.'
     },
     {
       id: 'kubernetes-devops-cloud',
@@ -94,8 +89,7 @@ export default function FeaturedCoursesSection({ searchQuery = '', onSelectCours
       rating: 4.95,
       reviewsCount: 110,
       level: 'DevOps & Backend Engineers',
-      summary: 'Provision cloud environments with Terraform, orchestrate containerized microservices in production Kubernetes clusters, and automate end-to-end GitHub Actions CI/CD.',
-      image: '/images/tech-hero.jpg'
+      summary: 'Provision cloud environments with Terraform, orchestrate containerized microservices in production Kubernetes, and automate GitHub Actions CI/CD.'
     }
   ];
 
@@ -119,37 +113,39 @@ export default function FeaturedCoursesSection({ searchQuery = '', onSelectCours
   }, [allCourses, activeFilter, searchQuery]);
 
   const filterTabs = [
-    { id: 'all', label: 'All Tech Programs' },
+    { id: 'all', label: 'All Programs' },
     { id: 'dev', label: 'Software Engineering' },
     { id: 'ai', label: 'AI & Machine Learning' },
-    { id: 'data', label: 'Data Science & Big Data' },
+    { id: 'data', label: 'Data Science' },
     { id: 'cloud', label: 'Cloud & DevOps' }
   ];
 
   return (
-    <section id="courses" className="courses-section" aria-label="Featured Courses and Programs">
+    <section id="courses" className="featured-courses-section" aria-label="Featured Courses and Programs">
       <div className="section-container">
-        <div className="courses-header-wrapper">
+        <div className="courses-header-center">
           <SectionHeading
             badgeText="INDUSTRY-LEADING CURRICULA"
             title={<>Featured & Trending <em>Programs</em></>}
-            subtitle="Explore rigorous technical curricula taught by senior software architects, AI researchers, and data leaders with real-world production experience."
-            align="left"
+            subtitle="Explore rigorous technical curricula taught by senior software architects, AI researchers, and data leaders."
+            align="center"
           />
 
-          {/* Filter Tabs */}
-          <div className="courses-filter-bar" role="tablist" aria-label="Program Filter">
-            {filterTabs.map((tab) => (
-              <button
-                key={tab.id}
-                role="tab"
-                aria-selected={activeFilter === tab.id}
-                className={`filter-tab-btn ${activeFilter === tab.id ? 'is-active' : ''}`}
-                onClick={() => setActiveFilter(tab.id)}
-              >
-                {tab.label}
-              </button>
-            ))}
+          {/* Styled Pill Filter Bar */}
+          <div className="course-filters-bar" role="tablist" aria-label="Program Filter">
+            <div className="filter-buttons-scroll">
+              {filterTabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  role="tab"
+                  aria-selected={activeFilter === tab.id}
+                  className={`filter-btn ${activeFilter === tab.id ? 'is-active' : ''}`}
+                  onClick={() => setActiveFilter(tab.id)}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -160,7 +156,7 @@ export default function FeaturedCoursesSection({ searchQuery = '', onSelectCours
           </div>
         )}
 
-        {/* Courses Grid */}
+        {/* Clean, Uncrowded Courses Grid */}
         <div className="courses-grid">
           {filteredCourses.length > 0 ? (
             filteredCourses.map((course) => (
@@ -172,7 +168,7 @@ export default function FeaturedCoursesSection({ searchQuery = '', onSelectCours
             ))
           ) : (
             <div className="courses-empty-state">
-              <Terminal size={40} className="empty-icon" aria-hidden="true" />
+              <Terminal size={36} className="empty-icon" aria-hidden="true" />
               <h4>No courses found matching your criteria</h4>
               <p>Try clearing your search query or selecting another technical discipline.</p>
               <button
@@ -198,11 +194,10 @@ export default function FeaturedCoursesSection({ searchQuery = '', onSelectCours
             onClick={(e) => {
               e.preventDefault();
               setActiveFilter('all');
-              window.scrollTo({ top: document.getElementById('courses').offsetTop, behavior: 'smooth' });
             }}
           >
-            <span>Explore Complete Tech Catalog</span>
-            <ArrowRight size={16} aria-hidden="true" />
+            <span>Explore Complete Catalog</span>
+            <ArrowRight size={15} aria-hidden="true" />
           </a>
         </div>
       </div>

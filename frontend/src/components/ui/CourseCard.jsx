@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Award, Users, ArrowUpRight, Star } from 'lucide-react';
+import { Clock, Award, ArrowUpRight, Star } from 'lucide-react';
 import Badge from '../common/Badge';
 
 export default function CourseCard({ course, onSelect }) {
@@ -7,37 +7,30 @@ export default function CourseCard({ course, onSelect }) {
     id,
     title,
     category,
-    badge = 'INDUSTRY ACCREDITED',
+    badge = 'FLAGSHIP',
     badgeVariant = 'bronze',
     duration,
     format,
     intake,
     rating = 4.9,
     reviewsCount = 48,
-    level = 'Advanced',
-    summary,
-    image = '/images/tech-lab.jpg'
+    level = 'Intermediate to Advanced',
+    summary
   } = course;
 
   return (
-    <article className="course-card" aria-labelledby={`course-title-${id}`}>
-      <div className="course-card-image-wrap">
-        <img src={image} alt={title} loading="lazy" />
-        <div className="course-card-badge-overlay">
-          <Badge variant={badgeVariant} dot>{badge}</Badge>
-        </div>
-        <div className="course-format-chip">{format}</div>
-      </div>
-
+    <article className="course-card clean-tech-card" aria-labelledby={`course-title-${id}`}>
       <div className="course-card-body">
         <div className="course-card-meta-top">
-          <span className="course-category">{category}</span>
+          <Badge variant={badgeVariant}>{badge}</Badge>
           <div className="course-rating" aria-label={`Rated ${rating} out of 5 stars`}>
             <Star size={13} fill="#d4a359" stroke="#d4a359" aria-hidden="true" />
             <span className="rating-score">{rating}</span>
             <span className="rating-count">({reviewsCount})</span>
           </div>
         </div>
+
+        <span className="course-category-tag">{category}</span>
 
         <h3 id={`course-title-${id}`} className="course-card-title">
           {title}
@@ -47,18 +40,18 @@ export default function CourseCard({ course, onSelect }) {
 
         <div className="course-card-specs">
           <div className="spec-item">
-            <Clock size={14} aria-hidden="true" />
+            <Clock size={13} aria-hidden="true" />
             <span>{duration}</span>
           </div>
           <div className="spec-item">
-            <Award size={14} aria-hidden="true" />
+            <Award size={13} aria-hidden="true" />
             <span>{level}</span>
           </div>
         </div>
 
         <div className="course-card-footer">
           <div className="course-intake-wrap">
-            <span className="intake-label">Next Cohort:</span>
+            <span className="intake-label">Next Intake:</span>
             <span className="intake-date">{intake}</span>
           </div>
           <a
@@ -71,8 +64,8 @@ export default function CourseCard({ course, onSelect }) {
               }
             }}
           >
-            <span>Details</span>
-            <ArrowUpRight size={15} aria-hidden="true" />
+            <span>View Syllabus</span>
+            <ArrowUpRight size={14} aria-hidden="true" />
           </a>
         </div>
       </div>

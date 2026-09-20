@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SectionHeading from '../../../../components/ui/SectionHeading';
 import Badge from '../../../../components/common/Badge';
-import { Calendar, Bell, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Calendar, Bell, Sparkles, ArrowRight } from 'lucide-react';
 
 export default function ComingSoonSection() {
   const [emailInput, setEmailInput] = useState('');
@@ -129,7 +129,7 @@ export default function ComingSoonSection() {
 
               {submitted ? (
                 <div className="drawer-success">
-                  <CheckCircle2 size={32} className="success-icon" />
+                  <Sparkles size={32} className="success-icon" />
                   <h5>You're on the priority waitlist!</h5>
                   <p>We'll notify you at <strong>{emailInput}</strong> as soon as applications open.</p>
                 </div>

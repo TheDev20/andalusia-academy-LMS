@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Search, Award, Users, BookOpen, Building2, CheckCircle2, Code2, Sparkles, Database } from 'lucide-react';
+import { ArrowRight, Search, Terminal } from 'lucide-react';
 import Badge from '../../../../components/common/Badge';
 
 export default function HeroSection({ onNavigate, onSearch }) {
@@ -28,16 +28,16 @@ export default function HeroSection({ onNavigate, onSearch }) {
           </h1>
 
           <p className="hero-subtitle">
-            Andalusia Academy is the premier technology institute empowering software developers, AI engineers, data scientists, and tech leaders across Egypt and the region with hands-on coding labs, offline cohort sessions, and industry-recognized diplomas.
+            Andalusia Academy is the premier technology institute empowering software developers, AI engineers, and data leaders with production-grade coding labs, offline cohort sessions, and verified credentials.
           </p>
 
-          {/* Search bar */}
+          {/* Clean, concise search bar */}
           <form className="hero-search-bar" onSubmit={handleSearchSubmit}>
             <div className="search-input-wrap">
               <Search size={18} className="search-icon" aria-hidden="true" />
               <input
                 type="text"
-                placeholder="Search software development, AI, data science, ASP.NET Core, React..."
+                placeholder="Search courses or skills..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 aria-label="Search academy courses and programs"
@@ -45,20 +45,20 @@ export default function HeroSection({ onNavigate, onSearch }) {
             </div>
             <button type="submit" className="hero-search-btn">
               <span>Find Course</span>
-              <ArrowRight size={16} aria-hidden="true" />
+              <ArrowRight size={15} aria-hidden="true" />
             </button>
           </form>
 
           {/* Quick tags */}
           <div className="hero-quick-tags">
-            <span className="quick-tags-label">Trending Tracks:</span>
-            <a href="#courses" onClick={() => onSearch && onSearch('ASP.NET Core')}>ASP.NET Core</a>
-            <a href="#courses" onClick={() => onSearch && onSearch('Generative AI')}>Generative AI</a>
-            <a href="#courses" onClick={() => onSearch && onSearch('Data Science')}>Data Science</a>
-            <a href="#courses" onClick={() => onSearch && onSearch('Cloud & DevOps')}>Cloud & DevOps</a>
+            <span className="quick-tags-label">Trending:</span>
+            <button type="button" className="quick-tag-pill" onClick={() => onSearch && onSearch('ASP.NET Core')}>ASP.NET Core</button>
+            <button type="button" className="quick-tag-pill" onClick={() => onSearch && onSearch('Generative AI')}>Generative AI</button>
+            <button type="button" className="quick-tag-pill" onClick={() => onSearch && onSearch('Data Science')}>Data Science</button>
+            <button type="button" className="quick-tag-pill" onClick={() => onSearch && onSearch('DevOps')}>DevOps</button>
           </div>
 
-          {/* Action CTAs */}
+          {/* Perfectly aligned Action CTAs */}
           <div className="hero-actions">
             <a
               href="#courses"
@@ -69,8 +69,8 @@ export default function HeroSection({ onNavigate, onSearch }) {
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              <span>Explore Programs & Bootcamps</span>
-              <ArrowRight size={16} aria-hidden="true" />
+              <span>Explore Programs</span>
+              <ArrowRight size={15} aria-hidden="true" />
             </a>
             <a
               href="#career-paths"
@@ -85,63 +85,41 @@ export default function HeroSection({ onNavigate, onSearch }) {
             </a>
           </div>
 
-          {/* Trust Highlights */}
+          {/* Clean trust highlights - No check marks */}
           <div className="hero-trust-bullets">
-            <div className="trust-bullet">
-              <CheckCircle2 size={16} aria-hidden="true" />
-              <span>Production-Grade Code</span>
-            </div>
-            <div className="trust-bullet">
-              <CheckCircle2 size={16} aria-hidden="true" />
-              <span>Hands-on Project Portfolios</span>
-            </div>
-            <div className="trust-bullet">
-              <CheckCircle2 size={16} aria-hidden="true" />
-              <span>Offline Classrooms & Online LMS</span>
-            </div>
+            <span className="trust-pill">Production-Grade Code</span>
+            <span className="trust-sep">·</span>
+            <span className="trust-pill">Hands-on Capstones</span>
+            <span className="trust-sep">·</span>
+            <span className="trust-pill">Offline Studios & Online LMS</span>
           </div>
         </div>
 
-        {/* Hero Visual Card */}
+        {/* Clean, Uncluttered Visual Showcase */}
         <div className="hero-visual">
-          <div className="visual-card-frame">
+          <div className="visual-card-frame clean-frame">
             <img
               src="/images/tech-hero.jpg"
-              alt="Andalusia Academy Modern Tech Lab and Coding Innovation Environment"
+              alt="Andalusia Academy Modern Tech Lab"
               className="hero-main-img"
             />
-            <div className="hero-overlay-card top-float">
-              <Award size={20} className="float-icon" aria-hidden="true" />
-              <div>
-                <span className="float-stat">500+</span>
-                <span className="float-label">Hands-on Lab Hours</span>
-              </div>
-            </div>
-
-            <div className="hero-overlay-card bottom-float">
-              <Building2 size={20} className="float-icon" aria-hidden="true" />
-              <div>
-                <span className="float-stat">Tech Hiring Network</span>
-                <span className="float-label">Direct Industry Placement & Apprenticeships</span>
-              </div>
-            </div>
           </div>
 
-          {/* Metric Bar */}
+          {/* Minimal, elegant metric bar */}
           <div className="hero-metric-bar">
             <div className="metric-col">
               <span className="metric-number">18,500+</span>
-              <span className="metric-desc">Developers & Clinicians Trained</span>
+              <span className="metric-desc">Graduated Developers</span>
             </div>
             <div className="metric-divider" />
             <div className="metric-col">
               <span className="metric-number">64+</span>
-              <span className="metric-desc">Tech Bootcamps & Programs</span>
+              <span className="metric-desc">Tech Bootcamps</span>
             </div>
             <div className="metric-divider" />
             <div className="metric-col">
               <span className="metric-number">96.8%</span>
-              <span className="metric-desc">Job Placement & Promotion Rate</span>
+              <span className="metric-desc">Career Placement Rate</span>
             </div>
           </div>
         </div>

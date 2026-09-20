@@ -7,7 +7,7 @@ import {
   MapPin,
   Clock,
   Send,
-  CheckCircle2,
+  Sparkles,
   HelpCircle,
   ChevronDown,
   Building,
@@ -92,7 +92,7 @@ export default function ContactPage() {
 
               {submitted ? (
                 <div className="inquiry-success-state">
-                  <CheckCircle2 size={48} className="success-icon" aria-hidden="true" />
+                  <Sparkles size={48} className="success-icon" aria-hidden="true" />
                   <h4>Inquiry Successfully Received!</h4>
                   <p>
                     Thank you, <strong>{formData.name}</strong>. An admissions coordinator will review your request for <em>{formData.inquiryType}</em> and reach out to you at <strong>{formData.email}</strong> or <strong>{formData.phone}</strong> shortly.

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, ShieldCheck, Cpu, Building2, CheckCircle2, Globe, Cloud, Code } from 'lucide-react';
+import { Award, ShieldCheck, Cpu, Building2, Globe, Cloud, Code } from 'lucide-react';
 
 export default function PartnersTrustSection() {
   const partners = [

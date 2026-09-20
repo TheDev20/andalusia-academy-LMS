@@ -11,7 +11,6 @@ import {
   Building,
   GraduationCap,
   ArrowRight,
-  CheckCircle2,
   Cpu,
   Database,
   Cloud
@@ -180,15 +179,15 @@ export default function AboutPage({ onNavigate }) {
               </p>
               <div className="facility-bullets">
                 <div className="f-bullet">
-                  <CheckCircle2 size={18} className="f-icon" aria-hidden="true" />
+                  <span className="clean-dot-accent" />
                   <span>Dual-monitor development bays with enterprise development toolchains</span>
                 </div>
                 <div className="f-bullet">
-                  <CheckCircle2 size={18} className="f-icon" aria-hidden="true" />
+                  <span className="clean-dot-accent" />
                   <span>On-premise GPU clusters for local LLM fine-tuning & model training</span>
                 </div>
                 <div className="f-bullet">
-                  <CheckCircle2 size={18} className="f-icon" aria-hidden="true" />
+                  <span className="clean-dot-accent" />
                   <span>Offline evening & weekend cohorts led by dedicated senior engineering mentors</span>
                 </div>
               </div>

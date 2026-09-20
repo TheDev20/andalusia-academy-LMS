@@ -1278,16 +1278,25 @@ h2 em {
 .quick-tags-label {
   font-weight: 600;
 }
-.hero-quick-tags a {
-  background: rgba(139, 102, 72, 0.08);
-  color: #6d5843;
-  padding: 3px 9px;
+.hero-quick-tags a,
+.quick-tag-pill {
+  background: #f0ebe2;
+  border: 1px solid #ded6c8;
+  color: #615344;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 13px;
   border-radius: 999px;
+  cursor: pointer;
   transition: all 0.2s;
+  line-height: 1;
+  text-decoration: none;
 }
-.hero-quick-tags a:hover {
-  background: rgba(139, 102, 72, 0.16);
-  color: #382a1c;
+.hero-quick-tags a:hover,
+.quick-tag-pill:hover {
+  background: #e4dbcc;
+  color: #31261c;
+  border-color: #a58358;
 }
 .hero-actions {
   display: flex;
@@ -1299,46 +1308,67 @@ h2 em {
 .btn-primary-hero {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  height: 46px;
   background: #8b6648;
   color: #ffffff;
-  padding: 13px 26px;
+  padding: 0 24px;
   border-radius: 999px;
+  border: 1px solid #8b6648;
   font-size: 13px;
   font-weight: 600;
-  box-shadow: 0 8px 24px rgba(139, 102, 72, 0.28);
+  line-height: 1;
+  box-shadow: 0 6px 20px rgba(139, 102, 72, 0.25);
   transition: all 0.2s ease;
+  box-sizing: border-box;
+  text-decoration: none;
 }
 .btn-primary-hero:hover {
   background: #77553b;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(139, 102, 72, 0.38);
+  border-color: #77553b;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(139, 102, 72, 0.35);
 }
 .btn-secondary-hero {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  height: 46px;
   background: #ffffff;
   color: #43392f;
   border: 1px solid #ded6c8;
-  padding: 13px 24px;
+  padding: 0 24px;
   border-radius: 999px;
   font-size: 13px;
   font-weight: 600;
+  line-height: 1;
   transition: all 0.2s ease;
+  box-sizing: border-box;
+  text-decoration: none;
 }
 .btn-secondary-hero:hover {
   background: #fdfbf8;
   border-color: #a58358;
+  color: #1f1914;
 }
 .hero-trust-bullets {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
   flex-wrap: wrap;
   font-size: 12px;
   font-weight: 500;
-  color: #6b5d4e;
+  color: #726252;
+}
+.trust-pill {
+  color: #635445;
+  font-weight: 500;
+}
+.trust-sep {
+  color: #c4b5a3;
+  font-weight: 700;
 }
 .trust-bullet {
   display: flex;
@@ -1363,6 +1393,10 @@ h2 em {
   border: 1px solid #e2dacd;
   background: #ede7dc;
   aspect-ratio: 4 / 3;
+}
+.visual-card-frame.clean-frame {
+  box-shadow: 0 16px 40px rgba(67, 57, 47, 0.08);
+  border: 1px solid #ded6c8;
 }
 .hero-main-img {
   width: 100%;
@@ -1560,25 +1594,42 @@ h2 em {
   margin: 0 0 16px;
 }
 .milestone-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 .milestone-item {
+  list-style: none !important;
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
   font-size: 13px;
   line-height: 1.5;
   color: #4b3f33;
 }
-.milestone-icon {
-  color: #a58358;
+.milestone-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8b6648;
+  background: rgba(139, 102, 72, 0.1);
+  padding: 3px 8px;
+  border-radius: 6px;
   flex-shrink: 0;
-  margin-top: 2px;
+  line-height: 1;
+}
+.milestone-text {
+  flex: 1;
+}
+.clean-dot-accent {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a58358;
+  display: inline-block;
+  flex-shrink: 0;
 }
 .path-course-chips {
   display: flex;
@@ -1758,6 +1809,33 @@ h2 em {
   transform: translateY(-5px);
   border-color: #a58358;
   box-shadow: 0 16px 36px rgba(67, 57, 47, 0.1);
+}
+.clean-tech-card {
+  background: #ffffff;
+  border: 1px solid #ded6c8;
+  border-radius: 20px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(67, 57, 47, 0.04);
+}
+.clean-tech-card:hover {
+  transform: translateY(-4px);
+  border-color: #a58358;
+  box-shadow: 0 14px 34px rgba(67, 57, 47, 0.09);
+}
+.clean-tech-card .course-card-body {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.course-category-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #94724b;
+  margin: 14px 0 6px;
+  display: block;
 }
 .course-card-image-wrap {
   position: relative;

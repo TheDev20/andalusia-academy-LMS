@@ -13,7 +13,7 @@ export default function TestimonialsSection() {
       author: "Ahmed Mansour",
       title: "Senior Full-Stack Engineer",
       institution: "Global Fintech & Cloud Solutions",
-      track: "ASP.NET Core & Microservices Masterclass",
+      track: "ASP.NET Core & Microservices",
       rating: 5,
       avatarInitials: "AM"
     },
@@ -33,7 +33,7 @@ export default function TestimonialsSection() {
       author: "Eng. Hesham Farouk",
       title: "VP of Engineering & Technology Director",
       institution: "Leading Digital Logistics Enterprise",
-      track: "Corporate Cloud & DevOps Upskilling",
+      track: "Corporate Cloud & DevOps",
       rating: 5,
       avatarInitials: "HF"
     },
@@ -42,8 +42,8 @@ export default function TestimonialsSection() {
       quote: "Transitioning into big data engineering seemed daunting until I took the Apache Spark & BigQuery track. The cohort sessions in the Cairo tech hub combined with deep architectural reviews made all the difference in my career.",
       author: "Nouran Youssef",
       title: "Lead Data Engineer",
-      institution: "Regional Telecom & Analytics Group",
-      track: "Big Data & Google BigQuery Specialization",
+      institution: "Regional Analytics Group",
+      track: "Big Data & Google BigQuery",
       rating: 5,
       avatarInitials: "NY"
     }
@@ -62,8 +62,8 @@ export default function TestimonialsSection() {
       <div className="section-container">
         <SectionHeading
           badgeText="VOICES OF THE ACADEMY"
-          title={<>Real Stories of <em>Engineering Mastery & Career Impact</em></>}
-          subtitle="Discover how software engineers, AI developers, and data specialists transformed their technical trajectories through Andalusia Academy."
+          title={<>Real Stories of <em>Engineering Mastery & Impact</em></>}
+          subtitle="Discover how software engineers, AI developers, and data specialists transformed their technical careers through Andalusia Academy."
         />
 
         <div className="testimonials-carousel">
@@ -74,7 +74,7 @@ export default function TestimonialsSection() {
 
             <div className="testimonial-rating">
               {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                <Star key={i} size={16} fill="#d4a359" stroke="#d4a359" aria-hidden="true" />
+                <Star key={i} size={15} fill="#d4a359" stroke="#d4a359" aria-hidden="true" />
               ))}
               <Badge variant="bronze" dot className="testimonial-track-badge">
                 {testimonials[currentIndex].track}
@@ -97,37 +97,38 @@ export default function TestimonialsSection() {
             </div>
           </div>
 
-          {/* Controls */}
-          <div className="testimonials-controls">
-            <button
-              type="button"
-              className="carousel-arrow-btn"
-              onClick={handlePrev}
-              aria-label="Previous testimonial"
-            >
-              <ChevronLeft size={20} />
-            </button>
-
-            <div className="carousel-dots-list">
+          {/* Clean, horizontally-aligned carousel controls */}
+          <div className="testimonials-nav-row">
+            <div className="carousel-indicators">
               {testimonials.map((_, dotIdx) => (
                 <button
                   key={dotIdx}
                   type="button"
                   aria-label={`Go to testimonial ${dotIdx + 1}`}
-                  className={`carousel-dot ${dotIdx === currentIndex ? 'is-active' : ''}`}
+                  className={`indicator-dot ${dotIdx === currentIndex ? 'is-active' : ''}`}
                   onClick={() => setCurrentIndex(dotIdx)}
                 />
               ))}
             </div>
 
-            <button
-              type="button"
-              className="carousel-arrow-btn"
-              onClick={handleNext}
-              aria-label="Next testimonial"
-            >
-              <ChevronRight size={20} />
-            </button>
+            <div className="carousel-nav-arrows">
+              <button
+                type="button"
+                className="carousel-btn"
+                onClick={handlePrev}
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                type="button"
+                className="carousel-btn"
+                onClick={handleNext}
+                aria-label="Next testimonial"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
           </div>
         </div>
       </div>

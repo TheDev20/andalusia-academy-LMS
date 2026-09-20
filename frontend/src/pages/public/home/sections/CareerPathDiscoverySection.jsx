@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Code2, Brain, Database, Cloud, ShieldCheck, Terminal, ArrowRight, CheckCircle } from 'lucide-react';
+import { Code2, Brain, Database, Cloud, ShieldCheck, ArrowRight } from 'lucide-react';
 import SectionHeading from '../../../../components/ui/SectionHeading';
 import Badge from '../../../../components/common/Badge';
 
@@ -18,7 +18,7 @@ export default function CareerPathDiscoverySection({ onSelectTrack }) {
       milestones: [
         'Domain-Driven Design, Modular Monoliths & Microservices Architecture',
         'ASP.NET Core Web API, EF Core Migrations & SQL Server Optimization',
-        'Modern React 19, TypeScript, State Management & Tailwind/Vanilla CSS',
+        'Modern React 19, TypeScript, State Management & Design Systems',
         'Containerization with Docker, CI/CD GitHub Actions & Production Deployments'
       ],
       keyCourses: ['ASP.NET Core & Enterprise Microservices', 'React 19 & TypeScript Architecture', 'SQL Server Advanced Optimization']
@@ -97,7 +97,7 @@ export default function CareerPathDiscoverySection({ onSelectTrack }) {
         <SectionHeading
           badgeText="STRUCTURED PROFESSIONAL JOURNEYS"
           title={<>Tailored Career Paths for <em>Every Tech Discipline</em></>}
-          subtitle="Explore progressive learning frameworks designed in collaboration with senior tech architects and engineering leads to accelerate your skills, seniority, and industry impact."
+          subtitle="Explore progressive learning frameworks designed in collaboration with senior tech architects and engineering leads."
         />
 
         {/* Path Selector Tabs */}
@@ -125,59 +125,63 @@ export default function CareerPathDiscoverySection({ onSelectTrack }) {
 
         {/* Selected Path Details Card */}
         <div className="path-details-card" role="tabpanel">
-          <div className="path-card-header">
-            <div className="path-badge-cluster">
-              <Badge variant="bronze">{activePath.badge}</Badge>
-              <span className="path-duration-label">Estimated: {activePath.duration}</span>
+          <div className="path-details-header">
+            <div>
+              <div className="path-meta-badges">
+                <Badge variant="bronze">{activePath.badge}</Badge>
+                <span className="meta-time">Duration: {activePath.duration}</span>
+              </div>
+              <h3 className="path-card-title">{activePath.title}</h3>
+              <p className="path-target-role">
+                Target Role: <strong>{activePath.targetRole}</strong>
+              </p>
             </div>
-            <div className="target-role-box">
-              <span className="target-label">Target Role:</span>
-              <span className="target-value">{activePath.targetRole}</span>
-            </div>
+            <a
+              href="#courses"
+              className="path-apply-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById('courses');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              <span>Explore Track</span>
+              <ArrowRight size={14} aria-hidden="true" />
+            </a>
           </div>
 
           <p className="path-overview-text">{activePath.overview}</p>
 
           <div className="path-columns-layout">
             <div className="path-milestones-col">
-              <h4 className="col-heading">Curriculum Progression Milestones</h4>
-              <ul className="milestones-list">
+              <h4 className="milestone-col-heading">Curriculum Progression Milestones</h4>
+              <ul className="milestone-list">
                 {activePath.milestones.map((m, i) => (
-                  <li key={i}>
-                    <CheckCircle size={16} className="check-icon" aria-hidden="true" />
-                    <span>{m}</span>
+                  <li key={i} className="milestone-item">
+                    <span className="milestone-num">0{i + 1}</span>
+                    <span className="milestone-text">{m}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
             <div className="path-courses-col">
-              <h4 className="col-heading">Featured Core Courses in Track</h4>
-              <div className="track-courses-list">
+              <h4 className="milestone-col-heading">Featured Core Courses in Track</h4>
+              <div className="path-course-chips">
                 {activePath.keyCourses.map((c, i) => (
-                  <div key={i} className="track-course-pill">
-                    <Terminal size={14} className="pill-icon" aria-hidden="true" />
+                  <div key={i} className="path-course-chip">
+                    <span className="course-chip-dot" />
                     <span>{c}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="track-hiring-note">
-                <strong>Career & Placement Advantage:</strong> Graduating fellows receive direct capstone portfolio reviews and priority interviews across Andalusia's tech partner network.
+              <div className="path-perk-box">
+                <span className="perk-title">Career Advantage</span>
+                <p className="perk-desc">
+                  Graduating fellows receive direct capstone code reviews and priority introductions across Andalusia's tech partner network.
+                </p>
               </div>
-
-              <a
-                href="#courses"
-                className="btn-track-enroll"
-                onClick={(e) => {
-                  e.preventDefault();
-                  const el = document.getElementById('courses');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                <span>View All Courses in Track</span>
-                <ArrowRight size={14} aria-hidden="true" />
-              </a>
             </div>
           </div>
         </div>
