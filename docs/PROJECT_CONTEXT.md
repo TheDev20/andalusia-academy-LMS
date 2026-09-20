@@ -1,6 +1,5 @@
 # Andalusia Academy LMS - Project Context & Architectural Baseline
 
-> **Linked Source Conversation**: [`714b8492-7ae5-45c0-87dc-1e4b69f0eeff`](conversation://714b8492-7ae5-45c0-87dc-1e4b69f0eeff)  
 > **Last Updated**: September 20, 2026  
 > **Repository**: [TheDev20/andalusia-academy-LMS](https://github.com/TheDev20/andalusia-academy-LMS)  
 > **Local Workspace**: `C:\Programming\andalusia-academy-LMS`  
@@ -30,10 +29,7 @@
   6. **Compensation**: Instructor agreements (fixed/hourly), earning records, payout allocation.
   7. **Operations & CMS**: KPIs, reports, announcements, audit trails, outbox notifications, editable CMS content.
 
-### Strict Scope Exclusions
-* ❌ **ZERO AI**: Strictly no AI-related folders, LLM orchestrators, AI recommendation engines, or AI tests.
-* ❌ **No `test_sample_exams/`**: Completely excluded from all environments.
-* ❌ **Deferred Scope**: Direct chat messaging, advanced calendar beyond schedules, quizzes/question banks, automated grading, certificate generation, gamification, and corporate bulk administration.
+
 
 ---
 
