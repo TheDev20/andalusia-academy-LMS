@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight, ArrowRight, Mail, LockKeyhole, UserRound } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, ArrowLeft, Mail, LockKeyhole, UserRound } from 'lucide-react';
 import Brand from '../../components/common/Brand';
 import Field from '../../components/forms/Field';
 
@@ -9,7 +9,22 @@ export default function AuthPage({ page, onNavigate }) {
   return (
     <section className="form-panel" aria-label={isSignup ? 'Sign up' : 'Log in'}>
       <header>
-        <Brand />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          <Brand href="#home" onClick={() => onNavigate && onNavigate('home')} />
+          <a
+            href="#home"
+            className="back-to-site-btn"
+            onClick={(e) => {
+              e.preventDefault();
+              if (onNavigate) onNavigate('home');
+              else window.location.hash = '#home';
+            }}
+            title="Return to Andalusia Academy public website"
+          >
+            <ArrowLeft size={13} aria-hidden="true" />
+            <span>Website</span>
+          </a>
+        </div>
         <span className="portal-label">LEARNING PORTAL</span>
       </header>
       <div className="form-content" key={page}>

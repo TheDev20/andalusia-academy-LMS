@@ -1,0 +1,74 @@
+import React from 'react';
+import { Award, ShieldCheck, Cpu, Building2, CheckCircle2, Globe, Cloud, Code } from 'lucide-react';
+
+export default function PartnersTrustSection() {
+  const partners = [
+    {
+      name: 'Microsoft Learn Partner',
+      type: 'Official .NET & Azure Curriculum',
+      icon: Cloud,
+      sub: 'Enterprise Cloud & C# Standards'
+    },
+    {
+      name: 'AWS Academy Member',
+      type: 'Cloud Architecture & DevOps',
+      icon: Globe,
+      sub: 'Authorized Cloud Certification Prep'
+    },
+    {
+      name: 'Google Cloud Education',
+      type: 'BigQuery & Machine Learning',
+      icon: Cpu,
+      sub: 'Modern Data Stack & AI Frameworks'
+    },
+    {
+      name: 'IEEE Computer Society',
+      type: 'Technical Curricula Alignment',
+      icon: Award,
+      sub: 'Software Engineering Standards'
+    },
+    {
+      name: 'Regional Tech Consortium',
+      type: 'Direct Hiring & Talent Network',
+      icon: Building2,
+      sub: '240+ Hiring Corporate Partners'
+    },
+    {
+      name: 'Cybersecurity Defense Alliance',
+      type: 'OWASP & DevSecOps Benchmark',
+      icon: ShieldCheck,
+      sub: 'Secure Coding Certification'
+    }
+  ];
+
+  return (
+    <section className="partners-section" aria-label="Partners and Accreditations">
+      <div className="section-container">
+        <div className="partners-intro">
+          <span className="partners-label">ACCREDITATIONS & INDUSTRY TECH ALLIANCES</span>
+          <h3 className="partners-heading">
+            Trusted by Top Engineering Organizations & Cloud Providers
+          </h3>
+        </div>
+
+        <div className="partners-grid">
+          {partners.map((partner, pIdx) => {
+            const Icon = partner.icon;
+            return (
+              <div key={pIdx} className="partner-card">
+                <div className="partner-icon-frame">
+                  <Icon size={26} aria-hidden="true" />
+                </div>
+                <div className="partner-info">
+                  <span className="partner-name">{partner.name}</span>
+                  <span className="partner-type">{partner.type}</span>
+                  <small className="partner-sub">{partner.sub}</small>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}

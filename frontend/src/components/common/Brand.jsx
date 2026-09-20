@@ -1,11 +1,18 @@
 import React from 'react';
 
-export default function Brand() {
+export default function Brand({ href = '#home', onClick, className = '' }) {
   return (
-    <a className="brand brand-official" href="#login" aria-label="Andalusia Academy home">
-      <span className="logo-crop">
-        <img src="/images/andalusia-logo.png" alt="Andalusia Academy — أكاديمية أندلسية" />
-      </span>
+    <a
+      className={`brand-link ${className}`}
+      href={href}
+      onClick={onClick}
+      aria-label="Andalusia Academy home"
+    >
+      <img
+        src="/images/andalusia-logo-clean.png"
+        alt="Andalusia Academy — أكاديمية أندلسية"
+        className="brand-logo-img"
+      />
     </a>
   );
 }
