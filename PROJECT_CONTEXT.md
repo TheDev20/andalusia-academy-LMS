@@ -1,6 +1,6 @@
 # Andalusia Academy LMS - Project Context
 
-This project context synthesizes all architecture specifications, team standards, cloud environments, and setup decisions established in conversation [`714b8492-7ae5-45c0-87dc-1e4b69f0eeff`](conversation://714b8492-7ae5-45c0-87dc-1e4b69f0eeff).
+This project context synthesizes all architecture specifications, team standards, cloud environments, and setup decisions
 
 For the complete technical blueprint, ADRs, database secrets, branching workflows, and reviewer protocols, please refer to:
 
