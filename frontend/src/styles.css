@@ -2692,37 +2692,7 @@ h2 em {
   color: #d8cfc2;
   font-size: 13px;
   border-top: 1px solid rgba(174, 138, 88, 0.2);
-}
-.footer-top-trust {
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(0, 0, 0, 0.15);
-}
-.trust-strip-compact {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  font-size: 11.5px;
-  color: #bdafa0;
-}
-.trust-pill-compact {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-weight: 500;
-}
-.trust-pill-icon {
-  color: #d4a359;
-  flex-shrink: 0;
-}
-.trust-sep-dot {
-  color: rgba(212, 163, 89, 0.35);
-  font-weight: bold;
-}
-.footer-main {
-  padding: 36px 0 20px;
+  padding: 44px 0 24px;
 }
 .footer-columns-grid {
   display: grid;
@@ -3563,10 +3533,6 @@ h2 em {
     background: #8b6648;
     color: #ffffff;
     font-weight: 600;
-  }
-  .trust-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
   }
   .form-row-2 {
     grid-template-columns: 1fr;
