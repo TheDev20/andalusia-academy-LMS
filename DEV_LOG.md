@@ -89,3 +89,49 @@ Three core automated pipelines were authored in `.github/workflows/`:
 * [ ] Milestone 1: Review and sign off on business rules and entity relationship definitions.
 * [ ] Milestone 2: Initialize the ASP.NET Core 10 modular monolith foundation and database migration pipeline.
 * [ ] Milestone 2: Initialize React TypeScript frontend application with shared accessible components.
+
+---
+
+## [Step 02] - Directory Structure Establishment for Development & Production (Zero Files, Zero AI)
+
+* **Date**: September 20, 2026
+* **Objective**: Create the entire folder skeleton for both Development and Main (Production) environments based on the reference architecture and Andalusia Academy standards, with zero code files and zero AI components.
+* **Status**: Completed
+* **Author / Contributor**: Karim Emad Eldin (@TheDev20)
+
+### 1. Context & Architectural Requirements
+* **Reference Alignment**: Adapted from the reference architecture solution layout (Controllers, Services, Repositories, DTOs, Configurations, Migrations, Frontend feature modules).
+* **Strict Constraints Satisfied**:
+  * **Folders Only**: 100+ directory paths created with zero source code or placeholder files.
+  * **Strict AI Exclusion**: Completely excluded `Services/Ai/`, AI models, AI recommendation services, and AI tests.
+  * **Excluded Sample Exams**: `test_sample_exams/` completely removed per project directives.
+  * **Environment Differentiation**:
+    * **Development**: Includes `AndalusiaAcademy.Tests/` (Unit & Integration tests), `Data/Seed/` (Demo seed data), and `scripts/dev-setup/`.
+    * **Main (Production)**: Includes `deploy/production/`, `deploy/database/`, `docs/release-notes/`, and `scripts/maintenance/`.
+
+### 2. Created Directory Blueprint
+
+#### Frontend (`frontend/src/`)
+* `components/` (`common/`, `forms/`, `layout/`, `ui/`)
+* `pages/` (`public/`, `auth/`, `enrollment/`, `learner/`, `instructor/`, `manager/`, `admin/`, `cms/`)
+* `hooks/`, `services/`, `types/`, `utils/`, `assets/`
+
+#### Backend Web API (`AndalusiaAcademy.API/`)
+* `Controllers/`, `Data/Configurations/`, `DTOs/`, `Models/`, `Services/Interfaces/`, `Services/Implementations/` mapped across the 7 domain modules:
+  * `Identity/`, `Catalog/`, `Admissions/`, `Learning/`, `Payments/`, `Compensation/`, `Operations/`, `CMS/`
+* `Common/`, `ENUMs/`, `Exceptions/`, `Mapping/`, `Middleware/`, `Migrations/`, `Validator/`, `wwwroot/`, `Data/Seed/`
+
+#### Background Worker (`AndalusiaAcademy.Worker/`)
+* `Jobs/` (`OutboxProcessor/`, `NotificationDelivery/`, `ReservationCleanup/`, `PaymentReconciliation/`)
+
+#### Testing Suite (`AndalusiaAcademy.Tests/`)
+* `UnitTests/` (`DomainTransitions/`, `BusinessRules/`, `Validation/`)
+* `IntegrationTests/` (`ApiContracts/`, `SqlServerConstraints/`, `EndToEndSlices/`)
+
+#### Production Deployment (`deploy/`)
+* `deploy/production/`, `deploy/database/`, `scripts/maintenance/`, `docs/release-notes/`
+
+### 3. Verification & Validation
+* Verified total directories created: 102 directories.
+* Verified that zero new files were written to the new directories.
+* Verified that no `Ai` folders or sample exam folders exist in the workspace.
