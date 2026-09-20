@@ -2,7 +2,6 @@
 
 > **Last Updated**: September 20, 2026  
 > **Repository**: [TheDev20/andalusia-academy-LMS](https://github.com/TheDev20/andalusia-academy-LMS)  
-> **Local Workspace**: `C:\Programming\andalusia-academy-LMS`  
 > **Primary Working Branch**: `develop`  
 
 ---
