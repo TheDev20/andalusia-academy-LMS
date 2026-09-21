@@ -61,7 +61,6 @@ export default function TestimonialsSection() {
     <section className="testimonials-section" aria-label="Learner and Engineer Testimonials">
       <div className="section-container">
         <SectionHeading
-          badgeText="VOICES OF THE ACADEMY"
           title={<>Real Stories of <em>Engineering Mastery & Impact</em></>}
           subtitle="Discover how software engineers, AI developers, and data specialists transformed their technical careers through Andalusia Academy."
         />

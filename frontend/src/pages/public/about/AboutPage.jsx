@@ -145,7 +145,6 @@ export default function AboutPage({ onNavigate }) {
       <section className="about-pillars-section">
         <div className="section-container">
           <SectionHeading
-            badgeText="THE FOUR PILLARS"
             title={<>The Principles That Guide <em>Every Tech Curriculum</em></>}
             subtitle="How Andalusia Academy shapes engineers who build with precision, clean code, and leadership."
           />
@@ -221,7 +220,6 @@ export default function AboutPage({ onNavigate }) {
       <section className="about-faculty-section">
         <div className="section-container">
           <SectionHeading
-            badgeText="LEARN FROM LEADERS"
             title={<>Distinguished Engineering <em>Faculty & Mentors</em></>}
             subtitle="Our instructors are practicing senior software architects, AI researchers, and tech leads passionate about accelerating the next generation."
           />
@@ -248,7 +246,6 @@ export default function AboutPage({ onNavigate }) {
       <section className="about-timeline-section">
         <div className="section-container">
           <SectionHeading
-            badgeText="OUR JOURNEY"
             title={<>Two Decades of <em>Technology Education Evolution</em></>}
           />
 

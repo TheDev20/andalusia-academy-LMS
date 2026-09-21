@@ -76,7 +76,6 @@ export default function PopularCategoriesSection({ onSelectCategory }) {
     <section className="categories-section" aria-label="Popular Categories">
       <div className="section-container">
         <SectionHeading
-          badgeText="TECHNICAL DISCIPLINES"
           title={<>Explore Programs by <em>Tech Discipline</em></>}
           subtitle="From enterprise software development to state-of-the-art artificial intelligence and big data, select your area of technical focus."
         />

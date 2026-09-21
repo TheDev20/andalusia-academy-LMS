@@ -1,6 +1,5 @@
 import React from 'react';
 import { ArrowRight, PhoneCall, Sparkles } from 'lucide-react';
-import Badge from '../../../../components/common/Badge';
 
 export default function CtaSection({ onNavigate }) {
   return (
@@ -10,10 +9,6 @@ export default function CtaSection({ onNavigate }) {
           <div className="cta-glow-accent" aria-hidden="true" />
 
           <div className="cta-content">
-            <div className="cta-badge-wrap">
-              <Badge variant="espresso" dot>FALL 2026 TECH COHORT INTAKE</Badge>
-            </div>
-
             <h2 className="cta-heading">
               Ready to Accelerate Your <em>Engineering Journey?</em>
             </h2>

@@ -45,7 +45,6 @@ export default function PartnersTrustSection() {
     <section className="partners-section" aria-label="Partners and Accreditations">
       <div className="section-container">
         <div className="partners-intro">
-          <span className="partners-label">ACCREDITATIONS & INDUSTRY TECH ALLIANCES</span>
           <h3 className="partners-heading">
             Trusted by Top Engineering Organizations & Cloud Providers
           </h3>

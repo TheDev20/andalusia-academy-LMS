@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ArrowRight, Search, Terminal } from 'lucide-react';
-import Badge from '../../../../components/common/Badge';
 
 export default function HeroSection({ onNavigate, onSearch }) {
   const [query, setQuery] = useState('');
@@ -17,11 +16,6 @@ export default function HeroSection({ onNavigate, onSearch }) {
       <div className="hero-bg-accent" aria-hidden="true" />
       <div className="hero-container">
         <div className="hero-content">
-          <div className="hero-badge-wrap">
-            <Badge variant="bronze" dot>
-              PREMIER TECH & AI ACADEMY · EST. 2004
-            </Badge>
-          </div>
 
           <h1 className="hero-title">
             Where Engineering Mastery Meets <em>Applied Innovation.</em>

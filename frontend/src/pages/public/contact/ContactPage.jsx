@@ -303,7 +303,6 @@ export default function ContactPage() {
       <section className="contact-faq-section">
         <div className="section-container">
           <SectionHeading
-            badgeText="FREQUENTLY ASKED QUESTIONS"
             title={<>Answers to Common <em>Admissions & Program Inquiries</em></>}
             subtitle="Everything you need to know about enrollments, coding prerequisites, offline cohorts, and credentials."
           />

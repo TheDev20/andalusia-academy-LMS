@@ -1,6 +1,5 @@
 import React from 'react';
 import SectionHeading from '../../../../components/ui/SectionHeading';
-import Badge from '../../../../components/common/Badge';
 import { Building2, Users2, ShieldCheck, BarChart3, ArrowRight, Code2, Brain, Cloud } from 'lucide-react';
 
 export default function CorporateTrainingSection({ onNavigate }) {
@@ -32,7 +31,6 @@ export default function CorporateTrainingSection({ onNavigate }) {
       <div className="section-container">
         <div className="corporate-card-wrap">
           <div className="corporate-left">
-            <Badge variant="bronze" dot>B2B & ENTERPRISE TECH ACADEMY</Badge>
             <h2 className="corporate-title">
               Upskill Your Entire <em>Engineering Workforce</em> with World-Class Tech Training.
             </h2>

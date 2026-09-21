@@ -95,7 +95,6 @@ export default function CareerPathDiscoverySection({ onSelectTrack }) {
     <section id="career-paths" className="career-paths-section" aria-label="Career Path Discovery">
       <div className="section-container">
         <SectionHeading
-          badgeText="STRUCTURED PROFESSIONAL JOURNEYS"
           title={<>Tailored Career Paths for <em>Every Tech Discipline</em></>}
           subtitle="Explore progressive learning frameworks designed in collaboration with senior tech architects and engineering leads."
         />

@@ -125,7 +125,6 @@ export default function FeaturedCoursesSection({ searchQuery = '', onSelectCours
       <div className="section-container">
         <div className="courses-header-center">
           <SectionHeading
-            badgeText="INDUSTRY-LEADING CURRICULA"
             title={<>Featured & Trending <em>Programs</em></>}
             subtitle="Explore rigorous technical curricula taught by senior software architects, AI researchers, and data leaders."
             align="center"

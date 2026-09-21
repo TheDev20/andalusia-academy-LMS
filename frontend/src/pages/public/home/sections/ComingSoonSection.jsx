@@ -61,7 +61,6 @@ export default function ComingSoonSection() {
     <section className="coming-soon-section" aria-label="Upcoming Programs and Bootcamps">
       <div className="section-container">
         <SectionHeading
-          badgeText="TECH HORIZONS & INNOVATION"
           title={<>Previewing Upcoming <em>Tech Bootcamps & Cohorts</em></>}
           subtitle="Stay on the cutting edge of software development, AI, and distributed systems. Pre-register your interest for priority seat reservation and early applicant tuition benefits."
         />
