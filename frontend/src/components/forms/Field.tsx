@@ -2,22 +2,7 @@ import React, {
   useState, type RefObject, type ChangeEvent, type FocusEvent
 } from 'react';
 
-import { Eye, EyeOff, LucideIcon } from 'lucide-react';
-
-export interface FieldProps {
-  label: string;
-  name: string;
-  type?: string;
-  placeholder?: string;
-  icon?: LucideIcon;
-  autoComplete?: string;
-  value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
-  error?: string;
-  touched?: boolean;
-  inputRef?: RefObject<HTMLInputElement | null>;
-}
+import { Eye, EyeOff, type LucideIcon } from 'lucide-react';
 
 function Field({
   label,
@@ -32,7 +17,20 @@ function Field({
   error,
   touched,
   inputRef
-}: FieldProps) {
+}: {
+  label: string;
+  name: string;
+  type?: string;
+  placeholder?: string;
+  icon?: LucideIcon;
+  autoComplete?: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
+  error?: string;
+  touched?: boolean;
+  inputRef?: RefObject<HTMLInputElement | null>;
+}) {
   const [visible, setVisible] = useState(false);
   const isPassword = type === 'password';
 
@@ -56,12 +54,12 @@ function Field({
             type="button"
             className="eye"
             aria-label={visible ? 'Hide password' : 'Show password'}
-            onClick={(e) => {
+            onClick={(e: { preventDefault: () => void; }) => {
               e.preventDefault();
               setVisible(!visible);
             }}
           >
-            {visible ? <EyeOff size={17} /> : <Eye size={17} />}
+            {visible ? <Eye size={17} /> : <EyeOff size={17} />}
           </button>
         )}
       </div>

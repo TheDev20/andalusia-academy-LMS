@@ -2,39 +2,16 @@ import React, { useState, useRef, useEffect, type ChangeEvent, type FormEvent, t
 import { ArrowUpRight, ArrowRight, ArrowLeft, Mail, LockKeyhole, UserRound } from 'lucide-react';
 import Brand from '../../components/common/Brand';
 import Field from '../../components/forms/Field';
-import { useAuth, type AuthContextType } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
+import type { FormValues, FormErrors, FormTouched } from './types';
 
-
-export interface AuthPageProps {
+export function AuthPage({
+  page,
+  onNavigate,
+}: {
   page: 'login' | 'signup' | string;
   onNavigate?: (page: 'login' | 'signup' | string) => void;
-}
-
-export interface FormValues {
-  name: string;
-  email: string;
-  password: string;
-  rememberMe: boolean;
-  [key: string]: string | boolean;
-}
-
-export interface FormErrors {
-  name?: string;
-  email?: string;
-  password?: string;
-  [key: string]: string | undefined;
-}
-
-export interface FormTouched {
-  name?: boolean;
-  email?: boolean;
-  password?: boolean;
-  [key: string]: boolean | undefined;
-}
-
-
-
-export const AuthPage: React.FC<AuthPageProps> = ({ page, onNavigate }) => {
+}) {
   const isSignup = page === 'signup';
   const { login, signup, loading } = useAuth();
 
@@ -310,6 +287,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({ page, onNavigate }) => {
       </footer>
     </section>
   );
-};
+}
 
 export default AuthPage;
