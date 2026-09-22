@@ -19,7 +19,7 @@ export interface FieldProps {
   inputRef?: RefObject<HTMLInputElement | null>;
 }
 
-export default function Field({
+function Field({
   label,
   type = 'text',
   placeholder,
@@ -69,3 +69,5 @@ export default function Field({
     </label>
   );
 }
+export { Field };
+export default Field;

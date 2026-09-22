@@ -36,7 +36,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export function AuthProvider({
+function AuthProvider({
   children,
 }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
@@ -134,7 +134,7 @@ export function AuthProvider({
   );
 }
 
-export function useAuth(): AuthContextType {
+function useAuth(): AuthContextType {
   const context = useContext(AuthContext);
 
   if (!context) {
@@ -145,3 +145,6 @@ export function useAuth(): AuthContextType {
 
   return context;
 }
+
+export { AuthProvider, useAuth };
+export default AuthProvider;
