@@ -1,0 +1,36 @@
+/* Reusable Badges */
+.academy-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.badge-bronze {
+  background: rgba(174, 138, 88, 0.12);
+  color: #8c683b;
+  border: 1px solid rgba(174, 138, 88, 0.25);
+}
+.badge-cream {
+  background: #fdfbf7;
+  color: #5c4e3f;
+  border: 1px solid #dfd7cc;
+}
+.badge-espresso {
+  background: rgba(255, 255, 255, 0.12);
+  color: #e8ded1;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+.badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ae8a58;
+  flex-shrink: 0;
+}
+

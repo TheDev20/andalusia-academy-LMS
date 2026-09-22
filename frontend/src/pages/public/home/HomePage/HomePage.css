@@ -1,0 +1,14 @@
+/* HomePage specific layout styles */
+.homepage,
+.homepage-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+#home,
+#career-paths,
+#courses,
+#corporate {
+  scroll-margin-top: 96px;
+}
+

@@ -1,0 +1,126 @@
+/* Public Navbar */
+.public-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(247, 244, 238, 0.93);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(224, 216, 204, 0.75);
+  transition: all 0.25s ease;
+}
+.public-navbar.is-scrolled {
+  box-shadow: 0 8px 30px rgba(67, 57, 47, 0.05);
+  background: rgba(247, 244, 238, 0.98);
+}
+.navbar-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(20px, 4vw, 56px);
+}
+.navbar-brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.navbar-tagline {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: #3b3024;
+}
+.navbar-tagline small {
+  font-size: 10px;
+  letter-spacing: 0.8px;
+  color: #7d7062;
+  font-weight: 600;
+}
+.desktop-nav {
+  display: flex;
+  align-items: center;
+}
+.nav-links-list {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.2vw, 32px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-link {
+  font-size: 15px;
+  font-weight: 550;
+  color: #524434;
+  padding: 10px 4px;
+  position: relative;
+  transition: color 0.2s ease;
+}
+.nav-link:hover {
+  color: #8b6648;
+}
+.nav-link.is-active {
+  color: #241a12;
+  font-weight: 700;
+}
+.nav-link.is-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #ae8a58;
+  border-radius: 2px;
+}
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.navbar-login-btn {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b3d2f;
+  padding: 10px 20px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+.navbar-login-btn:hover {
+  color: #1f1914;
+  background: rgba(139, 102, 72, 0.08);
+}
+.navbar-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  background: #8b6648;
+  padding: 11px 22px;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(139, 102, 72, 0.25);
+  transition: all 0.2s ease;
+}
+.navbar-cta-btn:hover {
+  background: #77553b;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(139, 102, 72, 0.35);
+}
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #43392f;
+  padding: 6px;
+}
+.mobile-drawer {
+  display: none;
+}
+

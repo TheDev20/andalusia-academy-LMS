@@ -1,0 +1,89 @@
+/* Logo artwork cropped and scaled smoothly to viewport height */
+.brand-official {
+  display: block;
+  flex-shrink: 0;
+  width: var(--logo-w);
+}
+
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  line-height: 0;
+  transition: opacity 0.2s ease;
+}
+
+.brand-link:hover {
+  opacity: 0.88;
+}
+
+.brand-logo-img {
+  display: block;
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+}
+
+.public-navbar .brand-logo-img {
+  height: 52px;
+  max-height: 54px;
+  width: auto;
+}
+
+.public-footer .brand-logo-img {
+  height: 38px;
+  max-height: 38px;
+  width: auto;
+  filter: brightness(1.2) contrast(1.1);
+}
+
+.form-panel header .brand-logo-img {
+  height: clamp(50px, 6.5vh, 62px);
+  width: auto;
+}
+
+.back-to-site-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #726252;
+  background: rgba(139, 102, 72, 0.08);
+  border: 1px solid rgba(139, 102, 72, 0.18);
+  padding: 5px 12px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.back-to-site-btn:hover {
+  background: rgba(139, 102, 72, 0.16);
+  color: #382d22;
+  border-color: rgba(139, 102, 72, 0.35);
+}
+
+.logo-crop {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: var(--logo-w);
+  height: calc(var(--logo-w) * 1.0714);
+}
+
+.logo-crop img {
+  position: absolute;
+  max-width: none;
+  width: calc(var(--logo-w) * 2.2857);
+  height: calc(var(--logo-w) * 2.2857);
+  left: calc(var(--logo-w) * -0.6428);
+  top: calc(var(--logo-w) * -0.6071);
+}
+
+.portal-label {
+  font-size: 8px;
+  letter-spacing: 1.4px;
+  color: #9a8e80;
+  text-transform: uppercase;
+}
+

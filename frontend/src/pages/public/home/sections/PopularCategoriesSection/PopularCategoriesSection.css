@@ -1,0 +1,72 @@
+/* 3. Popular Categories Section */
+.categories-section {
+  padding: clamp(72px, 10vh, 110px) 0;
+  background: #f7f4ee;
+  border-bottom: 1px solid rgba(224, 216, 204, 0.6);
+}
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+.category-card {
+  background: #ffffff;
+  border: 1px solid #ded6c8;
+  border-radius: 22px;
+  padding: 28px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.25s ease;
+}
+.category-card:hover {
+  transform: translateY(-4px);
+  border-color: #8c643b;
+  box-shadow: 0 12px 30px rgba(67, 57, 47, 0.08);
+}
+.cat-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.cat-icon-frame {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(174, 138, 88, 0.12);
+  color: #8c683b;
+  display: grid;
+  place-items: center;
+}
+.cat-count-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: #695949;
+  background: #f0e9df;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+.cat-card-title {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 22px;
+  color: #271e16;
+  margin: 0 0 10px;
+  font-weight: 400;
+}
+.cat-card-desc {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: #554738;
+  margin: 0 0 22px;
+}
+.cat-explore-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #8b6648;
+}
+

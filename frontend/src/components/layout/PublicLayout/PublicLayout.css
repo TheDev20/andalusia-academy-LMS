@@ -1,0 +1,42 @@
+/* Public Shell & Top Announcement */
+.public-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f7f4ee;
+  color: #43392f;
+}
+.announcement-bar {
+  background: #31271e;
+  color: #ece3d7;
+  font-size: 13.5px;
+  padding: 9px 18px;
+  text-align: center;
+  border-bottom: 1px solid rgba(174, 138, 88, 0.25);
+}
+.announcement-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.announcement-icon {
+  color: #d4a359;
+}
+.announcement-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #d4a359;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+.announcement-link:hover {
+  color: #f0c586;
+}
+

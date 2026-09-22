@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Libre+Caslon+Display&display=swap');
+
+:root {
+  font-family: 'DM Sans', sans-serif;
+  color: #43392f;
+  background: #eae4d9;
+  font-synthesis: none;
+  font-weight: 400;
+  font-size: 16px;
+  --logo-w: clamp(82px, 8.5vh, 108px);
+}

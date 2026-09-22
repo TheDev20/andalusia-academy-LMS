@@ -1,0 +1,204 @@
+/* 2. Career Path Discovery Section */
+.career-paths-section {
+  padding: clamp(72px, 10vh, 110px) 0;
+  background: #f2eee6;
+  border-bottom: 1px solid rgba(224, 216, 204, 0.6);
+}
+.path-tabs-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 18px;
+  margin-bottom: 28px;
+  scrollbar-width: thin;
+}
+.path-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: #ffffff;
+  border: 1px solid #ded6c8;
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #4b3e30;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.path-tab-btn:hover {
+  border-color: #8c643b;
+  color: #241a12;
+}
+.path-tab-btn.is-active {
+  background: #43392f;
+  color: #ffffff;
+  border-color: #43392f;
+  box-shadow: 0 6px 18px rgba(67, 57, 47, 0.18);
+}
+.path-tab-btn.is-active .tab-icon {
+  color: #d4a359;
+}
+.path-details-card {
+  background: #ffffff;
+  border: 1px solid #ded6c8;
+  border-radius: 26px;
+  padding: clamp(32px, 4.5vw, 52px);
+  box-shadow: 0 12px 40px rgba(67, 57, 47, 0.06);
+}
+.path-details-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-bottom: 26px;
+  border-bottom: 1px solid #eee8df;
+  margin-bottom: 26px;
+}
+.path-meta-badges {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.meta-time {
+  font-size: 13.5px;
+  color: #6e5e4d;
+  font-weight: 550;
+}
+.path-card-title {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: clamp(28px, 3vw, 38px);
+  color: #271e15;
+  margin: 0 0 10px;
+  font-weight: 400;
+}
+.path-target-role {
+  font-size: 15px;
+  color: #554737;
+  margin: 0;
+}
+.path-target-role strong {
+  color: #8b6648;
+}
+.path-apply-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #8b6648;
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.path-apply-btn:hover {
+  background: #77553b;
+  transform: translateY(-1px);
+}
+.path-overview-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #4b3e31;
+  max-width: 880px;
+  margin: 0 0 34px;
+}
+.path-columns-layout {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 40px;
+}
+.milestone-col-heading {
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #5e4730;
+  margin: 0 0 18px;
+}
+.milestone-list {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.milestone-item {
+  list-style: none !important;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #382c20;
+}
+.milestone-num {
+  font-size: 13px;
+  font-weight: 700;
+  color: #77553b;
+  background: rgba(139, 102, 72, 0.12);
+  padding: 4px 10px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.milestone-text {
+  flex: 1;
+}
+.clean-dot-accent {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #a58358;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.path-course-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+.path-course-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f7f4ee;
+  border: 1px solid #ded6c8;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2e2419;
+}
+.course-chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #a58358;
+}
+.path-perk-box {
+  background: rgba(174, 138, 88, 0.09);
+  border: 1px solid rgba(174, 138, 88, 0.28);
+  border-radius: 18px;
+  padding: 20px;
+}
+.perk-title {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #7a5426;
+  margin-bottom: 8px;
+}
+.perk-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #524333;
+  margin: 0;
+}
+
