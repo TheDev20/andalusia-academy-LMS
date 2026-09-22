@@ -1,7 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react';
 
-export const defaultScenes = [
+export interface SceneItem {
+  image: string;
+  eyebrow: string;
+  title: ReactNode;
+  text: string;
+  label: string;
+}
+
+export const defaultScenes: SceneItem[] = [
   {
     image: '/images/desert.png',
     eyebrow: 'EVERY JOURNEY BEGINS WITH POSSIBILITY',
@@ -28,8 +36,18 @@ export const defaultScenes = [
   }
 ];
 
-export default function StoryPanel({ scenes = defaultScenes, motion, setMotion }) {
-  const [scene, setScene] = useState(0);
+export interface StoryPanelProps {
+  scenes?: SceneItem[];
+  motion?: boolean;
+  setMotion?: (motion: boolean) => void;
+}
+
+export default function StoryPanel({
+  scenes = defaultScenes,
+  motion = true,
+  setMotion
+}: StoryPanelProps) {
+  const [scene, setScene] = useState<number>(0);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setScene(1), 3000);
@@ -69,12 +87,14 @@ export default function StoryPanel({ scenes = defaultScenes, motion, setMotion }
           <span className="scene-name">{scenes[scene].label}</span>
         </div>
         <div className="scene-controls">
-          <button
-            onClick={() => setMotion(!motion)}
-            aria-label={motion ? 'Pause background motion' : 'Play background motion'}
-          >
-            {motion ? <Pause size={14} /> : <Play size={14} />}
-          </button>
+          {setMotion && (
+            <button
+              onClick={() => setMotion(!motion)}
+              aria-label={motion ? 'Pause background motion' : 'Play background motion'}
+            >
+              {motion ? <Pause size={14} /> : <Play size={14} />}
+            </button>
+          )}
           <button
             onClick={() => setScene((scene + 1) % 2)}
             aria-label="Previous scene"

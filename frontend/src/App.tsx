@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import AuthPage from './pages/auth/AuthPage';
 import StoryPanel from './components/layout/StoryPanel';
+import { AuthProvider } from './context/AuthContext';
 import './styles.css';
 
 export default function App() {
-  const [page, setPage] = useState(
+  const [page, setPage] = useState<string>(
     typeof window !== 'undefined' && window.location.hash === '#signup' ? 'signup' : 'login'
   );
-  const [motion, setMotion] = useState(true);
+  const [motion, setMotion] = useState<boolean>(true);
 
   useEffect(() => {
     const sync = () => {
@@ -18,9 +19,11 @@ export default function App() {
   }, []);
 
   return (
-    <main className={`shell ${motion ? '' : 'motion-paused'}`}>
-      <AuthPage page={page} onNavigate={setPage} />
-      <StoryPanel motion={motion} setMotion={setMotion} />
-    </main>
+    <AuthProvider>
+      <main className={`shell ${motion ? '' : 'motion-paused'}`}>
+        <AuthPage page={page} onNavigate={setPage} />
+        <StoryPanel motion={motion} setMotion={setMotion} />
+      </main>
+    </AuthProvider>
   );
 }

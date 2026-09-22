@@ -14,7 +14,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -31,15 +32,19 @@ body::-webkit-scrollbar {
   height: 0;
 }
 
-button, input, a {
+button,
+input,
+a {
   -webkit-tap-highlight-color: transparent;
 }
 
-button, input {
+button,
+input {
   font: inherit;
 }
 
-button, a {
+button,
+a {
   touch-action: manipulation;
 }
 
@@ -56,7 +61,9 @@ button:disabled {
   cursor: default;
 }
 
-button:focus-visible, a:focus-visible, input:focus-visible {
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
   outline: 2px solid #8b6648;
   outline-offset: 5px;
 }
@@ -103,6 +110,37 @@ button:focus-visible, a:focus-visible, input:focus-visible {
   gap: 12px;
   flex-shrink: 0;
   min-height: calc(var(--logo-w) * 1.0714);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.back-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #7b6653;
+  font-size: 12px;
+  font-weight: 550;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(165, 131, 88, 0.3);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.back-home-btn:hover {
+  color: #2b1e13;
+  background: #ffffff;
+  border-color: rgba(165, 131, 88, 0.6);
+  transform: translateX(-2px);
+  box-shadow: 0 2px 6px rgba(43, 30, 19, 0.08);
 }
 
 .brand {
@@ -267,7 +305,7 @@ h1 em {
   margin-bottom: clamp(7px, 1.2vh, 14px);
 }
 
-.field > span {
+.field>span {
   display: block;
   font-size: clamp(10px, 1.1vh, 11px);
   font-weight: 550;
@@ -316,6 +354,14 @@ h1 em {
   background: transparent;
   padding: 4px;
   color: #a2917e;
+}
+
+.field-error {
+  color: #dc2626;
+  font-size: 0.8125rem;
+  margin-top: 0.25rem;
+  display: block;
+  font-weight: 500;
 }
 
 .form-options {
@@ -447,13 +493,12 @@ footer a {
   height: 100%;
   object-fit: cover;
   object-position: 50% 50%;
-  animation: drift 28s ease-in-out infinite alternate;
 }
 
 .image-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(38,25,15,.24), rgba(38,25,15,.04) 22%, rgba(32,23,15,.03) 42%, rgba(38,26,16,.28) 63%, rgba(36,26,17,.78) 100%);
+  background: linear-gradient(180deg, rgba(38, 25, 15, .24), rgba(38, 25, 15, .04) 22%, rgba(32, 23, 15, .03) 42%, rgba(38, 26, 16, .28) 63%, rgba(36, 26, 17, .78) 100%);
 }
 
 .story-top {
@@ -479,7 +524,7 @@ footer a {
   gap: 7px;
 }
 
-.story-tag > span {
+.story-tag>span {
   height: 4px;
   width: 4px;
   border-radius: 50%;
@@ -600,24 +645,14 @@ h2 em {
   opacity: .7;
 }
 
-.motion-paused .scene img {
-  animation-play-state: paused;
-}
 
-@keyframes drift {
-  from {
-    transform: scale(1.02);
-  }
-  to {
-    transform: scale(1.10) translate(-1%, -.5%);
-  }
-}
 
 @keyframes enter {
   from {
     opacity: 0;
     transform: translateY(12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -629,22 +664,28 @@ h2 em {
   :root {
     --logo-w: 112px;
   }
+
   .shell {
     padding: 24px;
     gap: 24px;
   }
+
   .form-panel {
     padding: 28px 52px 18px;
   }
+
   .form-content {
     max-width: 390px;
   }
+
   h1 {
     font-size: 64px;
   }
+
   h2 {
     font-size: 60px;
   }
+
   .story-copy,
   .story-bottom {
     left: 60px;
@@ -657,25 +698,31 @@ h2 em {
   .shell {
     grid-template-columns: minmax(320px, 45%) 1fr;
   }
+
   .form-panel {
     padding: clamp(10px, 1.8vh, 20px) 20px;
   }
+
   .portal-label,
   .edition {
     display: none;
   }
+
   .story-copy,
   .story-bottom {
     left: 28px;
     right: 28px;
   }
+
   .story-top {
     left: 28px;
     right: 28px;
   }
+
   .scene-name {
     display: none;
   }
+
   h2 {
     font-size: clamp(26px, 3.2vw, 42px);
   }
@@ -686,65 +733,84 @@ h2 em {
   :root {
     --logo-w: 72px;
   }
+
   .shell {
     padding: 8px;
     gap: 8px;
   }
+
   .form-panel {
     padding: 8px 18px 8px;
   }
+
   .form-content {
     padding: 4px 0 4px;
   }
+
   h1 {
     font-size: 28px;
     margin: 4px 0;
   }
+
   .intro {
     font-size: 10.5px;
     margin-bottom: 8px;
     line-height: 1.4;
   }
+
   .tabs {
     margin-bottom: 8px;
   }
+
   .field {
     margin-bottom: 5px;
   }
-  .field > span {
+
+  .field>span {
     margin-bottom: 2px;
   }
+
   .input-wrap {
     height: 34px;
   }
+
   .submit {
     padding: 8px 12px;
   }
+
   .switch-copy {
     margin-top: 6px;
   }
+
   .story-copy {
     bottom: 60px;
   }
+
   h2 {
     font-size: 24px;
     margin-bottom: 4px;
   }
+
   .story-description {
     font-size: 10px;
     line-height: 1.4;
   }
+
   .story-bottom {
     padding-top: 8px;
   }
+
 }
 
 /* Mobile Screens */
 @media (max-width: 760px) {
-  html, body {
+
+  html,
+  body {
     height: auto;
     overflow-y: auto;
   }
+
   .shell {
     height: auto;
     min-height: 100svh;
@@ -755,55 +821,69 @@ h2 em {
     gap: 14px;
     overflow: visible;
   }
+
   .form-panel {
     padding: 16px 16px 12px;
     height: auto;
     overflow: visible;
   }
+
   .form-content {
     padding: 24px 0 16px;
     max-width: 400px;
   }
+
   .portal-label {
     display: block;
   }
+
   h1 {
     font-size: clamp(38px, 8vw, 54px);
   }
+
   .story-panel {
     min-height: 420px;
     height: 440px;
   }
+
   .story-copy {
     bottom: 95px;
     left: 24px;
     right: 24px;
   }
+
   h2 {
     font-size: 36px;
   }
+
   .story-top {
     top: 20px;
     left: 20px;
     right: 20px;
   }
+
   .story-bottom {
     bottom: 20px;
     left: 20px;
     right: 20px;
   }
+
   footer {
     max-width: 400px;
     width: 100%;
     margin: auto;
   }
+
   .scene-name {
     display: block;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *:before, *:after {
+
+  *,
+  *:before,
+  *:after {
     animation: none !important;
     transition: none !important;
     scroll-behavior: auto !important;
