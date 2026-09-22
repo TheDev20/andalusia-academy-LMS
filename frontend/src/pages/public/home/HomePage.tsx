@@ -9,22 +9,29 @@ import PartnersTrustSection from './sections/PartnersTrustSection';
 import TestimonialsSection from './sections/TestimonialsSection';
 import CtaSection from './sections/CtaSection';
 
-export default function HomePage({ onNavigate }) {
+import { NavigateFunction } from '../../../types/navigation';
+import { Course } from '../../../types/course';
+
+export interface HomePageProps {
+  onNavigate?: NavigateFunction;
+}
+
+export default function HomePage({ onNavigate }: HomePageProps) {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleCategorySelect = (categoryName) => {
+  const handleCategorySelect = (categoryName: string) => {
     setSearchQuery(categoryName);
     const el = document.getElementById('courses');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleTrackSelect = (track) => {
+  const handleTrackSelect = (track?: any) => {
     if (onNavigate) {
       onNavigate('signup');
     }
   };
 
-  const handleCourseSelect = (course) => {
+  const handleCourseSelect = (course?: Course) => {
     if (onNavigate) {
       onNavigate('signup');
     }

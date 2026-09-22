@@ -3,9 +3,20 @@ import SectionHeading from '../../../../components/ui/SectionHeading';
 import Badge from '../../../../components/common/Badge';
 import { Calendar, Bell, Sparkles, ArrowRight } from 'lucide-react';
 
+export interface UpcomingProgram {
+  id: string;
+  title: string;
+  track: string;
+  targetAudience: string;
+  launchDate: string;
+  seatsLimit: string;
+  highlight: string;
+  badge: string;
+}
+
 export default function ComingSoonSection() {
   const [emailInput, setEmailInput] = useState('');
-  const [subscribedProgram, setSubscribedProgram] = useState(null);
+  const [subscribedProgram, setSubscribedProgram] = useState<UpcomingProgram | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
   const upcomingPrograms = [
@@ -41,12 +52,12 @@ export default function ComingSoonSection() {
     }
   ];
 
-  const handleNotifyMe = (program) => {
+  const handleNotifyMe = (program: UpcomingProgram) => {
     setSubscribedProgram(program);
     setSubmitted(false);
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!emailInput) return;
     setSubmitted(true);

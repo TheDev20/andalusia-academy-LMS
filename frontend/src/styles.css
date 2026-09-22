@@ -500,18 +500,24 @@ footer a {
   border-radius: 9px;
   background: #8c7153;
   color: #fff7e9;
+  isolation: isolate;
+  contain: paint;
 }
 
 .scene {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 1.2s ease;
+  visibility: hidden;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
+  pointer-events: none;
 }
 
 .scene.selected {
   opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .scene img {
@@ -519,13 +525,15 @@ footer a {
   height: 100%;
   object-fit: cover;
   object-position: 50% 50%;
-  animation: drift 28s ease-in-out infinite alternate;
+  display: block;
 }
 
 .image-shade {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, rgba(38,25,15,.24), rgba(38,25,15,.04) 22%, rgba(32,23,15,.03) 42%, rgba(38,26,16,.28) 63%, rgba(36,26,17,.78) 100%);
+  pointer-events: none;
+  transform: translateZ(0);
 }
 
 .story-top {
@@ -542,6 +550,8 @@ footer a {
   border: 1px solid #fff8e952;
   background: #59452d18;
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transform: translateZ(0);
   border-radius: 30px;
   padding: clamp(6px, 0.9vh, 9px) 12px;
   font-size: 8px;
@@ -672,18 +682,6 @@ h2 em {
   opacity: .7;
 }
 
-.motion-paused .scene img {
-  animation-play-state: paused;
-}
-
-@keyframes drift {
-  from {
-    transform: scale(1.02);
-  }
-  to {
-    transform: scale(1.10) translate(-1%, -.5%);
-  }
-}
 
 @keyframes enter {
   from {

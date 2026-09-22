@@ -1,7 +1,12 @@
 import React from 'react';
 import { ArrowRight, PhoneCall, Sparkles } from 'lucide-react';
+import { NavigateFunction } from '../../../../types/navigation';
 
-export default function CtaSection({ onNavigate }) {
+export interface CtaSectionProps {
+  onNavigate?: NavigateFunction;
+}
+
+export default function CtaSection({ onNavigate }: CtaSectionProps) {
   return (
     <section className="cta-banner-section" aria-label="Join Andalusia Academy Call to Action">
       <div className="section-container">

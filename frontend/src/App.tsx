@@ -5,12 +5,13 @@ import AboutPage from './pages/public/about/AboutPage';
 import ContactPage from './pages/public/contact/ContactPage';
 import AuthPage from './pages/auth/AuthPage';
 import StoryPanel from './components/layout/StoryPanel';
+import { AppRoute, NavigateFunction } from './types/navigation';
 import './styles.css';
 
 export default function App() {
-  const getInitialRoute = () => {
+  const getInitialRoute = (): AppRoute => {
     if (typeof window === 'undefined') return 'home';
-    const hash = window.location.hash.replace('#', '');
+    const hash = window.location.hash.replace('#', '') as AppRoute;
     if (['login', 'signup', 'about', 'contact', 'home'].includes(hash)) {
       return hash;
     }
@@ -20,13 +21,13 @@ export default function App() {
     return 'home';
   };
 
-  const [route, setRoute] = useState(getInitialRoute);
-  const [motion, setMotion] = useState(true);
+  const [route, setRoute] = useState<AppRoute>(getInitialRoute);
+  const [motion, setMotion] = useState<boolean>(true);
 
   // Sync route on hashchange
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '');
+      const hash = window.location.hash.replace('#', '') as AppRoute;
       if (['login', 'signup', 'about', 'contact', 'home'].includes(hash)) {
         setRoute(hash);
       } else if (['courses', 'career-paths', 'corporate'].includes(hash)) {
@@ -56,8 +57,8 @@ export default function App() {
     }
   }, [route]);
 
-  const navigateTo = (newRoute) => {
-    setRoute(newRoute);
+  const navigateTo: NavigateFunction = (newRoute) => {
+    setRoute(newRoute as AppRoute);
     window.location.hash = `#${newRoute}`;
     if (newRoute !== 'login' && newRoute !== 'signup') {
       window.scrollTo({ top: 0, behavior: 'smooth' });

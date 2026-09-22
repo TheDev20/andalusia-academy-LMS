@@ -2,8 +2,15 @@ import React from 'react';
 import PublicNavbar from './PublicNavbar';
 import PublicFooter from './PublicFooter';
 import { Sparkles, ArrowRight } from 'lucide-react';
+import { AppRoute, NavigateFunction } from '../../types/navigation';
 
-export default function PublicLayout({ currentPath, onNavigate, children }) {
+export interface PublicLayoutProps {
+  currentPath: AppRoute | string;
+  onNavigate: NavigateFunction;
+  children: React.ReactNode;
+}
+
+export default function PublicLayout({ currentPath, onNavigate, children }: PublicLayoutProps) {
   return (
     <div className="public-shell">
       {/* Top Admissions Announcement Bar */}

@@ -1,6 +1,12 @@
 import React from 'react';
 
-export default function Brand({ href = '#home', onClick, className = '' }) {
+export interface BrandProps {
+  href?: string;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  className?: string;
+}
+
+export default function Brand({ href = '#home', onClick, className = '' }: BrandProps) {
   return (
     <a
       className={`brand-link ${className}`}

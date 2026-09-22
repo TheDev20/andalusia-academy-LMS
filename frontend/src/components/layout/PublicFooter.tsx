@@ -1,9 +1,14 @@
 import React from 'react';
 import { Phone, Mail } from 'lucide-react';
 import Brand from '../common/Brand';
+import { AppRoute, NavigateFunction } from '../../types/navigation';
 
-export default function PublicFooter({ onNavigate }) {
-  const handleNav = (route) => (e) => {
+export interface PublicFooterProps {
+  onNavigate?: NavigateFunction;
+}
+
+export default function PublicFooter({ onNavigate }: PublicFooterProps) {
+  const handleNav = (route: AppRoute | string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (onNavigate) {
       e.preventDefault();
       onNavigate(route);

@@ -1,8 +1,14 @@
 import React from 'react';
 import { Clock, Award, ArrowUpRight, Star } from 'lucide-react';
 import Badge from '../common/Badge';
+import { Course } from '../../types/course';
 
-export default function CourseCard({ course, onSelect }) {
+export interface CourseCardProps {
+  course: Course;
+  onSelect?: (course: Course) => void;
+}
+
+export default function CourseCard({ course, onSelect }: CourseCardProps) {
   const {
     id,
     title,
@@ -10,7 +16,6 @@ export default function CourseCard({ course, onSelect }) {
     badge = 'FLAGSHIP',
     badgeVariant = 'bronze',
     duration,
-    format,
     intake,
     rating = 4.9,
     reviewsCount = 48,

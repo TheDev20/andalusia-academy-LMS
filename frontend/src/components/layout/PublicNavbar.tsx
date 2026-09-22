@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight, GraduationCap } from 'lucide-react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 import Brand from '../common/Brand';
+import { AppRoute, NavigateFunction } from '../../types/navigation';
 
-export default function PublicNavbar({ currentPath = 'home', onNavigate }) {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+export interface PublicNavbarProps {
+  currentPath?: AppRoute | string;
+  onNavigate?: NavigateFunction;
+}
+
+interface NavItem {
+  label: string;
+  href: string;
+  key: string;
+}
+
+export default function PublicNavbar({ currentPath = 'home', onNavigate }: PublicNavbarProps) {
+  const [scrolled, setScrolled] = useState<boolean>(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,7 +26,7 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { label: 'Home', href: '#home', key: 'home' },
     { label: 'Career Paths', href: '#career-paths', key: 'career-paths' },
     { label: 'Courses & Programs', href: '#courses', key: 'courses' },
@@ -23,12 +35,11 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }) {
     { label: 'Contact', href: '#contact', key: 'contact' },
   ];
 
-  const handleLinkClick = (e, item) => {
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, item: NavItem) => {
     setMobileMenuOpen(false);
     if (onNavigate) {
       if (item.href.startsWith('#')) {
         const route = item.href.slice(1);
-        // If it's a section on home and we're not on home, route to home first
         if (['career-paths', 'courses', 'corporate'].includes(route) && currentPath !== 'home') {
           onNavigate('home');
           setTimeout(() => {
@@ -49,7 +60,7 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }) {
     <header className={`public-navbar ${scrolled ? 'is-scrolled' : ''}`}>
       <div className="navbar-container">
         <div className="navbar-brand-wrap">
-          <Brand href="#home" onClick={(e) => handleLinkClick(e, { href: '#home', key: 'home' })} />
+          <Brand href="#home" onClick={(e) => handleLinkClick(e, { label: 'Home', href: '#home', key: 'home' })} />
         </div>
 
         {/* Desktop Navigation */}

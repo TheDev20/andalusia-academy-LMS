@@ -1,8 +1,13 @@
 import React from 'react';
 import SectionHeading from '../../../../components/ui/SectionHeading';
 import { Building2, Users2, ShieldCheck, BarChart3, ArrowRight, Code2, Brain, Cloud } from 'lucide-react';
+import { NavigateFunction } from '../../../../types/navigation';
 
-export default function CorporateTrainingSection({ onNavigate }) {
+export interface CorporateTrainingSectionProps {
+  onNavigate?: NavigateFunction;
+}
+
+export default function CorporateTrainingSection({ onNavigate }: CorporateTrainingSectionProps) {
   const corporatePillars = [
     {
       icon: Code2,

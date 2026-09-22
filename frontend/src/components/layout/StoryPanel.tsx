@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react';
 
-export const defaultScenes = [
+export interface Scene {
+  image: string;
+  eyebrow: string;
+  title: React.ReactNode;
+  text: string;
+  label: string;
+}
+
+export const defaultScenes: Scene[] = [
   {
     image: '/images/desert.png',
     eyebrow: 'EVERY JOURNEY BEGINS WITH POSSIBILITY',
@@ -28,8 +36,14 @@ export const defaultScenes = [
   }
 ];
 
-export default function StoryPanel({ scenes = defaultScenes, motion, setMotion }) {
-  const [scene, setScene] = useState(0);
+export interface StoryPanelProps {
+  scenes?: Scene[];
+  motion?: boolean;
+  setMotion?: (val: boolean) => void;
+}
+
+export default function StoryPanel({ scenes = defaultScenes, motion = true, setMotion }: StoryPanelProps) {
+  const [scene, setScene] = useState<number>(0);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setScene(1), 3000);
@@ -70,7 +84,7 @@ export default function StoryPanel({ scenes = defaultScenes, motion, setMotion }
         </div>
         <div className="scene-controls">
           <button
-            onClick={() => setMotion(!motion)}
+            onClick={() => setMotion && setMotion(!motion)}
             aria-label={motion ? 'Pause background motion' : 'Play background motion'}
           >
             {motion ? <Pause size={14} /> : <Play size={14} />}

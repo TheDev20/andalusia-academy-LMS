@@ -15,8 +15,13 @@ import {
   Database,
   Cloud
 } from 'lucide-react';
+import { NavigateFunction } from '../../../types/navigation';
 
-export default function AboutPage({ onNavigate }) {
+export interface AboutPageProps {
+  onNavigate?: NavigateFunction;
+}
+
+export default function AboutPage({ onNavigate }: AboutPageProps) {
   const pillars = [
     {
       icon: Code2,

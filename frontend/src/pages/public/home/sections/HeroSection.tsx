@@ -33,8 +33,40 @@ import {
   Maximize2,
   Minus
 } from 'lucide-react';
+import { NavigateFunction } from '../../../../types/navigation';
 
-export default function HeroSection({ onNavigate, onSearch }) {
+export interface CodeToken {
+  t: string;
+  v: string;
+}
+
+export interface CodeLine {
+  num: number;
+  tokens: CodeToken[];
+}
+
+export interface TerminalLine {
+  t: string;
+  v: string;
+}
+
+export interface IdeFile {
+  name: string;
+  icon: string;
+  iconColor: string;
+  path: string;
+  lang: string;
+  lnCol: string;
+  lines: CodeLine[];
+  terminal: TerminalLine[];
+}
+
+export interface HeroSectionProps {
+  onNavigate?: NavigateFunction;
+  onSearch?: (query: string) => void;
+}
+
+export default function HeroSection({ onNavigate, onSearch }: HeroSectionProps) {
   const [query, setQuery] = useState('');
   const [activeFile, setActiveFile] = useState('App.tsx');
   const [timeLeft, setTimeLeft] = useState({
@@ -58,14 +90,14 @@ export default function HeroSection({ onNavigate, onSearch }) {
     return () => clearInterval(timer);
   }, []);
 
-  const handleSearchSubmit = (e) => {
+  const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (onSearch) onSearch(query);
     const el = document.getElementById('courses');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleTrackClick = (trackQuery) => {
+  const handleTrackClick = (trackQuery: string) => {
     if (onSearch) onSearch(trackQuery);
     const el = document.getElementById('courses');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -81,7 +113,7 @@ export default function HeroSection({ onNavigate, onSearch }) {
   ];
 
   // Authentic Multi-File IDE project tree matching reference layout
-  const ideFiles = {
+  const ideFiles: Record<string, IdeFile> = {
     'App.tsx': {
       name: 'App.tsx',
       icon: '⚛',
@@ -617,11 +649,11 @@ export default function HeroSection({ onNavigate, onSearch }) {
                 <div className="editor-code-body">
                   <pre className="code-pre">
                     <code>
-                      {currentFile.lines.map((line, idx) => (
+                      {currentFile.lines.map((line: CodeLine, idx: number) => (
                         <div key={idx} className="code-line-row">
                           <span className="line-num">{line.num}</span>
                           <span className="line-code">
-                            {line.tokens.map((tok, tIdx) => (
+                            {line.tokens.map((tok: CodeToken, tIdx: number) => (
                               <span key={tIdx} className={`tok-${tok.t}`}>
                                 {tok.v}
                               </span>
@@ -657,7 +689,7 @@ export default function HeroSection({ onNavigate, onSearch }) {
                   </div>
 
                   <div className="terminal-body">
-                    {currentFile.terminal.map((item, idx) => (
+                    {currentFile.terminal.map((item: TerminalLine, idx: number) => (
                       <div key={idx} className={`term-line term-${item.t}`}>
                         {item.v}
                       </div>

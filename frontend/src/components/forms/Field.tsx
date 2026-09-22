@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, LucideIcon } from 'lucide-react';
 
-export default function Field({ label, type = 'text', placeholder, icon: Icon, autoComplete, name }) {
+export interface FieldProps {
+  label: string;
+  name?: string;
+  type?: string;
+  placeholder?: string;
+  autoComplete?: string;
+  icon?: LucideIcon;
+}
+
+export default function Field({ label, type = 'text', placeholder, icon: Icon, autoComplete, name }: FieldProps) {
   const [visible, setVisible] = useState(false);
   const isPassword = type === 'password';
 

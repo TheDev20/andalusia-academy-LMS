@@ -2,8 +2,14 @@ import React from 'react';
 import { ArrowUpRight, ArrowRight, ArrowLeft, Mail, LockKeyhole, UserRound } from 'lucide-react';
 import Brand from '../../components/common/Brand';
 import Field from '../../components/forms/Field';
+import { AppRoute, NavigateFunction } from '../../types/navigation';
 
-export default function AuthPage({ page, onNavigate }) {
+export interface AuthPageProps {
+  page: AppRoute | string;
+  onNavigate?: NavigateFunction;
+}
+
+export default function AuthPage({ page, onNavigate }: AuthPageProps) {
   const isSignup = page === 'signup';
 
   return (

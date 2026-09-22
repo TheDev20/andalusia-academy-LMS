@@ -12,7 +12,11 @@ import {
 } from 'lucide-react';
 import SectionHeading from '../../../../components/ui/SectionHeading';
 
-export default function PopularCategoriesSection({ onSelectCategory }) {
+export interface PopularCategoriesSectionProps {
+  onSelectCategory?: (categoryName: string) => void;
+}
+
+export default function PopularCategoriesSection({ onSelectCategory }: PopularCategoriesSectionProps) {
   const categories = [
     {
       id: 'software-engineering',

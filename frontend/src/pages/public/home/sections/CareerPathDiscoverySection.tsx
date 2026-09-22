@@ -3,7 +3,11 @@ import { Code2, Brain, Database, Cloud, ShieldCheck, ArrowRight } from 'lucide-r
 import SectionHeading from '../../../../components/ui/SectionHeading';
 import Badge from '../../../../components/common/Badge';
 
-export default function CareerPathDiscoverySection({ onSelectTrack }) {
+export interface CareerPathDiscoverySectionProps {
+  onSelectTrack?: (track?: any) => void;
+}
+
+export default function CareerPathDiscoverySection({ onSelectTrack }: CareerPathDiscoverySectionProps) {
   const [selectedPathIndex, setSelectedPathIndex] = useState(0);
 
   const paths = [

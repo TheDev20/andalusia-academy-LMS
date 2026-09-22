@@ -28,7 +28,7 @@ export default function ContactPage() {
   });
 
   const [submitted, setSubmitted] = useState(false);
-  const [activeFaq, setActiveFaq] = useState(null);
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   const faqs = [
     {
@@ -53,12 +53,12 @@ export default function ContactPage() {
     }
   ];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
   };
 
-  const toggleFaq = (idx) => {
+  const toggleFaq = (idx: number) => {
     setActiveFaq(activeFaq === idx ? null : idx);
   };
 

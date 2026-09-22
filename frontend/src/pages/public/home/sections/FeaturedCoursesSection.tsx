@@ -2,11 +2,17 @@ import React, { useState, useMemo } from 'react';
 import SectionHeading from '../../../../components/ui/SectionHeading';
 import CourseCard from '../../../../components/ui/CourseCard';
 import { ArrowRight, Terminal } from 'lucide-react';
+import { Course } from '../../../../types/course';
 
-export default function FeaturedCoursesSection({ searchQuery = '', onSelectCourse }) {
+export interface FeaturedCoursesSectionProps {
+  searchQuery?: string;
+  onSelectCourse?: (course: Course) => void;
+}
+
+export default function FeaturedCoursesSection({ searchQuery = '', onSelectCourse }: FeaturedCoursesSectionProps) {
   const [activeFilter, setActiveFilter] = useState('all');
 
-  const allCourses = [
+  const allCourses: Course[] = [
     {
       id: 'aspnet-core-enterprise',
       title: 'ASP.NET Core & Enterprise Microservices Masterclass',
