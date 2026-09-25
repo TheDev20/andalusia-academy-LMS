@@ -1,19 +1,23 @@
 import './PublicFooter.css';
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Phone, Mail } from 'lucide-react';
 import Brand from '../../common/Brand';
-import { AppRoute, NavigateFunction } from '../../../types/navigation';
+import { AppRoute, NavigateFunction, ROUTE_PATHS } from '../../../types/navigation';
 
 export interface PublicFooterProps {
   onNavigate?: NavigateFunction;
 }
 
 export default function PublicFooter({ onNavigate }: PublicFooterProps) {
-  const handleNav = (route: AppRoute | string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const navigate = useNavigate();
+
+  const handleNav = (route: AppRoute) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
     if (onNavigate) {
-      e.preventDefault();
       onNavigate(route);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate(ROUTE_PATHS[route]);
     }
   };
 
@@ -24,7 +28,7 @@ export default function PublicFooter({ onNavigate }: PublicFooterProps) {
           {/* Col 1: Brand & Contact */}
           <div className="footer-col brand-col">
             <div className="footer-brand-wrap">
-              <Brand href="#home" onClick={handleNav('home')} />
+              <Brand href="/" onClick={handleNav('home')} />
             </div>
             <p className="footer-desc">
               The premier technology institute empowering software developers, AI engineers, and data leaders.
@@ -45,10 +49,10 @@ export default function PublicFooter({ onNavigate }: PublicFooterProps) {
           <div className="footer-col">
             <h5 className="footer-heading">Programs</h5>
             <ul className="footer-links">
-              <li><a href="#courses" onClick={handleNav('home')}>Software Engineering</a></li>
-              <li><a href="#courses" onClick={handleNav('home')}>Applied Generative AI</a></li>
-              <li><a href="#courses" onClick={handleNav('home')}>Data Science & BigQuery</a></li>
-              <li><a href="#courses" onClick={handleNav('home')}>Cloud & DevOps</a></li>
+              <li><Link to="/#courses">Software Engineering</Link></li>
+              <li><Link to="/#courses">Applied Generative AI</Link></li>
+              <li><Link to="/#courses">Data Science & BigQuery</Link></li>
+              <li><Link to="/#courses">Cloud & DevOps</Link></li>
             </ul>
           </div>
 
@@ -56,10 +60,10 @@ export default function PublicFooter({ onNavigate }: PublicFooterProps) {
           <div className="footer-col">
             <h5 className="footer-heading">Academy</h5>
             <ul className="footer-links">
-              <li><a href="#about" onClick={handleNav('about')}>About Us</a></li>
-              <li><a href="#about" onClick={handleNav('about')}>Faculty & Mentors</a></li>
-              <li><a href="#corporate" onClick={handleNav('home')}>Corporate Training</a></li>
-              <li><a href="#contact" onClick={handleNav('contact')}>Campus Hubs</a></li>
+              <li><Link to="/about">About Us</Link></li>
+              <li><Link to="/about">Faculty & Mentors</Link></li>
+              <li><Link to="/#corporate">Corporate Training</Link></li>
+              <li><Link to="/contact">Campus Hubs</Link></li>
             </ul>
           </div>
 
@@ -67,9 +71,9 @@ export default function PublicFooter({ onNavigate }: PublicFooterProps) {
           <div className="footer-col">
             <h5 className="footer-heading">Portals</h5>
             <ul className="footer-links">
-              <li><a href="#login" onClick={handleNav('login')}>Learner LMS Portal</a></li>
-              <li><a href="#signup" onClick={handleNav('signup')}>New Application</a></li>
-              <li><a href="#contact" onClick={handleNav('contact')}>Support Desk</a></li>
+              <li><Link to="/login">Learner LMS Portal</Link></li>
+              <li><Link to="/signup">New Application</Link></li>
+              <li><Link to="/contact">Support Desk</Link></li>
             </ul>
           </div>
         </div>
@@ -79,11 +83,11 @@ export default function PublicFooter({ onNavigate }: PublicFooterProps) {
             © {new Date().getFullYear()} Andalusia Academy. All rights reserved.
           </div>
           <div className="footer-legal-links">
-            <a href="#about" onClick={handleNav('about')}>Privacy Policy</a>
+            <Link to="/about">Privacy Policy</Link>
             <span>·</span>
-            <a href="#about" onClick={handleNav('about')}>Terms</a>
+            <Link to="/about">Terms</Link>
             <span>·</span>
-            <a href="#about" onClick={handleNav('about')}>Academic Standards</a>
+            <Link to="/about">Academic Standards</Link>
           </div>
         </div>
       </div>

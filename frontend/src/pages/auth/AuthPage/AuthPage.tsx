@@ -1,36 +1,41 @@
 import './AuthPage.css';
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowUpRight, ArrowRight, ArrowLeft, Mail, LockKeyhole, UserRound } from 'lucide-react';
 import Brand from '../../../components/common/Brand';
 import Field from '../../../components/forms/Field';
 import { AppRoute, NavigateFunction } from '../../../types/navigation';
 
 export interface AuthPageProps {
-  page: AppRoute | string;
+  page: AppRoute;
   onNavigate?: NavigateFunction;
 }
 
 export default function AuthPage({ page, onNavigate }: AuthPageProps) {
+  const navigate = useNavigate();
   const isSignup = page === 'signup';
+
+  const handleNav = (target: AppRoute) => {
+    if (onNavigate) {
+      onNavigate(target);
+    } else {
+      navigate(target === 'home' ? '/' : `/${target}`);
+    }
+  };
 
   return (
     <section className="form-panel" aria-label={isSignup ? 'Sign up' : 'Log in'}>
       <header>
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <Brand href="#home" onClick={() => onNavigate && onNavigate('home')} />
-          <a
-            href="#home"
+          <Brand href="/" onClick={() => handleNav('home')} />
+          <Link
+            to="/"
             className="back-to-site-btn"
-            onClick={(e) => {
-              e.preventDefault();
-              if (onNavigate) onNavigate('home');
-              else window.location.hash = '#home';
-            }}
             title="Return to Andalusia Academy public website"
           >
             <ArrowLeft size={13} aria-hidden="true" />
             <span>Website</span>
-          </a>
+          </Link>
         </div>
         <span className="portal-label">LEARNING PORTAL</span>
       </header>
@@ -55,22 +60,20 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
             : 'Continue your journey of learning, growth, and care.'}
         </p>
         <div className="tabs" aria-label="Account pages">
-          <a
+          <Link
             className={!isSignup ? 'active' : ''}
-            href="#login"
+            to="/login"
             aria-current={!isSignup ? 'page' : undefined}
-            onClick={() => onNavigate && onNavigate('login')}
           >
             Log in
-          </a>
-          <a
+          </Link>
+          <Link
             className={isSignup ? 'active' : ''}
-            href="#signup"
+            to="/signup"
             aria-current={isSignup ? 'page' : undefined}
-            onClick={() => onNavigate && onNavigate('signup')}
           >
             Create an account
-          </a>
+          </Link>
         </div>
         <form onSubmit={(e) => e.preventDefault()}>
           {isSignup && (
@@ -84,39 +87,22 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
           )}
           <Field
             name="email"
-            label="Email address"
+            label="Work or personal email"
+            placeholder="you@andalusiagroup.net"
             type="email"
-            placeholder="you@example.com"
             autoComplete="email"
             icon={Mail}
           />
           <Field
             name="password"
             label="Password"
+            placeholder="••••••••••••"
             type="password"
-            placeholder={isSignup ? 'Create a password' : 'Enter your password'}
             autoComplete={isSignup ? 'new-password' : 'current-password'}
             icon={LockKeyhole}
           />
-          {isSignup ? (
-            <p className="password-hint">Use at least 8 characters for your password.</p>
-          ) : (
-            <div className="form-options">
-              <label className="checkbox">
-                <input type="checkbox" /> Remember me
-              </label>
-              <button
-                type="button"
-                className="text-button"
-                disabled
-                title="Available when authentication is connected"
-              >
-                Forgot password?
-              </button>
-            </div>
-          )}
-          <button className="submit" type="submit">
-            {isSignup ? 'Create account' : 'Log in to your academy'}
+          <button type="submit" className="submit-btn">
+            <span>{isSignup ? 'Begin your journey' : 'Sign in to portal'}</span>
             <ArrowRight size={18} />
           </button>
           <p className="demo-note">
@@ -125,13 +111,10 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
         </form>
         <p className="switch-copy">
           {isSignup ? 'Already part of the academy?' : 'New to Andalusia Academy?'}
-          <a
-            href={isSignup ? '#login' : '#signup'}
-            onClick={() => onNavigate && onNavigate(isSignup ? 'login' : 'signup')}
-          >
+          <Link to={isSignup ? '/login' : '/signup'}>
             {isSignup ? 'Log in' : 'Join us'}
             <ArrowUpRight size={13} />
-          </a>
+          </Link>
         </p>
       </div>
       <footer>

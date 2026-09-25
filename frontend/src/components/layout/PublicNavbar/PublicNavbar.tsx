@@ -1,21 +1,23 @@
 import './PublicNavbar.css';
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import Brand from '../../common/Brand';
-import { AppRoute, NavigateFunction } from '../../../types/navigation';
+import { AppRoute, NavigateFunction, ROUTE_PATHS, isSectionRoute } from '../../../types/navigation';
 
 export interface PublicNavbarProps {
-  currentPath?: AppRoute | string;
+  currentPath?: AppRoute;
   onNavigate?: NavigateFunction;
 }
 
 interface NavItem {
   label: string;
   href: string;
-  key: string;
+  key: AppRoute;
 }
 
 export default function PublicNavbar({ currentPath = 'home', onNavigate }: PublicNavbarProps) {
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>(currentPath);
@@ -60,39 +62,31 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }: Publi
   }, [currentPath]);
 
   const navItems: NavItem[] = [
-    { label: 'Home', href: '#home', key: 'home' },
-    { label: 'Career Paths', href: '#career-paths', key: 'career-paths' },
-    { label: 'Courses & Programs', href: '#courses', key: 'courses' },
-    { label: 'Corporate Training', href: '#corporate', key: 'corporate' },
-    { label: 'About Us', href: '#about', key: 'about' },
-    { label: 'Contact', href: '#contact', key: 'contact' },
+    { label: 'Home', href: '/', key: 'home' },
+    { label: 'Career Paths', href: '/#career-paths', key: 'career-paths' },
+    { label: 'Courses & Programs', href: '/#courses', key: 'courses' },
+    { label: 'Corporate Training', href: '/#corporate', key: 'corporate' },
+    { label: 'About Us', href: '/about', key: 'about' },
+    { label: 'Contact', href: '/contact', key: 'contact' },
   ];
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, item: NavItem) => {
+    e.preventDefault();
     setMobileMenuOpen(false);
-    if (item.href.startsWith('#')) {
-      const route = item.href.slice(1);
-      if (['career-paths', 'courses', 'corporate', 'home'].includes(route)) {
-        setActiveSection(route);
-        if (currentPath !== 'home') {
-          if (onNavigate) onNavigate('home');
-          setTimeout(() => {
-            const el = document.getElementById(route);
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }, 100);
-        } else {
-          const el = document.getElementById(route);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }
-      } else if (['about', 'contact'].includes(route)) {
-        if (onNavigate) onNavigate(route);
-      }
+    const route = item.key;
+    if (isSectionRoute(route) || route === 'home') {
+      setActiveSection(route);
+    }
+    if (onNavigate) {
+      onNavigate(route);
+    } else {
+      navigate(ROUTE_PATHS[route] || item.href);
     }
   };
 
   const isItemActive = (key: string) => {
-    const isSectionRoute = ['home', 'career-paths', 'courses', 'corporate'].includes(key);
-    return currentPath === 'home' && isSectionRoute
+    const isSection = ['home', 'career-paths', 'courses', 'corporate'].includes(key);
+    return currentPath === 'home' && isSection
       ? activeSection === key
       : currentPath === key;
   };
@@ -101,7 +95,7 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }: Publi
     <header className={`public-navbar ${scrolled ? 'is-scrolled' : ''}`}>
       <div className="navbar-container">
         <div className="navbar-brand-wrap">
-          <Brand href="#home" onClick={(e) => handleLinkClick(e, { label: 'Home', href: '#home', key: 'home' })} />
+          <Brand href="/" onClick={(e) => handleLinkClick(e, { label: 'Home', href: '/', key: 'home' })} />
         </div>
 
         {/* Desktop Navigation */}
@@ -126,21 +120,21 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }: Publi
 
         {/* Auth CTA Actions */}
         <div className="navbar-actions">
-          <a
-            href="#login"
+          <Link
+            to="/login"
             className="navbar-login-btn"
             onClick={() => onNavigate && onNavigate('login')}
           >
             Log in
-          </a>
-          <a
-            href="#signup"
+          </Link>
+          <Link
+            to="/signup"
             className="navbar-cta-btn"
             onClick={() => onNavigate && onNavigate('signup')}
           >
             <span>Join Academy</span>
             <ArrowUpRight size={14} aria-hidden="true" />
-          </a>
+          </Link>
 
           {/* Mobile menu trigger */}
           <button
@@ -173,8 +167,8 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }: Publi
               ))}
             </ul>
             <div className="mobile-drawer-auth">
-              <a
-                href="#login"
+              <Link
+                to="/login"
                 className="mobile-login-btn"
                 onClick={() => {
                   setMobileMenuOpen(false);
@@ -182,9 +176,9 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }: Publi
                 }}
               >
                 Log in
-              </a>
-              <a
-                href="#signup"
+              </Link>
+              <Link
+                to="/signup"
                 className="mobile-signup-btn"
                 onClick={() => {
                   setMobileMenuOpen(false);
@@ -192,7 +186,7 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }: Publi
                 }}
               >
                 Join Andalusia Academy
-              </a>
+              </Link>
             </div>
           </nav>
         </div>
