@@ -1,4 +1,4 @@
-﻿# Visual Studio / .NET
+# Visual Studio / .NET
 [Bb]in/
 [Oo]bj/
 *.user
@@ -25,3 +25,4 @@ yarn-error.log*
 Thumbs.db
 .vscode/
 *.swp
+.~lock.*#
