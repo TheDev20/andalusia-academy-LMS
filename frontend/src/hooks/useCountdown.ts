@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 export interface TimeLeft {
   days: number;
   hours: number;

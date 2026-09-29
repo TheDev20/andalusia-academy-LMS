@@ -3,20 +3,7 @@ import Badge from "../../../../components/common/Badge";
 import { NavigateFunction } from "../../../../types/navigation";
 import { pillars, faculty, milestones } from "./index";
 import "./AboutPage.css";
-import {
-  ShieldCheck,
-  Award,
-  Code2,
-  Target,
-  Sparkles,
-  Users2,
-  Building,
-  GraduationCap,
-  ArrowRight,
-  Cpu,
-  Database,
-  Cloud,
-} from "lucide-react";
+import { Target, Sparkles, ArrowRight } from "lucide-react";
 export interface AboutPageProps {
   onNavigate?: NavigateFunction;
 }

@@ -1,5 +1,5 @@
+import SectionHeading from "../../../../../components/ui/SectionHeading";
 import "./PopularCategoriesSection.css";
-import React from "react";
 import {
   Code2,
   Brain,
@@ -11,7 +11,6 @@ import {
   Layers,
   ArrowRight,
 } from "lucide-react";
-import SectionHeading from "../../../../../components/ui/SectionHeading";
 
 export interface PopularCategoriesSectionProps {
   onSelectCategory?: (categoryName: string) => void;
