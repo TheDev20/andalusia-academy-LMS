@@ -331,6 +331,8 @@ namespace AndalusiaAcademy.API.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
+                    b.HasIndex("PublicationStatus", "Title");
+
                     b.ToTable("Course", (string)null);
                 });
 
@@ -413,9 +415,11 @@ namespace AndalusiaAcademy.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId");
-
                     b.HasIndex("ProgramId");
+
+                    b.HasIndex("Status", "StartsAt");
+
+                    b.HasIndex("CourseId", "Status", "StartsAt");
 
                     b.ToTable("Offering", null, t =>
                         {
@@ -458,6 +462,8 @@ namespace AndalusiaAcademy.API.Migrations
 
                     b.HasIndex("Slug")
                         .IsUnique();
+
+                    b.HasIndex("PublicationStatus", "Title");
 
                     b.ToTable("Program", (string)null);
                 });
