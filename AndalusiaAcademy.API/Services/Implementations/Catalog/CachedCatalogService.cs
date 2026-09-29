@@ -1,12 +1,15 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using AndalusiaAcademy.API.Common;
 using AndalusiaAcademy.API.DTOs.Catalog;
+using AndalusiaAcademy.API.DTOs.Common;
 using AndalusiaAcademy.API.Repositories.Interfaces;
 using AndalusiaAcademy.API.Services.Interfaces.Catalog;
 
 namespace AndalusiaAcademy.API.Services.Implementations.Catalog;
 
-
+/// <summary>
+/// Cached decorator service implementing Level 3 in-memory caching (RFC Option B).
+/// Intercepts catalog reads to return sub-millisecond cached responses and protect SQL Server.
+/// </summary>
 public class CachedCatalogService : ICatalogService
 {
     private readonly ICourseRepository _repository;
@@ -44,7 +47,7 @@ public class CachedCatalogService : ICatalogService
         var cacheEntryOptions = new MemoryCacheEntryOptions
         {
             AbsoluteExpirationRelativeToNow = CacheTtl,
-            Size = 1 // Support sizing limits if enabled
+            Size = 1
         };
 
         _cache.Set(cacheKey, result, cacheEntryOptions);

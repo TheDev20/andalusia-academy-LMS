@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using AndalusiaAcademy.API.Common;
 using AndalusiaAcademy.API.DTOs.Catalog;
+using AndalusiaAcademy.API.DTOs.Common;
 using AndalusiaAcademy.API.Services.Interfaces.Catalog;
 
 namespace AndalusiaAcademy.API.Controllers.Catalog;
 
-
+/// <summary>
+/// Public Catalog API endpoints for browsing, searching, and filtering published educational offerings.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]

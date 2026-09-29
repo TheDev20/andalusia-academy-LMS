@@ -1,5 +1,5 @@
-﻿using AndalusiaAcademy.API.Common;
-using AndalusiaAcademy.API.DTOs.Catalog;
+﻿using AndalusiaAcademy.API.DTOs.Catalog;
+using AndalusiaAcademy.API.DTOs.Common;
 
 namespace AndalusiaAcademy.API.Repositories.Interfaces;
 

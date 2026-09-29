@@ -1,4 +1,4 @@
-﻿namespace AndalusiaAcademy.API.Common;
+﻿namespace AndalusiaAcademy.API.DTOs.Common;
 
 /// <summary>
 /// Generic pagination envelope for API responses.
