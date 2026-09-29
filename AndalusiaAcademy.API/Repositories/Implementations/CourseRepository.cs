@@ -21,28 +21,28 @@ public class CourseRepository : ICourseRepository
     {
         var now = DateTimeOffset.UtcNow;
 
-        // 1. AsNoTracking avoids change-tracking overhead for high-throughput reads
+
         var baseQuery = _context.Courses
             .AsNoTracking()
             .Where(c => c.PublicationStatus == "Published");
 
-        // 2. Search term matching across Title and Description
+
         if (!string.IsNullOrWhiteSpace(query.SearchTerm))
         {
             var term = query.SearchTerm.Trim();
             baseQuery = baseQuery.Where(c => c.Title.Contains(term) || c.Description.Contains(term));
         }
 
-        // 3. Category filtering via many-to-many join
+
         if (query.CategoryId.HasValue)
         {
             baseQuery = baseQuery.Where(c => c.CourseCategories.Any(cc => cc.CategoryId == query.CategoryId.Value));
         }
 
-        // 4. Total count evaluated on SQL Server
+
         var totalCount = await baseQuery.CountAsync(cancellationToken);
 
-        // 5. Direct projection into CourseSummaryDto with pagination
+
         var items = await baseQuery
             .OrderBy(c => c.Title)
             .Skip((query.PageNumber - 1) * query.PageSize)

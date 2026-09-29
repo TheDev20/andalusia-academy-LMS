@@ -5,9 +5,7 @@ using AndalusiaAcademy.API.Services.Interfaces.Catalog;
 
 namespace AndalusiaAcademy.API.Controllers.Catalog;
 
-/// <summary>
-/// Public Catalog API endpoints for browsing, searching, and filtering published educational offerings.
-/// </summary>
+
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]

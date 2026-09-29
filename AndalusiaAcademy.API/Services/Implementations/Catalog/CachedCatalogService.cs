@@ -6,10 +6,7 @@ using AndalusiaAcademy.API.Services.Interfaces.Catalog;
 
 namespace AndalusiaAcademy.API.Services.Implementations.Catalog;
 
-/// <summary>
-/// Cached decorator service implementing Level 3 in-memory caching (RFC Option B).
-/// Intercepts catalog reads to return sub-millisecond cached responses and protect SQL Server.
-/// </summary>
+
 public class CachedCatalogService : ICatalogService
 {
     private readonly ICourseRepository _repository;

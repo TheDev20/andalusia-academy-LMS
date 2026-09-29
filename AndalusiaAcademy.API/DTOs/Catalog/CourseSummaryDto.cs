@@ -2,7 +2,6 @@
 
 /// <summary>
 /// Read-optimized, lightweight projection DTO for public course catalog listings.
-/// Bypasses full entity tracking and returns only the fields needed for discovery cards.
 /// </summary>
 public record CourseSummaryDto(
     Guid Id,
