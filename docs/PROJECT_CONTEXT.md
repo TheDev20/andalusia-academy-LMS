@@ -159,7 +159,6 @@ andalusia-academy-LMS/
 
 ## 6. Sprint Delivery Plan (Phase 1 — MVP)
 
-> **Source**: [`docs/architecture/Andalusia_Academy_Phase_1_MVP_Delivery_Plan.pdf`](architecture/Andalusia_Academy_Phase_1_MVP_Delivery_Plan.pdf)  
 > **Delivery Philosophy**: Every sprint delivers a **vertical slice** connecting UI, API, database, and business flow. No isolated frontend-only or backend-only phases.
 
 ### Sprint Calendar
