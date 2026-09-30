@@ -68,7 +68,7 @@
   font-weight: 500;
 }
 .path-card-title {
-  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-family: "Libre Caslon Display", Georgia, serif;
   font-size: clamp(28px, 3vw, 38px);
   color: #271e15;
   margin: 0 0 10px;

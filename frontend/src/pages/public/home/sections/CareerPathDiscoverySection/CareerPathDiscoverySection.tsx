@@ -1,5 +1,6 @@
 import "./CareerPathDiscoverySection.css";
-import React, { useState } from "react";
+import { useState } from "react";
+import Alumni from "../../../../../components/common/Alumni-logos";
 import {
   Code2,
   Brain,
@@ -136,87 +137,32 @@ export default function CareerPathDiscoverySection({
       aria-label="Career Path Discovery"
     >
       <div className="section-container">
+        <Alumni />
         <SectionHeading
           title={
             <>
-              {/* Alumni Hiring Trust Banner with Authentic Company Logos */}
-              <div className="hero-alumni-trust">
-                <span className="alumni-trust-title">
-                  WHERE OUR ALUMNI ENGINEER THE FUTURE
-                </span>
-                <div
-                  className="alumni-logos-row"
-                  aria-label="Alumni employment partners"
-                >
-                  <div className="company-logo-item" title="Google">
-                    <img
-                      src="/images/logos/google.svg"
-                      alt="Google"
-                      className="company-logo-img google"
-                    />
-                  </div>
-
-                  <div className="company-logo-item" title="Microsoft">
-                    <img
-                      src="/images/logos/microsoft.svg"
-                      alt="Microsoft"
-                      className="company-logo-img microsoft"
-                    />
-                  </div>
-
-                  <div className="company-logo-item" title="Amazon">
-                    <img
-                      src="/images/logos/amazon.svg"
-                      alt="Amazon"
-                      className="company-logo-img amazon"
-                    />
-                  </div>
-
-                  <div className="company-logo-item" title="Stripe">
-                    <img
-                      src="/images/logos/stripe.svg"
-                      alt="Stripe"
-                      className="company-logo-img stripe"
-                    />
-                  </div>
-
-                  <div className="company-logo-item" title="Meta">
-                    <img
-                      src="/images/logos/meta.svg"
-                      alt="Meta"
-                      className="company-logo-img meta"
-                    />
-                  </div>
-                </div>
-              </div>
               Tailored Career Paths for <em>Every Tech Discipline</em>
-              {/* Real-World Production Outcomes Metric Bar */}
-              <div
-                className="hero-metrics-inline"
-                aria-label="Academy Achievements"
-              >
-                <div className="inline-metric-item">
-                  <span className="inline-metric-val">18,500+</span>
-                  <span className="inline-metric-lbl">
-                    Graduated Developers
-                  </span>
-                </div>
-                <div className="inline-metric-div" />
-                <div className="inline-metric-item">
-                  <span className="inline-metric-val">96.8%</span>
-                  <span className="inline-metric-lbl">Career Placement</span>
-                </div>
-                <div className="inline-metric-div" />
-                <div className="inline-metric-item">
-                  <span className="inline-metric-val">100%</span>
-                  <span className="inline-metric-lbl">Production Labs</span>
-                </div>
-              </div>
             </>
           }
           subtitle="Explore progressive learning frameworks designed in collaboration with senior tech architects and engineering leads."
         />
-
+        {/* Real-World Production Outcomes Metric Bar */}
+        <div className="hero-metrics-inline" aria-label="Academy Achievements">
+          <div className="inline-metric-item">
+            <span className="inline-metric-val">18,500+</span>
+            <span className="inline-metric-lbl">Graduated Developers</span>
+          </div>
+          <div className="inline-metric-div" />
+          <div className="inline-metric-item">
+            <span className="inline-metric-val">96.8%</span>
+            <span className="inline-metric-lbl">Career Placement</span>
+          </div>
+          <div className="inline-metric-div" />
+          <div className="inline-metric-item">
+            <span className="inline-metric-val">100%</span>
+            <span className="inline-metric-lbl">Production Labs</span>
+          </div>
+        </div>
         {/* Path Selector Tabs */}
         <div
           className="path-tabs-scroll"
