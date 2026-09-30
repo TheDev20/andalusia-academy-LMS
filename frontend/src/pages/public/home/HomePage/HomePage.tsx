@@ -1,7 +1,9 @@
-import "./HomePage.css";
 import { useState } from "react";
-import { NavigateFunction } from "../../../../types/navigation";
-import { Course } from "../../../../types/course";
+import {
+  NavigateFunction,
+  ROUTES,
+  SECTION_IDS,
+} from "../../../../types/navigation";
 import HeroSection from "../sections/HeroSection";
 import CareerPathDiscoverySection from "../sections/CareerPathDiscoverySection";
 import PopularCategoriesSection from "../sections/PopularCategoriesSection";
@@ -11,6 +13,8 @@ import CorporateTrainingSection from "../sections/CorporateTrainingSection";
 import PartnersTrustSection from "../sections/PartnersTrustSection";
 import TestimonialsSection from "../sections/TestimonialsSection";
 import CtaSection from "../sections/CtaSection";
+import "./HomePage.css";
+
 export interface HomePageProps {
   onNavigate?: NavigateFunction;
 }
@@ -20,28 +24,28 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
   const handleCategorySelect = (categoryName: string) => {
     setSearchQuery(categoryName);
-    const el = document.getElementById("courses");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleTrackSelect = (track?: any) => {
-    if (onNavigate) {
-      onNavigate("signup");
+    const el = document.getElementById(SECTION_IDS.COURSES);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
     }
   };
 
-  const handleCourseSelect = (course?: Course) => {
+
+  const handleTrackSelect = () => {
     if (onNavigate) {
-      onNavigate("signup");
+      onNavigate(ROUTES.SIGNUP);
+    }
+  };
+
+  const handleCourseSelect = () => {
+    if (onNavigate) {
+      onNavigate(ROUTES.SIGNUP);
     }
   };
 
   return (
     <div className="homepage-wrapper">
-      <HeroSection
-        onNavigate={onNavigate}
-        onSearch={(query) => setSearchQuery(query)}
-      />
+      <HeroSection onNavigate={onNavigate} onSearch={setSearchQuery} />
       <CareerPathDiscoverySection onSelectTrack={handleTrackSelect} />
       <PopularCategoriesSection onSelectCategory={handleCategorySelect} />
       <FeaturedCoursesSection

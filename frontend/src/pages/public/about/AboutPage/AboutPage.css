@@ -321,4 +321,31 @@
   color: #7a6e60;
   margin: 0;
 }
+@media (max-width: 1024px) {
+  .facilities-layout {
+    grid-template-columns: 1fr;
+  }
+  .timeline-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px;
+  }
+  .timeline-strip::before {
+    display: none;
+  }
+  .about-hero-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
 
+@media (max-width: 860px) {
+  .mission-vision-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .about-hero-stats {
+    grid-template-columns: 1fr;
+  }
+}

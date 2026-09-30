@@ -672,7 +672,7 @@ export default function HeroSection({
   };
   const currentFile = ideFiles[activeFile] || ideFiles["App.tsx"];
   return (
-    <section id="home" className="hero-section" aria-label="Hero">
+    <section id="home" className="hero-section scroll-section" aria-label="Hero">
       <div className="hero-bg-accent" aria-hidden="true" />
       <div className="hero-container">
         {/* Left Column: Information & Conversion */}

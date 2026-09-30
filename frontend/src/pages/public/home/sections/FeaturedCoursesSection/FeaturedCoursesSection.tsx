@@ -128,7 +128,7 @@ export default function FeaturedCoursesSection({ searchQuery = '', onSelectCours
   ];
 
   return (
-    <section id="courses" className="featured-courses-section" aria-label="Featured Courses and Programs">
+    <section id="courses" className="featured-courses-section scroll-section" aria-label="Featured Courses and Programs">
       <div className="section-container">
         <div className="courses-header-center">
           <SectionHeading

@@ -1,11 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Libre+Caslon+Display&display=swap');
 
 :root {
-  font-family: 'DM Sans', sans-serif;
-  color: #43392f;
-  background: #eae4d9;
+  font-family: var(--font-sans, "DM Sans", sans-serif);
+  color: var(--color-brand-dark, #43392f);
+  background: var(--color-brand-sand, #eae4d9);
   font-synthesis: none;
   font-weight: 400;
   font-size: 16px;
   --logo-w: clamp(82px, 8.5vh, 108px);
+
+  /* Typography */
+  --font-sans: 'DM Sans', sans-serif;
+  --font-display: 'Libre Caslon Display', Georgia, serif;
+
+  /* Colors */
+  --color-brand-primary: #8b6648;
+  --color-brand-primary-hover: #77553b;
+  --color-brand-dark: #43392f;
+  --color-brand-heading: #271e16;
+  --color-brand-bg: #f7f4ee;
+  --color-brand-cream: #ede7dc;
+  --color-brand-sand: #eae4d9;
+  --color-brand-gold: #d4a359;
+  --color-brand-gold-dark: #ae8a58;
+  --color-brand-border: #ded6c8;
+  --color-brand-muted: #7a6e60;
 }
+

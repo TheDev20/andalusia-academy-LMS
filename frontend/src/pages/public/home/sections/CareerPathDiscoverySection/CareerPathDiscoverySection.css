@@ -65,7 +65,7 @@
 .meta-time {
   font-size: 13.5px;
   color: #6e5e4d;
-  font-weight: 550;
+  font-weight: 500;
 }
 .path-card-title {
   font-family: 'Libre Caslon Display', Georgia, serif;
@@ -201,4 +201,9 @@
   color: #524333;
   margin: 0;
 }
-
+@media (max-width: 1024px) {
+  .path-columns-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}

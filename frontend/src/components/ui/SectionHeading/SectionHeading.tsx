@@ -1,9 +1,9 @@
-import './SectionHeading.css';
-import React from 'react';
+import type { ReactNode } from "react";
+import "./SectionHeading.css";
 
 export interface SectionHeadingProps {
-  title: React.ReactNode;
-  subtitle?: React.ReactNode;
+  title: ReactNode;
+  subtitle?: ReactNode;
   align?: 'left' | 'center' | 'right';
   className?: string;
 }

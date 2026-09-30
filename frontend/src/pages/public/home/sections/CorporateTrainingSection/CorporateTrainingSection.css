@@ -146,4 +146,15 @@
   letter-spacing: 0.7px;
   font-weight: 600;
 }
+@media (max-width: 1024px) {
+  .corporate-card-wrap {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
 
+@media (max-width: 560px) {
+  .corporate-pillars-grid {
+    grid-template-columns: 1fr;
+  }
+}

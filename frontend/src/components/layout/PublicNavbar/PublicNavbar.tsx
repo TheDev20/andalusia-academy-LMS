@@ -1,13 +1,21 @@
-import './PublicNavbar.css';
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
-import Brand from '../../common/Brand';
-import { AppRoute, NavigateFunction, ROUTE_PATHS, isSectionRoute } from '../../../types/navigation';
+import type React from "react";
+import { useState, useMemo } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, X, ArrowUpRight } from "lucide-react";
+import {
+  AppRoute,
+  NavigateFunction,
+  ROUTE_PATHS,
+  isSectionRoute,
+} from "../../../types/navigation";
+import { useScroll } from "../../../hooks/useScroll";
+import { useScrollSpy } from "../../../hooks/useScrollSpy";
+import Brand from "../../common/Brand";
+import "./PublicNavbar.css";
 
 export interface PublicNavbarProps {
-  currentPath?: AppRoute;
-  onNavigate?: NavigateFunction;
+  currentPath: AppRoute;
+  onNavigate: NavigateFunction;
 }
 
 interface NavItem {
@@ -16,67 +24,45 @@ interface NavItem {
   key: AppRoute;
 }
 
-export default function PublicNavbar({ currentPath = 'home', onNavigate }: PublicNavbarProps) {
+const HOME_SECTION_IDS = [
+  "home",
+  "career-paths",
+  "courses",
+  "corporate",
+] as const;
+
+export default function PublicNavbar({
+  currentPath,
+  onNavigate,
+}: PublicNavbarProps) {
   const navigate = useNavigate();
-  const [scrolled, setScrolled] = useState<boolean>(false);
+  const scrolled = useScroll(20);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const [activeSection, setActiveSection] = useState<string>(currentPath);
+  const spySection = useScrollSpy(
+    HOME_SECTION_IDS,
+    160,
+    currentPath === "home",
+  );
 
-  useEffect(() => {
-    setActiveSection(currentPath);
-  }, [currentPath]);
+  const navItems: NavItem[] = useMemo(
+    () => [
+      { label: "Home", href: "/", key: "home" },
+      { label: "Career Paths", href: "/#career-paths", key: "career-paths" },
+      { label: "Courses & Programs", href: "/#courses", key: "courses" },
+      { label: "Corporate Training", href: "/#corporate", key: "corporate" },
+      { label: "About Us", href: "/about", key: "about" },
+      { label: "Contact", href: "/contact", key: "contact" },
+    ],
+    [],
+  );
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // ScrollSpy to highlight the active section when on the home page
-  useEffect(() => {
-    if (currentPath !== 'home') return;
-
-    const sectionIds = ['home', 'career-paths', 'courses', 'corporate'];
-
-    const handleScrollSpy = () => {
-      const scrollPosition = window.scrollY + 160;
-      let current = 'home';
-
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
-        if (el) {
-          const top = el.offsetTop;
-          if (scrollPosition >= top) {
-            current = id;
-          }
-        }
-      }
-      setActiveSection(current);
-    };
-
-    window.addEventListener('scroll', handleScrollSpy, { passive: true });
-    handleScrollSpy();
-    return () => window.removeEventListener('scroll', handleScrollSpy);
-  }, [currentPath]);
-
-  const navItems: NavItem[] = [
-    { label: 'Home', href: '/', key: 'home' },
-    { label: 'Career Paths', href: '/#career-paths', key: 'career-paths' },
-    { label: 'Courses & Programs', href: '/#courses', key: 'courses' },
-    { label: 'Corporate Training', href: '/#corporate', key: 'corporate' },
-    { label: 'About Us', href: '/about', key: 'about' },
-    { label: 'Contact', href: '/contact', key: 'contact' },
-  ];
-
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, item: NavItem) => {
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    item: NavItem,
+  ) => {
     e.preventDefault();
     setMobileMenuOpen(false);
     const route = item.key;
-    if (isSectionRoute(route) || route === 'home') {
-      setActiveSection(route);
-    }
     if (onNavigate) {
       onNavigate(route);
     } else {
@@ -84,18 +70,28 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }: Publi
     }
   };
 
+  const handleAuthNavigate = (route: "login" | "signup") => {
+    setMobileMenuOpen(false);
+    onNavigate(route);
+  };
+
   const isItemActive = (key: string) => {
-    const isSection = ['home', 'career-paths', 'courses', 'corporate'].includes(key);
-    return currentPath === 'home' && isSection
-      ? activeSection === key
+    const isSection = (HOME_SECTION_IDS as readonly string[]).includes(key);
+    return currentPath === "home" && isSection
+      ? spySection === key
       : currentPath === key;
   };
 
   return (
-    <header className={`public-navbar ${scrolled ? 'is-scrolled' : ''}`}>
+    <header className={`public-navbar ${scrolled ? "is-scrolled" : ""}`}>
       <div className="navbar-container">
         <div className="navbar-brand-wrap">
-          <Brand href="/" onClick={(e) => handleLinkClick(e, { label: 'Home', href: '/', key: 'home' })} />
+          <Brand
+            href="/"
+            onClick={(e) =>
+              handleLinkClick(e, { label: "Home", href: "/", key: "home" })
+            }
+          />
         </div>
 
         {/* Desktop Navigation */}
@@ -107,7 +103,7 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }: Publi
                 <li key={item.key}>
                   <a
                     href={item.href}
-                    className={`nav-link ${isActive ? 'is-active' : ''}`}
+                    className={`nav-link ${isActive ? "is-active" : ""}`}
                     onClick={(e) => handleLinkClick(e, item)}
                   >
                     {item.label}
@@ -123,14 +119,14 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }: Publi
           <Link
             to="/login"
             className="navbar-login-btn"
-            onClick={() => onNavigate && onNavigate('login')}
+            onClick={() => handleAuthNavigate("login")}
           >
             Log in
           </Link>
           <Link
             to="/signup"
             className="navbar-cta-btn"
-            onClick={() => onNavigate && onNavigate('signup')}
+            onClick={() => handleAuthNavigate("signup")}
           >
             <span>Join Academy</span>
             <ArrowUpRight size={14} aria-hidden="true" />
@@ -140,7 +136,7 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }: Publi
           <button
             type="button"
             className="mobile-menu-btn"
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open navigation menu'}
+            aria-label={mobileMenuOpen ? "Close menu" : "Open navigation menu"}
             aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
@@ -151,14 +147,19 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }: Publi
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="mobile-drawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+        <div
+          className="mobile-drawer"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile Navigation"
+        >
           <nav className="mobile-nav">
             <ul>
               {navItems.map((item) => (
                 <li key={item.key}>
                   <a
                     href={item.href}
-                    className={`mobile-nav-link ${isItemActive(item.key) ? 'is-active' : ''}`}
+                    className={`mobile-nav-link ${isItemActive(item.key) ? "is-active" : ""}`}
                     onClick={(e) => handleLinkClick(e, item)}
                   >
                     {item.label}
@@ -170,20 +171,14 @@ export default function PublicNavbar({ currentPath = 'home', onNavigate }: Publi
               <Link
                 to="/login"
                 className="mobile-login-btn"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  if (onNavigate) onNavigate('login');
-                }}
+                onClick={() => handleAuthNavigate("login")}
               >
                 Log in
               </Link>
               <Link
                 to="/signup"
                 className="mobile-signup-btn"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  if (onNavigate) onNavigate('signup');
-                }}
+                onClick={() => handleAuthNavigate("signup")}
               >
                 Join Andalusia Academy
               </Link>

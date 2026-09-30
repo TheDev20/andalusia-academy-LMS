@@ -1,7 +1,10 @@
+import type { ReactNode } from "react";
+import type { LucideIcon } from "lucide-react";
+import { BADGE_ICON_SIZE } from "../../../constants/ui";
 import "./Badge.css";
-import { LucideIcon } from "lucide-react";
+
 export interface BadgeProps {
-  children: React.ReactNode;
+  children: ReactNode;
   variant?: "bronze" | "gold" | "glass" | "emerald" | "subtle";
   dot?: boolean;
   className?: string;
@@ -18,7 +21,7 @@ export default function Badge({
   return (
     <span className={`academy-badge badge-${variant} ${className}`}>
       {dot && <span className="badge-dot" aria-hidden="true" />}
-      {Icon && <Icon size={12} className="badge-icon" aria-hidden="true" />}
+      {Icon && <Icon size={BADGE_ICON_SIZE} className="badge-icon" aria-hidden="true" />}
       <span>{children}</span>
     </span>
   );

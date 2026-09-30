@@ -96,8 +96,8 @@
   margin: 0 0 clamp(6px, 1.3vh, 16px);
 }
 
-h2 {
-  font-family: 'Libre Caslon Display', Georgia, serif;
+.story-copy h2 {
+  font-family: var(--font-display, 'Libre Caslon Display', Georgia, serif);
   font-size: clamp(26px, 3.6vw, 54px);
   letter-spacing: -1.2px;
   line-height: 1.06;
@@ -105,7 +105,7 @@ h2 {
   margin: 0 0 clamp(6px, 1.3vh, 16px);
 }
 
-h2 em {
+.story-copy h2 em {
   font-weight: 400;
   color: #f0d7b0;
 }
@@ -149,7 +149,7 @@ h2 em {
   width: 50%;
   height: 1px;
   background: #f7e5c9;
-  transition: transform .7s;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .total {
@@ -176,7 +176,7 @@ h2 em {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  transition: background .2s;
+  transition: background-color 0.2s ease;
 }
 
 .scene-controls button:hover {

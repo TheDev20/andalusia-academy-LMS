@@ -212,7 +212,6 @@ export default function ContactPage() {
                       <option>Technical Support Desk</option>
                     </select>
                   </div>
-
                   <div className="input-group">
                     <label htmlFor="inquiry-message">
                       How can our academic team assist you? *

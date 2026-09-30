@@ -76,7 +76,7 @@ h1 em {
 .field > span {
   display: block;
   font-size: clamp(10px, 1.1vh, 11px);
-  font-weight: 550;
+  font-weight: 500;
   margin-bottom: clamp(3px, 0.5vh, 6px);
 }
 

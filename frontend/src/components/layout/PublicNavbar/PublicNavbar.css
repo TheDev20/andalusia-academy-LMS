@@ -55,7 +55,7 @@
 }
 .nav-link {
   font-size: 15px;
-  font-weight: 550;
+  font-weight: 500;
   color: #524434;
   padding: 10px 4px;
   position: relative;
@@ -123,4 +123,66 @@
 .mobile-drawer {
   display: none;
 }
-
+@media (max-width: 860px) {
+  .desktop-nav {
+    display: none;
+  }
+  .mobile-menu-btn {
+    display: block;
+  }
+  .mobile-drawer {
+    display: block;
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(247, 244, 238, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 999;
+    padding: 24px 20px;
+    overflow-y: auto;
+    border-top: 1px solid #e0d8cc;
+  }
+  .mobile-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .mobile-nav-link {
+    font-size: 16px;
+    font-weight: 600;
+    color: #43392f;
+    display: block;
+    padding: 10px 0;
+    border-bottom: 1px solid #e6ded3;
+  }
+  .mobile-nav-link.is-active {
+    color: #8b6648;
+  }
+  .mobile-drawer-auth {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .mobile-login-btn {
+    text-align: center;
+    padding: 12px;
+    border-radius: 999px;
+    border: 1px solid #ded6c8;
+    color: #43392f;
+    font-weight: 600;
+  }
+  .mobile-signup-btn {
+    text-align: center;
+    padding: 12px;
+    border-radius: 999px;
+    background: #8b6648;
+    color: #ffffff;
+    font-weight: 600;
+  }
+}

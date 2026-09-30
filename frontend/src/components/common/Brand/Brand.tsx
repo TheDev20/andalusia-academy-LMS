@@ -1,17 +1,26 @@
-import './Brand.css';
-import React from 'react';
+import type React from "react";
+import { Link } from "react-router-dom";
+import "./Brand.css";
 
 export interface BrandProps {
+  to?: string;
   href?: string;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   className?: string;
 }
 
-export default function Brand({ href = '#home', onClick, className = '' }: BrandProps) {
+export default function Brand({
+  to = "/",
+  href,
+  onClick,
+  className = "",
+}: BrandProps) {
+  const target = href || to;
+
   return (
-    <a
+    <Link
+      to={target}
       className={`brand-link ${className}`}
-      href={href}
       onClick={onClick}
       aria-label="Andalusia Academy home"
     >
@@ -20,6 +29,6 @@ export default function Brand({ href = '#home', onClick, className = '' }: Brand
         alt="Andalusia Academy — أكاديمية أندلسية"
         className="brand-logo-img"
       />
-    </a>
+    </Link>
   );
 }

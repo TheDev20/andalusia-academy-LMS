@@ -12,7 +12,7 @@ import SectionHeading from "../../../../../components/ui/SectionHeading";
 import Badge from "../../../../../components/common/Badge";
 
 export interface CareerPathDiscoverySectionProps {
-  onSelectTrack?: (track?: any) => void;
+  onSelectTrack?: (track?: string) => void;
 }
 
 export default function CareerPathDiscoverySection({
@@ -132,7 +132,7 @@ export default function CareerPathDiscoverySection({
   return (
     <section
       id="career-paths"
-      className="career-paths-section"
+      className="career-paths-section scroll-section"
       aria-label="Career Path Discovery"
     >
       <div className="section-container">

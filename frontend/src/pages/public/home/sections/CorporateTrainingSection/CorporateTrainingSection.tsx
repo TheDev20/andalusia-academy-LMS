@@ -33,7 +33,7 @@ export default function CorporateTrainingSection({ onNavigate }: CorporateTraini
   ];
 
   return (
-    <section id="corporate" className="corporate-section" aria-label="Corporate Training for Tech Organizations">
+    <section id="corporate" className="corporate-section scroll-section" aria-label="Corporate Training for Tech Organizations">
       <div className="section-container">
         <div className="corporate-card-wrap">
           <div className="corporate-left">

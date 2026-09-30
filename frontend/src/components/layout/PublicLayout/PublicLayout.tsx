@@ -1,10 +1,15 @@
-import './PublicLayout.css';
-import React from 'react';
-import { Outlet, useLocation, useNavigate, Link } from 'react-router-dom';
-import PublicNavbar from '../PublicNavbar';
-import PublicFooter from '../PublicFooter';
-import { Sparkles, ArrowRight } from 'lucide-react';
-import { AppRoute, NavigateFunction, ROUTE_PATHS, isPageRoute } from '../../../types/navigation';
+import "./PublicLayout.css";
+import React from "react";
+import { Outlet, useLocation, useNavigate, Link } from "react-router-dom";
+import PublicNavbar from "../PublicNavbar";
+import PublicFooter from "../PublicFooter";
+import { Sparkles, ArrowRight } from "lucide-react";
+import {
+  AppRoute,
+  NavigateFunction,
+  ROUTE_PATHS,
+  isPageRoute,
+} from "../../../types/navigation";
 
 export interface PublicLayoutProps {
   currentPath?: AppRoute;
@@ -12,12 +17,17 @@ export interface PublicLayoutProps {
   children?: React.ReactNode;
 }
 
-export default function PublicLayout({ currentPath, onNavigate, children }: PublicLayoutProps) {
+export default function PublicLayout({
+  currentPath,
+  onNavigate,
+  children,
+}: PublicLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const pathNameSegment = location.pathname.replace(/^\//, '');
-  const activeRoute: AppRoute = currentPath ?? (isPageRoute(pathNameSegment) ? pathNameSegment : 'home');
+  const pathNameSegment = location.pathname.replace(/^\//, "");
+  const activeRoute: AppRoute =
+    currentPath ?? (isPageRoute(pathNameSegment) ? pathNameSegment : "home");
 
   const handleNavigate: NavigateFunction =
     onNavigate ??
@@ -31,9 +41,15 @@ export default function PublicLayout({ currentPath, onNavigate, children }: Publ
       {/* Top Admissions Announcement Bar */}
       <div className="announcement-bar">
         <div className="announcement-content">
-          <Sparkles size={14} className="announcement-icon" aria-hidden="true" />
+          <Sparkles
+            size={14}
+            className="announcement-icon"
+            aria-hidden="true"
+          />
           <span className="announcement-text">
-            <strong>Fall 2026 Admissions Now Open</strong> — Software Engineering, AI & Data Science Cohorts. Early Applications Close September 30.
+            <strong>Fall 2026 Admissions Now Open</strong> — Software
+            Engineering, AI & Data Science Cohorts. Early Applications Close
+            September 30.
           </span>
           <Link to="/#courses" className="announcement-link">
             Explore Tech Programs <ArrowRight size={12} aria-hidden="true" />
@@ -45,9 +61,7 @@ export default function PublicLayout({ currentPath, onNavigate, children }: Publ
       <PublicNavbar currentPath={activeRoute} onNavigate={handleNavigate} />
 
       {/* Page Body */}
-      <main className="public-main-content">
-        {children ?? <Outlet />}
-      </main>
+      <main className="public-main-content">{children ?? <Outlet />}</main>
 
       {/* Public Footer */}
       <PublicFooter onNavigate={handleNavigate} />
