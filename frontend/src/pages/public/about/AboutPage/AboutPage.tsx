@@ -1,9 +1,9 @@
-import SectionHeading from "../../../../components/ui/SectionHeading";
-import Badge from "../../../../components/common/Badge";
+import { Target, Sparkles, ArrowRight } from "lucide-react";
 import { NavigateFunction } from "../../../../types/navigation";
+import Badge from "../../../../components/common/Badge";
+import SectionHeading from "../../../../components/ui/SectionHeading";
 import { pillars, faculty, milestones } from "./index";
 import "./AboutPage.css";
-import { Target, Sparkles, ArrowRight } from "lucide-react";
 export interface AboutPageProps {
   onNavigate?: NavigateFunction;
 }

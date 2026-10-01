@@ -1,9 +1,9 @@
-import './FeaturedCoursesSection.css';
-import React, { useState, useMemo } from 'react';
-import SectionHeading from '../../../../../components/ui/SectionHeading';
-import CourseCard from '../../../../../components/ui/CourseCard';
+import { useState, useMemo } from 'react';
 import { ArrowRight, Terminal } from 'lucide-react';
 import { Course } from '../../../../../types/course';
+import CourseCard from '../../../../../components/ui/CourseCard';
+import SectionHeading from '../../../../../components/ui/SectionHeading';
+import './FeaturedCoursesSection.css';
 
 export interface FeaturedCoursesSectionProps {
   searchQuery?: string;

@@ -1,7 +1,7 @@
-import "./CourseCard.css";
 import { Clock, Award, ArrowUpRight, Star } from "lucide-react";
-import Badge from "../../common/Badge";
 import type { Course } from "../../../types/course";
+import Badge from "../../common/Badge";
+import "./CourseCard.css";
 
 export interface CourseCardProps {
   course: Course;

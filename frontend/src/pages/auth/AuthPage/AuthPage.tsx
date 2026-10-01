@@ -1,10 +1,9 @@
-import './AuthPage.css';
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowUpRight, ArrowRight, ArrowLeft, Mail, LockKeyhole, UserRound } from 'lucide-react';
+import { AppRoute, NavigateFunction } from '../../../types/navigation';
 import Brand from '../../../components/common/Brand';
 import Field from '../../../components/forms/Field';
-import { AppRoute, NavigateFunction } from '../../../types/navigation';
+import './AuthPage.css';
 
 export interface AuthPageProps {
   page: AppRoute;

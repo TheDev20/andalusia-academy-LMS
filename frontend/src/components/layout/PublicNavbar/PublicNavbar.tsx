@@ -1,11 +1,7 @@
 import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, ArrowUpRight } from "lucide-react";
-import {
-  AppRoute,
-  NavigateFunction,
-  ROUTE_PATHS,
-} from "../../../types/navigation";
+import { AppRoute, NavigateFunction } from "../../../types/navigation";
 import { useScroll } from "../../../hooks/useScroll";
 import { useScrollSpy } from "../../../hooks/useScrollSpy";
 import Brand from "../../common/Brand";
@@ -60,12 +56,7 @@ export default function PublicNavbar({
   ) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    const route = item.key;
-    if (onNavigate) {
-      onNavigate(route);
-    } else {
-      navigate(ROUTE_PATHS[route] || item.href);
-    }
+    onNavigate(item.key);
   };
 
   const handleAuthNavigate = (route: "login" | "signup") => {
@@ -73,11 +64,12 @@ export default function PublicNavbar({
     onNavigate(route);
   };
 
-  const isItemActive = (key: string) => {
+  const isItemActive = (key: string): boolean => {
     const isSection = (HOME_SECTION_IDS as readonly string[]).includes(key);
-    return currentPath === "home" && isSection
-      ? spySection === key
-      : currentPath === key;
+    if (currentPath === "home" && isSection) {
+      return spySection === key;
+    }
+    return currentPath === key;
   };
 
   return (

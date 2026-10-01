@@ -1,8 +1,8 @@
-import './TestimonialsSection.css';
 import { useState } from 'react';
-import SectionHeading from '../../../../../components/ui/SectionHeading';
 import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 import Badge from '../../../../../components/common/Badge';
+import SectionHeading from '../../../../../components/ui/SectionHeading';
+import './TestimonialsSection.css';
 
 const TESTIMONIALS = [
   {

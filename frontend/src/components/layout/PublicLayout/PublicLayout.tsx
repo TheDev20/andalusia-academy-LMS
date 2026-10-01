@@ -1,8 +1,4 @@
-import "./PublicLayout.css";
-import React from "react";
 import { Outlet, useLocation, useNavigate, Link } from "react-router-dom";
-import PublicNavbar from "../PublicNavbar";
-import PublicFooter from "../PublicFooter";
 import { Sparkles, ArrowRight } from "lucide-react";
 import {
   AppRoute,
@@ -10,6 +6,9 @@ import {
   ROUTE_PATHS,
   isPageRoute,
 } from "../../../types/navigation";
+import PublicNavbar from "../PublicNavbar";
+import PublicFooter from "../PublicFooter";
+import "./PublicLayout.css";
 
 export interface PublicLayoutProps {
   currentPath?: AppRoute;
@@ -57,13 +56,10 @@ export default function PublicLayout({
         </div>
       </div>
 
-      {/* Main Glassmorphism Navbar */}
       <PublicNavbar currentPath={activeRoute} onNavigate={handleNavigate} />
 
-      {/* Page Body */}
       <main className="public-main-content">{children ?? <Outlet />}</main>
 
-      {/* Public Footer */}
       <PublicFooter onNavigate={handleNavigate} />
     </div>
   );

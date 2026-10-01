@@ -1,8 +1,8 @@
 import { useState } from "react";
-import SectionHeading from "../../../../components/ui/SectionHeading";
-import Badge from "../../../../components/common/Badge";
-import "./ContactPage.css";
 import { Phone, Send, Sparkles, ChevronDown, Building } from "lucide-react";
+import Badge from "../../../../components/common/Badge";
+import SectionHeading from "../../../../components/ui/SectionHeading";
+import "./ContactPage.css";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({

@@ -3,12 +3,16 @@ import { useEffect, useState } from "react";
 export function useScrollSpy(
   sectionIds: readonly string[],
   offset = 160,
-  enabled = true
+  enabled = true,
 ): string {
-  const [activeSection, setActiveSection] = useState<string>(sectionIds[0] || "");
+  const [activeSection, setActiveSection] = useState<string>(
+    sectionIds[0] || "",
+  );
 
   useEffect(() => {
-    if (!enabled || sectionIds.length === 0) return;
+    if (!enabled || sectionIds.length === 0) {
+      return;
+    }
 
     const handleScrollSpy = () => {
       const scrollPosition = window.scrollY + offset;

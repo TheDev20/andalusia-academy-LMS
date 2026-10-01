@@ -1,8 +1,8 @@
-import './ComingSoonSection.css';
-import React, { useState } from 'react';
-import SectionHeading from '../../../../../components/ui/SectionHeading';
-import Badge from '../../../../../components/common/Badge';
-import { Calendar, Bell, Sparkles, ArrowRight } from 'lucide-react';
+import { useState } from "react";
+import { Calendar, Bell, Sparkles, ArrowRight } from "lucide-react";
+import Badge from "../../../../../components/common/Badge";
+import SectionHeading from "../../../../../components/ui/SectionHeading";
+import "./ComingSoonSection.css";
 
 export interface UpcomingProgram {
   id: string;
@@ -16,41 +16,45 @@ export interface UpcomingProgram {
 }
 
 export default function ComingSoonSection() {
-  const [emailInput, setEmailInput] = useState('');
-  const [subscribedProgram, setSubscribedProgram] = useState<UpcomingProgram | null>(null);
+  const [emailInput, setEmailInput] = useState("");
+  const [subscribedProgram, setSubscribedProgram] =
+    useState<UpcomingProgram | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
   const upcomingPrograms = [
     {
-      id: 'autonomous-agents',
-      title: 'Autonomous Multi-Agent AI Systems & Tool-Calling Architectures',
-      track: 'Artificial Intelligence & Agents',
-      targetAudience: 'Software Engineers, AI Practitioners & Tech Leads',
-      launchDate: 'December 2026',
-      seatsLimit: 'Limited to 20 Cohort Fellows',
-      highlight: 'Build production-grade collaborative multi-agent frameworks with memory, planning, code execution sandboxes, and verification.',
-      badge: 'NEXT-GEN AI'
+      id: "autonomous-agents",
+      title: "Autonomous Multi-Agent AI Systems & Tool-Calling Architectures",
+      track: "Artificial Intelligence & Agents",
+      targetAudience: "Software Engineers, AI Practitioners & Tech Leads",
+      launchDate: "December 2026",
+      seatsLimit: "Limited to 20 Cohort Fellows",
+      highlight:
+        "Build production-grade collaborative multi-agent frameworks with memory, planning, code execution sandboxes, and verification.",
+      badge: "NEXT-GEN AI",
     },
     {
-      id: 'quantum-computing',
-      title: 'Quantum Computing & Post-Quantum Cryptography Algorithms',
-      track: 'Advanced Computing',
-      targetAudience: 'Systems Engineers & Research Scientists',
-      launchDate: 'January 2027',
-      seatsLimit: '18 Engineers per Intake',
-      highlight: 'Hands-on quantum circuit simulations using Qiskit, quantum key distribution protocols, and post-quantum encryption standards.',
-      badge: 'RESEARCH TRACK'
+      id: "quantum-computing",
+      title: "Quantum Computing & Post-Quantum Cryptography Algorithms",
+      track: "Advanced Computing",
+      targetAudience: "Systems Engineers & Research Scientists",
+      launchDate: "January 2027",
+      seatsLimit: "18 Engineers per Intake",
+      highlight:
+        "Hands-on quantum circuit simulations using Qiskit, quantum key distribution protocols, and post-quantum encryption standards.",
+      badge: "RESEARCH TRACK",
     },
     {
-      id: 'rust-distributed-systems',
-      title: 'High-Frequency Distributed Systems & Concurrency in Rust',
-      track: 'Systems Engineering',
-      targetAudience: 'Backend Developers & Infrastructure Engineers',
-      launchDate: 'February 2027',
-      seatsLimit: 'Hybrid 25 Seats',
-      highlight: 'Zero-cost abstractions, memory-safe multithreading, raft consensus algorithms, and ultra-low-latency network servers.',
-      badge: 'HIGH DEMAND'
-    }
+      id: "rust-distributed-systems",
+      title: "High-Frequency Distributed Systems & Concurrency in Rust",
+      track: "Systems Engineering",
+      targetAudience: "Backend Developers & Infrastructure Engineers",
+      launchDate: "February 2027",
+      seatsLimit: "Hybrid 25 Seats",
+      highlight:
+        "Zero-cost abstractions, memory-safe multithreading, raft consensus algorithms, and ultra-low-latency network servers.",
+      badge: "HIGH DEMAND",
+    },
   ];
 
   const handleNotifyMe = (program: UpcomingProgram) => {
@@ -60,20 +64,29 @@ export default function ComingSoonSection() {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!emailInput) return;
+    if (!emailInput) {
+      return;
+    }
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
       setSubscribedProgram(null);
-      setEmailInput('');
+      setEmailInput("");
     }, 4000);
   };
 
   return (
-    <section className="coming-soon-section" aria-label="Upcoming Programs and Bootcamps">
+    <section
+      className="coming-soon-section"
+      aria-label="Upcoming Programs and Bootcamps"
+    >
       <div className="section-container">
         <SectionHeading
-          title={<>Previewing Upcoming <em>Tech Bootcamps & Cohorts</em></>}
+          title={
+            <>
+              Previewing Upcoming <em>Tech Bootcamps & Cohorts</em>
+            </>
+          }
           subtitle="Stay on the cutting edge of software development, AI, and distributed systems. Pre-register your interest for priority seat reservation and early applicant tuition benefits."
         />
 
@@ -81,7 +94,9 @@ export default function ComingSoonSection() {
           {upcomingPrograms.map((prog) => (
             <div key={prog.id} className="coming-soon-card">
               <div className="coming-soon-card-top">
-                <Badge variant="bronze" dot>{prog.badge}</Badge>
+                <Badge variant="bronze" dot>
+                  {prog.badge}
+                </Badge>
                 <div className="launch-tag">
                   <Calendar size={13} aria-hidden="true" />
                   <span>{prog.launchDate}</span>
@@ -135,18 +150,25 @@ export default function ComingSoonSection() {
 
               <h4>{subscribedProgram.title}</h4>
               <p className="drawer-desc">
-                Be the first to receive the official syllabus, interview requirements, and early-bird registration access before public intake launch.
+                Be the first to receive the official syllabus, interview
+                requirements, and early-bird registration access before public
+                intake launch.
               </p>
 
               {submitted ? (
                 <div className="drawer-success">
                   <Sparkles size={32} className="success-icon" />
                   <h5>You're on the priority waitlist!</h5>
-                  <p>We'll notify you at <strong>{emailInput}</strong> as soon as applications open.</p>
+                  <p>
+                    We'll notify you at <strong>{emailInput}</strong> as soon as
+                    applications open.
+                  </p>
                 </div>
               ) : (
                 <form onSubmit={handleFormSubmit} className="drawer-form">
-                  <label htmlFor="priority-email">Your Work or Personal Email</label>
+                  <label htmlFor="priority-email">
+                    Your Work or Personal Email
+                  </label>
                   <input
                     id="priority-email"
                     type="email"

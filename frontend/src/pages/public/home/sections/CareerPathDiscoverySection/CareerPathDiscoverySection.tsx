@@ -1,6 +1,4 @@
-import "./CareerPathDiscoverySection.css";
 import { useState } from "react";
-import Alumni from "../../../../../components/common/Alumni-logos";
 import {
   Code2,
   Brain,
@@ -9,8 +7,10 @@ import {
   ShieldCheck,
   ArrowRight,
 } from "lucide-react";
+import Alumni from "../../../../../components/common/Alumni-logos";
 import SectionHeading from "../../../../../components/ui/SectionHeading";
 import Badge from "../../../../../components/common/Badge";
+import "./CareerPathDiscoverySection.css";
 
 export interface CareerPathDiscoverySectionProps {
   onSelectTrack?: (track?: string) => void;
@@ -180,7 +180,9 @@ export default function CareerPathDiscoverySection({
                 className={`path-tab-btn ${isActive ? "is-active" : ""}`}
                 onClick={() => {
                   setSelectedPathIndex(idx);
-                  if (onSelectTrack) onSelectTrack(path.title);
+                  if (onSelectTrack) {
+                    onSelectTrack(path.title);
+                  }
                 }}
               >
                 <Icon size={16} className="tab-icon" aria-hidden="true" />

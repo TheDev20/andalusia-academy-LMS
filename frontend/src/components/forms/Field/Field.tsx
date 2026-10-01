@@ -1,6 +1,6 @@
-import "./Field.css";
-import React, { InputHTMLAttributes, useState } from "react";
+import { InputHTMLAttributes, useState } from "react";
 import { Eye, EyeOff, LucideIcon } from "lucide-react";
+import "./Field.css";
 
 export interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
