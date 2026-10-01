@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NavigateFunction } from "../../../../../types/navigation";
 import { useCountdown } from "../../../../../hooks/useCountdown";
 import "./HeroSection.css";
@@ -6,11 +6,7 @@ import {
   ArrowRight,
   Search,
   Play,
-  Cpu,
-  Database,
   Code2,
-  Cloud,
-  ShieldCheck,
   Files,
   GitBranch,
   Bug,
@@ -28,6 +24,7 @@ import {
   Maximize2,
   Minus,
 } from "lucide-react";
+
 export interface CodeToken {
   t: string;
   v: string;
@@ -59,60 +56,14 @@ export interface HeroSectionProps {
   onSearch?: (query: string) => void;
 }
 
-export default function HeroSection({
-  onNavigate,
-  onSearch,
-}: HeroSectionProps) {
-  const [query, setQuery] = useState("");
-  const [activeFile, setActiveFile] = useState("App.tsx");
-  const timeLeft = useCountdown({
-    days: 12,
-    hours: 8,
-    minutes: 45,
-    seconds: 30,
-  });
-
-  const scrollToCourses = () => {
-    const el = document.getElementById("courses");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (onSearch) onSearch(query);
-    scrollToCourses();
-  };
-  const handleTrackClick = (trackQuery: string) => {
-    if (onSearch) onSearch(trackQuery);
-    scrollToCourses();
-  };
-
-  // High-demand market technology branches
-  const techTracks = [
-    {
-      label: "Generative AI & LLMs",
-      query: "Generative AI",
-      icon: Cpu,
-      badge: "High Demand",
-    },
-    {
-      label: "Data Science & ML",
-      query: "Data Science",
-      icon: Database,
-      badge: "Popular",
-    },
-    { label: ".NET & Full-Stack", query: "ASP.NET Core", icon: Code2 },
-    { label: "Cloud & DevOps", query: "DevOps", icon: Cloud },
-    { label: "Cybersecurity", query: "Cybersecurity", icon: ShieldCheck },
-  ];
-
-  // Authentic Multi-File IDE project tree matching reference layout
-  const ideFiles: Record<string, IdeFile> = {
-    "App.tsx": {
-      name: "App.tsx",
-      icon: "⚛",
-      iconColor: "#38bdf8",
-      path: "src > App.tsx",
-      lang: "TypeScript JSX",
+// Authentic Multi-File IDE project tree matching reference layout
+const IDE_FILES: Record<string, IdeFile> = {
+  "App.tsx": {
+    name: "App.tsx",
+    icon: "⚛",
+    iconColor: "#38bdf8",
+    path: "src > App.tsx",
+    lang: "TypeScript JSX",
       lnCol: "Ln 18, Col 3",
       lines: [
         {
@@ -670,7 +621,33 @@ export default function HeroSection({
       ],
     },
   };
-  const currentFile = ideFiles[activeFile] || ideFiles["App.tsx"];
+
+export default function HeroSection({
+  onNavigate,
+  onSearch,
+}: HeroSectionProps) {
+  const [query, setQuery] = useState("");
+  const [activeFile, setActiveFile] = useState("App.tsx");
+  const timeLeft = useCountdown({
+    days: 12,
+    hours: 8,
+    minutes: 45,
+    seconds: 30,
+  });
+
+  const scrollToCourses = () => {
+    const el = document.getElementById("courses");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (onSearch) onSearch(query);
+    scrollToCourses();
+  };
+
+  const currentFile = IDE_FILES[activeFile] || IDE_FILES["App.tsx"];
+
   return (
     <section id="home" className="hero-section scroll-section" aria-label="Hero">
       <div className="hero-bg-accent" aria-hidden="true" />
@@ -697,6 +674,7 @@ export default function HeroSection({
               </span>
             </div>
           </div>
+
           {/* Hero Main Headline */}
           <h1 className="hero-title">
             Engineer the Future: Master{" "}
@@ -707,6 +685,7 @@ export default function HeroSection({
             codebases, and elite mentorship designed to position you for
             top-tier software roles.
           </p>
+
           {/* Primary Action Buttons */}
           <div className="hero-actions">
             <a
@@ -714,8 +693,7 @@ export default function HeroSection({
               className="btn-primary-hero"
               onClick={(e) => {
                 e.preventDefault();
-                const el = document.getElementById("courses");
-                if (el) el.scrollIntoView({ behavior: "smooth" });
+                scrollToCourses();
               }}
             >
               <span>Explore All Programs</span>
@@ -736,6 +714,7 @@ export default function HeroSection({
               <span>Upcoming Cohorts</span>
             </a>
           </div>
+
           {/* Unified Discovery Search Bar */}
           <form className="hero-search-bar" onSubmit={handleSearchSubmit}>
             <div className="search-input-wrap">
@@ -753,35 +732,6 @@ export default function HeroSection({
               <ArrowRight size={15} aria-hidden="true" />
             </button>
           </form>
-          {/* Market Technology Branches Pill Filters
-          <div className="hero-tech-branches-wrap">
-            <span className="tech-branches-title">
-              Explore Core Technology Tracks:
-            </span>
-            <div className="tech-branches-list">
-              {techTracks.map((track) => {
-                const IconComponent = track.icon;
-                return (
-                  <button
-                    key={track.query}
-                    type="button"
-                    className="tech-track-btn"
-                    onClick={() => handleTrackClick(track.query)}
-                  >
-                    <IconComponent
-                      size={14}
-                      className="track-icon"
-                      aria-hidden="true"
-                    />
-                    <span>{track.label}</span>
-                    {track.badge && (
-                      <span className="track-mini-badge">{track.badge}</span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div> */}
         </div>
 
         {/* Right Column: Full Authentic VS Code Studio in Website Theme */}

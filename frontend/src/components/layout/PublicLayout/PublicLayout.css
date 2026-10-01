@@ -1,19 +1,20 @@
-/* Public Shell & Top Announcement */
 .public-shell {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #f7f4ee;
-  color: #43392f;
+  background: var(--color-brand-bg, #f7f4ee);
+  color: var(--color-brand-dark, #43392f);
 }
+
 .announcement-bar {
-  background: #31271e;
-  color: #ece3d7;
+  background: var(--color-brand-heading, #271e16);
+  color: var(--color-brand-cream, #ede7dc);
   font-size: 13.5px;
   padding: 9px 18px;
   text-align: center;
   border-bottom: 1px solid rgba(174, 138, 88, 0.25);
 }
+
 .announcement-content {
   display: flex;
   align-items: center;
@@ -23,20 +24,22 @@
   max-width: 1280px;
   margin: 0 auto;
 }
+
 .announcement-icon {
-  color: #d4a359;
+  color: var(--color-brand-gold, #d4a359);
 }
+
 .announcement-link {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: #d4a359;
+  color: var(--color-brand-gold, #d4a359);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
-  transition: color 0.2s;
+  transition: color 0.2s ease;
 }
+
 .announcement-link:hover {
   color: #f0c586;
 }
-

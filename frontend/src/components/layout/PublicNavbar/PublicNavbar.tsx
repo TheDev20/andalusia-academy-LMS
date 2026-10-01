@@ -1,4 +1,3 @@
-import type React from "react";
 import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, ArrowUpRight } from "lucide-react";
@@ -6,7 +5,6 @@ import {
   AppRoute,
   NavigateFunction,
   ROUTE_PATHS,
-  isSectionRoute,
 } from "../../../types/navigation";
 import { useScroll } from "../../../hooks/useScroll";
 import { useScrollSpy } from "../../../hooks/useScrollSpy";

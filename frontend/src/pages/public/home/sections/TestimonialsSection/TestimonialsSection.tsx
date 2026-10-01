@@ -1,61 +1,64 @@
 import './TestimonialsSection.css';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import SectionHeading from '../../../../../components/ui/SectionHeading';
 import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 import Badge from '../../../../../components/common/Badge';
 
+const TESTIMONIALS = [
+  {
+    id: 1,
+    quote: "The ASP.NET Core & Microservices bootcamp took my engineering skills to another level. Building real production systems with Clean Architecture, EF Core, Redis caching, and Docker gave me the exact confidence needed to land my Senior Backend Engineer role.",
+    author: "Ahmed Mansour",
+    title: "Senior Full-Stack Engineer",
+    institution: "Global Fintech & Cloud Solutions",
+    track: "ASP.NET Core & Microservices",
+    rating: 5,
+    avatarInitials: "AM"
+  },
+  {
+    id: 2,
+    quote: "The Generative AI and LLM bootcamp isn't just about calling APIs—it teaches you vector embeddings, retrieval pipelines (RAG), agent orchestration, and evaluation metrics. The hands-on labs with senior AI researchers were exceptional.",
+    author: "Sarah El-Kady",
+    title: "Lead AI Engineer",
+    institution: "Enterprise Cognitive Systems",
+    track: "Applied Generative AI & Autonomous Agents",
+    rating: 5,
+    avatarInitials: "SK"
+  },
+  {
+    id: 3,
+    quote: "We partnered with Andalusia Academy to upskill 40+ corporate developers in cloud-native technologies. Within months, our deployment cycle was cut in half, and our teams successfully modernized our legacy monoliths into scalable services.",
+    author: "Eng. Hesham Farouk",
+    title: "VP of Engineering & Technology Director",
+    institution: "Leading Digital Logistics Enterprise",
+    track: "Corporate Cloud & DevOps",
+    rating: 5,
+    avatarInitials: "HF"
+  },
+  {
+    id: 4,
+    quote: "Transitioning into big data engineering seemed daunting until I took the Apache Spark & BigQuery track. The cohort sessions in the Cairo tech hub combined with deep architectural reviews made all the difference in my career.",
+    author: "Nouran Youssef",
+    title: "Lead Data Engineer",
+    institution: "Regional Analytics Group",
+    track: "Big Data & Google BigQuery",
+    rating: 5,
+    avatarInitials: "NY"
+  }
+];
+
 export default function TestimonialsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const testimonials = [
-    {
-      id: 1,
-      quote: "The ASP.NET Core & Microservices bootcamp took my engineering skills to another level. Building real production systems with Clean Architecture, EF Core, Redis caching, and Docker gave me the exact confidence needed to land my Senior Backend Engineer role.",
-      author: "Ahmed Mansour",
-      title: "Senior Full-Stack Engineer",
-      institution: "Global Fintech & Cloud Solutions",
-      track: "ASP.NET Core & Microservices",
-      rating: 5,
-      avatarInitials: "AM"
-    },
-    {
-      id: 2,
-      quote: "The Generative AI and LLM bootcamp isn't just about calling APIs—it teaches you vector embeddings, retrieval pipelines (RAG), agent orchestration, and evaluation metrics. The hands-on labs with senior AI researchers were exceptional.",
-      author: "Sarah El-Kady",
-      title: "Lead AI Engineer",
-      institution: "Enterprise Cognitive Systems",
-      track: "Applied Generative AI & Autonomous Agents",
-      rating: 5,
-      avatarInitials: "SK"
-    },
-    {
-      id: 3,
-      quote: "We partnered with Andalusia Academy to upskill 40+ corporate developers in cloud-native technologies. Within months, our deployment cycle was cut in half, and our teams successfully modernized our legacy monoliths into scalable services.",
-      author: "Eng. Hesham Farouk",
-      title: "VP of Engineering & Technology Director",
-      institution: "Leading Digital Logistics Enterprise",
-      track: "Corporate Cloud & DevOps",
-      rating: 5,
-      avatarInitials: "HF"
-    },
-    {
-      id: 4,
-      quote: "Transitioning into big data engineering seemed daunting until I took the Apache Spark & BigQuery track. The cohort sessions in the Cairo tech hub combined with deep architectural reviews made all the difference in my career.",
-      author: "Nouran Youssef",
-      title: "Lead Data Engineer",
-      institution: "Regional Analytics Group",
-      track: "Big Data & Google BigQuery",
-      rating: 5,
-      avatarInitials: "NY"
-    }
-  ];
+  const currentTestimonial = TESTIMONIALS[currentIndex];
+  const { quote, author, title, institution, track, rating, avatarInitials } = currentTestimonial;
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? TESTIMONIALS.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev === TESTIMONIALS.length - 1 ? 0 : prev + 1));
   };
 
   return (
@@ -73,26 +76,26 @@ export default function TestimonialsSection() {
             </div>
 
             <div className="testimonial-rating">
-              {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
+              {[...Array(rating)].map((_, i) => (
                 <Star key={i} size={15} fill="#d4a359" stroke="#d4a359" aria-hidden="true" />
               ))}
               <Badge variant="bronze" dot className="testimonial-track-badge">
-                {testimonials[currentIndex].track}
+                {track}
               </Badge>
             </div>
 
             <p className="testimonial-quote">
-              "{testimonials[currentIndex].quote}"
+              "{quote}"
             </p>
 
             <div className="testimonial-author-block">
               <div className="author-avatar" aria-hidden="true">
-                {testimonials[currentIndex].avatarInitials}
+                {avatarInitials}
               </div>
               <div className="author-details">
-                <h4 className="author-name">{testimonials[currentIndex].author}</h4>
-                <p className="author-title">{testimonials[currentIndex].title}</p>
-                <p className="author-hospital">{testimonials[currentIndex].institution}</p>
+                <h4 className="author-name">{author}</h4>
+                <p className="author-title">{title}</p>
+                <p className="author-hospital">{institution}</p>
               </div>
             </div>
           </div>
@@ -100,7 +103,7 @@ export default function TestimonialsSection() {
           {/* Clean, horizontally-aligned carousel controls */}
           <div className="testimonials-nav-row">
             <div className="carousel-indicators">
-              {testimonials.map((_, dotIdx) => (
+              {TESTIMONIALS.map((_, dotIdx) => (
                 <button
                   key={dotIdx}
                   type="button"
