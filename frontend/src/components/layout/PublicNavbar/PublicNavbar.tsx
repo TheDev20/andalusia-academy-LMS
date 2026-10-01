@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { AppRoute, NavigateFunction } from "../../../types/navigation";
 import { useScroll } from "../../../hooks/useScroll";
@@ -29,7 +29,6 @@ export default function PublicNavbar({
   currentPath,
   onNavigate,
 }: PublicNavbarProps) {
-  const navigate = useNavigate();
   const scrolled = useScroll(20);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const spySection = useScrollSpy(

@@ -7,6 +7,7 @@ import {
 } from "../../../types/navigation";
 import Brand from "../../common/Brand";
 import "./PublicFooter.css";
+
 export interface PublicFooterProps {
   onNavigate?: NavigateFunction;
 }
