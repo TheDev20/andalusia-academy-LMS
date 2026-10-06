@@ -1,5 +1,4 @@
 import './CtaSection.css';
-import React from 'react';
 import { ArrowRight, PhoneCall, Sparkles } from 'lucide-react';
 import { NavigateFunction } from '../../../../../types/navigation';
 
