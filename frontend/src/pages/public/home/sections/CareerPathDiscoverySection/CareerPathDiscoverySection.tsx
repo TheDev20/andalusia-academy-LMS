@@ -113,7 +113,7 @@ export default function CareerPathDiscoverySection({
     },
     {
       id: "cybersecurity",
-      filterTab: "all",
+      filterTab: "cyber",
       title: "Cybersecurity & Secure Systems",
       icon: ShieldCheck,
       badge: "DEFENSE & DEVSECOPS",

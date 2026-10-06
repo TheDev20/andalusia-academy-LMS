@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { ArrowRight, Terminal } from "lucide-react";
+import { Terminal } from "lucide-react";
 import { Course } from "../../../../../types/course";
 import { NavigateFunction } from "../../../../../types/navigation";
 import CourseCard from "../../../../../components/ui/CourseCard";
@@ -127,6 +127,21 @@ export default function FeaturedCoursesSection({
       summary:
         "Provision cloud environments with Terraform, orchestrate containerized microservices in production Kubernetes, and automate GitHub Actions CI/CD.",
     },
+    {
+      id: "cybersecurity-devsecops",
+      title: "Enterprise Cybersecurity, Penetration Testing & DevSecOps",
+      category: "Cybersecurity",
+      badge: "DEFENSE & DEVSECOPS",
+      badgeVariant: "bronze",
+      duration: "6 Months · 175 Lab Hours",
+      format: "Hybrid · Offensive & Defensive Cyber Labs",
+      intake: "Nov 5, 2026",
+      rating: 4.97,
+      reviewsCount: 118,
+      level: "Intermediate to Advanced",
+      summary:
+        "Master hands-on penetration testing, OWASP Top 10 mitigation, Zero-Trust network architecture, SOC threat hunting, and automated DevSecOps pipelines.",
+    },
   ];
 
   const filteredCourses = useMemo(() => {
@@ -138,7 +153,8 @@ export default function FeaturedCoursesSection({
         (activeFilter === "ai" &&
           course.category === "AI & Machine Learning") ||
         (activeFilter === "data" && course.category === "Data Science") ||
-        (activeFilter === "cloud" && course.category === "Cloud & DevOps");
+        (activeFilter === "cloud" && course.category === "Cloud & DevOps") ||
+        (activeFilter === "cyber" && course.category === "Cybersecurity");
 
       const matchesSearch =
         !searchQuery ||
@@ -156,6 +172,7 @@ export default function FeaturedCoursesSection({
     { id: "ai", label: "AI & Machine Learning" },
     { id: "data", label: "Data Science" },
     { id: "cloud", label: "Cloud & DevOps" },
+    { id: "cyber", label: "Cybersecurity" },
   ];
 
   return (
