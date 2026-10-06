@@ -13,13 +13,19 @@ import SectionHeading from "../../../../../components/ui/SectionHeading";
 import Badge from "../../../../../components/common/Badge";
 import "./CareerPathDiscoverySection.css";
 
-export default function CareerPathDiscoverySection() { 
+export interface CareerPathDiscoverySectionProps {
+  onExploreTrack?: (filter: string) => void;
+}
+export default function CareerPathDiscoverySection({
+  onExploreTrack,
+}: CareerPathDiscoverySectionProps) {
   // Store index of selected path, or null if card is toggled closed
   const [openPathIndex, setOpenPathIndex] = useState<number | null>(0);
 
   const paths = [
     {
       id: "software-engineering",
+      filterTab: "dev",
       title: "Full-Stack Software Engineering",
       icon: Code2,
       badge: "ASP.NET CORE & REACT",
@@ -41,6 +47,7 @@ export default function CareerPathDiscoverySection() {
     },
     {
       id: "ai-engineering",
+      filterTab: "ai",
       title: "Artificial Intelligence & Machine Learning",
       icon: Brain,
       badge: "GENERATIVE AI & LLMs",
@@ -62,6 +69,7 @@ export default function CareerPathDiscoverySection() {
     },
     {
       id: "data-science",
+      filterTab: "data",
       title: "Data Science & Big Data Engineering",
       icon: Database,
       badge: "PYTHON & BIGQUERY",
@@ -83,6 +91,7 @@ export default function CareerPathDiscoverySection() {
     },
     {
       id: "cloud-devops",
+      filterTab: "cloud",
       title: "Cloud Architecture & DevOps Engineering",
       icon: Cloud,
       badge: "KUBERNETES & AWS/AZURE",
@@ -104,6 +113,7 @@ export default function CareerPathDiscoverySection() {
     },
     {
       id: "cybersecurity",
+      filterTab: "all",
       title: "Cybersecurity & Secure Systems",
       icon: ShieldCheck,
       badge: "DEFENSE & DEVSECOPS",
@@ -226,8 +236,13 @@ export default function CareerPathDiscoverySection() {
                   className="path-apply-btn"
                   onClick={(e) => {
                     e.preventDefault();
+                    if (onExploreTrack) {
+                      onExploreTrack(activePath.filterTab || "all");
+                    }
                     const el = document.getElementById("courses");
-                    if (el) el.scrollIntoView({ behavior: "smooth" });
+                    if (el) {
+                      el.scrollIntoView({ behavior: "smooth" });
+                    }
                   }}
                 >
                   <span>Explore Track</span>
@@ -258,36 +273,22 @@ export default function CareerPathDiscoverySection() {
 
             <p className="path-overview-text">{activePath.overview}</p>
 
-            <div className="path-columns-layout">
-              {/* <div className="path-milestones-col">
-                <h4 className="milestone-col-heading">
-                  Curriculum Progression Milestones
-                </h4>
-                <ul className="milestone-list">
-                  {activePath.milestones.map((m, i) => (
-                    <li key={i} className="milestone-item">
-                      <span className="milestone-num">0{i + 1}</span>
-                      <span className="milestone-text">{m}</span>
-                    </li>
-                  ))}
-                </ul> */}
-              </div>
+            <div className="path-columns-layout"></div>
 
-              <div className="path-courses-col">
-                <h4 className="milestone-col-heading">
-                  Featured Core Courses in Track
-                </h4>
-                <div className="path-course-chips">
-                  {activePath.keyCourses.map((c, i) => (
-                    <div key={i} className="path-course-chip">
-                      <span className="course-chip-dot" />
-                      <span>{c}</span>
-                    </div>
-                  ))}
-                </div>
-
+            <div className="path-courses-col">
+              <h4 className="milestone-col-heading">
+                Featured Core Courses in Track
+              </h4>
+              <div className="path-course-chips">
+                {activePath.keyCourses.map((c, i) => (
+                  <div key={i} className="path-course-chip">
+                    <span className="course-chip-dot" />
+                    <span>{c}</span>
+                  </div>
+                ))}
               </div>
             </div>
+          </div>
         )}
       </div>
     </section>

@@ -30,10 +30,14 @@ export default function HomePage({ onNavigate }: HomePageProps) {
     }
   };
 
+  const [courseFilter, setCourseFilter] = useState("all");
 
-  const handleTrackSelect = () => {
-    if (onNavigate) {
-      onNavigate(ROUTES.SIGNUP);
+  const handleTrackSelect = (filterId: string) => {
+    setCourseFilter(filterId);
+    setSearchQuery("");
+    const el = document.getElementById(SECTION_IDS.COURSES);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -46,11 +50,14 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   return (
     <div className="homepage-wrapper">
       <HeroSection onNavigate={onNavigate} onSearch={setSearchQuery} />
-      <CareerPathDiscoverySection onSelectTrack={handleTrackSelect} />
+      <CareerPathDiscoverySection onExploreTrack={handleTrackSelect} />
       <PopularCategoriesSection onSelectCategory={handleCategorySelect} />
       <FeaturedCoursesSection
+        activeFilter={courseFilter}
+        onFilterChange={setCourseFilter}
         searchQuery={searchQuery}
         onSelectCourse={handleCourseSelect}
+        onNavigate={onNavigate}
       />
       <ComingSoonSection />
       <CorporateTrainingSection onNavigate={onNavigate} />

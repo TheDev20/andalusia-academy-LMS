@@ -1091,3 +1091,25 @@
     width: 100%;
   }
 }
+
+/* ==========================================================================
+   ACADEMIC CURRICULA & SEARCH DISCOVERY HUB MODAL (ON TOP OF IDE)
+   ========================================================================== */
+
+.hero-search-clear-btn {
+  background: none;
+  border: none;
+  color: #8e8070;
+  cursor: pointer;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+.hero-search-clear-btn:hover {
+  color: #1c1612;
+  background: rgba(67, 57, 47, 0.08);
+}
+

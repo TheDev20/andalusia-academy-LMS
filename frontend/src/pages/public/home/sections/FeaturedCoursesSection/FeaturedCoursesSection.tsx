@@ -1,20 +1,40 @@
 import { useState, useMemo } from "react";
 import { ArrowRight, Terminal } from "lucide-react";
 import { Course } from "../../../../../types/course";
+import { NavigateFunction } from "../../../../../types/navigation";
 import CourseCard from "../../../../../components/ui/CourseCard";
 import SectionHeading from "../../../../../components/ui/SectionHeading";
+import SyllabusModal from "./SyllabusModal";
 import "./FeaturedCoursesSection.css";
 
 export interface FeaturedCoursesSectionProps {
   searchQuery?: string;
+  activeFilter?: string;
+  onFilterChange?: (filter: string) => void;
   onSelectCourse?: (course: Course) => void;
+  onNavigate?: NavigateFunction;
 }
 
 export default function FeaturedCoursesSection({
   searchQuery = "",
+  activeFilter: controlledFilter,
+  onFilterChange,
   onSelectCourse,
+  onNavigate,
 }: FeaturedCoursesSectionProps) {
-  const [activeFilter, setActiveFilter] = useState("all");
+  const [internalFilter, setInternalFilter] = useState("all");
+  const activeFilter =
+    controlledFilter !== undefined ? controlledFilter : internalFilter;
+  const handleTabChange = (filterId: string) => {
+    if (onFilterChange) {
+      onFilterChange(filterId);
+    } else {
+      setInternalFilter(filterId);
+    }
+  };
+
+  const [selectedCourseForSyllabus, setSelectedCourseForSyllabus] =
+    useState<Course | null>(null);
 
   const allCourses: Course[] = [
     {
@@ -169,7 +189,7 @@ export default function FeaturedCoursesSection({
                   role="tab"
                   aria-selected={activeFilter === tab.id}
                   className={`filter-btn ${activeFilter === tab.id ? "is-active" : ""}`}
-                  onClick={() => setActiveFilter(tab.id)}
+                  onClick={() => handleTabChange(tab.id)}
                 >
                   {tab.label}
                 </button>
@@ -195,7 +215,7 @@ export default function FeaturedCoursesSection({
               <CourseCard
                 key={course.id}
                 course={course}
-                onSelect={(c) => onSelectCourse && onSelectCourse(c)}
+                onSelect={(c) => setSelectedCourseForSyllabus(c)}
               />
             ))
           ) : (
@@ -209,36 +229,29 @@ export default function FeaturedCoursesSection({
               <button
                 type="button"
                 className="btn-reset-filter"
-                onClick={() => setActiveFilter("all")}
+                onClick={() => handleTabChange("all")}
               >
                 Reset Filters
               </button>
             </div>
           )}
         </div>
-
-        {/* Catalog CTA Footer */}
-        <div className="courses-catalog-cta">
-          <div className="catalog-cta-info">
-            <h4>Ready to accelerate your technical career?</h4>
-            <p>
-              View all 64+ specialized software engineering, AI, and data
-              science courses and certificate programs.
-            </p>
-          </div>
-          <a
-            href="#courses"
-            className="btn-full-catalog"
-            onClick={(e) => {
-              e.preventDefault();
-              setActiveFilter("all");
-            }}
-          >
-            <span>Explore Complete Catalog</span>
-            <ArrowRight size={15} aria-hidden="true" />
-          </a>
-        </div>
       </div>
+
+      {/* Detailed Program Syllabus Modal with Frosted Blurred Backdrop */}
+      <SyllabusModal
+        course={selectedCourseForSyllabus}
+        isOpen={!!selectedCourseForSyllabus}
+        onClose={() => setSelectedCourseForSyllabus(null)}
+        onEnroll={(c) => {
+          if (onSelectCourse) {
+            onSelectCourse(c);
+          }
+          if (onNavigate) {
+            onNavigate("signup");
+          }
+        }}
+      />
     </section>
   );
 }
