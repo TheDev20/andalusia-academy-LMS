@@ -1,1 +1,1 @@
-export { default } from "./alumni-logos";
+export { default } from "./Alumni-logos";

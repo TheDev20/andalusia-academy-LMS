@@ -1,4 +1,3 @@
-import React from "react";
 import {
   BrowserRouter,
   Routes,
@@ -6,6 +5,7 @@ import {
   Navigate,
   useNavigate,
 } from "react-router-dom";
+import { AppRoute, NavigateFunction, ROUTE_PATHS } from "./types/navigation";
 import PublicLayout from "./components/layout/PublicLayout";
 import AuthLayout from "./components/layout/AuthLayout";
 import ScrollToTopOrHash from "./components/common/ScrollToTopOrHash";
@@ -13,12 +13,8 @@ import HomePage from "./pages/public/home/HomePage";
 import AboutPage from "./pages/public/about/AboutPage";
 import ContactPage from "./pages/public/contact/ContactPage";
 import AuthPage from "./pages/auth/AuthPage";
-import { AppRoute, NavigateFunction, ROUTE_PATHS } from "./types/navigation";
 import "./styles.css";
 
-/**
- * Route wrapper that passes onNavigate for backwards compatibility with existing page components.
- */
 function PageWithNavigate({
   Component,
 }: {

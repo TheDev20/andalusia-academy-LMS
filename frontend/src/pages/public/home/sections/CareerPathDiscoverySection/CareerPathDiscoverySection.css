@@ -207,3 +207,55 @@
     gap: 24px;
   }
 }
+
+/* Real-World Outcomes Metric Bar */
+.hero-metrics-inline {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--color-brand-border, #ded6c8);
+  border-radius: 16px;
+  padding: 10px 18px;
+  margin-bottom: 24px;
+  max-width: 580px;
+  box-shadow: 0 4px 16px rgba(67, 57, 47, 0.04);
+}
+
+.inline-metric-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.inline-metric-val {
+  font-family: var(--font-display, "Libre Caslon Display", Georgia, serif);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--color-brand-heading, #271e16);
+  line-height: 1.1;
+}
+
+.inline-metric-lbl {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--color-brand-muted, #7a6e60);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.inline-metric-div {
+  width: 1px;
+  height: 28px;
+  background: var(--color-brand-border, #ded6c8);
+}
+
+@media (max-width: 640px) {
+  .hero-metrics-inline {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .inline-metric-div {
+    display: none;
+  }
+}

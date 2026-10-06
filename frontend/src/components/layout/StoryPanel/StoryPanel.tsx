@@ -20,7 +20,9 @@ export default function StoryPanel({
   const totalScenes = scenes.length;
 
   useEffect(() => {
-    if (totalScenes <= 1) return;
+    if (totalScenes <= 1) {
+      return;
+    }
     const timer = window.setTimeout(() => setScene(1), 3000);
     return () => window.clearTimeout(timer);
   }, [totalScenes]);
@@ -72,9 +74,7 @@ export default function StoryPanel({
               }}
             />
           </span>
-          <span className="total">
-            {String(totalScenes).padStart(2, "0")}
-          </span>
+          <span className="total">{String(totalScenes).padStart(2, "0")}</span>
           <span className="scene-name">{currentScene.label}</span>
         </div>
         <div className="scene-controls">

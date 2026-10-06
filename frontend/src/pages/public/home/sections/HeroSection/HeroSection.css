@@ -23,35 +23,49 @@
   min-width: 0;
 }
 
-/* Countdown Badge */
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
 .hero-countdown-badge {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   background: #ffffff;
-  border: 1px solid #d5cbba;
+  border: 1px solid var(--color-brand-border, #ded6c8);
   padding: 6px 16px;
   border-radius: 999px;
   box-shadow: 0 4px 14px rgba(67, 57, 47, 0.05);
   margin-bottom: 22px;
   font-size: 12.5px;
+  animation: heroFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
+
 .live-pulsing-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #2e9e4f;
   box-shadow: 0 0 0 0 rgba(46, 158, 79, 0.7);
-  animation: pulseLiveDot 1.8s infinite;
+  animation: pulseLiveDot 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
   flex-shrink: 0;
 }
+
 @keyframes pulseLiveDot {
   0% {
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(46, 158, 79, 0.7);
   }
   70% {
-    transform: scale(1);
+    transform: scale(1.05);
     box-shadow: 0 0 0 8px rgba(46, 158, 79, 0);
   }
   100% {
@@ -59,60 +73,72 @@
     box-shadow: 0 0 0 0 rgba(46, 158, 79, 0);
   }
 }
+
 .countdown-label {
   font-weight: 700;
-  color: #5c4d3e;
+  color: var(--color-brand-dark, #43392f);
   letter-spacing: 0.6px;
   font-size: 11.5px;
 }
+
 .countdown-timer {
   display: flex;
   align-items: center;
   gap: 3px;
-  font-family: "DM Sans", monospace, sans-serif;
+  font-family: var(--font-sans, "DM Sans", sans-serif);
   font-weight: 700;
-  color: #8c643b;
+  color: var(--color-brand-primary, #8b6648);
   font-size: 13px;
 }
+
 .time-val {
-  background: #f4ede2;
+  background: var(--color-brand-bg, #f7f4ee);
   padding: 2px 5px;
   border-radius: 4px;
-  color: #3b2e21;
+  color: var(--color-brand-heading, #271e16);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
+
 .time-sec {
-  color: #8c643b;
+  color: var(--color-brand-primary, #8b6648);
   background: #fbf5ee;
-  border: 1px solid #e3d3c1;
+  border: 1px solid var(--color-brand-border, #ded6c8);
 }
+
 .time-sep {
-  color: #a89a89;
+  color: var(--color-brand-muted, #7a6e60);
   font-size: 11px;
 }
 
 /* Typography */
 .hero-title {
-  font-family: "Libre Caslon Display", Georgia, serif;
+  font-family: var(--font-display, "Libre Caslon Display", Georgia, serif);
   font-size: clamp(40px, 4.8vw, 62px);
   line-height: 1.1;
-  color: #271e15;
+  color: var(--color-brand-heading, #271e16);
   margin: 0 0 20px;
   font-weight: 400;
   letter-spacing: -0.8px;
+  animation: heroFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
+
 .hero-title em {
-  color: #8c643b;
+  color: var(--color-brand-primary, #8b6648);
   font-style: italic;
   text-decoration: underline;
   text-decoration-color: rgba(140, 100, 59, 0.28);
   text-underline-offset: 6px;
 }
+
 .hero-subtitle {
   font-size: clamp(15.5px, 1.4vw, 18.5px);
   line-height: 1.68;
-  color: #524536;
+  color: var(--color-brand-dark, #43392f);
   margin: 0 0 28px;
   max-width: 610px;
+  animation: heroFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
 }
 
 /* Primary Hero Actions */
@@ -122,33 +148,47 @@
   gap: 16px;
   flex-wrap: wrap;
   margin-bottom: 28px;
+  animation: heroFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
 }
+
 .btn-primary-hero {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   height: 52px;
-  background: #8b6648;
+  background: var(--color-brand-primary, #8b6648);
   color: #ffffff;
   padding: 0 32px;
   border-radius: 999px;
-  border: 1px solid #8b6648;
+  border: 1px solid var(--color-brand-primary, #8b6648);
   font-size: 15px;
   font-weight: 600;
   line-height: 1;
   box-shadow: 0 6px 20px rgba(139, 102, 72, 0.26);
-  transition: all 0.2s ease;
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
   box-sizing: border-box;
   text-decoration: none;
   cursor: pointer;
 }
+
 .btn-primary-hero:hover {
-  background: #755237;
-  border-color: #755237;
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(139, 102, 72, 0.36);
+  background: var(--color-brand-primary-hover, #755237);
+  border-color: var(--color-brand-primary-hover, #755237);
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 28px rgba(139, 102, 72, 0.38),
+    0 0 14px rgba(212, 163, 89, 0.2);
 }
+
+.btn-primary-hero:active {
+  transform: translateY(0);
+}
+
 .btn-secondary-hero {
   display: inline-flex;
   align-items: center;
@@ -156,167 +196,94 @@
   gap: 8px;
   height: 52px;
   background: #ffffff;
-  color: #43392f;
-  border: 1px solid #d5cbba;
+  color: var(--color-brand-dark, #43392f);
+  border: 1px solid var(--color-brand-border, #ded6c8);
   padding: 0 28px;
   border-radius: 999px;
   font-size: 15px;
   font-weight: 600;
   line-height: 1;
-  transition: all 0.2s ease;
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
   box-sizing: border-box;
   text-decoration: none;
   cursor: pointer;
 }
+
 .btn-secondary-hero:hover {
-  background: #fdfbf8;
-  border-color: #8c643b;
-  color: #1f1914;
-}
-
-/* Verified Outcomes Row (Clean left-column placement) */
-.hero-metrics-inline {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid #d8cfc0;
-  border-radius: 16px;
-  padding: 10px 18px;
-  margin-bottom: 24px;
-  max-width: 580px;
-  box-shadow: 0 4px 16px rgba(67, 57, 47, 0.04);
-}
-.inline-metric-item {
-  display: flex;
-  flex-direction: column;
-}
-.inline-metric-val {
-  font-family: "Libre Caslon Display", Georgia, serif;
-  font-size: 20px;
-  font-weight: 400;
-  color: #271e15;
-  line-height: 1.1;
-}
-.inline-metric-lbl {
-  font-size: 10.5px;
-  font-weight: 700;
-  color: #6e5e4f;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.inline-metric-div {
-  width: 1px;
-  height: 28px;
-  background: #d8cfc0;
-}
-
-/* Market Tech Branches Pill Selector */
-.hero-tech-branches-wrap {
-  margin-bottom: 24px;
-}
-.tech-branches-title {
-  display: block;
-  font-size: 12.5px;
-  font-weight: 700;
-  color: #5d4e3f;
-  text-transform: uppercase;
-  letter-spacing: 0.7px;
-  margin-bottom: 10px;
-}
-.tech-branches-list {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.tech-track-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
   background: #ffffff;
-  border: 1px solid #d8cfc0;
-  color: #433628;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 7px 14px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  line-height: 1;
-}
-.tech-track-btn:hover {
-  background: #271e15;
-  color: #ffffff;
-  border-color: #271e15;
-  transform: translateY(-1px);
-}
-.tech-track-btn:hover .track-icon {
-  color: #d8a56f;
-}
-.track-icon {
-  color: #8c643b;
-  flex-shrink: 0;
-  transition: color 0.2s;
-}
-.track-mini-badge {
-  background: rgba(140, 100, 59, 0.12);
-  color: #8c643b;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 999px;
-  letter-spacing: 0.3px;
-}
-.tech-track-btn:hover .track-mini-badge {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  border-color: var(--color-brand-primary, #8b6648);
+  color: var(--color-brand-heading, #271e16);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(67, 57, 47, 0.08);
 }
 
-/* Search Bar */
+.btn-secondary-hero:active {
+  transform: translateY(0);
+}
+
+/* Search Bar (Micro-interaction) */
 .hero-search-bar {
   display: flex;
   align-items: center;
   background: #ffffff;
-  border: 1px solid #d8cfc0;
+  border: 1px solid var(--color-brand-border, #ded6c8);
   border-radius: 999px;
   padding: 6px 8px 6px 20px;
   max-width: 610px;
   box-shadow: 0 6px 24px rgba(67, 57, 47, 0.07);
   margin-bottom: 26px;
-  transition: all 0.2s ease;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+  animation: heroFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
 }
+
 .hero-search-bar:focus-within {
-  border-color: #8c643b;
-  box-shadow: 0 10px 30px rgba(139, 102, 72, 0.15);
+  border-color: var(--color-brand-primary, #8b6648);
+  transform: scale(1.008);
+  box-shadow:
+    0 10px 30px rgba(139, 102, 72, 0.18),
+    0 0 0 3px rgba(212, 163, 89, 0.15);
 }
+
 .search-input-wrap {
   display: flex;
   align-items: center;
   gap: 12px;
   flex: 1;
 }
+
 .search-input-wrap input {
   border: none;
   background: transparent;
   width: 100%;
   font-size: 13.5px;
-  color: #261d15;
+  color: var(--color-brand-heading, #271e16);
   outline: none;
 }
+
 .search-input-wrap input::placeholder {
-  color: #948576;
+  color: var(--color-brand-muted, #7a6e60);
   font-size: 13px;
+  opacity: 0.8;
 }
+
 .search-icon {
-  color: #8f8274;
+  color: var(--color-brand-muted, #7a6e60);
   flex-shrink: 0;
 }
+
 .hero-search-btn {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: #43392f;
+  background: var(--color-brand-dark, #43392f);
   color: #ffffff;
   border: none;
   border-radius: 999px;
@@ -325,71 +292,26 @@
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
-  transition: background 0.2s;
-}
-.hero-search-btn:hover {
-  background: #241c15;
-}
-
-/* Alumni Trust Banner with Authentic SVG Brand Logos */
-.hero-alumni-trust {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-top: 10px;
-}
-.alumni-trust-title {
-  font-size: 11px;
-  font-weight: 700;
-  color: #877767;
-  letter-spacing: 1.1px;
-}
-.alumni-logos-row {
-  display: flex;
-  align-items: center;
-  gap: clamp(14px, 2vw, 24px);
-  flex-wrap: wrap;
-  padding-top: 4px;
-}
-.company-logo-item {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: pointer;
-}
-.company-logo-item:hover {
-  transform: translateY(-2px);
-}
-.company-logo-img {
-  display: block;
-  width: auto;
-  object-fit: contain;
-  opacity: 0.82;
-  filter: drop-shadow(0 1px 2px rgba(67, 57, 47, 0.04));
   transition:
-    opacity 0.2s ease,
-    filter 0.2s ease,
+    background-color 0.2s ease,
     transform 0.2s ease;
 }
-.company-logo-item:hover .company-logo-img {
-  opacity: 1;
-  filter: drop-shadow(0 2px 8px rgba(67, 57, 47, 0.12));
+
+.hero-search-btn:hover {
+  background: var(--color-brand-heading, #271e16);
+  transform: scale(1.02);
 }
-.company-logo-img.google {
-  height: 21px;
-}
-.company-logo-img.microsoft {
-  height: 20px;
-}
-.company-logo-img.amazon {
-  height: 22px;
-}
-.company-logo-img.stripe {
-  height: 21px;
-}
-.company-logo-img.meta {
-  height: 18px;
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-countdown-badge,
+  .hero-title,
+  .hero-subtitle,
+  .hero-actions,
+  .hero-search-bar,
+  .live-pulsing-dot {
+    animation: none;
+    transform: none;
+  }
 }
 
 /* Right Column: Full Authentic VS Code Studio Window in Website Theme */
@@ -556,7 +478,9 @@
   justify-content: center;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
   cursor: pointer;
-  transition: all 0.2s;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 .command-palette-pill:hover {
   background: rgba(255, 255, 255, 0.1);
@@ -589,7 +513,9 @@
   border-radius: 4px;
   font-size: 10px;
   cursor: pointer;
-  transition: all 0.15s;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 .btn-run-action:hover {
   background: #d8a56f;
@@ -851,7 +777,9 @@
   font-size: 11.5px;
   font-family: inherit;
   cursor: pointer;
-  transition: all 0.15s;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
   box-sizing: border-box;
 }
 .editor-tab:hover {
@@ -1161,13 +1089,5 @@
   .btn-primary-hero,
   .btn-secondary-hero {
     width: 100%;
-  }
-  .hero-metrics-inline {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  .inline-metric-div {
-    display: none;
   }
 }

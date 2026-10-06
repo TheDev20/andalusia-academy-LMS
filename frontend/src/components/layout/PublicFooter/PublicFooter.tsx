@@ -1,12 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Phone, Mail } from "lucide-react";
-import Brand from "../../common/Brand";
-import "./PublicFooter.css";
 import {
   AppRoute,
   NavigateFunction,
   ROUTE_PATHS,
 } from "../../../types/navigation";
+import Brand from "../../common/Brand";
+import "./PublicFooter.css";
+
 export interface PublicFooterProps {
   onNavigate?: NavigateFunction;
 }

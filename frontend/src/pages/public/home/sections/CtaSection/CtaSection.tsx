@@ -1,6 +1,6 @@
-import './CtaSection.css';
-import { ArrowRight, PhoneCall, Sparkles } from 'lucide-react';
-import { NavigateFunction } from '../../../../../types/navigation';
+import { ArrowRight, PhoneCall } from "lucide-react";
+import { NavigateFunction } from "../../../../../types/navigation";
+import "./CtaSection.css";
 
 export interface CtaSectionProps {
   onNavigate?: NavigateFunction;
@@ -8,7 +8,10 @@ export interface CtaSectionProps {
 
 export default function CtaSection({ onNavigate }: CtaSectionProps) {
   return (
-    <section className="cta-banner-section" aria-label="Join Andalusia Academy Call to Action">
+    <section
+      className="cta-banner-section"
+      aria-label="Join Andalusia Academy Call to Action"
+    >
       <div className="section-container">
         <div className="cta-card">
           <div className="cta-glow-accent" aria-hidden="true" />
@@ -19,7 +22,10 @@ export default function CtaSection({ onNavigate }: CtaSectionProps) {
             </h2>
 
             <p className="cta-desc">
-              Whether you are architecting enterprise microservices with ASP.NET Core, building production Generative AI agentic workflows, or orchestrating big data pipelines on BigQuery, Andalusia Academy provides the senior mentorship and verified credentials you need.
+              Whether you are architecting enterprise microservices with ASP.NET
+              Core, building production Generative AI agentic workflows, or
+              orchestrating big data pipelines on BigQuery, Andalusia Academy
+              provides the senior mentorship and verified credentials you need.
             </p>
 
             <div className="cta-perks-row">
@@ -44,7 +50,7 @@ export default function CtaSection({ onNavigate }: CtaSectionProps) {
                 onClick={(e) => {
                   if (onNavigate) {
                     e.preventDefault();
-                    onNavigate('signup');
+                    onNavigate("signup");
                   }
                 }}
               >
@@ -58,7 +64,7 @@ export default function CtaSection({ onNavigate }: CtaSectionProps) {
                 onClick={(e) => {
                   if (onNavigate) {
                     e.preventDefault();
-                    onNavigate('contact');
+                    onNavigate("contact");
                   }
                 }}
               >
@@ -68,7 +74,10 @@ export default function CtaSection({ onNavigate }: CtaSectionProps) {
             </div>
 
             <div className="cta-hotline-note">
-              <span>Have immediate questions? Call our technical admissions hotline: <strong>16781</strong></span>
+              <span>
+                Have immediate questions? Call our technical admissions hotline:{" "}
+                <strong>16781</strong>
+              </span>
             </div>
           </div>
         </div>

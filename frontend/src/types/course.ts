@@ -1,9 +1,11 @@
+import type { BadgeVariant } from "../components/common/Badge";
+
 export interface Course {
-  id: string | number;
+  id: string;
   title: string;
   category: string;
   badge?: string;
-  badgeVariant?: 'bronze' | 'gold' | 'glass' | 'emerald' | 'subtle';
+  badgeVariant?: BadgeVariant;
   duration: string;
   format?: string;
   intake: string;

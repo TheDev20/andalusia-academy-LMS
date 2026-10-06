@@ -1,49 +1,51 @@
-import './PartnersTrustSection.css';
-import React from 'react';
-import { Award, ShieldCheck, Cpu, Building2, Globe, Cloud, Code } from 'lucide-react';
+import { Award, ShieldCheck, Cpu, Building2, Globe, Cloud } from "lucide-react";
+import "./PartnersTrustSection.css";
 
 export default function PartnersTrustSection() {
   const partners = [
     {
-      name: 'Microsoft Learn Partner',
-      type: 'Official .NET & Azure Curriculum',
+      name: "Microsoft Learn Partner",
+      type: "Official .NET & Azure Curriculum",
       icon: Cloud,
-      sub: 'Enterprise Cloud & C# Standards'
+      sub: "Enterprise Cloud & C# Standards",
     },
     {
-      name: 'AWS Academy Member',
-      type: 'Cloud Architecture & DevOps',
+      name: "AWS Academy Member",
+      type: "Cloud Architecture & DevOps",
       icon: Globe,
-      sub: 'Authorized Cloud Certification Prep'
+      sub: "Authorized Cloud Certification Prep",
     },
     {
-      name: 'Google Cloud Education',
-      type: 'BigQuery & Machine Learning',
+      name: "Google Cloud Education",
+      type: "BigQuery & Machine Learning",
       icon: Cpu,
-      sub: 'Modern Data Stack & AI Frameworks'
+      sub: "Modern Data Stack & AI Frameworks",
     },
     {
-      name: 'IEEE Computer Society',
-      type: 'Technical Curricula Alignment',
+      name: "IEEE Computer Society",
+      type: "Technical Curricula Alignment",
       icon: Award,
-      sub: 'Software Engineering Standards'
+      sub: "Software Engineering Standards",
     },
     {
-      name: 'Regional Tech Consortium',
-      type: 'Direct Hiring & Talent Network',
+      name: "Regional Tech Consortium",
+      type: "Direct Hiring & Talent Network",
       icon: Building2,
-      sub: '240+ Hiring Corporate Partners'
+      sub: "240+ Hiring Corporate Partners",
     },
     {
-      name: 'Cybersecurity Defense Alliance',
-      type: 'OWASP & DevSecOps Benchmark',
+      name: "Cybersecurity Defense Alliance",
+      type: "OWASP & DevSecOps Benchmark",
       icon: ShieldCheck,
-      sub: 'Secure Coding Certification'
-    }
+      sub: "Secure Coding Certification",
+    },
   ];
 
   return (
-    <section className="partners-section" aria-label="Partners and Accreditations">
+    <section
+      className="partners-section"
+      aria-label="Partners and Accreditations"
+    >
       <div className="section-container">
         <div className="partners-intro">
           <h3 className="partners-heading">

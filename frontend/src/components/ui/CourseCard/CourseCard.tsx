@@ -1,7 +1,8 @@
-import Badge from "../../common/Badge";
-import { Course } from "../../../types/course";
-import "./CourseCard.css";
 import { Clock, Award, ArrowUpRight, Star } from "lucide-react";
+import type { Course } from "../../../types/course";
+import Badge from "../../common/Badge";
+import "./CourseCard.css";
+
 export interface CourseCardProps {
   course: Course;
   onSelect?: (course: Course) => void;
@@ -23,10 +24,7 @@ export default function CourseCard({ course, onSelect }: CourseCardProps) {
   } = course;
 
   return (
-    <article
-      className="course-card clean-tech-card"
-      aria-labelledby={`course-title-${id}`}
-    >
+    <article className="course-card" aria-labelledby={`course-title-${id}`}>
       <div className="course-card-body">
         <div className="course-card-meta-top">
           <Badge variant={badgeVariant}>{badge}</Badge>
