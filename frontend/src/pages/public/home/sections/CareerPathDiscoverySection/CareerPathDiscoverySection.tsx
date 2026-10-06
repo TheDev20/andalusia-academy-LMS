@@ -6,20 +6,17 @@ import {
   Cloud,
   ShieldCheck,
   ArrowRight,
+  X,
 } from "lucide-react";
 import Alumni from "../../../../../components/common/Alumni-logos";
 import SectionHeading from "../../../../../components/ui/SectionHeading";
 import Badge from "../../../../../components/common/Badge";
 import "./CareerPathDiscoverySection.css";
 
-export interface CareerPathDiscoverySectionProps {
-  onSelectTrack?: (track?: string) => void;
-}
+export default function CareerPathDiscoverySection() { 
+  // Store index of selected path, or null if card is toggled closed
+  const [openPathIndex, setOpenPathIndex] = useState<number | null>(0);
 
-export default function CareerPathDiscoverySection({
-  onSelectTrack,
-}: CareerPathDiscoverySectionProps) {
-  const [selectedPathIndex, setSelectedPathIndex] = useState(0);
   const paths = [
     {
       id: "software-engineering",
@@ -128,7 +125,15 @@ export default function CareerPathDiscoverySection({
     },
   ];
 
-  const activePath = paths[selectedPathIndex];
+  const activePath = openPathIndex !== null ? paths[openPathIndex] : null;
+
+  const handleTabClick = (idx: number) => {
+    if (openPathIndex === idx) {
+      setOpenPathIndex(null);
+    } else {
+      setOpenPathIndex(idx);
+    }
+  };
 
   return (
     <section
@@ -146,6 +151,7 @@ export default function CareerPathDiscoverySection({
           }
           subtitle="Explore progressive learning frameworks designed in collaboration with senior tech architects and engineering leads."
         />
+
         {/* Real-World Production Outcomes Metric Bar */}
         <div className="hero-metrics-inline" aria-label="Academy Achievements">
           <div className="inline-metric-item">
@@ -163,6 +169,7 @@ export default function CareerPathDiscoverySection({
             <span className="inline-metric-lbl">Production Labs</span>
           </div>
         </div>
+
         {/* Path Selector Tabs */}
         <div
           className="path-tabs-scroll"
@@ -171,19 +178,17 @@ export default function CareerPathDiscoverySection({
         >
           {paths.map((path, idx) => {
             const Icon = path.icon;
-            const isActive = idx === selectedPathIndex;
+            const isActive = idx === openPathIndex;
+
             return (
               <button
+                type="button"
                 key={path.id}
                 role="tab"
                 aria-selected={isActive}
+                aria-expanded={isActive}
                 className={`path-tab-btn ${isActive ? "is-active" : ""}`}
-                onClick={() => {
-                  setSelectedPathIndex(idx);
-                  if (onSelectTrack) {
-                    onSelectTrack(path.title);
-                  }
-                }}
+                onClick={() => handleTabClick(idx)}
               >
                 <Icon size={16} className="tab-icon" aria-hidden="true" />
                 <span>{path.title}</span>
@@ -192,76 +197,98 @@ export default function CareerPathDiscoverySection({
           })}
         </div>
 
-        {/* Selected Path Details Card */}
-        <div className="path-details-card" role="tabpanel">
-          <div className="path-details-header">
-            <div>
-              <div className="path-meta-badges">
-                <Badge variant="bronze">{activePath.badge}</Badge>
-                <span className="meta-time">
-                  Duration: {activePath.duration}
-                </span>
-              </div>
-              <h3 className="path-card-title">{activePath.title}</h3>
-              <p className="path-target-role">
-                Target Role: <strong>{activePath.targetRole}</strong>
-              </p>
-            </div>
-            <a
-              href="#courses"
-              className="path-apply-btn"
-              onClick={(e) => {
-                e.preventDefault();
-                const el = document.getElementById("courses");
-                if (el) el.scrollIntoView({ behavior: "smooth" });
-              }}
-            >
-              <span>Explore Track</span>
-              <ArrowRight size={14} aria-hidden="true" />
-            </a>
-          </div>
-
-          <p className="path-overview-text">{activePath.overview}</p>
-
-          <div className="path-columns-layout">
-            <div className="path-milestones-col">
-              <h4 className="milestone-col-heading">
-                Curriculum Progression Milestones
-              </h4>
-              <ul className="milestone-list">
-                {activePath.milestones.map((m, i) => (
-                  <li key={i} className="milestone-item">
-                    <span className="milestone-num">0{i + 1}</span>
-                    <span className="milestone-text">{m}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="path-courses-col">
-              <h4 className="milestone-col-heading">
-                Featured Core Courses in Track
-              </h4>
-              <div className="path-course-chips">
-                {activePath.keyCourses.map((c, i) => (
-                  <div key={i} className="path-course-chip">
-                    <span className="course-chip-dot" />
-                    <span>{c}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="path-perk-box">
-                <span className="perk-title">Career Advantage</span>
-                <p className="perk-desc">
-                  Graduating fellows receive direct capstone code reviews and
-                  priority introductions across Andalusia's tech partner
-                  network.
+        {/* Selected Path Details Card (Appears directly below tabs, toggles off when clicked again) */}
+        {activePath && (
+          <div className="path-details-card" role="tabpanel">
+            <div className="path-details-header">
+              <div>
+                <div className="path-meta-badges">
+                  <Badge variant="bronze">{activePath.badge}</Badge>
+                  <span className="meta-time">
+                    Duration: {activePath.duration}
+                  </span>
+                </div>
+                <h3 className="path-card-title">{activePath.title}</h3>
+                <p className="path-target-role">
+                  Target Role: <strong>{activePath.targetRole}</strong>
                 </p>
               </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                }}
+              >
+                <a
+                  href="#courses"
+                  className="path-apply-btn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const el = document.getElementById("courses");
+                    if (el) el.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  <span>Explore Track</span>
+                  <ArrowRight size={14} aria-hidden="true" />
+                </a>
+
+                {/* Optional Close Button inside card */}
+                <button
+                  type="button"
+                  onClick={() => setOpenPathIndex(null)}
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: "4px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "inherit",
+                    opacity: 0.7,
+                  }}
+                  aria-label="Close card"
+                >
+                  <X size={20} />
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
+
+            <p className="path-overview-text">{activePath.overview}</p>
+
+            <div className="path-columns-layout">
+              {/* <div className="path-milestones-col">
+                <h4 className="milestone-col-heading">
+                  Curriculum Progression Milestones
+                </h4>
+                <ul className="milestone-list">
+                  {activePath.milestones.map((m, i) => (
+                    <li key={i} className="milestone-item">
+                      <span className="milestone-num">0{i + 1}</span>
+                      <span className="milestone-text">{m}</span>
+                    </li>
+                  ))}
+                </ul> */}
+              </div>
+
+              <div className="path-courses-col">
+                <h4 className="milestone-col-heading">
+                  Featured Core Courses in Track
+                </h4>
+                <div className="path-course-chips">
+                  {activePath.keyCourses.map((c, i) => (
+                    <div key={i} className="path-course-chip">
+                      <span className="course-chip-dot" />
+                      <span>{c}</span>
+                    </div>
+                  ))}
+                </div>
+
+              </div>
+            </div>
+        )}
       </div>
     </section>
   );
