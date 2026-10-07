@@ -268,26 +268,6 @@ export default function FeaturedCoursesSection({
           </div>
         </div>
 
-        {/* Results Counter if searching */}
-        {searchQuery && (
-          <div className="search-active-notice">
-            <span>
-              Showing results matching "<strong>{searchQuery}</strong>" (
-              {displayCourses.length} programs found
-              {activeFilter !== "all" && ` in ${filterTabs.find((t) => t.id === activeFilter)?.label}`}
-              )
-            </span>
-            {activeFilter !== "all" && (serverCourses?.length ?? 0) > displayCourses.length && (
-              <button
-                type="button"
-                className="underline text-amber-800 font-semibold cursor-pointer ml-2"
-                onClick={() => handleTabChange("all")}
-              >
-                Switch to All Programs ({serverCourses?.length} found)
-              </button>
-            )}
-          </div>
-        )}
 
         {/* Clean, Uncrowded Courses Grid */}
         <div className="courses-grid">
