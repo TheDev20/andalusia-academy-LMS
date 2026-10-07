@@ -286,16 +286,6 @@ export default function FeaturedCoursesSection({
                 Switch to All Programs ({serverCourses?.length} found)
               </button>
             )}
-            {isFetching && (
-              <span className="text-xs text-amber-700 ml-2 animate-pulse">
-                • Querying Tiered Catalog API...
-              </span>
-            )}
-            {serverCourses && (
-              <span className="text-xs text-emerald-700 font-mono ml-2">
-                ✓ Tiered ICache Active (&lt;1ms RAM Hit)
-              </span>
-            )}
           </div>
         )}
 
