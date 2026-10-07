@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApi();
 
 // CORS configuration for React frontend (Option B Tiered Caching integration)
 builder.Services.AddCors(options =>
@@ -36,13 +36,20 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// Repositories & Domain Services
+// Repositories & Domain Services (SOLID - Dependency Inversion)
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<IProgramRepository, ProgramRepository>();
+builder.Services.AddScoped<ICareerPathRepository, CareerPathRepository>();
 builder.Services.AddScoped<ICatalogService, CachedCatalogService>();
 
 var app = builder.Build();
 
 app.UseCors("AllowFrontend");
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

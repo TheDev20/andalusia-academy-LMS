@@ -11,13 +11,17 @@ import {
 import Alumni from "../../../../../components/common/Alumni-logos";
 import SectionHeading from "../../../../../components/ui/SectionHeading";
 import Badge from "../../../../../components/common/Badge";
+import { useCareerPaths } from "@/hooks/useCareerPaths";
 import "./CareerPathDiscoverySection.css";
+
 export interface CareerPathDiscoverySectionProps {
   onExploreTrack?: (filter: string) => void;
 }
+
 export default function CareerPathDiscoverySection({
   onExploreTrack,
 }: CareerPathDiscoverySectionProps) {
+  const { data: serverCareerPaths } = useCareerPaths();
   // Store index of selected path, or null if card is toggled closed
   const [openPathIndex, setOpenPathIndex] = useState<number | null>(0);
 

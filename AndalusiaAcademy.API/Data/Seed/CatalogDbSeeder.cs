@@ -8,7 +8,7 @@ public static class CatalogDbSeeder
 {
     public static async Task SeedCatalogAsync(ApplicationDbContext context)
     {
-        if (await context.Courses.AnyAsync())
+        if (await context.Courses.AnyAsync() && await context.Programs.AnyAsync())
         {
             return; 
         }
@@ -22,123 +22,318 @@ public static class CatalogDbSeeder
             ["Cybersecurity"] = new() { Name = "Cybersecurity", Slug = "cybersecurity" }
         };
 
-        await context.Categories.AddRangeAsync(categories.Values);
-        await context.SaveChangesAsync();
+        if (!await context.Categories.AnyAsync())
+        {
+            await context.Categories.AddRangeAsync(categories.Values);
+            await context.SaveChangesAsync();
+        }
+        else
+        {
+            var dbCategories = await context.Categories.ToListAsync();
+            foreach (var cat in dbCategories)
+            {
+                if (categories.ContainsKey(cat.Name))
+                {
+                    categories[cat.Name] = cat;
+                }
+            }
+        }
 
         var now = DateTimeOffset.UtcNow;
 
-        var courses = new List<(Course course, string category, decimal price, int daysUntilStart)>
+        // 1. Seed Courses
+        var courseMap = new Dictionary<string, Course>();
+
+        var coursesData = new List<(string key, string title, string slug, string desc, string category, decimal price, int daysUntilStart)>
         {
             (
-                new Course
-                {
-                    Title = "ASP.NET Core & Enterprise Microservices Masterclass",
-                    Slug = "aspnet-core-enterprise",
-                    Description = "Architect high-performance distributed systems using .NET 10, EF Core code-first migrations, SQL Server, Clean Architecture, and Redis caching.",
-                    PublicationStatus = "Published"
-                },
+                "aspnet",
+                "ASP.NET Core & Enterprise Microservices Masterclass",
+                "aspnet-core-enterprise",
+                "Architect high-performance distributed systems using .NET 10, EF Core code-first migrations, SQL Server, Clean Architecture, and Redis caching.",
                 "Software Engineering",
                 750m,
                 8
             ),
             (
-                new Course
-                {
-                    Title = "Applied Generative AI, LLMs & Autonomous Agents Bootcamp",
-                    Slug = "applied-genai-llm",
-                    Description = "Build production-ready agentic AI systems using LangChain, vector databases, RAG architectures, and fine-tuned open-source LLMs.",
-                    PublicationStatus = "Published"
-                },
-                "AI & Machine Learning",
-                950m,
-                24
-            ),
-            (
-                new Course
-                {
-                    Title = "Modern Full-Stack React 19 & TypeScript Systems Architecture",
-                    Slug = "react-fullstack-architecture",
-                    Description = "Master Next.js App Router, React Server Components, state management, full-stack typed APIs, and scalable modular design systems.",
-                    PublicationStatus = "Published"
-                },
+                "react",
+                "Modern Full-Stack React 19 & TypeScript Systems Architecture",
+                "react-fullstack-architecture",
+                "Master Next.js App Router, React Server Components, state management, full-stack typed APIs, and scalable modular design systems.",
                 "Software Engineering",
                 680m,
                 13
             ),
             (
-                new Course
-                {
-                    Title = "Data Science & Machine Learning Engineering Specialization",
-                    Slug = "data-science-ml",
-                    Description = "Master statistical machine learning with Python, Pandas, Scikit-Learn, PyTorch neural networks, feature engineering, and production MLOOps.",
-                    PublicationStatus = "Published"
-                },
+                "genai",
+                "Applied Generative AI, LLMs & Autonomous Agents Bootcamp",
+                "applied-genai-llm",
+                "Build production-ready agentic AI systems using LangChain, vector databases, RAG architectures, and fine-tuned open-source LLMs.",
+                "AI & Machine Learning",
+                950m,
+                24
+            ),
+            (
+                "datascience",
+                "Data Science & Machine Learning Engineering Specialization",
+                "data-science-ml",
+                "Master statistical machine learning with Python, Pandas, Scikit-Learn, PyTorch neural networks, feature engineering, and production MLOps.",
                 "Data Science",
                 820m,
                 33
             ),
             (
-                new Course
-                {
-                    Title = "Big Data Engineering with Apache Spark & Google BigQuery",
-                    Slug = "bigdata-spark-bigquery",
-                    Description = "Process massive streaming datasets using Apache Spark, build scalable cloud data warehouses on BigQuery, and automate enterprise DBT pipelines.",
-                    PublicationStatus = "Published"
-                },
+                "bigdata",
+                "Big Data Engineering with Apache Spark & Google BigQuery",
+                "bigdata-spark-bigquery",
+                "Process massive streaming datasets using Apache Spark, build scalable cloud data warehouses on BigQuery, and automate enterprise DBT pipelines.",
                 "Data Science",
                 890m,
                 21
             ),
             (
-                new Course
-                {
-                    Title = "Cloud-Native Kubernetes, Terraform & DevOps Orchestration",
-                    Slug = "kubernetes-devops-cloud",
-                    Description = "Provision cloud environments with Terraform, orchestrate containerized microservices in production Kubernetes, and automate GitHub Actions CI/CD.",
-                    PublicationStatus = "Published"
-                },
+                "devops",
+                "Cloud-Native Kubernetes, Terraform & DevOps Orchestration",
+                "kubernetes-devops-cloud",
+                "Provision cloud environments with Terraform, orchestrate containerized microservices in production Kubernetes, and automate GitHub Actions CI/CD.",
                 "Cloud & DevOps",
                 790m,
                 38
             ),
             (
-                new Course
-                {
-                    Title = "Enterprise Cybersecurity, Penetration Testing & DevSecOps",
-                    Slug = "cybersecurity-devsecops",
-                    Description = "Master hands-on penetration testing, OWASP Top 10 mitigation, Zero-Trust network architecture, SOC threat hunting, and automated DevSecOps pipelines.",
-                    PublicationStatus = "Published"
-                },
+                "cybersec",
+                "Enterprise Cybersecurity, Penetration Testing & DevSecOps",
+                "cybersecurity-devsecops",
+                "Master hands-on penetration testing, OWASP Top 10 mitigation, Zero-Trust network architecture, SOC threat hunting, and automated DevSecOps pipelines.",
                 "Cybersecurity",
                 850m,
                 28
             )
         };
 
-        foreach (var (course, catName, price, daysUntilStart) in courses)
+        foreach (var (key, title, slug, desc, catName, price, daysUntilStart) in coursesData)
         {
-            await context.Courses.AddAsync(course);
-
-            var courseCategory = new CourseCategory
+            var existingCourse = await context.Courses.FirstOrDefaultAsync(c => c.Slug == slug);
+            if (existingCourse == null)
             {
-                CourseId = course.Id,
-                CategoryId = categories[catName].Id,
-                Sequence = 1
-            };
-            await context.CourseCategories.AddAsync(courseCategory);
+                var course = new Course
+                {
+                    Title = title,
+                    Slug = slug,
+                    Description = desc,
+                    PublicationStatus = "Published"
+                };
+                await context.Courses.AddAsync(course);
 
-            var offering = new Offering
+                var courseCategory = new CourseCategory
+                {
+                    CourseId = course.Id,
+                    CategoryId = categories[catName].Id,
+                    Sequence = 1
+                };
+                await context.CourseCategories.AddAsync(courseCategory);
+
+                var offering = new Offering
+                {
+                    Kind = "Course",
+                    CourseId = course.Id,
+                    StartsAt = now.AddDays(daysUntilStart),
+                    EndsAt = now.AddDays(daysUntilStart + 120),
+                    Price = price,
+                    Currency = "USD",
+                    Capacity = 30,
+                    Status = "Published"
+                };
+                await context.Offerings.AddAsync(offering);
+                courseMap[key] = course;
+            }
+            else
             {
-                Kind = "Course",
-                CourseId = course.Id,
-                StartsAt = now.AddDays(daysUntilStart),
-                EndsAt = now.AddDays(daysUntilStart + 120),
-                Price = price,
-                Currency = "USD",
-                Capacity = 30,
-                Status = "Published"
-            };
-            await context.Offerings.AddAsync(offering);
+                courseMap[key] = existingCourse;
+            }
+        }
+
+        await context.SaveChangesAsync();
+
+        // 2. Seed Programs
+        var programMap = new Dictionary<string, Models.Catalog.Program>();
+
+        var programsData = new List<(string key, string title, string slug, string desc, string category, decimal price, int daysUntilStart, List<string> courseKeys)>
+        {
+            (
+                "fullstack-prog",
+                "Full-Stack Software Engineering & Distributed Systems",
+                "full-stack-software-engineering-systems",
+                "Comprehensive degree-caliber program covering enterprise ASP.NET Core backends, React 19 frontend systems, Clean Architecture, and microservices.",
+                "Software Engineering",
+                2400m,
+                14,
+                new List<string> { "aspnet", "react", "devops" }
+            ),
+            (
+                "ai-prog",
+                "Applied Generative AI & Autonomous Agentic Systems",
+                "applied-generative-ai-agentic-systems",
+                "Master LLMs, fine-tuning, retrieval-augmented generation (RAG), autonomous multi-agent systems, and PyTorch deep learning architectures.",
+                "AI & Machine Learning",
+                2800m,
+                20,
+                new List<string> { "genai", "datascience" }
+            ),
+            (
+                "data-prog",
+                "Data Science & Cloud Big Data Engineering",
+                "data-science-big-data-engineering",
+                "End-to-end data platform engineering: statistical machine learning, PySpark distributed computation, and BigQuery data warehousing.",
+                "Data Science",
+                2200m,
+                25,
+                new List<string> { "datascience", "bigdata" }
+            ),
+            (
+                "devops-prog",
+                "Cloud Infrastructure, Kubernetes & DevOps Orchestration",
+                "cloud-infrastructure-kubernetes-devops",
+                "Enterprise cloud infrastructure, container orchestration with Kubernetes, Infrastructure as Code with Terraform, and DevSecOps pipelines.",
+                "Cloud & DevOps",
+                2100m,
+                18,
+                new List<string> { "devops", "cybersec" }
+            )
+        };
+
+        foreach (var (key, title, slug, desc, catName, price, daysUntilStart, courseKeys) in programsData)
+        {
+            var existingProg = await context.Programs.FirstOrDefaultAsync(p => p.Slug == slug);
+            if (existingProg == null)
+            {
+                var program = new Models.Catalog.Program
+                {
+                    Title = title,
+                    Slug = slug,
+                    Description = desc,
+                    PublicationStatus = "Published"
+                };
+                await context.Programs.AddAsync(program);
+
+                var progCategory = new ProgramCategory
+                {
+                    ProgramId = program.Id,
+                    CategoryId = categories[catName].Id,
+                    Sequence = 1
+                };
+                await context.ProgramCategories.AddAsync(progCategory);
+
+                int seq = 1;
+                foreach (var cKey in courseKeys)
+                {
+                    if (courseMap.TryGetValue(cKey, out var course))
+                    {
+                        await context.ProgramCourses.AddAsync(new ProgramCourse
+                        {
+                            ProgramId = program.Id,
+                            CourseId = course.Id,
+                            Sequence = seq++,
+                            IsRequired = true
+                        });
+                    }
+                }
+
+                var offering = new Offering
+                {
+                    Kind = "Program",
+                    ProgramId = program.Id,
+                    StartsAt = now.AddDays(daysUntilStart),
+                    EndsAt = now.AddDays(daysUntilStart + 180),
+                    Price = price,
+                    Currency = "USD",
+                    Capacity = 25,
+                    Status = "Published"
+                };
+                await context.Offerings.AddAsync(offering);
+                programMap[key] = program;
+            }
+            else
+            {
+                programMap[key] = existingProg;
+            }
+        }
+
+        await context.SaveChangesAsync();
+
+        // 3. Seed Career Paths
+        var careerPathsData = new List<(string title, string slug, string desc, List<string> programKeys, List<string> courseKeys)>
+        {
+            (
+                "Full-Stack Enterprise Systems Architect",
+                "full-stack-systems-architect",
+                "Master high-scale backend microservices, modern frontend web architectures, and cloud-native Kubernetes deployment pipelines.",
+                new List<string> { "fullstack-prog", "devops-prog" },
+                new List<string> { "aspnet", "react", "devops" }
+            ),
+            (
+                "Applied AI & Autonomous Systems Engineer",
+                "applied-ai-systems-engineer",
+                "Design and deploy production-grade generative AI applications, agentic workflows, custom vector databases, and neural models.",
+                new List<string> { "ai-prog", "data-prog" },
+                new List<string> { "genai", "datascience" }
+            ),
+            (
+                "Cloud Platform & Big Data Engineering Lead",
+                "cloud-platform-big-data-lead",
+                "Build petabyte-scale data pipelines, automate cloud infrastructure, and manage distributed data lakes on GCP and Azure.",
+                new List<string> { "data-prog", "devops-prog" },
+                new List<string> { "bigdata", "devops" }
+            ),
+            (
+                "Enterprise Cybersecurity & DevSecOps Specialist",
+                "cybersecurity-devsecops-specialist",
+                "Defend enterprise distributed systems, orchestrate Zero-Trust architectures, and automate compliance across CI/CD environments.",
+                new List<string> { "devops-prog" },
+                new List<string> { "cybersec", "devops" }
+            )
+        };
+
+        foreach (var (title, slug, desc, progKeys, cKeys) in careerPathsData)
+        {
+            if (!await context.CareerPaths.AnyAsync(cp => cp.Slug == slug))
+            {
+                var cp = new CareerPath
+                {
+                    Title = title,
+                    Slug = slug,
+                    Description = desc
+                };
+                await context.CareerPaths.AddAsync(cp);
+
+                int seqP = 1;
+                foreach (var pKey in progKeys)
+                {
+                    if (programMap.TryGetValue(pKey, out var prog))
+                    {
+                        await context.CareerPathPrograms.AddAsync(new CareerPathProgram
+                        {
+                            CareerPathId = cp.Id,
+                            ProgramId = prog.Id,
+                            Sequence = seqP++
+                        });
+                    }
+                }
+
+                int seqC = 1;
+                foreach (var cKey in cKeys)
+                {
+                    if (courseMap.TryGetValue(cKey, out var course))
+                    {
+                        await context.CareerPathCourses.AddAsync(new CareerPathCourse
+                        {
+                            CareerPathId = cp.Id,
+                            CourseId = course.Id,
+                            Sequence = seqC++
+                        });
+                    }
+                }
+            }
         }
 
         await context.SaveChangesAsync();

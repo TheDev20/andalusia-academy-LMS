@@ -1,5 +1,5 @@
 import { useMemo, useEffect, useState } from "react";
-import { NavigateFunction } from "../../../../../../types/navigation";
+import { NavigateFunction } from "@/types/navigation";
 import {
   AcademicCurriculum,
   ACADEMIC_CURRICULA,
@@ -9,6 +9,8 @@ import { AcademicSearchHeader } from "./components/AcademicSearchHeader";
 import { AcademicFilterBar, FilterType } from "./components/AcademicFilterBar";
 import { AcademicCurriculumCard } from "./components/AcademicCurriculumCard";
 import { AcademicEmptyState } from "./components/AcademicEmptyState";
+import { useCatalogSearch } from "@/hooks/useCatalogSearch";
+import { CourseSummaryDto, ProgramSummaryDto } from "@/types/catalog";
 import "./AcademicSearchModal.css";
 
 export type { AcademicCurriculum };
@@ -23,6 +25,46 @@ export interface AcademicSearchModalProps {
   onNavigate?: NavigateFunction;
 }
 
+function mapProgramToCurriculum(p: ProgramSummaryDto): AcademicCurriculum {
+  return {
+    id: p.id,
+    type: "program",
+    code: p.slug.replace(/[^a-zA-Z0-9]/g, "").slice(0, 7).toUpperCase(),
+    title: p.title,
+    category: p.categories[0] || "Software Engineering",
+    badge: p.startingPrice ? `$${p.startingPrice}` : "FULL PROGRAM",
+    badgeType: "purple",
+    description: p.description,
+    stats: {
+      coursesCount: p.coursesCount || 4,
+      labHours: `${(p.coursesCount || 4) * 40}h`,
+      mentor: "Active AI Mentor",
+    },
+    coursePills: p.courseTitles.length > 0 ? p.courseTitles : ["CORE", "LABS", "CAPSTONE"],
+    targetFile: "App.tsx",
+  };
+}
+
+function mapCourseToCurriculum(c: CourseSummaryDto): AcademicCurriculum {
+  return {
+    id: c.id,
+    type: "course",
+    code: c.slug.replace(/[^a-zA-Z0-9]/g, "").slice(0, 6).toUpperCase(),
+    title: c.title,
+    category: c.categories[0] || "Technology",
+    badge: c.startingPrice ? `$${c.startingPrice}` : "COURSE",
+    badgeType: "blue",
+    description: c.description,
+    stats: {
+      coursesCount: 1,
+      labHours: "40h",
+      mentor: "Active AI Mentor",
+    },
+    coursePills: c.categories.length > 0 ? c.categories : ["HANDS-ON", "CODE-FIRST"],
+    targetFile: "train_agent.py",
+  };
+}
+
 export default function AcademicSearchModal({
   isOpen,
   onClose,
@@ -32,6 +74,12 @@ export default function AcademicSearchModal({
   onNavigate,
 }: AcademicSearchModalProps) {
   const [filterType, setFilterType] = useState<FilterType>("all");
+
+  // Tiered Caching Search Hook (Level 1 client cache + Level 2 300ms debounce)
+  const { courses, programs, isLoading } = useCatalogSearch(query, {
+    debounceMs: 300,
+    pageSize: 20,
+  });
 
   // Close on Escape key
   useEffect(() => {
@@ -44,18 +92,25 @@ export default function AcademicSearchModal({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
+  // Combine backend live data with fallback static data
+  const liveCurricula = useMemo<AcademicCurriculum[]>(() => {
+    if (courses?.items || programs?.items) {
+      const progItems = (programs?.items || []).map(mapProgramToCurriculum);
+      const courseItems = (courses?.items || []).map(mapCourseToCurriculum);
+      const combined = [...progItems, ...courseItems];
+      if (combined.length > 0) return combined;
+    }
+    return ACADEMIC_CURRICULA;
+  }, [courses, programs]);
+
   // Filter items by search query and type pill
   const { filteredItems, programCount, courseCount } = useMemo(() => {
-    const queryMatched = ACADEMIC_CURRICULA.filter((item) =>
+    const queryMatched = liveCurricula.filter((item) =>
       matchesSearchQuery(item, query),
     );
 
-    const programs = queryMatched.filter(
-      (item) => item.type === "program",
-    ).length;
-    const courses = queryMatched.filter(
-      (item) => item.type === "course",
-    ).length;
+    const progCount = queryMatched.filter((item) => item.type === "program").length;
+    const crsCount = queryMatched.filter((item) => item.type === "course").length;
 
     const filtered = queryMatched.filter((item) => {
       if (filterType === "all") return true;
@@ -64,10 +119,10 @@ export default function AcademicSearchModal({
 
     return {
       filteredItems: filtered,
-      programCount: programs,
-      courseCount: courses,
+      programCount: progCount,
+      courseCount: crsCount,
     };
-  }, [query, filterType]);
+  }, [liveCurricula, query, filterType]);
 
   if (!isOpen) return null;
 
@@ -93,7 +148,11 @@ export default function AcademicSearchModal({
 
       {/* Cards Scrollable Body */}
       <div className="academic-modal-body">
-        {filteredItems.length === 0 ? (
+        {isLoading && filteredItems.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "40px", color: "var(--color-gold)" }}>
+            Searching catalog offerings...
+          </div>
+        ) : filteredItems.length === 0 ? (
           <AcademicEmptyState
             query={query}
             onReset={() => {
