@@ -1,4 +1,3 @@
-import React from "react";
 import { Code2, Cpu } from "lucide-react";
 import { ProgramSyllabusDetails } from "../../syllabusData";
 import "./TechStackTab.css";
@@ -15,7 +14,8 @@ export const TechStackTab: React.FC<TechStackTabProps> = ({ syllabus }) => {
         <div>
           <h4>Enterprise Toolchains & Bleeding-Edge Standards</h4>
           <p>
-            Curated to match modern enterprise production stacks. Fellows build direct muscle memory in these industry tools and frameworks.
+            Curated to match modern enterprise production stacks. Fellows build
+            direct muscle memory in these industry tools and frameworks.
           </p>
         </div>
       </div>
@@ -35,7 +35,9 @@ export const TechStackTab: React.FC<TechStackTabProps> = ({ syllabus }) => {
           <div>
             <h5>Integrated Cloud Development Environment</h5>
             <p>
-              Each fellow receives dedicated cloud GPU/compute instances, pre-configured DevContainers, and 24/7 access to Andalusia's proprietary AI Code Mentorship Engine.
+              Each fellow receives dedicated cloud GPU/compute instances,
+              pre-configured DevContainers, and 24/7 access to Andalusia's
+              proprietary AI Code Mentorship Engine.
             </p>
           </div>
         </div>

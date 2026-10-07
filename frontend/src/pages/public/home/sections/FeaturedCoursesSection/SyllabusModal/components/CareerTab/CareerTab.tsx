@@ -1,5 +1,9 @@
-import React from "react";
-import { ArrowRight, Briefcase, CheckCircle2, GraduationCap } from "lucide-react";
+import {
+  ArrowRight,
+  Briefcase,
+  CheckCircle2,
+  GraduationCap,
+} from "lucide-react";
 import { ProgramSyllabusDetails } from "../../syllabusData";
 import "./CareerTab.css";
 
@@ -27,9 +31,15 @@ export const CareerTab: React.FC<CareerTabProps> = ({ syllabus }) => {
           </ul>
 
           <div className="salary-benchmark-box">
-            <span className="salary-label">Typical Market Salary Benchmark:</span>
-            <span className="salary-value">{syllabus.careerOutcomes.averageSalaryRange}</span>
-            <span className="salary-footnote">Based on tech placement reports across hiring partner network</span>
+            <span className="salary-label">
+              Typical Market Salary Benchmark:
+            </span>
+            <span className="salary-value">
+              {syllabus.careerOutcomes.averageSalaryRange}
+            </span>
+            <span className="salary-footnote">
+              Based on tech placement reports across hiring partner network
+            </span>
           </div>
         </div>
 
@@ -49,10 +59,14 @@ export const CareerTab: React.FC<CareerTabProps> = ({ syllabus }) => {
           </ul>
 
           <div className="hiring-partners-strip">
-            <span className="partners-label">Representative Hiring Network:</span>
+            <span className="partners-label">
+              Representative Hiring Network:
+            </span>
             <div className="partners-tags">
               {syllabus.careerOutcomes.hiringPartners.map((partner, idx) => (
-                <span key={idx} className="partner-tag">{partner}</span>
+                <span key={idx} className="partner-tag">
+                  {partner}
+                </span>
               ))}
             </div>
           </div>
