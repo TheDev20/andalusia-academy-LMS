@@ -14,7 +14,6 @@ import PartnersTrustSection from "../sections/PartnersTrustSection";
 import TestimonialsSection from "../sections/TestimonialsSection";
 import CtaSection from "../sections/CtaSection";
 import "./HomePage.css";
-
 export interface HomePageProps {
   onNavigate?: NavigateFunction;
 }

@@ -11,7 +11,7 @@
 }
 .category-card {
   background: #ffffff;
-  border: 1px solid #ded6c8;
+  border: 2px solid #f6ebdd;
   border-radius: 22px;
   padding: 28px;
   cursor: pointer;
@@ -22,7 +22,7 @@
 }
 .category-card:hover {
   transform: translateY(-4px);
-  border-color: #8c643b;
+  border-color: #e8c9a0;
   box-shadow: 0 12px 30px rgba(67, 57, 47, 0.08);
 }
 .cat-card-header {
@@ -36,9 +36,10 @@
   height: 56px;
   border-radius: 16px;
   background: rgba(174, 138, 88, 0.12);
-  color: #8c683b;
+  color: #000000;
   display: grid;
   place-items: center;
+  margin-left: auto;
 }
 .cat-count-badge {
   font-size: 12px;
@@ -46,17 +47,17 @@
   color: #695949;
   background: #f0e9df;
   padding: 5px 12px;
-  border-radius: 999px;
+  border-radius: 100px;
 }
 .cat-card-title {
-  font-family: 'Libre Caslon Display', Georgia, serif;
-  font-size: 22px;
+  font-family: "Libre Caslon Display", Georgia, serif;
+  font-size: 32px;
   color: #271e16;
   margin: 0 0 10px;
   font-weight: 400;
 }
 .cat-card-desc {
-  font-size: 14.5px;
+  font-size: 16px;
   line-height: 1.65;
   color: #554738;
   margin: 0 0 22px;
@@ -69,4 +70,3 @@
   font-weight: 600;
   color: #8b6648;
 }
-

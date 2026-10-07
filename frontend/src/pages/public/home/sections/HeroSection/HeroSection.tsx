@@ -25,6 +25,7 @@ import { NavigateFunction } from "../../../../../types/navigation";
 import { useCountdown } from "../../../../../hooks/useCountdown";
 import AcademicSearchModal from "./AcademicSearchModal";
 import "./HeroSection.css";
+import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
 
 export interface CodeToken {
   t: string;
@@ -661,6 +662,7 @@ export default function HeroSection({
       className="hero-section scroll-section"
       aria-label="Hero"
     >
+      <Floating3DParticles color="#d8a56f" quantity={400} />
       <div className="hero-bg-accent" aria-hidden="true" />
       <div className="hero-container">
         {/* Left Column: Information & Conversion */}

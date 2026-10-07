@@ -12,7 +12,6 @@ import Alumni from "../../../../../components/common/Alumni-logos";
 import SectionHeading from "../../../../../components/ui/SectionHeading";
 import Badge from "../../../../../components/common/Badge";
 import "./CareerPathDiscoverySection.css";
-
 export interface CareerPathDiscoverySectionProps {
   onExploreTrack?: (filter: string) => void;
 }
@@ -113,7 +112,7 @@ export default function CareerPathDiscoverySection({
     },
     {
       id: "cybersecurity",
-      filterTab: "all",
+      filterTab: "cyber",
       title: "Cybersecurity & Secure Systems",
       icon: ShieldCheck,
       badge: "DEFENSE & DEVSECOPS",

@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import SectionHeading from "../../../../../components/ui/SectionHeading";
 import "./PopularCategoriesSection.css";
-
+import { MagicCard } from "@/components/ui/magic-card";
 export interface PopularCategoriesSectionProps {
   onSelectCategory?: (categoryName: string) => void;
 }
@@ -26,7 +26,7 @@ export default function PopularCategoriesSection({
       count: "18 Programs",
       icon: Code2,
       description:
-        "ASP.NET Core, React, Node.js, Clean Architecture, enterprise microservices, and modern frontend frameworks.",
+        "Full-stack web development, modern JavaScript frameworks, RESTful APIs, and scalable cloud-based architectures.",
     },
     {
       id: "ai-ml",
@@ -87,7 +87,11 @@ export default function PopularCategoriesSection({
   ];
 
   return (
-    <section className="categories-section" aria-label="Popular Categories">
+    <section
+      className="categories-section"
+      className="category-card"
+      aria-label="Popular Categories"
+    >
       <div className="section-container">
         <SectionHeading
           title={
@@ -98,13 +102,12 @@ export default function PopularCategoriesSection({
           subtitle="From enterprise software development to state-of-the-art artificial intelligence and big data, select your area of technical focus."
         />
 
-        <div className="categories-grid">
+        <div className="categories-grid ">
           {categories.map((cat) => {
             const Icon = cat.icon;
             return (
               <div
                 key={cat.id}
-                className="category-card"
                 onClick={() => onSelectCategory && onSelectCategory(cat.title)}
                 role="button"
                 tabIndex={0}
@@ -114,18 +117,28 @@ export default function PopularCategoriesSection({
                   }
                 }}
               >
-                <div className="category-header-row">
-                  <div className="category-icon-box">
-                    <Icon size={24} aria-hidden="true" />
+                <MagicCard
+                  mode="gradient"
+                  gradientColor="#E8C9A0"
+                  // glowFrom="#E8C9A0"
+                  // glowTo="#F6EBDD"
+                  className="category-card"
+                  gradientSize={100}
+                >
+                  {/* <div className= category-card> */}
+                  <div className="category-header-row">
+                    <div className="cat-icon-frame">
+                      <Icon size={24} aria-hidden="true" />
+                    </div>
+                    <span className="cat-count-badge">{cat.count}</span>
                   </div>
-                  <span className="category-count">{cat.count}</span>
-                </div>
-                <h3 className="category-title">{cat.title}</h3>
-                <p className="category-desc">{cat.description}</p>
-                <div className="category-explore-link">
-                  <span>Browse Tracks</span>
-                  <ArrowRight size={13} aria-hidden="true" />
-                </div>
+                  <h2 className="cat-card-title">{cat.title}</h2>
+                  <p className="cat-card-desc">{cat.description}</p>
+                  <div className="cat-explore-link">
+                    <span>Browse Tracks</span>
+                    <ArrowRight size={13} aria-hidden="true" />
+                  </div>
+                </MagicCard>
               </div>
             );
           })}
