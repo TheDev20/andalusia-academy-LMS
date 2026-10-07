@@ -89,7 +89,6 @@ export default function PopularCategoriesSection({
   return (
     <section
       className="categories-section"
-      className="category-card"
       aria-label="Popular Categories"
     >
       <div className="section-container">
