@@ -23,7 +23,6 @@ import {
 } from "lucide-react";
 import { NavigateFunction } from "../../../../../types/navigation";
 import { useCountdown } from "../../../../../hooks/useCountdown";
-import AcademicSearchModal from "./AcademicSearchModal";
 import "./HeroSection.css";
 import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
 
@@ -47,7 +46,6 @@ export default function HeroSection({
 }: HeroSectionProps) {
   const [query, setQuery] = useState("");
   const [activeFile, setActiveFile] = useState("App.tsx");
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const timeLeft = useCountdown({
     days: 12,
@@ -65,10 +63,10 @@ export default function HeroSection({
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsModalOpen(true);
     if (onSearch) {
       onSearch(query);
     }
+    scrollToCourses();
   };
 
   const currentFile = IDE_FILES[activeFile] || IDE_FILES["App.tsx"];
@@ -157,14 +155,6 @@ export default function HeroSection({
                   setQuery(e.target.value);
                   if (onSearch) {
                     onSearch(e.target.value);
-                  }
-                  if (!isModalOpen && e.target.value.trim().length > 0) {
-                    setIsModalOpen(true);
-                  }
-                }}
-                onFocus={() => {
-                  if (query.trim().length > 0) {
-                    setIsModalOpen(true);
                   }
                 }}
                 aria-label="Search academy courses and programs"
@@ -539,19 +529,6 @@ export default function HeroSection({
               </div>
             </div>
           </div>
-
-          {/* Academic Search Discovery Modal (Search popup appearing on top of the IDE) */}
-          <AcademicSearchModal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            query={query}
-            onQueryChange={(q) => {
-              setQuery(q);
-              if (onSearch) onSearch(q);
-            }}
-            onSelectFile={setActiveFile}
-            onNavigate={onNavigate}
-          />
         </div>
       </div>
     </section>
