@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using AndalusiaAcademy.API.Data;
 using AndalusiaAcademy.API.Repositories.Interfaces;
 using AndalusiaAcademy.API.Repositories.Implementations;
@@ -10,6 +10,21 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+// CORS configuration for React frontend (Option B Tiered Caching integration)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins(
+                "http://localhost:5173",
+                "http://127.0.0.1:5173",
+                "http://localhost:3000",
+                "http://127.0.0.1:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 // Caching Layer (Level 3 - In-Memory Cache)
 builder.Services.AddMemoryCache();
@@ -27,8 +42,17 @@ builder.Services.AddScoped<ICatalogService, CachedCatalogService>();
 
 var app = builder.Build();
 
+app.UseCors("AllowFrontend");
+
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+// Seed initial catalog data in Development if database is empty
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await AndalusiaAcademy.API.Data.Seed.CatalogDbSeeder.SeedCatalogAsync(dbContext);
+}
 
 app.Run();

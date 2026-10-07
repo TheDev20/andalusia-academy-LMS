@@ -40,6 +40,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
     }
   };
 
+  const handleHeroSearch = (query: string) => {
+    setSearchQuery(query);
+    if (query.trim().length > 0) {
+      setCourseFilter("all");
+    }
+  };
+
   const handleCourseSelect = () => {
     if (onNavigate) {
       onNavigate(ROUTES.SIGNUP);
@@ -48,13 +55,14 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
   return (
     <div className="homepage-wrapper">
-      <HeroSection onNavigate={onNavigate} onSearch={setSearchQuery} />
+      <HeroSection onNavigate={onNavigate} onSearch={handleHeroSearch} />
       <CareerPathDiscoverySection onExploreTrack={handleTrackSelect} />
       <PopularCategoriesSection onSelectCategory={handleCategorySelect} />
       <FeaturedCoursesSection
         activeFilter={courseFilter}
         onFilterChange={setCourseFilter}
         searchQuery={searchQuery}
+        onClearSearch={() => setSearchQuery("")}
         onSelectCourse={handleCourseSelect}
         onNavigate={onNavigate}
       />

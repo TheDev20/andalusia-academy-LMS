@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { NavigateFunction } from "../../../../../../types/navigation";
 import {
   AcademicCurriculum,
@@ -6,10 +6,7 @@ import {
   matchesSearchQuery,
 } from "./academicData";
 import { AcademicSearchHeader } from "./components/AcademicSearchHeader";
-import {
-  AcademicFilterBar,
-  FilterType,
-} from "./components/AcademicFilterBar";
+import { AcademicFilterBar, FilterType } from "./components/AcademicFilterBar";
 import { AcademicCurriculumCard } from "./components/AcademicCurriculumCard";
 import { AcademicEmptyState } from "./components/AcademicEmptyState";
 import "./AcademicSearchModal.css";
@@ -50,11 +47,15 @@ export default function AcademicSearchModal({
   // Filter items by search query and type pill
   const { filteredItems, programCount, courseCount } = useMemo(() => {
     const queryMatched = ACADEMIC_CURRICULA.filter((item) =>
-      matchesSearchQuery(item, query)
+      matchesSearchQuery(item, query),
     );
 
-    const programs = queryMatched.filter((item) => item.type === "program").length;
-    const courses = queryMatched.filter((item) => item.type === "course").length;
+    const programs = queryMatched.filter(
+      (item) => item.type === "program",
+    ).length;
+    const courses = queryMatched.filter(
+      (item) => item.type === "course",
+    ).length;
 
     const filtered = queryMatched.filter((item) => {
       if (filterType === "all") return true;

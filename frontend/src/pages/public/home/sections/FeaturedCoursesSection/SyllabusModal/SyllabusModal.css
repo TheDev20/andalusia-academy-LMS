@@ -1,17 +1,3 @@
-/* ==========================================================================
-   SYLLABUS MODAL SHELL (CONTAINER & BACKDROP)
-   Individual section styles are in their respective components/ folders:
-   - components/SyllabusHeader/SyllabusHeader.css
-   - components/SyllabusStatsStrip/SyllabusStatsStrip.css
-   - components/SyllabusTabsNav/SyllabusTabsNav.css
-   - components/CurriculumTab/CurriculumTab.css
-   - components/LabsTab/LabsTab.css
-   - components/TechStackTab/TechStackTab.css
-   - components/CareerTab/CareerTab.css
-   - components/SyllabusFooter/SyllabusFooter.css
-   ========================================================================== */
-
-/* 1. Backdrop */
 .syllabus-modal-backdrop {
   position: fixed;
   inset: 0;
