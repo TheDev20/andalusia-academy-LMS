@@ -1,0 +1,454 @@
+.academic-search-modal-overlay {
+  position: absolute;
+  inset: -6px;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(67, 57, 47, 0.16);
+  box-shadow:
+    0 24px 64px rgba(28, 22, 18, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+  overflow: hidden;
+  animation: academicModalEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes academicModalEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.academic-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px 14px 24px;
+  background: #fbf9f5;
+  border-bottom: 1px solid #eee7dd;
+  position: relative;
+}
+
+.academic-modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.academic-modal-icon-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1c1612 0%, #3a2e26 100%);
+  color: #f7dfb9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(28, 22, 18, 0.18);
+  flex-shrink: 0;
+}
+
+.academic-modal-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.academic-modal-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1c1612;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.academic-modal-subtitle {
+  font-size: 0.8rem;
+  color: #796b5d;
+  margin: 0;
+}
+
+.academic-modal-close-btn {
+  background: #f0eae1;
+  border: 1px solid #ded5c7;
+  color: #5a4b3d;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.academic-modal-close-btn:hover {
+  background: #e2d7c7;
+  color: #1c1612;
+  transform: scale(1.05);
+}
+
+.academic-discovery-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #f0eae1;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.discovery-query-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.query-results-label {
+  font-size: 0.8rem;
+  color: #5a4b3d;
+}
+
+.query-results-label strong {
+  color: #1c1612;
+  font-weight: 700;
+}
+
+.discovery-filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pill-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #f4eee6;
+  border: 1px solid #ded5c7;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #5a4b3d;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.pill-btn:hover {
+  background: #eae2d6;
+  color: #1c1612;
+}
+
+.pill-btn.is-active {
+  background: #1c1612;
+  border-color: #1c1612;
+  color: #f7dfb9;
+  box-shadow: 0 2px 6px rgba(28, 22, 18, 0.2);
+}
+
+.pill-icon {
+  opacity: 0.9;
+}
+
+.academic-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 24px 20px 24px;
+  background: #faf8f5;
+}
+
+.academic-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+.academic-modal-body::-webkit-scrollbar-track {
+  background: #f0eae1;
+}
+.academic-modal-body::-webkit-scrollbar-thumb {
+  background: #c9bcae;
+  border-radius: 4px;
+}
+.academic-modal-body::-webkit-scrollbar-thumb:hover {
+  background: #ad9e8d;
+}
+
+.academic-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.academic-curriculum-card {
+  background: #ffffff;
+  border: 1px solid #eee7dd;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.academic-curriculum-card:hover {
+  border-color: #d4c4b0;
+  box-shadow: 0 8px 20px rgba(28, 22, 18, 0.08);
+  transform: translateY(-2px);
+}
+
+.academic-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.academic-badge-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.badge-purple {
+  background: #f5f3ff;
+  color: #7c3aed;
+  border: 1px solid #ddd6fe;
+}
+.badge-emerald {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+.badge-blue {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+}
+.badge-amber {
+  background: #fffbeb;
+  color: #d97706;
+  border: 1px solid #fde68a;
+}
+.badge-rose {
+  background: #fff1f2;
+  color: #e11d48;
+  border: 1px solid #fecdd3;
+}
+
+.academic-card-title-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.academic-card-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1c1612;
+  margin: 0 0 2px 0;
+  line-height: 1.3;
+}
+
+.academic-status-text {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.status-purple {
+  color: #6d28d9;
+}
+.status-emerald {
+  color: #047857;
+}
+.status-blue {
+  color: #1d4ed8;
+}
+.status-amber {
+  color: #b45309;
+}
+.status-rose {
+  color: #be123c;
+}
+
+.academic-card-desc {
+  font-size: 0.77rem;
+  color: #695e52;
+  line-height: 1.4;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.academic-stats-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: #fbf9f5;
+  border: 1px solid #f0eae1;
+  border-radius: 8px;
+  padding: 6px 8px;
+  text-align: center;
+  gap: 4px;
+}
+
+.academic-stat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.stat-number {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #1c1612;
+}
+
+.stat-number.stat-active {
+  color: #059669;
+}
+
+.stat-label {
+  font-size: 0.65rem;
+  color: #8c7e70;
+  white-space: nowrap;
+}
+
+.academic-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.academic-course-pill {
+  background: #f5f1eb;
+  border: 1px solid #e5dcce;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #5a4b3d;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.academic-course-pill:hover {
+  background: #ebd8bf;
+  border-color: #d8c2a3;
+  color: #1c1612;
+}
+
+.academic-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.btn-studio-inspect {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: #f7f3ed;
+  border: 1px solid #ded5c7;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #43392f;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-studio-inspect:hover {
+  background: #ece3d5;
+  color: #1c1612;
+  border-color: #c9bcae;
+}
+
+.btn-academic-enroll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: #1c1612;
+  border: 1px solid #1c1612;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #f7dfb9;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-academic-enroll:hover {
+  background: #332720;
+  color: #ffffff;
+}
+
+.academic-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+  background: #fbf9f5;
+  border: 1px dashed #ded5c7;
+  border-radius: 12px;
+  margin: 10px 0;
+}
+
+.empty-icon {
+  color: #c4b5a3;
+  margin-bottom: 12px;
+}
+
+.academic-empty-state h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1c1612;
+  margin: 0 0 6px 0;
+}
+
+.academic-empty-state p {
+  font-size: 0.8rem;
+  color: #796b5d;
+  max-width: 320px;
+  line-height: 1.4;
+  margin: 0 0 16px 0;
+}
+
+.btn-reset-academic-filter {
+  background: #1c1612;
+  color: #f7dfb9;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-reset-academic-filter:hover {
+  background: #3a2e26;
+  color: #ffffff;
+}

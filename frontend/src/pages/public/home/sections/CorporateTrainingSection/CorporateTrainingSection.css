@@ -1,0 +1,160 @@
+/* 6. Corporate Training Section */
+.corporate-section {
+  padding: clamp(72px, 10vh, 110px) 0;
+  background: #ede7dc;
+  border-bottom: 1px solid rgba(224, 216, 204, 0.6);
+}
+.corporate-card-wrap {
+  background: #ffffff;
+  border: 1px solid #ded6c8;
+  border-radius: 26px;
+  padding: clamp(36px, 5vw, 64px);
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  box-shadow: 0 12px 40px rgba(67, 57, 47, 0.06);
+}
+.corporate-title {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: clamp(30px, 3.6vw, 44px);
+  line-height: 1.15;
+  color: #271e16;
+  margin: 0 0 18px;
+  font-weight: 400;
+}
+.corporate-title em {
+  color: #8c643b;
+  font-style: italic;
+}
+.corporate-subtitle {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #524436;
+  margin: 0 0 30px;
+}
+.corporate-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 34px;
+}
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #382c20;
+}
+.check-icon {
+  color: #8b6648;
+  flex-shrink: 0;
+}
+.corporate-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.btn-corporate-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #8b6648;
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(139, 102, 72, 0.24);
+  transition: all 0.2s;
+}
+.btn-corporate-primary:hover {
+  background: #77553b;
+}
+.btn-corporate-secondary {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #ded6c8;
+  background: #ffffff;
+  color: #4b3f33;
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.btn-corporate-secondary:hover {
+  border-color: #8c643b;
+}
+.corporate-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-bottom: 26px;
+}
+.corporate-pillar-card {
+  background: #f7f4ee;
+  border: 1px solid #e2dacd;
+  border-radius: 18px;
+  padding: 24px;
+}
+.pillar-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(174, 138, 88, 0.12);
+  color: #8c683b;
+  display: grid;
+  place-items: center;
+  margin-bottom: 14px;
+}
+.pillar-title {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 17.5px;
+  color: #271e16;
+  margin: 0 0 8px;
+  font-weight: 400;
+}
+.pillar-desc {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #594a3a;
+  margin: 0;
+}
+.corporate-stats-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #43392f;
+  color: #ffffff;
+  border-radius: 18px;
+  padding: 20px 28px;
+}
+.c-stat {
+  display: flex;
+  flex-direction: column;
+}
+.c-stat-num {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 26px;
+  color: #d4a359;
+}
+.c-stat-label {
+  font-size: 11.5px;
+  color: #e2d9cd;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  font-weight: 600;
+}
+@media (max-width: 1024px) {
+  .corporate-card-wrap {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+
+@media (max-width: 560px) {
+  .corporate-pillars-grid {
+    grid-template-columns: 1fr;
+  }
+}

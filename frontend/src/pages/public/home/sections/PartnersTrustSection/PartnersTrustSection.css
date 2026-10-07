@@ -1,0 +1,93 @@
+/* 7. Partners & Trust Section */
+.partners-section {
+  padding: clamp(64px, 8vh, 96px) 0;
+  background: #f7f4ee;
+  border-bottom: 1px solid rgba(224, 216, 204, 0.6);
+}
+.partners-intro {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.partners-label {
+  display: none !important;
+}
+.partners-heading {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: clamp(26px, 3.2vw, 36px);
+  color: #271e16;
+  margin: 0;
+  font-weight: 400;
+}
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+@media (max-width: 960px) {
+  .partners-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 580px) {
+  .partners-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.partner-card {
+  background: #ffffff;
+  border: 1px solid #ded6c8;
+  border-radius: 22px;
+  padding: 36px 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 4px 18px rgba(67, 57, 47, 0.04);
+  transition: all 0.25s ease;
+}
+.partner-card:hover {
+  border-color: #8c643b;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(67, 57, 47, 0.08);
+}
+.partner-icon-frame {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: rgba(174, 138, 88, 0.12);
+  color: #8b6648;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.partner-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.partner-name {
+  display: block;
+  font-size: 17px;
+  font-weight: 700;
+  color: #261d15;
+  margin: 0 0 6px;
+  line-height: 1.35;
+}
+.partner-type {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6e5436;
+  margin: 0 0 6px;
+  line-height: 1.4;
+}
+.partner-sub {
+  display: block;
+  font-size: 13px;
+  color: #635343;
+  line-height: 1.45;
+  margin: 0;
+}
+

@@ -1,0 +1,202 @@
+.tab-content-labs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.labs-overview-banner {
+  background: #fffcf8;
+  border: 1px solid #ebd7c1;
+  border-radius: 8px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.labs-banner-icon {
+  color: #8b5e34;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.labs-overview-banner h4 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1c1612;
+  margin: 0 0 3px 0;
+}
+
+.labs-overview-banner p {
+  font-size: 0.78rem;
+  color: #685b4d;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.labs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.lab-card {
+  background: #ffffff;
+  border: 1px solid #ede5da;
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.lab-card:hover {
+  border-color: #d8c2a3;
+  box-shadow: 0 4px 12px rgba(28, 22, 18, 0.04);
+}
+
+.lab-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lab-module-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #8b5e34;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.lab-card-icon {
+  color: #8b5e34;
+}
+
+.lab-card-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1c1612;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.lab-card-desc {
+  font-size: 0.76rem;
+  color: #685b4d;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.lab-card-footer {
+  margin-top: auto;
+  padding-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.lab-tech-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #887a6c;
+}
+
+.lab-tech-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.lab-tech-pill {
+  background: #f7f3ee;
+  border: 1px solid #e8ded2;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: #4a3e31;
+}
+
+/* Capstone Card Extended */
+.capstone-card-extended {
+  background: #fffcf8;
+  border: 1px solid #ebd7c1;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-top: 4px;
+}
+
+.capstone-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.capstone-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #8b5e34;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.capstone-points {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #059669;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.capstone-main-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1c1612;
+  margin: 0 0 6px 0;
+}
+
+.capstone-main-desc {
+  font-size: 0.8rem;
+  color: #685b4d;
+  line-height: 1.5;
+  margin: 0 0 12px 0;
+}
+
+.capstone-requirements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid #ede5da;
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.requirement-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: #1c1612;
+  line-height: 1.4;
+}
+
+.req-check {
+  color: #059669;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+@media (max-width: 640px) {
+  .labs-grid {
+    grid-template-columns: 1fr;
+  }
+}

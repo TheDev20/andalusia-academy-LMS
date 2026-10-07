@@ -1,0 +1,351 @@
+/* ==========================================================================
+   ABOUT US PAGE STYLING
+   ========================================================================== */
+.about-hero-section {
+  padding: clamp(48px, 7vh, 80px) 0 clamp(36px, 5vh, 60px);
+  background: radial-gradient(circle at 80% 20%, rgba(234, 228, 217, 0.8) 0%, transparent 60%);
+  border-bottom: 1px solid rgba(224, 216, 204, 0.6);
+}
+.about-hero-content {
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto 40px;
+}
+.about-title {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: clamp(34px, 4.4vw, 54px);
+  line-height: 1.1;
+  color: #31261c;
+  margin: 14px 0 18px;
+  font-weight: 400;
+}
+.about-title em {
+  color: #92724e;
+  font-style: italic;
+}
+.about-subtitle {
+  font-size: clamp(14px, 1.4vw, 16px);
+  line-height: 1.65;
+  color: #6e6153;
+}
+.about-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  background: #ffffff;
+  border: 1px solid #ded6c8;
+  border-radius: 20px;
+  padding: 24px 32px;
+  box-shadow: 0 8px 30px rgba(67, 57, 47, 0.05);
+}
+.a-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.a-stat-num {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 28px;
+  color: #352b21;
+}
+.a-stat-label {
+  font-size: 11px;
+  color: #8c7e70;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.about-mission-section {
+  padding: clamp(60px, 8vh, 88px) 0;
+  background: #f7f4ee;
+  border-bottom: 1px solid rgba(224, 216, 204, 0.6);
+}
+.mission-vision-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+.mission-card, .vision-card {
+  background: #ffffff;
+  border: 1px solid #ded6c8;
+  border-radius: 22px;
+  padding: clamp(28px, 4vw, 44px);
+  box-shadow: 0 8px 28px rgba(67, 57, 47, 0.04);
+}
+.mv-icon-frame {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(174, 138, 88, 0.12);
+  color: #8c683b;
+  display: grid;
+  place-items: center;
+  margin-bottom: 18px;
+}
+.mission-card h3, .vision-card h3 {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 24px;
+  color: #352b21;
+  margin: 0 0 12px;
+  font-weight: 400;
+}
+.mission-card p, .vision-card p {
+  font-size: 13px;
+  line-height: 1.65;
+  color: #6e6153;
+  margin: 0;
+}
+.about-pillars-section {
+  padding: clamp(60px, 8vh, 88px) 0;
+  background: #ede7dc;
+  border-bottom: 1px solid rgba(224, 216, 204, 0.6);
+}
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+.pillar-item-card {
+  background: #ffffff;
+  border: 1px solid #ded6c8;
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: 0 6px 20px rgba(67, 57, 47, 0.04);
+}
+.p-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(174, 138, 88, 0.12);
+  color: #8c683b;
+  display: grid;
+  place-items: center;
+  margin-bottom: 14px;
+}
+.pillar-item-card h4 {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 18px;
+  color: #352b21;
+  margin: 0 0 8px;
+  font-weight: 400;
+}
+.pillar-item-card p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #726454;
+  margin: 0;
+}
+.about-facilities-section {
+  padding: clamp(60px, 8vh, 88px) 0;
+  background: #f7f4ee;
+  border-bottom: 1px solid rgba(224, 216, 204, 0.6);
+}
+.facilities-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.facilities-text h2 {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: clamp(26px, 3.2vw, 38px);
+  color: #352b21;
+  line-height: 1.18;
+  margin: 14px 0 16px;
+  font-weight: 400;
+}
+.facilities-text p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #6e6153;
+  margin: 0 0 24px;
+}
+.facility-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.f-bullet {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #4b3f33;
+}
+.f-icon {
+  color: #8b6648;
+  flex-shrink: 0;
+}
+.btn-facility-tour {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #8b6648;
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.btn-facility-tour:hover {
+  background: #77553b;
+}
+.facilities-visual {
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(67, 57, 47, 0.1);
+  border: 1px solid #ded6c8;
+  aspect-ratio: 4 / 3;
+}
+.facility-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.about-faculty-section {
+  padding: clamp(60px, 8vh, 88px) 0;
+  background: #eae4d9;
+  border-bottom: 1px solid rgba(224, 216, 204, 0.6);
+}
+.faculty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+.faculty-card {
+  background: #ffffff;
+  border: 1px solid #ded6c8;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(67, 57, 47, 0.04);
+}
+.faculty-img-wrap {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  background: #d8cfc2;
+}
+.faculty-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.faculty-badge-role {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(31, 25, 20, 0.82);
+  color: #f7f4ee;
+  font-size: 9px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+.faculty-info {
+  padding: 20px;
+}
+.faculty-name {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 18px;
+  color: #352b21;
+  margin: 0 0 4px;
+  font-weight: 400;
+}
+.faculty-title {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #8c765c;
+  margin-bottom: 10px;
+}
+.faculty-bio {
+  font-size: 11px;
+  line-height: 1.55;
+  color: #726454;
+  margin: 0;
+}
+.about-timeline-section {
+  padding: clamp(60px, 8vh, 88px) 0;
+  background: #f7f4ee;
+}
+.timeline-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  position: relative;
+  margin-top: 40px;
+}
+.timeline-strip::before {
+  content: '';
+  position: absolute;
+  top: 42px;
+  left: 30px;
+  right: 30px;
+  height: 2px;
+  background: #ded6c8;
+  z-index: 1;
+}
+.timeline-node {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+.node-year {
+  display: inline-block;
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 24px;
+  color: #8b6648;
+  margin-bottom: 8px;
+}
+.node-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #8b6648;
+  border: 3px solid #f7f4ee;
+  margin: 0 auto 16px;
+  display: block;
+}
+.node-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #352b21;
+  margin: 0 0 6px;
+}
+.node-desc {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #7a6e60;
+  margin: 0;
+}
+@media (max-width: 1024px) {
+  .facilities-layout {
+    grid-template-columns: 1fr;
+  }
+  .timeline-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px;
+  }
+  .timeline-strip::before {
+    display: none;
+  }
+  .about-hero-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 860px) {
+  .mission-vision-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .about-hero-stats {
+    grid-template-columns: 1fr;
+  }
+}

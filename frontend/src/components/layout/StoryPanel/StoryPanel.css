@@ -1,0 +1,203 @@
+/* Right Story Panel: Fills 100% height cleanly without forced min-height */
+.story-panel {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 9px;
+  background: #8c7153;
+  color: #fff7e9;
+  isolation: isolate;
+  contain: paint;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.scene.selected {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.scene img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  display: block;
+}
+
+.image-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(38,25,15,.24), rgba(38,25,15,.04) 22%, rgba(32,23,15,.03) 42%, rgba(38,26,16,.28) 63%, rgba(36,26,17,.78) 100%);
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+.story-top {
+  position: absolute;
+  top: clamp(16px, 2.8vh, 32px);
+  left: clamp(18px, 2.8vw, 34px);
+  right: clamp(18px, 2.8vw, 34px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.story-tag {
+  border: 1px solid #fff8e952;
+  background: #59452d18;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transform: translateZ(0);
+  border-radius: 30px;
+  padding: clamp(6px, 0.9vh, 9px) 12px;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.story-tag > span {
+  height: 4px;
+  width: 4px;
+  border-radius: 50%;
+  background: #fff4dc;
+}
+
+.edition {
+  font-size: 8px;
+  letter-spacing: 1.4px;
+  opacity: .8;
+}
+
+.story-copy {
+  position: absolute;
+  bottom: clamp(70px, 12vh, 116px);
+  left: clamp(20px, 3.2vw, 45px);
+  right: clamp(20px, 3vw, 40px);
+  animation: enter 1s ease both;
+}
+
+.story-eyebrow {
+  font-size: 8px;
+  letter-spacing: 1.8px;
+  color: #e2ceb1;
+  margin: 0 0 clamp(6px, 1.3vh, 16px);
+}
+
+.story-copy h2 {
+  font-family: var(--font-display, 'Libre Caslon Display', Georgia, serif);
+  font-size: clamp(26px, 3.6vw, 54px);
+  letter-spacing: -1.2px;
+  line-height: 1.06;
+  font-weight: 400;
+  margin: 0 0 clamp(6px, 1.3vh, 16px);
+}
+
+.story-copy h2 em {
+  font-weight: 400;
+  color: #f0d7b0;
+}
+
+.story-description {
+  font-size: clamp(10px, 1.15vh, 11px);
+  line-height: 1.65;
+  color: #e6d9c8;
+  max-width: 320px;
+  margin: 0;
+}
+
+.story-bottom {
+  position: absolute;
+  bottom: clamp(14px, 2.5vh, 31px);
+  left: clamp(20px, 3.2vw, 45px);
+  right: clamp(20px, 3vw, 35px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #ffffff25;
+  padding-top: clamp(10px, 1.8vh, 22px);
+}
+
+.scene-index {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 10px;
+}
+
+.track {
+  height: 1px;
+  width: 57px;
+  background: #ffffff40;
+  display: block;
+}
+
+.track i {
+  display: block;
+  width: 50%;
+  height: 1px;
+  background: #f7e5c9;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.total {
+  opacity: .45;
+}
+
+.scene-name {
+  font-size: 9px;
+  opacity: .75;
+  margin-left: 8px;
+}
+
+.scene-controls {
+  display: flex;
+  gap: 7px;
+}
+
+.scene-controls button {
+  border: 1px solid #ffffff40;
+  background: transparent;
+  color: #fff5e4;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.scene-controls button:hover {
+  background: #ffffff22;
+}
+
+.scene-controls button:first-child {
+  border: 0;
+  margin-right: 8px;
+  opacity: .7;
+}
+
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
