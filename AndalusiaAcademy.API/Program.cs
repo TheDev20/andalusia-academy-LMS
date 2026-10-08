@@ -4,6 +4,7 @@ using AndalusiaAcademy.API.Repositories.Interfaces;
 using AndalusiaAcademy.API.Repositories.Implementations;
 using AndalusiaAcademy.API.Services.Interfaces.Catalog;
 using AndalusiaAcademy.API.Services.Implementations.Catalog;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,15 @@ app.UseCors("AllowFrontend");
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference(options =>
+    {
+        options.WithTitle("Andalusia Academy API Documentation")
+               .WithTheme(ScalarTheme.Mars)
+               .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+    });
+
+    // Convenient redirect from /swagger to interactive API documentation UI
+    app.MapGet("/swagger", () => Results.Redirect("/scalar/v1"));
 }
 
 app.UseHttpsRedirection();
