@@ -1,4 +1,3 @@
-import React from "react";
 import { CheckCircle2, Code2, FlaskConical } from "lucide-react";
 import { ProgramSyllabusDetails } from "../../syllabusData";
 import "./LabsTab.css";
@@ -15,7 +14,9 @@ export const LabsTab: React.FC<LabsTabProps> = ({ syllabus }) => {
         <div>
           <h4>100% Code-First Production Lab Methodology</h4>
           <p>
-            Every module concludes with an engineering lab where you build, test, and deploy production software. No toy examples — you write production-grade systems from Day 1.
+            Every module concludes with an engineering lab where you build,
+            test, and deploy production software. No toy examples — you write
+            production-grade systems from Day 1.
           </p>
         </div>
       </div>
@@ -24,7 +25,9 @@ export const LabsTab: React.FC<LabsTabProps> = ({ syllabus }) => {
         {syllabus.modules.map((mod) => (
           <div key={mod.id} className="lab-card">
             <div className="lab-card-header">
-              <span className="lab-module-tag">Module 0{mod.number} · {mod.duration}</span>
+              <span className="lab-module-tag">
+                Module 0{mod.number} · {mod.duration}
+              </span>
               <FlaskConical size={16} className="lab-card-icon" />
             </div>
             <h4 className="lab-card-title">{mod.handsOnLab.title}</h4>
@@ -33,7 +36,9 @@ export const LabsTab: React.FC<LabsTabProps> = ({ syllabus }) => {
               <span className="lab-tech-label">Stack:</span>
               <div className="lab-tech-pills">
                 {mod.technologies.map((t, idx) => (
-                  <span key={idx} className="lab-tech-pill">{t}</span>
+                  <span key={idx} className="lab-tech-pill">
+                    {t}
+                  </span>
                 ))}
               </div>
             </div>
@@ -47,8 +52,12 @@ export const LabsTab: React.FC<LabsTabProps> = ({ syllabus }) => {
           <span className="capstone-label">Comprehensive Capstone Project</span>
           <span className="capstone-points">Industry Portfolio Standard</span>
         </div>
-        <h3 className="capstone-main-title">{syllabus.capstoneProject.title}</h3>
-        <p className="capstone-main-desc">{syllabus.capstoneProject.description}</p>
+        <h3 className="capstone-main-title">
+          {syllabus.capstoneProject.title}
+        </h3>
+        <p className="capstone-main-desc">
+          {syllabus.capstoneProject.description}
+        </p>
         <div className="capstone-requirements-grid">
           {syllabus.capstoneProject.deliverables.map((d, idx) => (
             <div key={idx} className="requirement-item">

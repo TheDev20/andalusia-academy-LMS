@@ -1,4 +1,3 @@
-import React from "react";
 import { BookOpen, Layers } from "lucide-react";
 import "./AcademicFilterBar.css";
 

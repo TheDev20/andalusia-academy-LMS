@@ -1,4 +1,3 @@
-import React from "react";
 import { ArrowRight, BookOpen, Code2, Layers } from "lucide-react";
 import { AcademicCurriculum } from "../../academicData";
 import { NavigateFunction } from "../../../../../../../../types/navigation";
@@ -24,7 +23,11 @@ export const AcademicCurriculumCard: React.FC<AcademicCurriculumCardProps> = ({
       {/* Card Header */}
       <div className="academic-card-header">
         <div className={`academic-badge-icon badge-${item.badgeType}`}>
-          {item.type === "program" ? <Layers size={16} /> : <BookOpen size={16} />}
+          {item.type === "program" ? (
+            <Layers size={16} />
+          ) : (
+            <BookOpen size={16} />
+          )}
         </div>
         <div className="academic-card-title-group">
           <h4 className="academic-card-title">{item.title}</h4>

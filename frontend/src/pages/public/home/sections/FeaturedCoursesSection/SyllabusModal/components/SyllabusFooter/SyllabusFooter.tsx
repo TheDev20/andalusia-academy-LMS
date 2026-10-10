@@ -1,4 +1,3 @@
-import React from "react";
 import { ArrowRight, Download } from "lucide-react";
 import { ProgramSyllabusDetails } from "../../syllabusData";
 import "./SyllabusFooter.css";
@@ -20,7 +19,8 @@ export const SyllabusFooter: React.FC<SyllabusFooterProps> = ({
     <div className="syllabus-modal-footer">
       <div className="footer-left-info">
         <span className="footer-cohort-text">
-          Next Cohort: <strong>{syllabus.intake}</strong> · Limited to 25 fellows
+          Next Cohort: <strong>{syllabus.intake}</strong> · Limited to 25
+          fellows
         </span>
         <span className="footer-sub-text">
           1-on-1 Code Review · Certificate of Mastery

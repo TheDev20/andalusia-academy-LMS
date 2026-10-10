@@ -1,4 +1,3 @@
-import React from "react";
 import { Star, X } from "lucide-react";
 import { ProgramSyllabusDetails } from "../../syllabusData";
 import "./SyllabusHeader.css";
@@ -21,9 +20,16 @@ export const SyllabusHeader: React.FC<SyllabusHeaderProps> = ({
           <span className="syllabus-badge-pill">{syllabus.badge}</span>
           <span className="syllabus-category-pill">{syllabus.category}</span>
           <div className="syllabus-rating-pill">
-            <Star size={12} fill="#d4a359" stroke="#d4a359" aria-hidden="true" />
+            <Star
+              size={12}
+              fill="#d4a359"
+              stroke="#d4a359"
+              aria-hidden="true"
+            />
             <span>{syllabus.rating}</span>
-            <span className="rating-count">({syllabus.reviewsCount} reviews)</span>
+            <span className="rating-count">
+              ({syllabus.reviewsCount} reviews)
+            </span>
           </div>
         </div>
 

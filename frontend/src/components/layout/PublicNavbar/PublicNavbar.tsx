@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { AppRoute, NavigateFunction } from "../../../types/navigation";
 import { useScroll } from "../../../hooks/useScroll";
@@ -21,7 +21,6 @@ interface NavItem {
 const HOME_SECTION_IDS = [
   "home",
   "career-paths",
-  "courses",
   "corporate",
 ] as const;
 
@@ -29,6 +28,7 @@ export default function PublicNavbar({
   currentPath,
   onNavigate,
 }: PublicNavbarProps) {
+  const navigate = useNavigate();
   const scrolled = useScroll(20);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const spySection = useScrollSpy(
@@ -41,7 +41,7 @@ export default function PublicNavbar({
     () => [
       { label: "Home", href: "/", key: "home" },
       { label: "Career Paths", href: "/#career-paths", key: "career-paths" },
-      { label: "Courses & Programs", href: "/#courses", key: "courses" },
+      { label: "Courses & Programs", href: "/courses", key: "courses" },
       { label: "Corporate Training", href: "/#corporate", key: "corporate" },
       { label: "About Us", href: "/about", key: "about" },
       { label: "Contact", href: "/contact", key: "contact" },
@@ -55,6 +55,10 @@ export default function PublicNavbar({
   ) => {
     e.preventDefault();
     setMobileMenuOpen(false);
+    if (item.key === "courses") {
+      navigate("/courses");
+      return;
+    }
     onNavigate(item.key);
   };
 

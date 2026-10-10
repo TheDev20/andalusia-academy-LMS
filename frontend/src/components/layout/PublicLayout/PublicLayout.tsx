@@ -50,7 +50,7 @@ export default function PublicLayout({
             Engineering, AI & Data Science Cohorts. Early Applications Close
             September 30.
           </span>
-          <Link to="/#courses" className="announcement-link">
+          <Link to="/courses" className="announcement-link">
             Explore Tech Programs <ArrowRight size={12} aria-hidden="true" />
           </Link>
         </div>

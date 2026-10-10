@@ -7,7 +7,6 @@ import {
 import HeroSection from "../sections/HeroSection";
 import CareerPathDiscoverySection from "../sections/CareerPathDiscoverySection";
 import PopularCategoriesSection from "../sections/PopularCategoriesSection";
-import FeaturedCoursesSection from "../sections/FeaturedCoursesSection";
 import ComingSoonSection from "../sections/ComingSoonSection";
 import CorporateTrainingSection from "../sections/CorporateTrainingSection";
 import PartnersTrustSection from "../sections/PartnersTrustSection";
@@ -58,14 +57,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       <HeroSection onNavigate={onNavigate} onSearch={handleHeroSearch} />
       <CareerPathDiscoverySection onExploreTrack={handleTrackSelect} />
       <PopularCategoriesSection onSelectCategory={handleCategorySelect} />
-      <FeaturedCoursesSection
-        activeFilter={courseFilter}
-        onFilterChange={setCourseFilter}
-        searchQuery={searchQuery}
-        onClearSearch={() => setSearchQuery("")}
-        onSelectCourse={handleCourseSelect}
-        onNavigate={onNavigate}
-      />
       <ComingSoonSection />
       <CorporateTrainingSection onNavigate={onNavigate} />
       <PartnersTrustSection />

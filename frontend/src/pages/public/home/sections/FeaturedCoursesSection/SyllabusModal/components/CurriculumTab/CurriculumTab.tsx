@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Award,
   CheckCircle2,
@@ -28,7 +27,8 @@ export const CurriculumTab: React.FC<CurriculumTabProps> = ({
     <div className="tab-content-curriculum">
       <div className="curriculum-intro-row">
         <span className="curriculum-intro-text">
-          Progressive modular framework designed in collaboration with senior software architects.
+          Progressive modular framework designed in collaboration with senior
+          software architects.
         </span>
         <button
           type="button"
@@ -57,7 +57,9 @@ export const CurriculumTab: React.FC<CurriculumTabProps> = ({
                   <span className="module-index-badge">0{mod.number}</span>
                   <div className="module-title-group">
                     <div className="module-timing-row">
-                      <span className="module-duration-pill">{mod.duration}</span>
+                      <span className="module-duration-pill">
+                        {mod.duration}
+                      </span>
                     </div>
                     <h4 className="module-title">{mod.title}</h4>
                   </div>
@@ -68,7 +70,11 @@ export const CurriculumTab: React.FC<CurriculumTabProps> = ({
                     {mod.topics.length} Key Topics
                   </span>
                   <span className="module-chevron">
-                    {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    {isExpanded ? (
+                      <ChevronUp size={16} />
+                    ) : (
+                      <ChevronDown size={16} />
+                    )}
                   </span>
                 </div>
               </button>
@@ -78,11 +84,16 @@ export const CurriculumTab: React.FC<CurriculumTabProps> = ({
                   <p className="module-summary">{mod.summary}</p>
 
                   <div className="module-topics-section">
-                    <span className="section-mini-heading">Core Learning Topics:</span>
+                    <span className="section-mini-heading">
+                      Core Learning Topics:
+                    </span>
                     <ul className="module-topics-list">
                       {mod.topics.map((topic, tIdx) => (
                         <li key={tIdx} className="module-topic-item">
-                          <CheckCircle2 size={13} className="topic-check-icon" />
+                          <CheckCircle2
+                            size={13}
+                            className="topic-check-icon"
+                          />
                           <span>{topic}</span>
                         </li>
                       ))}
@@ -93,10 +104,14 @@ export const CurriculumTab: React.FC<CurriculumTabProps> = ({
                   <div className="module-lab-highlight">
                     <div className="lab-badge-row">
                       <FlaskConical size={14} className="lab-icon" />
-                      <span className="lab-badge-label">Hands-on Production Lab</span>
+                      <span className="lab-badge-label">
+                        Hands-on Production Lab
+                      </span>
                     </div>
                     <h5 className="lab-title">{mod.handsOnLab.title}</h5>
-                    <p className="lab-description">{mod.handsOnLab.description}</p>
+                    <p className="lab-description">
+                      {mod.handsOnLab.description}
+                    </p>
                   </div>
 
                   {/* Technology Badges */}
@@ -121,7 +136,9 @@ export const CurriculumTab: React.FC<CurriculumTabProps> = ({
           <div className="capstone-info-col">
             <span className="capstone-badge">FINAL CAPSTONE DEFENSE</span>
             <h4 className="capstone-title">{syllabus.capstoneProject.title}</h4>
-            <p className="capstone-desc">{syllabus.capstoneProject.description}</p>
+            <p className="capstone-desc">
+              {syllabus.capstoneProject.description}
+            </p>
             <div className="capstone-deliverables">
               <span className="deliverables-heading">Deliverables:</span>
               <ul>

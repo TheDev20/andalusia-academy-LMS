@@ -1,4 +1,3 @@
-import React from "react";
 import { BookOpen, Briefcase, Cpu, FlaskConical } from "lucide-react";
 import "./SyllabusTabsNav.css";
 

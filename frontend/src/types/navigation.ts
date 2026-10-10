@@ -53,7 +53,7 @@ export const ROUTE_PATHS: Record<AppRoute, string> = {
   contact: "/contact",
   login: "/login",
   signup: "/signup",
-  courses: "/#courses",
+  courses: "/courses",
   "career-paths": "/#career-paths",
   corporate: "/#corporate",
 };
