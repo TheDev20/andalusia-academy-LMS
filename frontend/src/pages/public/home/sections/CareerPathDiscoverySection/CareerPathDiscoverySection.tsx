@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  Code2,
-  Brain,
-  Database,
-  Cloud,
-  ShieldCheck,
-  ArrowRight,
-  X,
-} from "lucide-react";
+import { Code2, Brain, Database, Cloud, ShieldCheck } from "lucide-react";
 import Alumni from "../../../../../components/common/Alumni-logos";
 import SectionHeading from "../../../../../components/ui/SectionHeading";
 import Badge from "../../../../../components/common/Badge";
@@ -225,52 +217,6 @@ export default function CareerPathDiscoverySection({
                 <p className="path-target-role">
                   Target Role: <strong>{activePath.targetRole}</strong>
                 </p>
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "12px",
-                }}
-              >
-                <a
-                  href="#courses"
-                  className="path-apply-btn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (onExploreTrack) {
-                      onExploreTrack(activePath.filterTab || "all");
-                    }
-                    const el = document.getElementById("courses");
-                    if (el) {
-                      el.scrollIntoView({ behavior: "smooth" });
-                    }
-                  }}
-                >
-                  <span>Explore Track</span>
-                  <ArrowRight size={14} aria-hidden="true" />
-                </a>
-
-                {/* Optional Close Button inside card */}
-                <button
-                  type="button"
-                  onClick={() => setOpenPathIndex(null)}
-                  style={{
-                    background: "transparent",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: "4px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "inherit",
-                    opacity: 0.7,
-                  }}
-                  aria-label="Close card"
-                >
-                  <X size={20} />
-                </button>
               </div>
             </div>
 

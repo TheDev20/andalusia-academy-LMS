@@ -24,9 +24,9 @@ export default function PublicLayout({
   const location = useLocation();
   const navigate = useNavigate();
 
-  const pathNameSegment = location.pathname.replace(/^\//, "");
+  const rootSegment = location.pathname.replace(/^\//, "").split("/")[0];
   const activeRoute: AppRoute =
-    currentPath ?? (isPageRoute(pathNameSegment) ? pathNameSegment : "home");
+    currentPath ?? (isPageRoute(rootSegment) ? rootSegment : "home");
 
   const handleNavigate: NavigateFunction =
     onNavigate ??

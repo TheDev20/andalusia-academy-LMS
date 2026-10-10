@@ -74,25 +74,3 @@
   line-height: 1.5;
   margin: 0 0 14px;
 }
-
-.syllabus-close-btn {
-  background: #ffffff;
-  border: 1px solid #ebd7c1;
-  color: #5a4b3d;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  flex-shrink: 0;
-}
-
-.syllabus-close-btn:hover {
-  background: #fdf3e7;
-  color: #8b5e34;
-  border-color: #d8c2a3;
-  transform: scale(1.05);
-}

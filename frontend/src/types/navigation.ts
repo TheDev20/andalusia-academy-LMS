@@ -20,6 +20,7 @@ export const SECTION_IDS = {
 
 export const PAGE_ROUTES = [
   "home",
+  "courses",
   "about",
   "contact",
   "login",
@@ -27,7 +28,7 @@ export const PAGE_ROUTES = [
 ] as const;
 export type PageRoute = (typeof PAGE_ROUTES)[number];
 
-export const SECTION_ROUTES = ["courses", "career-paths", "corporate"] as const;
+export const SECTION_ROUTES = ["career-paths", "corporate"] as const;
 export type SectionRoute = (typeof SECTION_ROUTES)[number];
 
 export const AUTH_ROUTES = ["login", "signup"] as const;

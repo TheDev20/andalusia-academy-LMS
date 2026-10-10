@@ -6,7 +6,10 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0 4px 20px rgba(67, 57, 47, 0.05);
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .course-card:hover {
@@ -30,43 +33,6 @@
   color: var(--color-brand-primary, #8b6648);
   margin: 14px 0 8px;
   display: block;
-}
-
-.course-card-image-wrap {
-  position: relative;
-  height: 220px;
-  overflow: hidden;
-  background: var(--color-brand-border, #ded6c8);
-}
-
-.course-card-image-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.course-card:hover .course-card-image-wrap img {
-  transform: scale(1.04);
-}
-
-.course-card-badge-overlay {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-}
-
-.course-format-chip {
-  position: absolute;
-  bottom: 14px;
-  right: 14px;
-  background: rgba(31, 25, 20, 0.84);
-  color: var(--color-brand-bg, #f7f4ee);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 5px 12px;
-  border-radius: 999px;
-  backdrop-filter: blur(6px);
 }
 
 .course-card-meta-top {
@@ -93,7 +59,7 @@
 }
 
 .course-card-title {
-  font-family: var(--font-display, 'Libre Caslon Display', Georgia, serif);
+  font-family: var(--font-display, "Libre Caslon Display", Georgia, serif);
   font-size: 22px;
   line-height: 1.3;
   color: var(--color-brand-heading, #271e16);
@@ -166,7 +132,10 @@
   border-radius: 999px;
   font-size: 13px;
   font-weight: 600;
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .course-action-btn:hover {

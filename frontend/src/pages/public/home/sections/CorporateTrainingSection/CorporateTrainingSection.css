@@ -45,10 +45,7 @@
   font-size: 15px;
   color: #382c20;
 }
-.check-icon {
-  color: #8b6648;
-  flex-shrink: 0;
-}
+
 .corporate-actions {
   display: flex;
   align-items: center;
@@ -121,31 +118,7 @@
   color: #594a3a;
   margin: 0;
 }
-.corporate-stats-strip {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #43392f;
-  color: #ffffff;
-  border-radius: 18px;
-  padding: 20px 28px;
-}
-.c-stat {
-  display: flex;
-  flex-direction: column;
-}
-.c-stat-num {
-  font-family: 'Libre Caslon Display', Georgia, serif;
-  font-size: 26px;
-  color: #d4a359;
-}
-.c-stat-label {
-  font-size: 11.5px;
-  color: #e2d9cd;
-  text-transform: uppercase;
-  letter-spacing: 0.7px;
-  font-weight: 600;
-}
+
 @media (max-width: 1024px) {
   .corporate-card-wrap {
     grid-template-columns: 1fr;

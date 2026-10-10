@@ -1,5 +1,6 @@
 import { Clock, Award, ArrowUpRight, Star } from "lucide-react";
 import type { Course } from "../../../types/course";
+import { Link } from "react-router-dom";
 import Badge from "../../common/Badge";
 import "./CourseCard.css";
 
@@ -46,7 +47,14 @@ export default function CourseCard({ course, onSelect }: CourseCardProps) {
         <span className="course-category-tag">{category}</span>
 
         <h3 id={`course-title-${id}`} className="course-card-title">
-          {title}
+          <Link
+            to={`/courses/${course.id}/syllabus`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "inherit", textDecoration: "none" }}
+          >
+            {title}
+          </Link>
         </h3>
 
         <p className="course-card-summary">{summary}</p>
@@ -67,19 +75,15 @@ export default function CourseCard({ course, onSelect }: CourseCardProps) {
             <span className="intake-label">Next Intake:</span>
             <span className="intake-date">{intake}</span>
           </div>
-          <a
-            href="#signup"
+          <Link
+            to={`/courses/${course.id}/syllabus`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="course-action-btn"
-            onClick={(e) => {
-              if (onSelect) {
-                e.preventDefault();
-                onSelect(course);
-              }
-            }}
           >
             <span>View Syllabus</span>
             <ArrowUpRight size={14} aria-hidden="true" />
-          </a>
+          </Link>
         </div>
       </div>
     </article>

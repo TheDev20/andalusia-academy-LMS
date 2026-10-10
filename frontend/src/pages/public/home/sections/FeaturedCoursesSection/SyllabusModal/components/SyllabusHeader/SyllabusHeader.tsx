@@ -1,16 +1,14 @@
-import { Star, X } from "lucide-react";
+import { Star } from "lucide-react";
 import { ProgramSyllabusDetails } from "../../syllabusData";
 import "./SyllabusHeader.css";
 
 export interface SyllabusHeaderProps {
   syllabus: ProgramSyllabusDetails;
-  onClose: () => void;
   children?: React.ReactNode;
 }
 
 export const SyllabusHeader: React.FC<SyllabusHeaderProps> = ({
   syllabus,
-  onClose,
   children,
 }) => {
   return (
@@ -41,17 +39,6 @@ export const SyllabusHeader: React.FC<SyllabusHeaderProps> = ({
 
         {children}
       </div>
-
-      {/* Close Button */}
-      <button
-        type="button"
-        className="syllabus-close-btn"
-        onClick={onClose}
-        aria-label="Close syllabus dialog"
-        title="Close (Esc)"
-      >
-        <X size={18} />
-      </button>
     </div>
   );
 };

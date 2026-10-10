@@ -7,7 +7,6 @@ import { useCatalogCourses } from "../../../../../hooks/useCatalogCourses";
 import { CourseSummaryDto } from "../../../../../types/catalog";
 import CourseCard from "../../../../../components/ui/CourseCard";
 import SectionHeading from "../../../../../components/ui/SectionHeading";
-import SyllabusModal from "./SyllabusModal";
 import "./FeaturedCoursesSection.css";
 
 export interface FeaturedCoursesSectionProps {
@@ -38,8 +37,6 @@ export default function FeaturedCoursesSection({
     }
   };
 
-  const [selectedCourseForSyllabus, setSelectedCourseForSyllabus] =
-    useState<Course | null>(null);
 
   const allCourses: Course[] = [
     {
@@ -174,7 +171,7 @@ export default function FeaturedCoursesSection({
         : "Upcoming Intake";
 
       return {
-        id: dto.id || dto.slug,
+        id: dto.slug || dto.id,
         title: dto.title,
         category: primaryCategory,
         badge: dto.startingPrice
@@ -276,7 +273,7 @@ export default function FeaturedCoursesSection({
               <CourseCard
                 key={course.id}
                 course={course}
-                onSelect={(c) => setSelectedCourseForSyllabus(c)}
+                onSelect={onSelectCourse}
               />
             ))
           ) : (
@@ -318,20 +315,6 @@ export default function FeaturedCoursesSection({
         </div>
       </div>
 
-      {/* Detailed Program Syllabus Modal with Frosted Blurred Backdrop */}
-      <SyllabusModal
-        course={selectedCourseForSyllabus}
-        isOpen={!!selectedCourseForSyllabus}
-        onClose={() => setSelectedCourseForSyllabus(null)}
-        onEnroll={(c) => {
-          if (onSelectCourse) {
-            onSelectCourse(c);
-          }
-          if (onNavigate) {
-            onNavigate("signup");
-          }
-        }}
-      />
     </section>
   );
 }

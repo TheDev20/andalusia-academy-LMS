@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   NavigateFunction,
   ROUTES,
@@ -18,24 +19,29 @@ export interface HomePageProps {
 }
 
 export default function HomePage({ onNavigate }: HomePageProps) {
+  const navigate = useNavigate();
+
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleCategorySelect = (categoryName: string) => {
-    setSearchQuery(categoryName);
-    const el = document.getElementById(SECTION_IDS.COURSES);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
+  const handleCategorySelect = (categoryId: string) => {
+    const filterMap: Record<string, string> = {
+      "software-engineering": "dev",
+      "ai-ml": "ai",
+      "data-science": "data",
+      "big-data-engineering": "data",
+      "cloud-devops": "cloud",
+      cybersecurity: "cyber",
+    };
+
+    const targetFilter = filterMap[categoryId] || "all";
+    navigate(`/courses?filter=${targetFilter}`);
   };
 
   const [courseFilter, setCourseFilter] = useState("all");
 
-  const handleTrackSelect = (filterId: string) => {
-    setCourseFilter(filterId);
-    setSearchQuery("");
-    const el = document.getElementById(SECTION_IDS.COURSES);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+  const handleTrackSelect = (_filterId: string) => {
+    if (onNavigate) {
+      onNavigate(ROUTES.COURSES);
     }
   };
 

@@ -1,0 +1,47 @@
+.syllabus-page-wrapper {
+  padding-top: 40px;
+  padding-bottom: 80px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.back-to-courses-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-gold, #c59b27);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.back-to-courses-btn:hover {
+  opacity: 0.85;
+  transform: translateX(-3px);
+}
+
+.syllabus-full-card {
+  background: var(--color-surface, #1e1e24);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.08));
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.syllabus-tab-container {
+  padding: 32px;
+  min-height: 450px;
+}
+
+@media (max-width: 768px) {
+  .syllabus-page-wrapper {
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+
+  .syllabus-tab-container {
+    padding: 20px 16px;
+  }
+}

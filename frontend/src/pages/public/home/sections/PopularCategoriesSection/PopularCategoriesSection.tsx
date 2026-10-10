@@ -87,10 +87,7 @@ export default function PopularCategoriesSection({
   ];
 
   return (
-    <section
-      className="categories-section"
-      aria-label="Popular Categories"
-    >
+    <section className="categories-section" aria-label="Popular Categories">
       <div className="section-container">
         <SectionHeading
           title={
@@ -107,7 +104,7 @@ export default function PopularCategoriesSection({
             return (
               <div
                 key={cat.id}
-                onClick={() => onSelectCategory && onSelectCategory(cat.title)}
+                onClick={() => onSelectCategory && onSelectCategory(cat.id)}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {

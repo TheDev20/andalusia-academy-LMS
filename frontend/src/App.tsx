@@ -15,6 +15,7 @@ import AboutPage from "./pages/public/about/AboutPage";
 import ContactPage from "./pages/public/contact/ContactPage";
 import CoursesPage from "./pages/public/courses/CoursesPage";
 import AuthPage from "./pages/auth/AuthPage";
+import SyllabusPage from "./pages/public/courses/SyllabusPage";
 import "./styles.css";
 
 // Level 1: Client Query Cache (RFC Option B - 5 min staleTime matching backend IMemoryCache)
@@ -52,6 +53,10 @@ export default function App() {
             <Route index element={<PageWithNavigate Component={HomePage} />} />
             <Route path="home" element={<Navigate to="/" replace />} />
             <Route path="courses" element={<CoursesPage />} />
+            <Route
+              path="courses/:courseId/syllabus"
+              element={<SyllabusPage />}
+            />
             <Route
               path="about"
               element={<PageWithNavigate Component={AboutPage} />}
