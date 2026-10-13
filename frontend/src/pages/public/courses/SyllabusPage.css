@@ -1,47 +1,78 @@
-.syllabus-page-wrapper {
-  padding-top: 40px;
-  padding-bottom: 80px;
-  max-width: 1100px;
+.syllabus-page-viewport {
+  background: #FAF6F0;
+  min-height: 100vh;
+  color: #1E1A17;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  display: flex;
+  flex-direction: column;
+}
+
+.syllabus-main-body {
+  max-width: 1160px;
   margin: 0 auto;
+  padding: 56px 24px 32px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
 }
 
-.back-to-courses-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--color-gold, #c59b27);
-  font-size: 0.95rem;
-  font-weight: 500;
+/* State Containers (Loading / Not Found) */
+.syllabus-state-container {
+  max-width: 600px;
+  margin: 120px auto;
+  padding: 48px 24px;
+  text-align: center;
+  background: #FFFFFF;
+  border: 1px solid #EADFCF;
+  border-radius: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.syllabus-spin-icon {
+  margin: 0 auto 16px;
+  color: #8A5A3B;
+  animation: syllabusSpin 1s linear infinite;
+}
+
+@keyframes syllabusSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.syllabus-state-title {
+  margin: 0 0 8px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: #1E1A17;
+}
+
+.syllabus-state-subtitle {
+  margin: 0 0 20px;
+  font-size: 15px;
+  color: #5A5046;
+}
+
+.syllabus-back-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: #8A5A3B;
+  color: #FFFFFF;
   text-decoration: none;
-  margin-bottom: 24px;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  font-weight: 600;
+  font-size: 14.5px;
+  transition: background-color 0.2s ease;
 }
 
-.back-to-courses-btn:hover {
-  opacity: 0.85;
-  transform: translateX(-3px);
-}
-
-.syllabus-full-card {
-  background: var(--color-surface, #1e1e24);
-  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.08));
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-}
-
-.syllabus-tab-container {
-  padding: 32px;
-  min-height: 450px;
-}
-
-@media (max-width: 768px) {
-  .syllabus-page-wrapper {
-    padding-top: 20px;
-    padding-bottom: 40px;
-  }
-
-  .syllabus-tab-container {
-    padding: 20px 16px;
-  }
+.syllabus-back-btn:hover {
+  background: #734528;
 }

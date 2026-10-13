@@ -6,26 +6,19 @@ import {
   getProgramSyllabus,
   PROGRAM_SYLLABI,
 } from "../home/sections/FeaturedCoursesSection/SyllabusModal/syllabusData";
-import { SyllabusHeader } from "../home/sections/FeaturedCoursesSection/SyllabusModal/components/SyllabusHeader";
-import { SyllabusStatsStrip } from "../home/sections/FeaturedCoursesSection/SyllabusModal/components/SyllabusStatsStrip";
-import {
-  SyllabusTabsNav,
-  TabType,
-} from "../home/sections/FeaturedCoursesSection/SyllabusModal/components/SyllabusTabsNav";
-import { CurriculumTab } from "../home/sections/FeaturedCoursesSection/SyllabusModal/components/CurriculumTab";
-import { LabsTab } from "../home/sections/FeaturedCoursesSection/SyllabusModal/components/LabsTab";
-import { TechStackTab } from "../home/sections/FeaturedCoursesSection/SyllabusModal/components/TechStackTab";
-import { CareerTab } from "../home/sections/FeaturedCoursesSection/SyllabusModal/components/CareerTab";
-import { SyllabusFooter } from "../home/sections/FeaturedCoursesSection/SyllabusModal/components/SyllabusFooter";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { SyllabusHero } from "./syllabus/components/SyllabusHero/SyllabusHero";
+import { SyllabusSectionNav } from "./syllabus/components/SyllabusSectionNav/SyllabusSectionNav";
+import { SyllabusCurriculumSection } from "./syllabus/components/SyllabusCurriculum/SyllabusCurriculumSection";
+import { SyllabusLabsSection } from "./syllabus/components/SyllabusLabs/SyllabusLabsSection";
+import { SyllabusTechSection } from "./syllabus/components/SyllabusTech/SyllabusTechSection";
+import { SyllabusOutcomesSection } from "./syllabus/components/SyllabusOutcomes/SyllabusOutcomesSection";
+import { SyllabusClosingCta } from "./syllabus/components/SyllabusClosingCta/SyllabusClosingCta";
+import { Loader2 } from "lucide-react";
 import "./SyllabusPage.css";
 
 export default function SyllabusPage() {
   const { courseId } = useParams<{ courseId: string }>();
-  const [activeTab, setActiveTab] = useState<TabType>("curriculum");
-  const [expandedModules, setExpandedModules] = useState<
-    Record<string, boolean>
-  >({});
+  const [downloadSuccess, setDownloadSuccess] = useState(false);
 
   const isKnownSlug = !!(courseId && PROGRAM_SYLLABI[courseId]);
 
@@ -54,70 +47,23 @@ export default function SyllabusPage() {
     return null;
   }, [courseId, isKnownSlug, courseDetail]);
 
-  if (isLoading) {
-    return (
-      <div
-        className="section-container"
-        style={{ padding: "120px 20px", textAlign: "center" }}
-      >
-        <Loader2
-          size={36}
-          className="spin-icon"
-          style={{
-            animation: "spin 1s linear infinite",
-            margin: "0 auto 16px",
-            color: "var(--color-gold, #c59b27)",
-          }}
-        />
-        <h3>Loading program curriculum & syllabus...</h3>
-      </div>
-    );
-  }
-
-  if (!syllabus) {
-    return (
-      <div
-        className="section-container"
-        style={{ padding: "80px 20px", textAlign: "center" }}
-      >
-        <h2>Course syllabus not found</h2>
-        <Link
-          to="/courses"
-          style={{ marginTop: "20px", display: "inline-block" }}
-        >
-          &larr; Back to Courses
-        </Link>
-      </div>
-    );
-  }
-
-  const toggleModule = (id: string) => {
-    setExpandedModules((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  const isAllExpanded = Object.values(expandedModules).every(Boolean);
-  const toggleAllModules = () => {
-    const next: Record<string, boolean> = {};
-    syllabus.modules.forEach((m) => {
-      next[m.id] = !isAllExpanded;
-    });
-    setExpandedModules(next);
-  };
-
-  const [downloadSuccess, setDownloadSuccess] = useState(false);
-
   const handleDownloadPdf = () => {
+    if (!syllabus) return;
     setDownloadSuccess(true);
     const blobContent = `ANDALUSIA ACADEMY - OFFICIAL SYLLABUS\n\nProgram: ${syllabus.title}\nCategory: ${syllabus.category}\nDuration: ${syllabus.duration}\nNext Intake: ${syllabus.intake}\nRating: ${syllabus.rating}/5.0\n\nOVERVIEW:\n${syllabus.overview}\n\nMODULES:\n${syllabus.modules
       .map(
         (m) =>
           `[${m.number}] ${m.title} (${m.duration})\nSummary: ${m.summary}\nTopics:\n${m.topics
             .map((t) => ` - ${t}`)
-            .join("\n")}\nHands-on Lab: ${m.handsOnLab.title} - ${
-            m.handsOnLab.description
+            .join("\n")}\nHands-on Lab: ${m.handsOnLab?.title || "Comprehensive Lab"} - ${
+            m.handsOnLab?.description || "Applied exercises"
           }\n`,
       )
-      .join("\n")}`;
+      .join("\n")}\n\nTECHNOLOGIES MASTERED:\n${syllabus.technologies.join(
+      ", ",
+    )}\n\nCAREER OUTCOMES:\nRoles: ${syllabus.careerOutcomes?.targetRoles.join(
+      ", ",
+    )}\nSalary Benchmark: ${syllabus.careerOutcomes?.averageSalaryRange}\n`;
 
     const blob = new Blob([blobContent], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
@@ -134,46 +80,63 @@ export default function SyllabusPage() {
     }, 3500);
   };
 
-  return (
-    <div className="syllabus-page-wrapper section-container">
-      <Link to="/courses" className="back-to-courses-btn">
-        <ArrowLeft size={16} /> Back to Programs
-      </Link>
+  const handleEnroll = () => {
+    // Scroll smoothly to the enroll card or advisor info
+    const el = document.getElementById("enroll");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
-      <div className="syllabus-full-card">
-        <SyllabusHeader syllabus={syllabus}>
-          <SyllabusStatsStrip syllabus={syllabus} />
-        </SyllabusHeader>
-
-        <SyllabusTabsNav
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          modulesCount={syllabus.modules.length}
-          technologiesCount={syllabus.technologies.length}
-        />
-
-        <div className="syllabus-tab-container">
-          {activeTab === "curriculum" && (
-            <CurriculumTab
-              syllabus={syllabus}
-              expandedModules={expandedModules}
-              onToggleModule={toggleModule}
-              onToggleAllModules={toggleAllModules}
-              isAllExpanded={isAllExpanded}
-            />
-          )}
-          {activeTab === "labs" && <LabsTab syllabus={syllabus} />}
-          {activeTab === "tech" && <TechStackTab syllabus={syllabus} />}
-          {activeTab === "career" && <CareerTab syllabus={syllabus} />}
-        </div>
-
-        <SyllabusFooter
-          syllabus={syllabus}
-          onEnroll={() => {}}
-          onDownload={handleDownloadPdf}
-          downloadSuccess={downloadSuccess}
-        />
+  if (isLoading) {
+    return (
+      <div className="syllabus-state-container">
+        <Loader2 size={36} className="syllabus-spin-icon" />
+        <h3 className="syllabus-state-title">Loading program curriculum &amp; syllabus...</h3>
       </div>
+    );
+  }
+
+  if (!syllabus) {
+    return (
+      <div className="syllabus-state-container">
+        <h2 className="syllabus-state-title">Course syllabus not found</h2>
+        <p className="syllabus-state-subtitle">
+          We couldn't locate the curriculum details for this program.
+        </p>
+        <Link to="/courses" className="syllabus-back-btn">
+          &larr; Back to Courses
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="syllabus-page-viewport">
+      {/* 1. Hero Section with Breadcrumbs & Floating Aside Card */}
+      <SyllabusHero syllabus={syllabus} onEnroll={handleEnroll} />
+
+      {/* 2. Sticky Tab Bar */}
+      <SyllabusSectionNav
+        modulesCount={syllabus.modules.length}
+        technologiesCount={syllabus.technologies.length}
+      />
+
+      {/* 3. Main Content Grid Sections */}
+      <main className="syllabus-main-body">
+        <SyllabusCurriculumSection syllabus={syllabus} />
+        <SyllabusLabsSection syllabus={syllabus} />
+        <SyllabusTechSection syllabus={syllabus} />
+        <SyllabusOutcomesSection syllabus={syllabus} />
+      </main>
+
+      {/* 4. Closing Enrollment CTA Card */}
+      <SyllabusClosingCta
+        syllabus={syllabus}
+        onEnroll={handleEnroll}
+        onDownload={handleDownloadPdf}
+        downloadSuccess={downloadSuccess}
+      />
     </div>
   );
 }

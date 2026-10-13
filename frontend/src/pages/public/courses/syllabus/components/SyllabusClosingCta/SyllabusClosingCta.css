@@ -1,0 +1,90 @@
+.syllabus-closing-section {
+  padding: 12px 24px 72px;
+  max-width: 1160px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.closing-cta-card {
+  background: #1E1A17;
+  color: #FAF6F0;
+  border-radius: 28px;
+  padding: 48px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  box-sizing: border-box;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+}
+
+.closing-cta-info {
+  flex: 1 1 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.closing-cta-title {
+  margin: 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.2;
+  color: #FFFFFF;
+}
+
+.closing-cta-desc {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: #E0D6C8;
+}
+
+.closing-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+
+.closing-enroll-btn {
+  padding: 16px 28px;
+  border-radius: 999px;
+  background: #E3B58F;
+  color: #2A1B10;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  transition: filter 0.2s ease, transform 0.15s ease;
+}
+
+.closing-enroll-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.closing-download-btn {
+  padding: 16px 26px;
+  border-radius: 999px;
+  border: 1.5px solid #8C7F70;
+  background: transparent;
+  color: #FAF6F0;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.closing-download-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #FAF6F0;
+}

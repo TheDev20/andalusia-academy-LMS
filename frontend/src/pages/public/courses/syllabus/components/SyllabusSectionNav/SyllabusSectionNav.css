@@ -1,0 +1,50 @@
+.syllabus-sticky-nav-wrapper {
+  background: #FAF6F0;
+  border-bottom: 1px solid #EADFCF;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  backdrop-filter: blur(8px);
+}
+
+.syllabus-section-nav {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+}
+
+.section-tab-item {
+  padding: 18px 0 14px;
+  border-bottom: 3px solid transparent;
+  color: #4A4137;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.section-tab-item:hover {
+  color: #1E1A17;
+  border-bottom-color: #8A5A3B;
+}
+
+.section-tab-item.is-active {
+  color: #1E1A17;
+  border-bottom-color: #8A5A3B;
+  font-weight: 700;
+}
+
+.tab-pill-badge {
+  margin-left: 7px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #F0E7DB;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6E4529;
+}

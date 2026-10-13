@@ -1,0 +1,64 @@
+.syllabus-tech-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.tech-header {
+  max-width: 660px;
+}
+
+.tech-heading {
+  margin: 0 0 8px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1.15;
+  color: #1E1A17;
+}
+
+.tech-subtitle {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: #5A5046;
+}
+
+.tech-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: #FFFFFF;
+  border: 1px solid #EADFCF;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.tech-chip-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: #FAF6F0;
+  border: 1px solid #EADFCF;
+  color: #1E1A17;
+  font-weight: 600;
+  font-size: 14.5px;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.tech-chip-item:hover {
+  background: #F6EBDD;
+  border-color: #8A5A3B;
+  color: #4A2D1A;
+  transform: translateY(-1px);
+}
+
+.tech-chip-icon {
+  color: #8A5A3B;
+  display: flex;
+  align-items: center;
+}
