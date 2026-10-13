@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Code2,
   Brain,
@@ -8,10 +9,33 @@ import {
   Server,
   Layers,
   ArrowRight,
+  type LucideIcon,
 } from "lucide-react";
 import SectionHeading from "../../../../../components/ui/SectionHeading";
 import "./PopularCategoriesSection.css";
 import { MagicCard } from "@/components/ui/magic-card";
+
+// Map icon names from the database to Lucide components
+const ICON_MAP: Record<string, LucideIcon> = {
+  Code2,
+  Brain,
+  Database,
+  Cloud,
+  ShieldCheck,
+  Smartphone,
+  Server,
+  Layers,
+};
+
+interface TechDiscipline {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  icon: string;
+  countDisplay: string;
+}
+
 export interface PopularCategoriesSectionProps {
   onSelectCategory?: (categoryName: string) => void;
 }
@@ -19,72 +43,29 @@ export interface PopularCategoriesSectionProps {
 export default function PopularCategoriesSection({
   onSelectCategory,
 }: PopularCategoriesSectionProps) {
-  const categories = [
-    {
-      id: "software-engineering",
-      title: "Software Development & Web Systems",
-      count: "18 Programs",
-      icon: Code2,
-      description:
-        "Full-stack web development, modern JavaScript frameworks, RESTful APIs, and scalable cloud-based architectures.",
-    },
-    {
-      id: "ai-ml",
-      title: "Artificial Intelligence & Generative AI",
-      icon: Brain,
-      count: "14 Programs",
-      description:
-        "Large Language Models (LLMs), LangChain, autonomous agentic workflows, PyTorch, and deep learning architectures.",
-    },
-    {
-      id: "data-science",
-      title: "Data Science & Advanced Analytics",
-      icon: Database,
-      count: "15 Programs",
-      description:
-        "Python for data analysis, statistical modeling, machine learning algorithms, and predictive business intelligence.",
-    },
-    {
-      id: "big-data-engineering",
-      title: "Big Data & Cloud Data Warehousing",
-      icon: Server,
-      count: "10 Programs",
-      description:
-        "Google BigQuery, Apache Spark, distributed streaming pipelines, DBT data modeling, and lakehouse catalogs.",
-    },
-    {
-      id: "cloud-devops",
-      title: "Cloud Computing & DevOps Orchestration",
-      icon: Cloud,
-      count: "12 Programs",
-      description:
-        "Kubernetes container management, Docker, Terraform Infrastructure as Code, AWS, Azure, and automated CI/CD.",
-    },
-    {
-      id: "cybersecurity",
-      title: "Cybersecurity & Secure Systems",
-      icon: ShieldCheck,
-      count: "9 Programs",
-      description:
-        "Application security, penetration testing, threat hunting, zero-trust architectures, and DevSecOps compliance.",
-    },
-    {
-      id: "mobile-development",
-      title: "Mobile Application Engineering",
-      icon: Smartphone,
-      count: "8 Programs",
-      description:
-        "Cross-platform mobile apps with Flutter and React Native, native iOS Swift, Android Kotlin, and offline-first data sync.",
-    },
-    {
-      id: "tech-leadership",
-      title: "System Architecture & Tech Leadership",
-      icon: Layers,
-      count: "7 Programs",
-      description:
-        "High-scale distributed systems design, engineering team leadership, technical product management, and agile delivery.",
-    },
-  ];
+  const [categories, setCategories] = useState<TechDiscipline[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // Fetch live disciplines from the backend API
+  useEffect(() => {
+    fetch("/api/catalog/disciplines")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load disciplines");
+        return res.json();
+      })
+      .then((data) => {
+        setCategories(data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching categories:", err);
+        setIsLoading(false);
+      });
+  }, []);
+
+  if (isLoading) {
+    return <div className="text-center py-12">Loading programs...</div>;
+  }
 
   return (
     <section className="categories-section" aria-label="Popular Categories">
@@ -98,35 +79,34 @@ export default function PopularCategoriesSection({
           subtitle="From enterprise software development to state-of-the-art artificial intelligence and big data, select your area of technical focus."
         />
 
-        <div className="categories-grid ">
+        <div className="categories-grid">
           {categories.map((cat) => {
-            const Icon = cat.icon;
+            // Resolve icon dynamically or fallback to Code2
+            const Icon = ICON_MAP[cat.icon] || Code2;
+
             return (
               <div
                 key={cat.id}
-                onClick={() => onSelectCategory && onSelectCategory(cat.id)}
+                onClick={() => onSelectCategory && onSelectCategory(cat.slug)}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
-                    onSelectCategory && onSelectCategory(cat.title);
+                    onSelectCategory && onSelectCategory(cat.slug);
                   }
                 }}
               >
                 <MagicCard
                   mode="gradient"
                   gradientColor="#E8C9A0"
-                  // glowFrom="#E8C9A0"
-                  // glowTo="#F6EBDD"
                   className="category-card"
                   gradientSize={100}
                 >
-                  {/* <div className= category-card> */}
                   <div className="category-header-row">
                     <div className="cat-icon-frame">
                       <Icon size={24} aria-hidden="true" />
                     </div>
-                    <span className="cat-count-badge">{cat.count}</span>
+                    <span className="cat-count-badge">{cat.countDisplay}</span>
                   </div>
                   <h2 className="cat-card-title">{cat.title}</h2>
                   <p className="cat-card-desc">{cat.description}</p>

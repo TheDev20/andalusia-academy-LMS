@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using AndalusiaAcademy.API.Data;
+using AndalusiaAcademy.API.Models.Catalog;
 using AndalusiaAcademy.API.DTOs.Catalog;
 using AndalusiaAcademy.API.DTOs.Common;
 using AndalusiaAcademy.API.Services.Interfaces.Catalog;
@@ -75,7 +78,7 @@ public class CatalogController : ControllerBase
     }
 
     /// <summary>
-    /// Retrieves detailed information for an academic program including its included courses and upcoming cohorts.
+    /// Retrieves detailed information for an academic program including its included courses and upcoming cohorts
     /// </summary>
     [HttpGet("programs/{idOrSlug}")]
     [ProducesResponseType(typeof(ProgramDetailDto), StatusCodes.Status200OK)]
@@ -116,5 +119,61 @@ public class CatalogController : ControllerBase
         if (result == null) return NotFound(new { message = $"Career Path '{idOrSlug}' was not found." });
 
         return Ok(result);
+    }
+        /// <summary>
+    /// Retrieves all Tech Disciplines with live program counts for the homepage cards (cached for 5 minutes)
+    /// </summary>
+    /// <param name="ct">Cancellation token</param>
+    /// <response code="200">List of disciplines returned successfully</response>
+    [HttpGet("disciplines")]
+    [ProducesResponseType(typeof(List<TechDisciplineDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<TechDisciplineDto>>> GetDisciplines(CancellationToken ct)
+    {
+        var disciplines = await _catalogService.GetDisciplinesAsync(ct);
+        return Ok(disciplines);
+    }
+
+    /// <summary>
+    /// Admin endpoint to add a new Tech Discipline from Swagger without touching code
+    /// </summary>
+    /// <param name="request">Discipline title, description, and icon name</param>
+    /// <param name="ct">Cancellation token</param>
+    /// <response code="201">Discipline created successfully and visible on frontend</response>
+    /// <response code="400">Validation error occurred</response>
+    /// <response code="409">A discipline with this title already exists</response>
+    [HttpPost("disciplines")]
+    [ProducesResponseType(typeof(TechDisciplineDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<TechDisciplineDto>> CreateDiscipline(
+        [FromBody] CreateTechDisciplineRequest request,
+        CancellationToken ct)
+    {
+        var result = await _catalogService.CreateDisciplineAsync(request, ct);
+        return CreatedAtAction(nameof(GetDisciplines), new { id = result.Id }, result);
+    }
+
+    /// <summary>
+    /// Admin endpoint to update an existing Tech Discipline from Swagger without touching code.
+    /// </summary>
+    /// <param name="id">The discipline Guid identifier</param>
+    /// <param name="request">Discipline title, description, and icon name</param>
+    /// <param name="ct">Cancellation token</param>
+    /// <response code="204">Discipline updated successfully and visible on frontend</response>
+    /// <response code="400">Validation error occurred</response>
+    /// <response code="404">Discipline not found</response>
+    /// <response code="409">Another discipline with this title already exists</response>
+    [HttpPut("disciplines/{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> UpdateDiscipline(
+        Guid id,
+        [FromBody] UpdateTechDisciplineRequest request,
+        CancellationToken ct)
+    {
+        await _catalogService.UpdateDisciplineAsync(id, request, ct);
+        return NoContent();
     }
 }

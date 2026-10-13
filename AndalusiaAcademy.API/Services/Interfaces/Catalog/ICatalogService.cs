@@ -45,4 +45,25 @@ public interface ICatalogService
     Task<CareerPathDetailDto?> GetCareerPathDetailAsync(
         string idOrSlug,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves all Tech Disciplines with live program counts and 5-minute memory caching.
+    /// </summary>
+    Task<List<TechDisciplineDto>> GetDisciplinesAsync(
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Creates a new Tech Discipline and immediately invalidates the disciplines cache.
+    /// </summary>
+    Task<TechDisciplineDto> CreateDisciplineAsync(
+        CreateTechDisciplineRequest request,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Updates an existing Tech Discipline and immediately invalidates the disciplines cache.
+    /// </summary>
+    Task UpdateDisciplineAsync(
+        Guid id,
+        UpdateTechDisciplineRequest request,
+        CancellationToken cancellationToken = default);
 }
