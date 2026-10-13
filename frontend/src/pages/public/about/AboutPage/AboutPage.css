@@ -173,10 +173,6 @@
   font-size: 13px;
   color: #4b3f33;
 }
-.f-icon {
-  color: #8b6648;
-  flex-shrink: 0;
-}
 .btn-facility-tour {
   display: inline-flex;
   align-items: center;

@@ -28,9 +28,13 @@ public class GlobalExceptionMiddleware
         {
             await WriteProblemDetails(context, StatusCodes.Status409Conflict, "Conflict", ex.Message);
         }
+        catch (ForbiddenException ex)
+        {
+            await WriteProblemDetails(context, StatusCodes.Status403Forbidden, "Forbidden", ex.Message);
+        }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Unhandled server exception occurred.");
+            _logger.LogError(ex, "Unhandled server exception occurred: {Message}", ex.Message);
             await WriteProblemDetails(
                 context,
                 StatusCodes.Status500InternalServerError,
@@ -52,6 +56,7 @@ public class GlobalExceptionMiddleware
             Detail = detail,
             Instance = ctx.Request.Path
         };
+        problem.Extensions["traceId"] = ctx.TraceIdentifier;
 
         await ctx.Response.WriteAsJsonAsync(problem);
     }

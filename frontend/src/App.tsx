@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { AppRoute, NavigateFunction, ROUTE_PATHS } from "./types/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider } from "./context/AuthContext";
 import PublicLayout from "./components/layout/PublicLayout";
 import AuthLayout from "./components/layout/AuthLayout";
 import ScrollToTopOrHash from "./components/common/ScrollToTopOrHash";
@@ -45,33 +46,38 @@ function PageWithNavigate({
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <ScrollToTopOrHash />
+      <AuthProvider>
+        <BrowserRouter>
+          <ScrollToTopOrHash />
 
-        <Routes>
-          <Route element={<PublicLayout />}>
-            <Route index element={<PageWithNavigate Component={HomePage} />} />
-            <Route path="home" element={<Navigate to="/" replace />} />
-            <Route path="courses" element={<CoursesPage />} />
-            <Route
-              path="courses/:courseId/syllabus"
-              element={<SyllabusPage />}
-            />
-            <Route
-              path="about"
-              element={<PageWithNavigate Component={AboutPage} />}
-            />
-            <Route path="contact" element={<ContactPage />} />
-          </Route>
+          <Routes>
+            <Route element={<PublicLayout />}>
+              <Route
+                index
+                element={<PageWithNavigate Component={HomePage} />}
+              />
+              <Route path="home" element={<Navigate to="/" replace />} />
+              <Route path="courses" element={<CoursesPage />} />
+              <Route
+                path="courses/:courseId/syllabus"
+                element={<SyllabusPage />}
+              />
+              <Route
+                path="about"
+                element={<PageWithNavigate Component={AboutPage} />}
+              />
+              <Route path="contact" element={<ContactPage />} />
+            </Route>
 
-          <Route element={<AuthLayout />}>
-            <Route path="login" element={<AuthPage page="login" />} />
-            <Route path="signup" element={<AuthPage page="signup" />} />
-          </Route>
+            <Route element={<AuthLayout />}>
+              <Route path="login" element={<AuthPage page="login" />} />
+              <Route path="signup" element={<AuthPage page="signup" />} />
+            </Route>
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

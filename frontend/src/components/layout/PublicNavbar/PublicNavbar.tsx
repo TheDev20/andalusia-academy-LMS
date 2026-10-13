@@ -5,6 +5,7 @@ import { AppRoute, NavigateFunction } from "../../../types/navigation";
 import { useScroll } from "../../../hooks/useScroll";
 import { useScrollSpy } from "../../../hooks/useScrollSpy";
 import Brand from "../../common/Brand";
+import { useAuth } from "../../../context/AuthContext";
 import "./PublicNavbar.css";
 
 export interface PublicNavbarProps {
@@ -30,6 +31,7 @@ export default function PublicNavbar({
 }: PublicNavbarProps) {
   const navigate = useNavigate();
   const scrolled = useScroll(20);
+  const { user, isAuthenticated, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const spySection = useScrollSpy(
     HOME_SECTION_IDS,
@@ -109,21 +111,45 @@ export default function PublicNavbar({
 
         {/* Auth CTA Actions */}
         <div className="navbar-actions">
-          <Link
-            to="/login"
-            className="navbar-login-btn"
-            onClick={() => handleAuthNavigate("login")}
-          >
-            Log in
-          </Link>
-          <Link
-            to="/signup"
-            className="navbar-cta-btn"
-            onClick={() => handleAuthNavigate("signup")}
-          >
-            <span>Join Academy</span>
-            <ArrowUpRight size={14} aria-hidden="true" />
-          </Link>
+          {isAuthenticated && user ? (
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <span
+                style={{
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  color: "var(--color-navy-dark, #0B2545)",
+                }}
+              >
+                {user.fullName}
+              </span>
+              <button
+                type="button"
+                onClick={logout}
+                className="navbar-login-btn"
+                style={{ cursor: "pointer", background: "transparent" }}
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="navbar-login-btn"
+                onClick={() => handleAuthNavigate("login")}
+              >
+                Log in
+              </Link>
+              <Link
+                to="/signup"
+                className="navbar-cta-btn"
+                onClick={() => handleAuthNavigate("signup")}
+              >
+                <span>Join Academy</span>
+                <ArrowUpRight size={14} aria-hidden="true" />
+              </Link>
+            </>
+          )}
 
           {/* Mobile menu trigger */}
           <button
@@ -161,20 +187,47 @@ export default function PublicNavbar({
               ))}
             </ul>
             <div className="mobile-drawer-auth">
-              <Link
-                to="/login"
-                className="mobile-login-btn"
-                onClick={() => handleAuthNavigate("login")}
-              >
-                Log in
-              </Link>
-              <Link
-                to="/signup"
-                className="mobile-signup-btn"
-                onClick={() => handleAuthNavigate("signup")}
-              >
-                Join Andalusia Academy
-              </Link>
+              {isAuthenticated && user ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px", padding: "8px 0" }}>
+                  <span
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: 600,
+                      color: "var(--color-navy-dark, #0B2545)",
+                    }}
+                  >
+                    {user.fullName}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      logout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="mobile-login-btn"
+                    style={{ cursor: "pointer", textAlign: "center" }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="mobile-login-btn"
+                    onClick={() => handleAuthNavigate("login")}
+                  >
+                    Log in
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="mobile-signup-btn"
+                    onClick={() => handleAuthNavigate("signup")}
+                  >
+                    Join Andalusia Academy
+                  </Link>
+                </>
+              )}
             </div>
           </nav>
         </div>
