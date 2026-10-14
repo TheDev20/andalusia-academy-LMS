@@ -66,6 +66,7 @@ public class CareerPathRepository : ICareerPathRepository
                 cpc.Course.Title,
                 cpc.Course.Slug,
                 cpc.Course.Description,
+                cpc.Course.ImageUrl,
                 cpc.Course.CourseCategories.OrderBy(cc => cc.Sequence).Select(cc => cc.Category.Name).ToList(),
                 cpc.Course.Offerings.Where(o => o.Status == "Published" && o.StartsAt > now).OrderBy(o => o.Price).Select(o => (decimal?)o.Price).FirstOrDefault(),
                 cpc.Course.Offerings.Where(o => o.Status == "Published" && o.StartsAt > now).OrderBy(o => o.StartsAt).Select(o => (DateTimeOffset?)o.StartsAt).FirstOrDefault()

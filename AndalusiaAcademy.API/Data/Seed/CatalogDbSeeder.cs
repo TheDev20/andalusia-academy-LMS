@@ -8,10 +8,10 @@ public static class CatalogDbSeeder
 {
     public static async Task SeedCatalogAsync(ApplicationDbContext context)
     {
-        if (await context.Courses.AnyAsync() && await context.Programs.AnyAsync())
-        {
-            return; 
-        }
+        // if (await context.Courses.AnyAsync() && await context.Programs.AnyAsync())
+        // {
+        //     return; 
+        // }
 
         var categories = new Dictionary<string, Category>
         {
@@ -44,7 +44,7 @@ public static class CatalogDbSeeder
         // 1. Seed Courses
         var courseMap = new Dictionary<string, Course>();
 
-        var coursesData = new List<(string key, string title, string slug, string desc, string category, decimal price, int daysUntilStart)>
+        var coursesData = new List<(string key, string title, string slug, string desc, string category, decimal price, int daysUntilStart, string imageUrl)>
         {
             (
                 "aspnet",
@@ -53,7 +53,7 @@ public static class CatalogDbSeeder
                 "Architect high-performance distributed systems using .NET 10, EF Core code-first migrations, SQL Server, Clean Architecture, and Redis caching.",
                 "Software Engineering",
                 750m,
-                8
+                8, "/images/SoftwareEngineering.jpg"
             ),
             (
                 "react",
@@ -62,7 +62,7 @@ public static class CatalogDbSeeder
                 "Master Next.js App Router, React Server Components, state management, full-stack typed APIs, and scalable modular design systems.",
                 "Software Engineering",
                 680m,
-                13
+                13, "/images/SoftwareEngineering.jpg"
             ),
             (
                 "genai",
@@ -71,7 +71,7 @@ public static class CatalogDbSeeder
                 "Build production-ready agentic AI systems using LangChain, vector databases, RAG architectures, and fine-tuned open-source LLMs.",
                 "AI & Machine Learning",
                 950m,
-                24
+                24, "/images/GenerativeAi.jpg"
             ),
             (
                 "datascience",
@@ -80,7 +80,7 @@ public static class CatalogDbSeeder
                 "Master statistical machine learning with Python, Pandas, Scikit-Learn, PyTorch neural networks, feature engineering, and production MLOps.",
                 "Data Science",
                 820m,
-                33
+                33, "/images/GenerativeAi.jpg"
             ),
             (
                 "bigdata",
@@ -89,7 +89,7 @@ public static class CatalogDbSeeder
                 "Process massive streaming datasets using Apache Spark, build scalable cloud data warehouses on BigQuery, and automate enterprise DBT pipelines.",
                 "Data Science",
                 890m,
-                21
+                21, "/images/DataScience.jpg"
             ),
             (
                 "devops",
@@ -98,7 +98,7 @@ public static class CatalogDbSeeder
                 "Provision cloud environments with Terraform, orchestrate containerized microservices in production Kubernetes, and automate GitHub Actions CI/CD.",
                 "Cloud & DevOps",
                 790m,
-                38
+                38, "/images/CloudComputing.jpg"
             ),
             (
                 "cybersec",
@@ -107,51 +107,123 @@ public static class CatalogDbSeeder
                 "Master hands-on penetration testing, OWASP Top 10 mitigation, Zero-Trust network architecture, SOC threat hunting, and automated DevSecOps pipelines.",
                 "Cybersecurity",
                 850m,
-                28
+                28, "/images/Cybersecurity.jpg"
             )
         };
 
-        foreach (var (key, title, slug, desc, catName, price, daysUntilStart) in coursesData)
+        // foreach (var (key, title, slug, desc, catName, price, daysUntilStart) in coursesData)
+        // {
+        //     var existingCourse = await context.Courses.FirstOrDefaultAsync(c => c.Slug == slug);
+        //     if (existingCourse == null)
+        //     {
+        //         var course = new Course
+        //         {
+        //             Title = title,
+        //             Slug = slug,
+        //             Description = desc,
+        //             PublicationStatus = "Published"
+        //         };
+        //         await context.Courses.AddAsync(course);
+
+        //         var courseCategory = new CourseCategory
+        //         {
+        //             CourseId = course.Id,
+        //             CategoryId = categories[catName].Id,
+        //             Sequence = 1
+        //         };
+        //         await context.CourseCategories.AddAsync(courseCategory);
+
+        //         var offering = new Offering
+        //         {
+        //             Kind = "Course",
+        //             CourseId = course.Id,
+        //             StartsAt = now.AddDays(daysUntilStart),
+        //             EndsAt = now.AddDays(daysUntilStart + 120),
+        //             Price = price,
+        //             Currency = "USD",
+        //             Capacity = 30,
+        //             Status = "Published"
+        //         };
+        //         await context.Offerings.AddAsync(offering);
+        //         courseMap[key] = course;
+        //     }
+        //     else
+        //     {
+        //         courseMap[key] = existingCourse;
+        //     }
+        // }
+
+        foreach (var (
+    key, title, slug, desc, catName, price, daysUntilStart,imageUrl
+) in coursesData)
+{
+    var course = await context.Courses
+        .FirstOrDefaultAsync(c => c.Slug == slug);
+
+    // Create the course if it doesn't exist.
+    if (course == null)
+    {
+        course = new Course
         {
-            var existingCourse = await context.Courses.FirstOrDefaultAsync(c => c.Slug == slug);
-            if (existingCourse == null)
-            {
-                var course = new Course
-                {
-                    Title = title,
-                    Slug = slug,
-                    Description = desc,
-                    PublicationStatus = "Published"
-                };
-                await context.Courses.AddAsync(course);
+            Slug = slug
+        };
 
-                var courseCategory = new CourseCategory
-                {
-                    CourseId = course.Id,
-                    CategoryId = categories[catName].Id,
-                    Sequence = 1
-                };
-                await context.CourseCategories.AddAsync(courseCategory);
+        context.Courses.Add(course);
+    }
 
-                var offering = new Offering
-                {
-                    Kind = "Course",
-                    CourseId = course.Id,
-                    StartsAt = now.AddDays(daysUntilStart),
-                    EndsAt = now.AddDays(daysUntilStart + 120),
-                    Price = price,
-                    Currency = "USD",
-                    Capacity = 30,
-                    Status = "Published"
-                };
-                await context.Offerings.AddAsync(offering);
-                courseMap[key] = course;
-            }
-            else
-            {
-                courseMap[key] = existingCourse;
-            }
-        }
+    // Synchronize editable course content on every run.
+    course.Title = title;
+    course.Description = desc;
+    course.ImageUrl = imageUrl;
+    course.PublicationStatus = "Published";
+
+    courseMap[key] = course;
+
+    // Ensure the course has its category.
+    var categoryId = categories[catName].Id;
+
+    var hasCategory = await context.CourseCategories
+        .AnyAsync(cc =>
+            cc.CourseId == course.Id &&
+            cc.CategoryId == categoryId);
+
+    if (!hasCategory)
+    {
+        context.CourseCategories.Add(new CourseCategory
+        {
+            CourseId = course.Id,
+            CategoryId = categoryId,
+            Sequence = 1
+        });
+    }
+
+    // Find the existing course offering.
+    var offering = await context.Offerings
+        .FirstOrDefaultAsync(o =>
+            o.Kind == "Course" &&
+            o.CourseId == course.Id);
+
+    if (offering == null)
+    {
+        // Create an offering only if one doesn't exist.
+        offering = new Offering
+        {
+            Kind = "Course",
+            CourseId = course.Id,
+            StartsAt = now.AddDays(daysUntilStart),
+            EndsAt = now.AddDays(daysUntilStart + 120),
+            Capacity = 30
+        };
+
+        context.Offerings.Add(offering);
+    }
+
+    offering.Price = price;
+    offering.Currency = "USD";
+    offering.Status = "Published";
+}
+
+await context.SaveChangesAsync();
 
         await context.SaveChangesAsync();
 

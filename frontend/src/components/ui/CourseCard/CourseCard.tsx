@@ -8,7 +8,6 @@ export interface CourseCardProps {
   course: Course;
   onSelect?: (course: Course) => void;
 }
-
 export default function CourseCard({ course, onSelect }: CourseCardProps) {
   const {
     id,
@@ -26,6 +25,13 @@ export default function CourseCard({ course, onSelect }: CourseCardProps) {
 
   return (
     <article className="course-card" aria-labelledby={`course-title-${id}`}>
+      <div className="course-card-image">
+        <img
+          src={course.imageUrl ?? "/images/SoftwareEngineering.jpg"}
+          alt={course.title}
+        />
+      </div>
+
       <div className="course-card-body">
         <div className="course-card-meta-top">
           <Badge variant={badgeVariant}>{badge}</Badge>

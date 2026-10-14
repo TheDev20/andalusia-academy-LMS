@@ -8,6 +8,7 @@ public record CourseDetailDto(
     string Title,
     string Slug,
     string Description,
+    string? ImageUrl,
     string PublicationStatus,
     List<string> Categories,
     List<CatalogOfferingDto> Offerings,

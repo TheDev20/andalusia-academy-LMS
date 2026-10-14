@@ -173,6 +173,7 @@ export default function FeaturedCoursesSection({
       return {
         id: dto.slug || dto.id,
         title: dto.title,
+        imageUrl: dto.imageUrl,
         category: primaryCategory,
         badge: dto.startingPrice
           ? `$${dto.startingPrice.toLocaleString()}`

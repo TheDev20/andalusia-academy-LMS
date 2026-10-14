@@ -8,6 +8,7 @@ export interface CourseSummaryDto {
   title: string;
   slug: string;
   description: string;
+  imageUrl?: string | null;
   categories: string[];
   startingPrice?: number | null;
   nextOfferingDate?: string | null;
@@ -30,6 +31,7 @@ export interface CourseDetailDto {
   title: string;
   slug: string;
   description: string;
+  imageUrl?: string | null;
   publicationStatus: string;
   categories: string[];
   offerings: CatalogOfferingDto[];
