@@ -319,6 +319,9 @@ namespace AndalusiaAcademy.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PublicationStatus")
                         .IsRequired()
                         .HasMaxLength(24)
@@ -449,6 +452,9 @@ namespace AndalusiaAcademy.API.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PublicationStatus")

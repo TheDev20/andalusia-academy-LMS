@@ -73,6 +73,7 @@ public class CourseRepository : ICourseRepository
             course.Title,
             course.Slug,
             course.Description,
+            course.ImageUrl,
             course.PublicationStatus,
             course.CourseCategories.OrderBy(cc => cc.Sequence).Select(cc => cc.Category.Name).ToList(),
             course.Offerings

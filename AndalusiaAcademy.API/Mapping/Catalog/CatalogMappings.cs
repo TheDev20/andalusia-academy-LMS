@@ -20,6 +20,7 @@ public static class CatalogMappings
             c.Title,
             c.Slug,
             c.Description,
+            c.ImageUrl,
             c.CourseCategories
                 .OrderBy(cc => cc.Sequence)
                 .Select(cc => cc.Category.Name)

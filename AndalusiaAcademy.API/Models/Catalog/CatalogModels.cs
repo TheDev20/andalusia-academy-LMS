@@ -19,6 +19,7 @@ public class Course
     public string Title { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public string? ImageUrl { get; set; }
     public string PublicationStatus { get; set; } = "Draft";
     public byte[] RowVersion { get; set; } = [];
 
@@ -35,6 +36,7 @@ public class Program
     public string Title { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public string? ImageUrl { get; set; }
     public string PublicationStatus { get; set; } = "Draft";
     public byte[] RowVersion { get; set; } = [];
 

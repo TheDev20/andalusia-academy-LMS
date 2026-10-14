@@ -8,6 +8,7 @@ public record CourseSummaryDto(
     string Title,
     string Slug,
     string Description,
+    string? ImageUrl,
     List<string> Categories,
     decimal? StartingPrice,
     DateTimeOffset? NextOfferingDate
