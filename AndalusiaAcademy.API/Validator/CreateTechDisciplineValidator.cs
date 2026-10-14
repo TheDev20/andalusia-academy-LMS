@@ -14,7 +14,7 @@ public class CreateTechDisciplineValidator : AbstractValidator<CreateTechDiscipl
 
         RuleFor(x => x.Description)
             .NotEmpty().WithMessage("Description is required.")
-            .MaximumLength(500).WithMessage("Description cannot exceed 500 characters.");
+            .MaximumLength(150).WithMessage("Description cannot exceed 150 characters.");
 
         RuleFor(x => x.Icon)
             .NotEmpty().WithMessage("Icon name is required.");
@@ -32,7 +32,7 @@ public class UpdateTechDisciplineValidator : AbstractValidator<UpdateTechDiscipl
 
         RuleFor(x => x.Description)
             .NotEmpty().WithMessage("Description is required.")
-            .MaximumLength(500).WithMessage("Description cannot exceed 500 characters.");
+            .MaximumLength(150).WithMessage("Description cannot exceed 150 characters.");
 
         RuleFor(x => x.Icon)
             .NotEmpty().WithMessage("Icon name is required.");

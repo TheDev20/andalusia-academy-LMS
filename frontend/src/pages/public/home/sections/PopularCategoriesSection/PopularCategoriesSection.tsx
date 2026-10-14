@@ -109,7 +109,10 @@ export default function PopularCategoriesSection({
                     <span className="cat-count-badge">{cat.countDisplay}</span>
                   </div>
                   <h2 className="cat-card-title">{cat.title}</h2>
-                  <p className="cat-card-desc">{cat.description}</p>
+                  <p className="cat-card-desc">
+                    {cat.description ||
+                      "Explore specialized curriculum, hands-on enterprise labs, and degree-caliber programs."}
+                  </p>
                   <div className="cat-explore-link">
                     <span>Browse Tracks</span>
                     <ArrowRight size={13} aria-hidden="true" />

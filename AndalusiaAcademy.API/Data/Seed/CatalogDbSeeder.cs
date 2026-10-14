@@ -15,11 +15,41 @@ public static class CatalogDbSeeder
 
         var categories = new Dictionary<string, Category>
         {
-            ["Software Engineering"] = new() { Name = "Software Engineering", Slug = "software-engineering" },
-            ["AI & Machine Learning"] = new() { Name = "AI & Machine Learning", Slug = "ai-machine-learning" },
-            ["Data Science"] = new() { Name = "Data Science", Slug = "data-science" },
-            ["Cloud & DevOps"] = new() { Name = "Cloud & DevOps", Slug = "cloud-devops" },
-            ["Cybersecurity"] = new() { Name = "Cybersecurity", Slug = "cybersecurity" }
+            ["Software Engineering"] = new()
+            {
+                Name = "Software Engineering",
+                Slug = "software-engineering",
+                Description = "Architect distributed systems, enterprise backend microservices, and modern web applications.",
+                Icon = "Code2"
+            },
+            ["AI & Machine Learning"] = new()
+            {
+                Name = "AI & Machine Learning",
+                Slug = "ai-machine-learning",
+                Description = "Master deep learning, neural networks, PyTorch, and generative AI models.",
+                Icon = "Brain"
+            },
+            ["Data Science"] = new()
+            {
+                Name = "Data Science",
+                Slug = "data-science",
+                Description = "Analyze complex datasets, build predictive models, and master modern data pipelines.",
+                Icon = "Database"
+            },
+            ["Cloud & DevOps"] = new()
+            {
+                Name = "Cloud & DevOps",
+                Slug = "cloud-devops",
+                Description = "Architect scalable cloud infrastructure, CI/CD pipelines, and Kubernetes clusters.",
+                Icon = "Cloud"
+            },
+            ["Cybersecurity"] = new()
+            {
+                Name = "Cybersecurity",
+                Slug = "cybersecurity",
+                Description = "Master penetration testing, Zero-Trust defense, and enterprise threat detection.",
+                Icon = "Shield"
+            }
         };
 
         if (!await context.Categories.AnyAsync())
@@ -30,12 +60,24 @@ public static class CatalogDbSeeder
         else
         {
             var dbCategories = await context.Categories.ToListAsync();
+            bool modified = false;
             foreach (var cat in dbCategories)
             {
-                if (categories.ContainsKey(cat.Name))
+                if (categories.TryGetValue(cat.Name, out var seedCat))
                 {
+                    if (string.IsNullOrWhiteSpace(cat.Description))
+                    {
+                        cat.Description = seedCat.Description;
+                        cat.Icon = seedCat.Icon;
+                        modified = true;
+                    }
                     categories[cat.Name] = cat;
                 }
+            }
+
+            if (modified)
+            {
+                await context.SaveChangesAsync();
             }
         }
 
