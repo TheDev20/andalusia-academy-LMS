@@ -113,6 +113,9 @@ export default function PublicNavbar({
         <div className="navbar-actions">
           {isAuthenticated && user ? (
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <Link to="/dashboard" className="navbar-login-btn">
+                My Dashboard
+              </Link>
               <span
                 style={{
                   fontSize: "13px",
@@ -198,6 +201,14 @@ export default function PublicNavbar({
                   >
                     {user.fullName}
                   </span>
+                  <Link
+                    to="/dashboard"
+                    className="mobile-login-btn"
+                    onClick={() => setMobileMenuOpen(false)}
+                    style={{ textAlign: "center" }}
+                  >
+                    My Dashboard
+                  </Link>
                   <button
                     type="button"
                     onClick={() => {

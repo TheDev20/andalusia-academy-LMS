@@ -9,6 +9,7 @@ export const ROUTES = {
   COURSES: "courses",
   CAREER_PATHS: "career-paths",
   CORPORATE: "corporate",
+  DASHBOARD: "dashboard",
 } as const;
 
 export const SECTION_IDS = {
@@ -25,6 +26,7 @@ export const PAGE_ROUTES = [
   "contact",
   "login",
   "signup",
+  "dashboard",
 ] as const;
 export type PageRoute = (typeof PAGE_ROUTES)[number];
 
@@ -57,4 +59,5 @@ export const ROUTE_PATHS: Record<AppRoute, string> = {
   courses: "/courses",
   "career-paths": "/#career-paths",
   corporate: "/#corporate",
+  dashboard: "/dashboard",
 };

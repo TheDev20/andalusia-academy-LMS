@@ -1,7 +1,11 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCourseDetail } from "../../../services/catalogService";
+import { useAuth } from "../../../context/AuthContext";
+import { admissionsApi } from "../../../services/api/admissionsApi";
+import { ApplicationDto } from "../../../types/admissions";
+import PaymentSimulationModal from "../../../components/ui/PaymentSimulationModal/PaymentSimulationModal";
 import {
   getProgramSyllabus,
   PROGRAM_SYLLABI,
@@ -18,15 +22,18 @@ import "./SyllabusPage.css";
 
 export default function SyllabusPage() {
   const { courseId } = useParams<{ courseId: string }>();
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [downloadSuccess, setDownloadSuccess] = useState(false);
+  const [activeOrder, setActiveOrder] = useState<ApplicationDto | null>(null);
+  const [enrollError, setEnrollError] = useState<string | null>(null);
 
   const isKnownSlug = !!(courseId && PROGRAM_SYLLABI[courseId]);
 
-  // If courseId is a GUID or not a known slug, fetch its details from the catalog API
   const { data: courseDetail, isLoading } = useQuery({
     queryKey: ["courseDetail", courseId],
     queryFn: ({ signal }) => fetchCourseDetail(courseId!, signal),
-    enabled: !!courseId && !isKnownSlug,
+    enabled: !!courseId,
     staleTime: 5 * 60 * 1000,
   });
 
@@ -80,15 +87,39 @@ export default function SyllabusPage() {
     }, 3500);
   };
 
-  const handleEnroll = () => {
-    // Scroll smoothly to the enroll card or advisor info
-    const el = document.getElementById("enroll");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+  const handleEnroll = async () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+
+    const offeringId = courseDetail?.offerings?.[0]?.id;
+    if (!offeringId) {
+      setEnrollError("No active cohort offering found for this course.");
+      return;
+    }
+
+    try {
+      setEnrollError(null);
+      const appDto = await admissionsApi.submitApplication(offeringId);
+      setActiveOrder(appDto);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Failed to submit application.";
+      if (msg.toLowerCase().includes("already")) {
+        const myApps = await admissionsApi.getMyApplications().catch(() => []);
+        const existingApp = myApps.find((a) => a.offeringId === offeringId);
+        if (existingApp && existingApp.orderStatus !== "Paid" && existingApp.salesOrderId) {
+          setActiveOrder(existingApp);
+          return;
+        }
+        navigate("/dashboard");
+      } else {
+        setEnrollError(msg);
+      }
     }
   };
 
-  if (isLoading) {
+  if (isLoading && !isKnownSlug) {
     return (
       <div className="syllabus-state-container">
         <Loader2 size={36} className="syllabus-spin-icon" />
@@ -113,6 +144,21 @@ export default function SyllabusPage() {
 
   return (
     <div className="syllabus-page-viewport">
+      {enrollError && (
+        <div
+          style={{
+            background: "#fef2f2",
+            borderBottom: "1px solid #fecaca",
+            color: "#b91c1c",
+            textAlign: "center",
+            padding: "12px 20px",
+            fontWeight: 600,
+          }}
+        >
+          {enrollError}
+        </div>
+      )}
+
       {/* 1. Hero Section with Breadcrumbs & Floating Aside Card */}
       <SyllabusHero syllabus={syllabus} onEnroll={handleEnroll} />
 
@@ -137,6 +183,27 @@ export default function SyllabusPage() {
         onDownload={handleDownloadPdf}
         downloadSuccess={downloadSuccess}
       />
+
+      {enrollError && (
+        <div style={{ textAlign: "center", color: "#b91c1c", padding: "12px" }}>
+          {enrollError}
+        </div>
+      )}
+
+      {activeOrder && activeOrder.salesOrderId && (
+        <PaymentSimulationModal
+          isOpen={true}
+          onClose={() => setActiveOrder(null)}
+          salesOrderId={activeOrder.salesOrderId}
+          courseTitle={activeOrder.title}
+          amount={activeOrder.amountDue}
+          currency={activeOrder.currency}
+          onSuccess={() => {
+            setActiveOrder(null);
+            navigate("/dashboard");
+          }}
+        />
+      )}
     </div>
   );
 }

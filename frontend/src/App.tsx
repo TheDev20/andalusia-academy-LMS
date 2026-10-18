@@ -17,6 +17,8 @@ import ContactPage from "./pages/public/contact/ContactPage";
 import CoursesPage from "./pages/public/courses/CoursesPage";
 import AuthPage from "./pages/auth/AuthPage";
 import SyllabusPage from "./pages/public/courses/SyllabusPage";
+import ProtectedRoute from "./components/common/ProtectedRoute";
+import DashboardPage from "./pages/learner/DashboardPage";
 import "./styles.css";
 
 // Level 1: Client Query Cache (RFC Option B - 5 min staleTime matching backend IMemoryCache)
@@ -67,6 +69,9 @@ export default function App() {
                 element={<PageWithNavigate Component={AboutPage} />}
               />
               <Route path="contact" element={<ContactPage />} />
+              <Route element={<ProtectedRoute allowedRoles={["Learner"]} />}>
+                <Route path="dashboard" element={<DashboardPage />} />
+              </Route>
             </Route>
 
             <Route element={<AuthLayout />}>
