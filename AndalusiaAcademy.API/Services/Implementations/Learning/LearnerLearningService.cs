@@ -34,6 +34,11 @@ public sealed class LearnerLearningService : ILearnerLearningService
                 CourseId = le.CourseOffering.CourseId!.Value,
                 le.CourseOffering.Course!.Title,
                 le.CourseOffering.Course.Slug,
+                le.CourseOffering.Course.ImageUrl,
+                Category = le.CourseOffering.Course.CourseCategories
+                    .OrderBy(cc => cc.Sequence)
+                    .Select(cc => cc.Category.Name)
+                    .FirstOrDefault(),
                 le.CourseOffering.StartsAt,
                 le.CourseOffering.EndsAt,
                 le.Status,
@@ -48,7 +53,7 @@ public sealed class LearnerLearningService : ILearnerLearningService
         var progress = await _progress.ForEnrollmentsAsync(rows.Select(r => r.Id).ToList(), now, cancellationToken);
 
         return rows.Select(r => new MyCourseDto(
-                r.Id, r.CourseOfferingId, r.CourseId, r.Title, r.Slug, r.StartsAt, r.EndsAt, r.Status, r.NextSessionAt,
+                r.Id, r.CourseOfferingId, r.CourseId, r.Title, r.Slug, r.ImageUrl, r.Category, r.StartsAt, r.EndsAt, r.Status, r.NextSessionAt,
                 ProgressCalculator.Calculate(progress[r.Id])))
             .ToList();
     }

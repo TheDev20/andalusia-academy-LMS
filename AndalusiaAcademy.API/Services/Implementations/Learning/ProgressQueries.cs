@@ -33,8 +33,9 @@ public sealed class ProgressQueries
                 RequiredResources = _context.Resources.Count(r => r.CourseOfferingId == le.CourseOfferingId && r.Required),
                 CompletedRequired = _context.ResourceProgresses.Count(rp =>
                     rp.LearningEnrollmentId == le.Id && rp.Resource.Required),
+                // A session counts once it has started, which is also when attendance becomes recordable.
                 SessionsHeld = _context.Sessions.Count(s =>
-                    s.CourseOfferingId == le.CourseOfferingId && s.Status != SessionStatuses.Cancelled && s.EndsAt <= now),
+                    s.CourseOfferingId == le.CourseOfferingId && s.Status != SessionStatuses.Cancelled && s.StartsAt <= now),
                 SessionsAttended = _context.Attendances.Count(a =>
                     a.LearningEnrollmentId == le.Id && a.Session.Status != SessionStatuses.Cancelled
                     && (a.Status == AttendanceStatuses.Present || a.Status == AttendanceStatuses.Late)),

@@ -20,6 +20,8 @@ public sealed record MyCourseDto(
     Guid CourseId,
     string CourseTitle,
     string CourseSlug,
+    string? ImageUrl,
+    string? Category,
     DateTimeOffset StartsAt,
     DateTimeOffset EndsAt,
     string Status,

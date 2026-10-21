@@ -21,6 +21,7 @@ public class CachedCatalogService : ICatalogService
     private readonly ICategoryRepository _categoryRepository;
     private readonly IMemoryCache _cache;
     private readonly ILogger<CachedCatalogService> _logger;
+    private readonly CatalogCacheInvalidator _invalidator;
     private static readonly TimeSpan CacheTtl = TimeSpan.FromMinutes(5);
 
     public CachedCatalogService(
@@ -29,8 +30,10 @@ public class CachedCatalogService : ICatalogService
         ICareerPathRepository careerPathRepository,
         ICategoryRepository categoryRepository,
         IMemoryCache cache,
+        CatalogCacheInvalidator invalidator,
         ILogger<CachedCatalogService> logger)
     {
+        _invalidator = invalidator;
         _courseRepository = courseRepository;
         _programRepository = programRepository;
         _careerPathRepository = careerPathRepository;
@@ -263,6 +266,7 @@ public class CachedCatalogService : ICatalogService
             AbsoluteExpirationRelativeToNow = CacheTtl,
             Size = 1
         };
+        cacheEntryOptions.AddExpirationToken(_invalidator.CurrentToken);
 
         _cache.Set(key, value, cacheEntryOptions);
     }

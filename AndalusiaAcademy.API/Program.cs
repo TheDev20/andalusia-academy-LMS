@@ -104,6 +104,7 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IProgramRepository, ProgramRepository>();
 builder.Services.AddScoped<ICareerPathRepository, CareerPathRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddSingleton<CatalogCacheInvalidator>();
 builder.Services.AddScoped<ICatalogService, CachedCatalogService>();
 builder.Services.AddScoped<IOfferingCatalogService, OfferingCatalogService>();
 builder.Services.AddIdentityModule(builder.Configuration);

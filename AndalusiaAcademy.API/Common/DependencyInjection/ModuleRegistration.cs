@@ -24,7 +24,7 @@ public static class ModuleRegistration
     public static IServiceCollection AddIdentityModule(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<IdentityOptions>(configuration.GetSection(IdentityOptions.SectionName));
-        services.AddSingleton<IPasswordHasher<AppUser>, PasswordHasher<AppUser>>();
+        services.AddSingleton<IPasswordHasher<AppUser>, CompatiblePasswordHasher>();
         services.AddScoped<UserSessionFactory>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IProfileService, ProfileService>();

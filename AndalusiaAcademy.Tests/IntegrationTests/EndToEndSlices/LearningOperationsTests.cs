@@ -144,6 +144,33 @@ public class LearningOperationsTests
     }
 
     [Fact]
+    public async Task Sessions_in_progress_count_towards_attendance_progress()
+    {
+        var admin = await _scenario.CreateUserAsync(AppRoles.Admin);
+        var cohort = await _scenario.CreateCohortAsync(admin);
+        var learner = await _scenario.RegisterLearnerAsync();
+        await _scenario.EnrollAsync(learner, cohort.OfferingId);
+        var now = DateTimeOffset.UtcNow;
+
+        var ongoing = (await (await admin.Client.PostAsJsonAsync($"/api/admin/offerings/{cohort.OfferingId}/sessions",
+            new API.DTOs.Operations.UpsertSessionRequest("Live now", now.AddMinutes(-30), now.AddMinutes(90), null, SessionStatuses.Scheduled)))
+            .Content.ReadFromJsonAsync<API.DTOs.Operations.AdminSessionDto>())!;
+        var enrollmentId = await _factory.WithDbAsync(db =>
+            db.LearningEnrollments.Where(le => le.LearnerId == learner.Id).Select(le => le.Id).SingleAsync());
+
+        await (await admin.Client.PutAsJsonAsync($"/api/instructor/sessions/{ongoing.Id}/attendance",
+            new RecordAttendanceRequest([new AttendanceEntry(enrollmentId, AttendanceStatuses.Present, null)])))
+            .EnsureStatusAsync(HttpStatusCode.OK);
+
+        var progress = (await learner.Client.GetFromJsonAsync<CourseLearningDto>($"/api/learning/courses/{cohort.OfferingId}"))!.Progress;
+
+        // The past orientation session (not attended) and the ongoing one (attended) are both held.
+        Assert.Equal(2, progress.SessionsHeld);
+        Assert.Equal(1, progress.SessionsAttended);
+        Assert.Equal(50m, progress.AttendancePercent);
+    }
+
+    [Fact]
     public async Task Attendance_cannot_be_recorded_before_a_session_starts()
     {
         var admin = await _scenario.CreateUserAsync(AppRoles.Admin);

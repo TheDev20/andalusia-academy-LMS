@@ -4,21 +4,23 @@ using AndalusiaAcademy.API.DTOs.Common;
 using AndalusiaAcademy.API.DTOs.Operations;
 using AndalusiaAcademy.API.Exceptions;
 using AndalusiaAcademy.API.Models.Catalog;
+using AndalusiaAcademy.API.Services.Implementations.Catalog;
 using AndalusiaAcademy.API.Services.Interfaces.Operations;
 
 namespace AndalusiaAcademy.API.Services.Implementations.Operations;
 
 /// <summary>
-/// Course management. Public catalog reads are cached for up to 5 minutes (CachedCatalogService),
-/// so changes become visible there after the cache entry expires.
+/// Course management. Every write evicts the public catalog cache so the website reflects it immediately.
 /// </summary>
 public sealed class AdminCourseService : IAdminCourseService
 {
     private readonly ApplicationDbContext _context;
+    private readonly CatalogCacheInvalidator _catalogCache;
 
-    public AdminCourseService(ApplicationDbContext context)
+    public AdminCourseService(ApplicationDbContext context, CatalogCacheInvalidator catalogCache)
     {
         _context = context;
+        _catalogCache = catalogCache;
     }
 
     public async Task<PagedResult<AdminCourseDto>> ListAsync(AdminListQuery query, CancellationToken cancellationToken = default)
@@ -53,6 +55,7 @@ public sealed class AdminCourseService : IAdminCourseService
         Apply(course, request);
         _context.Courses.Add(course);
         await _context.SaveChangesAsync(cancellationToken);
+        _catalogCache.Invalidate();
 
         return await GetAsync(course.Id, cancellationToken);
     }
@@ -65,6 +68,7 @@ public sealed class AdminCourseService : IAdminCourseService
 
         Apply(course, request);
         await _context.SaveChangesAsync(cancellationToken);
+        _catalogCache.Invalidate();
 
         return await GetAsync(courseId, cancellationToken);
     }
@@ -86,6 +90,7 @@ public sealed class AdminCourseService : IAdminCourseService
             await _context.CourseCategories.Where(cc => cc.CourseId == courseId).ToListAsync(cancellationToken));
         _context.Courses.Remove(course);
         await _context.SaveChangesAsync(cancellationToken);
+        _catalogCache.Invalidate();
     }
 
     private async Task EnsureSlugAvailableAsync(string slug, Guid? excludeId, CancellationToken cancellationToken)

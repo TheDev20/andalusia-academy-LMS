@@ -6,6 +6,7 @@ using AndalusiaAcademy.API.Exceptions;
 using AndalusiaAcademy.API.Models.Catalog;
 using AndalusiaAcademy.API.Models.Learning;
 using AndalusiaAcademy.API.Services.Interfaces.Admissions;
+using AndalusiaAcademy.API.Services.Implementations.Catalog;
 using AndalusiaAcademy.API.Services.Interfaces.Operations;
 
 namespace AndalusiaAcademy.API.Services.Implementations.Operations;
@@ -17,12 +18,14 @@ namespace AndalusiaAcademy.API.Services.Implementations.Operations;
 public sealed class AdminOfferingService : IAdminOfferingService
 {
     private readonly ApplicationDbContext _context;
+    private readonly CatalogCacheInvalidator _catalogCache;
     private readonly ICapacityService _capacity;
     private readonly TimeProvider _clock;
 
-    public AdminOfferingService(ApplicationDbContext context, ICapacityService capacity, TimeProvider clock)
+    public AdminOfferingService(ApplicationDbContext context, CatalogCacheInvalidator catalogCache, ICapacityService capacity, TimeProvider clock)
     {
         _context = context;
+        _catalogCache = catalogCache;
         _capacity = capacity;
         _clock = clock;
     }
@@ -55,6 +58,7 @@ public sealed class AdminOfferingService : IAdminOfferingService
         Apply(offering, request);
         _context.Offerings.Add(offering);
         await _context.SaveChangesAsync(cancellationToken);
+        _catalogCache.Invalidate();
 
         return await GetAsync(offering.Id, cancellationToken);
     }
@@ -78,6 +82,7 @@ public sealed class AdminOfferingService : IAdminOfferingService
 
         Apply(offering, request);
         await _context.SaveChangesAsync(cancellationToken);
+        _catalogCache.Invalidate();
 
         return await GetAsync(offeringId, cancellationToken);
     }
