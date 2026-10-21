@@ -28,6 +28,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<InstructorProfile> InstructorProfiles => Set<InstructorProfile>();
     public DbSet<TermsVersion> TermsVersions => Set<TermsVersion>();
     public DbSet<TermsAcceptance> TermsAcceptances => Set<TermsAcceptance>();
+    public DbSet<PasswordResetToken> PasswordResetTokens => Set<PasswordResetToken>();
 
     // 2. Catalog & Discovery
     public DbSet<Course> Courses => Set<Course>();
