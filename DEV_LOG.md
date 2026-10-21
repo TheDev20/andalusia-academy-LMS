@@ -14,6 +14,7 @@ Welcome to the development log for the **Andalusia Academy LMS** project. This d
 | **04** | 2026-09-27 | Complete 56-Table Domain Model & Initial EF Core Migration | Completed | @TheDev20 |
 | **05** | 2026-09-29 | Catalog Query Optimization with Tiered In-Memory Caching & Covering Indexes | Completed | @TheDev20 |
 | **06** | 2026-10-21 | Sprint 3 & 4 Backend: Identity, Applications, Payments, Enrollment, Learner LMS, Instructor & Admin APIs | Completed (Pending PR Review) | @TheDev20 |
+| **07** | 2026-10-21 | Full-Stack Integration: Full-Stack-Academy UI merged, Sprint 1–4 frontend completed | Completed (Pending PR Review) | @TheDev20 |
 
 ---
 
@@ -291,4 +292,38 @@ dotnet run
 * A payment that charges at the provider but fails to settle stays `Initiated` and needs reconciliation (Worker job) once a real gateway is integrated.
 * Admin catalog edits appear in the public course list after the 5-minute catalog cache expires.
 * Program-offering administration and admin application review are not part of this increment.
+
+---
+
+## [Step 07] - Full-Stack Integration & Sprint 1–4 Frontend Completion
+
+* **Date**: October 21, 2026
+* **Objective**: Merge the team's `Full-Stack-Academy` branch (Sprint 1–2 website, catalog programs/career paths) with the Sprint 3–4 backend, and close the remaining Sprint 1–4 gaps end to end.
+* **Status**: Completed (Pending Pull Request Review)
+* **Author / Contributor**: Karim Emad Eldin (@TheDev20)
+
+### 1. Integration decisions
+* Kept from `Full-Stack-Academy`: React website and catalog UI, course/program/career-path/discipline endpoints, repositories, `CatalogDbSeeder`, image-URL and category migrations, Swagger UI, FluentValidation.
+* Replaced its overlapping Identity/Admissions/Payments/Enrollments code with the tested Step 06 modules (same `/api/auth`, `/api/applications`, `/api/payments`, `/api/enrollments` surface). Accounts created with the earlier branch's password hash format still sign in (`CompatiblePasswordHasher`) and are upgraded to the ASP.NET Core Identity format on first login.
+* Security fixes: removed the JWT signing key committed in `appsettings.json`; tech-discipline writes now require `courses.manage` (were anonymous); CORS origins come from `Cors:AllowedOrigins`; seeding runs only in Development.
+
+### 2. Backend additions
+* `CatalogCacheInvalidator`: admin course/offering edits evict cached catalog pages immediately.
+* Catalog seeder links program offerings to their course offerings (`ProgramOfferingCourse`) so program enrollments grant course access; the demo cohort reuses a seeded offering and has a session in progress for attendance demos.
+* My Courses includes course image and category; a session counts toward attendance progress once it has started.
+
+### 3. Frontend additions
+* Typed API layer (`services/api/*`) over one `httpClient`: bearer auth, RFC 7807 errors, session-expiry handling, idempotency keys for payments.
+* Auth: role-aware login redirect, server-side logout, forgot/reset password pages, profile with change password.
+* Learner: dashboard wired to the new API (withdraw, pay pending orders, failed-payment simulation), course learning page (schedule & locations, attendance, materials completion, assignment submission, progress).
+* Catalog: program listing/details with apply, career path listing/details.
+* Instructor dashboard: cohorts, attendance recording with audited corrections, assignment authoring, grading, learner progress.
+* Admin dashboard (permission-filtered tabs): students, instructors, roles, activation, courses, offerings/sessions/materials/instructor assignment, locations, payments.
+* Role-based route guards, role-aware navbar, mobile-safe layouts.
+
+### 4. Verification
+* Backend: 92 xUnit tests passing against SQL Server 2022 (adds catalog contracts, cache coherence, discipline authorization, in-progress session attendance, legacy password hashes).
+* Frontend: `npm run typecheck`, 13 Vitest tests and `npm run build` passing.
+* Browser walkthrough (Playwright against the running API + Vite) of both sprint demo scripts: 19/19 steps passing, including the 403s for unauthorized roles.
+* CI now validates the `frontend/` app (it previously looked for `package.json` at the repo root and skipped).
 

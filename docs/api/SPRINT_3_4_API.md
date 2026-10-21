@@ -1,6 +1,6 @@
 # Sprint 3 & 4 API Reference
 
-> Machine-readable contract: `GET /openapi/v1.json` (Development environment).
+> Interactive docs: Swagger UI at `/swagger` (Development). Machine-readable contract: `/swagger/v1/swagger.json`.
 > All errors are RFC 7807 problem details. Model-validation failures return `400` with field-level `errors`.
 
 ## Conventions
@@ -51,11 +51,23 @@ Source of truth: `ENUMs/RolePermissionMatrix.cs` (seeded into `Role`, `Permissio
 | GET/PUT | `/api/me/profile` | any | Learner profile management. |
 | POST | `/api/me/change-password` | any | Requires current password; returns a fresh `AuthResponse`. |
 
-## Catalog → Apply → Pay → Enroll
+## Catalog (public)
+
+| Method | Route | Notes |
+| :--- | :--- | :--- |
+| GET | `/api/catalog/courses?searchTerm=&categoryId=&pageNumber=&pageSize=` | Published courses (paged, cached). |
+| GET | `/api/catalog/courses/{idOrSlug}` | Course details with offerings and parent programs. |
+| GET | `/api/catalog/courses/{slug}/offerings` | Open offerings with live `seatsRemaining` (not cached); the `id` feeds the Apply action. |
+| GET | `/api/catalog/programs`, `/api/catalog/programs/{idOrSlug}` | Programs and their included courses / cohorts. |
+| GET | `/api/catalog/career-paths`, `/api/catalog/career-paths/{idOrSlug}` | Career paths with recommended programs and courses. |
+| GET | `/api/catalog/disciplines` | Tech disciplines for the homepage. `POST` / `PUT /{id}` require `courses.manage`. |
+
+Catalog reads are cached for 5 minutes; admin course/offering writes evict the cache immediately.
+
+## Apply → Pay → Enroll
 
 | Method | Route | Permission | Notes |
 | :--- | :--- | :--- | :--- |
-| GET | `/api/catalog/courses/{slug}/offerings` | anonymous | Open offerings with live `seatsRemaining`; the `id` feeds the Apply action. |
 | POST | `/api/applications` | `applications.apply` | `{ offeringId }` → `Submitted` and holds a seat for `Admissions:SeatHoldMinutes` (30). |
 | GET | `/api/applications/mine` | `applications.apply` | My Applications (status, seat hold, order, enrollment). |
 | GET | `/api/applications/{id}` | `applications.apply` | Own applications only. |
@@ -90,7 +102,7 @@ reservations (ADR 004). A filtered unique index allows one live (`Submitted`/`Ac
 | POST | `/api/learning/assignments/{assignmentId}/submissions` | `assignments.submit`; `{ body }`; each call is a new attempt; only `Published` assignments. |
 
 **Progress** = mean of the applicable components: required resources completed, sessions attended
-(`Present`/`Late`) out of sessions already ended and not cancelled, and published assignments submitted.
+(`Present`/`Late`) out of sessions already started and not cancelled, and published assignments submitted.
 
 ## Instructor — `api/instructor`
 
