@@ -13,6 +13,7 @@ Welcome to the development log for the **Andalusia Academy LMS** project. This d
 | **03** | 2026-09-20 | Architecture Specifications & Project Context Integration | Completed | @TheDev20 |
 | **04** | 2026-09-27 | Complete 56-Table Domain Model & Initial EF Core Migration | Completed | @TheDev20 |
 | **05** | 2026-09-29 | Catalog Query Optimization with Tiered In-Memory Caching & Covering Indexes | Completed | @TheDev20 |
+| **06** | 2026-10-21 | Sprint 3 & 4 Backend: Identity, Applications, Payments, Enrollment, Learner LMS, Instructor & Admin APIs | Completed (Pending PR Review) | @TheDev20 |
 
 ---
 
@@ -240,3 +241,54 @@ Created `CatalogController` (`AndalusiaAcademy.API/Controllers/Catalog/CatalogCo
 * Built solution with `dotnet build AndalusiaAcademy.API.csproj` -> **0 Warnings, 0 Errors**.
 * Verified EF Core migration generation with `dotnet ef migrations add AddCatalogCoveringIndexes`.
 * Verified clean code isolation on branch `dev/icache-memory-query`.
+
+---
+
+## [Step 06] - Sprint 3 & 4 Backend: Identity → Application → Payment → Enrollment → LMS Operations
+
+* **Date**: October 21, 2026
+* **Objective**: Deliver the backend vertical slices for Sprint 3 (conversion journey) and Sprint 4 (learner LMS, instructor and admin dashboards) with API-level role/permission enforcement.
+* **Status**: Completed (Pending Pull Request Review)
+* **Author / Contributor**: Karim Emad Eldin (@TheDev20)
+
+### 1. Delivered
+* **Identity**: registration, login, logout, forgot/reset password, profile, change password. JWT bearer tokens carry `role` + `perm` claims; a per-user **security stamp** is validated on every request so logout, password reset, deactivation and role changes revoke tokens immediately. Passwords use ASP.NET Core `PasswordHasher` (PBKDF2). Auth endpoints are rate limited per IP.
+* **Roles & permissions**: Learner, Instructor, Admin, ContentManager; 13 permission codes registered as authorization policies; matrix in `ENUMs/RolePermissionMatrix.cs`, seeded via migration.
+* **Admissions**: apply from an open offering (`GET /api/catalog/courses/{slug}/offerings`), seat hold with `UPDLOCK` capacity check (no overselling), cancel, lazy expiry of lapsed holds, My Applications.
+* **Payments**: checkout order, approved **payment simulation** with mandatory `Idempotency-Key`, three-phase flow (record attempt → provider call → atomic settlement), My Payments. Simulation is disabled unless `Payments:SimulationEnabled=true`.
+* **Enrollment**: created atomically with a successful payment; one `LearningEnrollment` per course offering (program offerings expand to their scheduled courses).
+* **Learner LMS**: My Courses, course learning page (schedule, locations, materials, sessions, assignments, attendance, progress), resource completion, assignment submission.
+* **Instructor**: assigned cohorts, roster, attendance recording with audited corrections, assignment authoring, grading, learner progress. Cohort access is resource-checked (assigned instructor or Admin).
+* **Admin/Manager**: students/instructors (list, create instructor, activate/deactivate, roles), course CRUD, offerings/schedule, locations, sessions, materials, instructor assignment, payments list.
+* **Cross-cutting**: RFC 7807 problem details for all errors (`Middleware/GlobalExceptionHandler.cs`), DataAnnotations validation, OpenAPI document (`/openapi/v1.json` in Development), idempotent Development demo-data seeder.
+
+### 2. Schema (migration `Sprint3And4IdentityAdmissionsLearning`)
+* `AppUser.IsActive`, `AppUser.SecurityStamp`, `AppUser.PasswordHash` bounded to 500.
+* New `PasswordResetToken` table (SHA-256 hash only, single use, 30-minute TTL).
+* Filtered unique index: one `Submitted`/`Accepted` application per learner per offering.
+* `Resource.Url` for learning materials.
+* Seed rows for `Role`, `Permission`, `RolePermission`.
+* Documentation: `docs/architecture/ERD_v3_v4.md`, `docs/api/SPRINT_3_4_API.md`.
+
+### 3. Local setup
+```bash
+cd AndalusiaAcademy.API
+dotnet user-secrets set "Jwt:SigningKey" "<random 32+ byte value>"
+dotnet user-secrets set "Seed:DemoData:Password" "<demo password>"   # optional, Development only
+dotnet ef database update
+dotnet run
+```
+
+### 4. Verification
+* `AndalusiaAcademy.Tests` (new): 82 tests, unit tests plus integration tests running the real API (`WebApplicationFactory`) against **SQL Server 2022** with migrations applied — all passing.
+* Coverage includes the Sprint 3 and Sprint 4 demo scripts end to end, 401/403 matrices per role, ownership isolation, token revocation, reset-token reuse, idempotent replay, concurrent applications against capacity, seat expiry, and validation errors.
+* CI (`ci.yml`) now starts a SQL Server container (per-run generated password) and exposes `ANDALUSIA_TEST_SQL_SERVER` to `dotnet test`.
+* `dotnet format --verify-no-changes` clean; Release build has no code warnings.
+
+### 5. Known gaps / next steps
+* **Frontend**: the React app does not exist yet (Sprints 1–4 UI) — login/register, protected routes, My Applications/Payments, learner/instructor/admin dashboards must be built on these APIs.
+* Password-reset e-mail delivery depends on the Worker's NotificationDelivery job (Final Sprint); the outbox message is already written.
+* A payment that charges at the provider but fails to settle stays `Initiated` and needs reconciliation (Worker job) once a real gateway is integrated.
+* Admin catalog edits appear in the public course list after the 5-minute catalog cache expires.
+* Program-offering administration and admin application review are not part of this increment.
+
