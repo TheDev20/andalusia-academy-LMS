@@ -2,7 +2,7 @@
 
 This project context synthesizes all architecture specifications, team standards, cloud environments, and setup decisions
 
-For the complete technical blueprint, ADRs, database secrets, branching workflows, and reviewer protocols, please refer to:
+For the complete technical blueprint, ADRs, environment and credential-handling rules, branching workflows, and reviewer protocols, please refer to:
 
 👉 **[docs/PROJECT_CONTEXT.md](docs/PROJECT_CONTEXT.md)**
 

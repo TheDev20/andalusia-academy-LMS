@@ -107,8 +107,8 @@ main (Production Release - Protected)
 
 ### Cloud Resources Reference
 * **Azure SQL Server**: `tcp:lmsacademy.database.windows.net,1433`
-  * **Admin User**: `ALMS`
-  * **Admin Password**: `@LMs123412345`
+  * **Credentials**: Never stored in the repository. Connection strings live in the GitHub `development` / `production` environment secrets, Azure App Service configuration (Connection strings), or Azure Key Vault. Locally, use `dotnet user-secrets`. Request access from the repository owner.
+  * **App identity**: The application must not connect as the SQL server admin. Use an Entra ID managed identity for the App Service (preferred) or a least-privilege contained database user per environment (`db_datareader`/`db_datawriter`, plus DDL rights only for the migration identity).
 * **Azure App Service**: `AndalusiaAcademyLMS`
   * **Live URL**: `https://andalusiaacademylms-ffegckcff9clxhkc2.westeurope-01.azurewebsites.net`
 * **Discord Integration**: Webhook attached to GitHub repository for commit and pipeline status alerts.
