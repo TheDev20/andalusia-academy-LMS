@@ -11,6 +11,12 @@ public class AppUser
     public string CountryCode { get; set; } = "EG";
     public string PreferredLanguage { get; set; } = "ar";
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public bool IsActive { get; set; } = true;
+
+    /// <summary>
+    /// Rotated on logout, password change/reset and deactivation; tokens carrying a stale stamp are rejected.
+    /// </summary>
+    public string SecurityStamp { get; set; } = Guid.NewGuid().ToString("N");
 
     // Navigation
     public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
@@ -85,4 +91,18 @@ public class TermsAcceptance
     public TermsVersion TermsVersion { get; set; } = null!;
 
     public DateTimeOffset AcceptedAt { get; set; } = DateTimeOffset.UtcNow;
+}
+
+public class PasswordResetToken
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+
+    public Guid UserId { get; set; }
+    public AppUser User { get; set; } = null!;
+
+    /// <summary>SHA-256 hex of the raw token; the raw value is never persisted.</summary>
+    public string TokenHash { get; set; } = string.Empty;
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset ExpiresAt { get; set; }
+    public DateTimeOffset? UsedAt { get; set; }
 }

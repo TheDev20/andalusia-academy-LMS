@@ -1,0 +1,260 @@
+.syllabus-hero-section {
+  background: #1E1A17;
+  color: #FAF6F0;
+  width: 100%;
+}
+
+.syllabus-hero-container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 40px 24px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.syllabus-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 14px;
+  color: #CFC4B5;
+}
+
+.breadcrumb-link {
+  color: #CFC4B5;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb-link:hover {
+  color: #FFFFFF;
+}
+
+.breadcrumb-sep {
+  opacity: 0.6;
+}
+
+.breadcrumb-current {
+  color: #FAF6F0;
+  font-weight: 500;
+}
+
+.syllabus-hero-split {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.syllabus-hero-main {
+  flex: 1 1 520px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hero-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-top-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #E3B58F;
+  color: #2A1B10;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hero-category-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #5B5046;
+  color: #E8DFD2;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.hero-rating-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #E8DFD2;
+}
+
+.hero-rating-badge strong {
+  color: #FFFFFF;
+}
+
+.hero-course-title {
+  margin: 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(32px, 4.4vw, 52px);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+}
+
+.hero-course-desc {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #E0D6C8;
+  max-width: 660px;
+}
+
+.hero-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 6px;
+}
+
+.hero-primary-cta {
+  padding: 15px 28px;
+  border-radius: 999px;
+  background: #E3B58F;
+  color: #2A1B10;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  transition: filter 0.2s ease, transform 0.15s ease;
+  display: inline-block;
+}
+
+.hero-primary-cta:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.hero-secondary-cta {
+  padding: 15px 28px;
+  border-radius: 999px;
+  border: 1.5px solid #8C7F70;
+  color: #FAF6F0;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  display: inline-block;
+}
+
+.hero-secondary-cta:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #FAF6F0;
+}
+
+/* Enrollment Sidebar Card */
+.syllabus-enrollment-card {
+  flex: 0 1 380px;
+  min-width: 280px;
+  background: #FFFFFF;
+  color: #1E1A17;
+  border-radius: 24px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
+}
+
+.enroll-header .enroll-tag {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6B6258;
+}
+
+.enroll-header .enroll-date {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.2;
+  color: #1E1A17;
+  margin-top: 4px;
+}
+
+.enroll-divider {
+  height: 1px;
+  background: #EADFCF;
+}
+
+.enroll-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.enroll-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.enroll-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #F6EBDD;
+  color: #6E4529;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.detail-label {
+  font-size: 12px;
+  color: #6B6258;
+  font-weight: 500;
+}
+
+.detail-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1E1A17;
+}
+
+.enroll-primary-btn {
+  padding: 16px 24px;
+  border-radius: 14px;
+  background: #8A5A3B;
+  color: #FFFFFF;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  text-align: center;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.enroll-primary-btn:hover {
+  background: #734528;
+  transform: translateY(-1px);
+}
+
+.advisor-link {
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: #6E4529;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.advisor-link:hover {
+  color: #4A2D1A;
+  text-decoration: underline;
+}

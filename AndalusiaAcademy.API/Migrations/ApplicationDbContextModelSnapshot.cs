@@ -17,7 +17,7 @@ namespace AndalusiaAcademy.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.12")
+                .HasAnnotation("ProductVersion", "10.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -53,9 +53,11 @@ namespace AndalusiaAcademy.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LearnerId");
-
                     b.HasIndex("OfferingId");
+
+                    b.HasIndex("LearnerId", "OfferingId")
+                        .IsUnique()
+                        .HasFilter("[Status] IN ('Submitted', 'Accepted')");
 
                     b.ToTable("Application", (string)null);
                 });
@@ -277,6 +279,20 @@ namespace AndalusiaAcademy.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasDefaultValue("");
+
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasDefaultValue("Code2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -303,6 +319,9 @@ namespace AndalusiaAcademy.API.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PublicationStatus")
@@ -435,6 +454,9 @@ namespace AndalusiaAcademy.API.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PublicationStatus")
@@ -1073,6 +1095,9 @@ namespace AndalusiaAcademy.API.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -1080,7 +1105,8 @@ namespace AndalusiaAcademy.API.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(50)
@@ -1091,6 +1117,12 @@ namespace AndalusiaAcademy.API.Migrations
                         .HasMaxLength(35)
                         .IsUnicode(false)
                         .HasColumnType("varchar(35)");
+
+                    b.Property<string>("SecurityStamp")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(64)");
 
                     b.HasKey("Id");
 
@@ -1112,6 +1144,41 @@ namespace AndalusiaAcademy.API.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("InstructorProfile", (string)null);
+                });
+
+            modelBuilder.Entity("AndalusiaAcademy.API.Models.Identity.PasswordResetToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("TokenHash")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .IsUnicode(false)
+                        .HasColumnType("char(64)")
+                        .IsFixedLength();
+
+                    b.Property<DateTimeOffset?>("UsedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TokenHash")
+                        .IsUnique();
+
+                    b.HasIndex("UserId", "ExpiresAt");
+
+                    b.ToTable("PasswordResetToken", (string)null);
                 });
 
             modelBuilder.Entity("AndalusiaAcademy.API.Models.Identity.Permission", b =>
@@ -1136,6 +1203,86 @@ namespace AndalusiaAcademy.API.Migrations
                         .IsUnique();
 
                     b.ToTable("Permission", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000001"),
+                            Code = "applications.apply",
+                            Description = "Submit and manage own applications"
+                        },
+                        new
+                        {
+                            Id = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000002"),
+                            Code = "payments.pay-own",
+                            Description = "Check out and pay own orders"
+                        },
+                        new
+                        {
+                            Id = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000003"),
+                            Code = "learning.access",
+                            Description = "Access enrolled course learning pages"
+                        },
+                        new
+                        {
+                            Id = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000004"),
+                            Code = "assignments.submit",
+                            Description = "Submit assignments"
+                        },
+                        new
+                        {
+                            Id = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000005"),
+                            Code = "cohorts.view-assigned",
+                            Description = "View assigned cohorts and learner progress"
+                        },
+                        new
+                        {
+                            Id = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000006"),
+                            Code = "attendance.record",
+                            Description = "Record and correct session attendance"
+                        },
+                        new
+                        {
+                            Id = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000007"),
+                            Code = "assignments.manage",
+                            Description = "Create and edit assignments"
+                        },
+                        new
+                        {
+                            Id = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000008"),
+                            Code = "submissions.grade",
+                            Description = "Grade learner submissions"
+                        },
+                        new
+                        {
+                            Id = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000009"),
+                            Code = "users.manage",
+                            Description = "Manage students and instructors"
+                        },
+                        new
+                        {
+                            Id = new Guid("5b7e2a10-6c4d-4e8f-8b02-00000000000a"),
+                            Code = "courses.manage",
+                            Description = "Manage courses"
+                        },
+                        new
+                        {
+                            Id = new Guid("5b7e2a10-6c4d-4e8f-8b02-00000000000b"),
+                            Code = "schedules.manage",
+                            Description = "Manage offerings, sessions and locations"
+                        },
+                        new
+                        {
+                            Id = new Guid("5b7e2a10-6c4d-4e8f-8b02-00000000000c"),
+                            Code = "payments.manage",
+                            Description = "View and manage payments"
+                        },
+                        new
+                        {
+                            Id = new Guid("5b7e2a10-6c4d-4e8f-8b02-00000000000e"),
+                            Code = "content.manage",
+                            Description = "Manage public website content"
+                        });
                 });
 
             modelBuilder.Entity("AndalusiaAcademy.API.Models.Identity.Role", b =>
@@ -1159,6 +1306,32 @@ namespace AndalusiaAcademy.API.Migrations
                         .IsUnique();
 
                     b.ToTable("Role", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000001"),
+                            Description = "Learner role",
+                            Name = "Learner"
+                        },
+                        new
+                        {
+                            Id = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000002"),
+                            Description = "Instructor role",
+                            Name = "Instructor"
+                        },
+                        new
+                        {
+                            Id = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000003"),
+                            Description = "Admin role",
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000004"),
+                            Description = "ContentManager role",
+                            Name = "ContentManager"
+                        });
                 });
 
             modelBuilder.Entity("AndalusiaAcademy.API.Models.Identity.RolePermission", b =>
@@ -1174,6 +1347,98 @@ namespace AndalusiaAcademy.API.Migrations
                     b.HasIndex("PermissionId");
 
                     b.ToTable("RolePermission", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000001"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000001")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000001"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000002")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000001"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000003")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000001"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000004")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000002"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000005")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000002"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000006")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000002"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000007")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000002"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000008")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000003"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000009")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000003"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-00000000000a")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000003"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-00000000000b")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000003"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-00000000000c")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000003"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000005")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000003"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000006")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000003"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000007")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000003"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-000000000008")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000004"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-00000000000e")
+                        },
+                        new
+                        {
+                            RoleId = new Guid("8f1c0d5e-3a7b-4c1d-9a01-000000000004"),
+                            PermissionId = new Guid("5b7e2a10-6c4d-4e8f-8b02-00000000000a")
+                        });
                 });
 
             modelBuilder.Entity("AndalusiaAcademy.API.Models.Identity.TermsAcceptance", b =>
@@ -1433,6 +1698,10 @@ namespace AndalusiaAcademy.API.Migrations
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Url")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.HasKey("Id");
 
@@ -2554,6 +2823,17 @@ namespace AndalusiaAcademy.API.Migrations
                         .WithOne("InstructorProfile")
                         .HasForeignKey("AndalusiaAcademy.API.Models.Identity.InstructorProfile", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AndalusiaAcademy.API.Models.Identity.PasswordResetToken", b =>
+                {
+                    b.HasOne("AndalusiaAcademy.API.Models.Identity.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");

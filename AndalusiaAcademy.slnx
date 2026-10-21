@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="AndalusiaAcademy.API/AndalusiaAcademy.API.csproj" />
+  <Project Path="AndalusiaAcademy.Tests/AndalusiaAcademy.Tests.csproj" />
 </Solution>

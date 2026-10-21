@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using AndalusiaAcademy.API.Data.Seed;
 using AndalusiaAcademy.API.Models.Identity;
 
 namespace AndalusiaAcademy.API.Data.Configurations;
@@ -19,6 +20,8 @@ public class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
         builder.Property(u => u.CountryCode).HasMaxLength(2).IsUnicode(false).IsRequired();
         builder.Property(u => u.PreferredLanguage).HasMaxLength(35).IsUnicode(false).IsRequired();
         builder.Property(u => u.PhoneNumber).HasMaxLength(50);
+        builder.Property(u => u.PasswordHash).HasMaxLength(500).IsRequired();
+        builder.Property(u => u.SecurityStamp).HasMaxLength(64).IsUnicode(false).IsRequired();
     }
 }
 
@@ -32,6 +35,8 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property(r => r.Name).HasMaxLength(100).IsRequired();
         builder.HasIndex(r => r.Name).IsUnique();
         builder.Property(r => r.Description).HasMaxLength(500);
+
+        builder.HasData(IdentitySeedData.Roles);
     }
 }
 
@@ -64,6 +69,8 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
         builder.Property(p => p.Code).HasMaxLength(100).IsRequired();
         builder.HasIndex(p => p.Code).IsUnique();
         builder.Property(p => p.Description).HasMaxLength(500).IsRequired();
+
+        builder.HasData(IdentitySeedData.Permissions);
     }
 }
 
@@ -83,6 +90,8 @@ public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermissi
             .WithMany(p => p.RolePermissions)
             .HasForeignKey(rp => rp.PermissionId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasData(IdentitySeedData.RolePermissions);
     }
 }
 
@@ -128,5 +137,23 @@ public class TermsAcceptanceConfiguration : IEntityTypeConfiguration<TermsAccept
             .WithMany(tv => tv.Acceptances)
             .HasForeignKey(ta => ta.TermsVersionId)
             .OnDelete(DeleteBehavior.Restrict);
+    }
+}
+
+public class PasswordResetTokenConfiguration : IEntityTypeConfiguration<PasswordResetToken>
+{
+    public void Configure(EntityTypeBuilder<PasswordResetToken> builder)
+    {
+        builder.ToTable("PasswordResetToken");
+        builder.HasKey(t => t.Id);
+
+        builder.Property(t => t.TokenHash).HasMaxLength(64).IsUnicode(false).IsFixedLength().IsRequired();
+        builder.HasIndex(t => t.TokenHash).IsUnique();
+        builder.HasIndex(t => new { t.UserId, t.ExpiresAt });
+
+        builder.HasOne(t => t.User)
+            .WithMany()
+            .HasForeignKey(t => t.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

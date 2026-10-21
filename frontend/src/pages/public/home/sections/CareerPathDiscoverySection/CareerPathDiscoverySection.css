@@ -1,0 +1,196 @@
+.career-paths-section {
+  padding: clamp(72px, 10vh, 110px) 0;
+  background: #f2eee6;
+  border-bottom: 1px solid rgba(224, 216, 204, 0.6);
+}
+.path-tabs-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 18px;
+  margin-bottom: 28px;
+  scrollbar-width: thin;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.path-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: #ffffff;
+  border: 1px solid #ded6c8;
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #4b3e30;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.path-tab-btn:hover {
+  border-color: #8c643b;
+  color: #241a12;
+}
+.path-tab-btn.is-active {
+  background: #43392f;
+  color: #ffffff;
+  border-color: #43392f;
+  box-shadow: 0 6px 18px rgba(67, 57, 47, 0.18);
+}
+.path-tab-btn.is-active .tab-icon {
+  color: #d4a359;
+}
+.path-details-card {
+  background: #ffffff;
+  border: 1px solid #ded6c8;
+  border-radius: 26px;
+  padding: clamp(32px, 4.5vw, 52px);
+  box-shadow: 0 12px 40px rgba(67, 57, 47, 0.06);
+}
+.path-details-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-bottom: 26px;
+  border-bottom: 1px solid #eee8df;
+  margin-bottom: 26px;
+}
+.path-meta-badges {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.meta-time {
+  font-size: 13.5px;
+  color: #6e5e4d;
+  font-weight: 500;
+}
+.path-card-title {
+  font-family: "Libre Caslon Display", Georgia, serif;
+  font-size: clamp(28px, 3vw, 38px);
+  color: #271e15;
+  margin: 0 0 10px;
+  font-weight: 400;
+}
+.path-target-role {
+  font-size: 15px;
+  color: #554737;
+  margin: 0;
+}
+.path-target-role strong {
+  color: #8b6648;
+}
+.path-overview-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #4b3e31;
+  max-width: 880px;
+  margin: 0 0 34px;
+}
+.path-columns-layout {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 40px;
+}
+.milestone-col-heading {
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #5e4730;
+  margin: 0 0 18px;
+}
+.clean-dot-accent {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #a58358;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.path-course-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+.path-course-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f7f4ee;
+  border: 1px solid #ded6c8;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2e2419;
+}
+.course-chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #a58358;
+}
+@media (max-width: 1024px) {
+  .path-columns-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* Real-World Outcomes Metric Bar */
+.hero-metrics-inline {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.7);
+  border: 3px dotted var(--color-brand-border, #ded6c8);
+  border-radius: 16px;
+  padding: 10px 18px;
+  margin: 0 auto 32px auto;
+  max-width: 580px;
+  box-shadow: 0 4px 16px rgba(67, 57, 47, 0.04);
+}
+
+.inline-metric-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.inline-metric-val {
+  font-family: var(--font-display, "Libre Caslon Display", Georgia, serif);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--color-brand-heading, #271e16);
+  line-height: 1.1;
+}
+
+.inline-metric-lbl {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--color-brand-muted, #7a6e60);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.inline-metric-div {
+  width: 1px;
+  height: 28px;
+  background: var(--color-brand-border, #ded6c8);
+}
+
+@media (max-width: 640px) {
+  .hero-metrics-inline {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .inline-metric-div {
+    display: none;
+  }
+}

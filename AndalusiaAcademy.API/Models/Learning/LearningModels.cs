@@ -73,6 +73,7 @@ public class Resource
     public string CourseKind { get; set; } = "Course";
 
     public string Title { get; set; } = string.Empty;
+    public string? Url { get; set; }
     public bool Required { get; set; } = true;
     public int Sequence { get; set; }
     public byte[] RowVersion { get; set; } = [];

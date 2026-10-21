@@ -16,6 +16,11 @@ public class ApplicationConfiguration : IEntityTypeConfiguration<Application>
         builder.Property(a => a.Status).HasMaxLength(24).IsRequired();
         builder.Property(a => a.RowVersion).IsRowVersion();
 
+        // A learner may hold at most one live application per offering.
+        builder.HasIndex(a => new { a.LearnerId, a.OfferingId })
+            .IsUnique()
+            .HasFilter("[Status] IN ('Submitted', 'Accepted')");
+
         builder.HasOne(a => a.Learner)
             .WithMany()
             .HasForeignKey(a => a.LearnerId)

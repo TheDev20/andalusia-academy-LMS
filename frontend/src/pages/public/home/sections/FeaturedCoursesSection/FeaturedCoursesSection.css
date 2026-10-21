@@ -1,0 +1,50 @@
+/* 4. Featured Courses Section */
+.featured-courses-section {
+  padding: clamp(72px, 10vh, 110px) 0;
+  background: #eae4d9;
+  border-bottom: 1px solid rgba(224, 216, 204, 0.6);
+}
+.course-filters-bar {
+  margin-bottom: 36px;
+  display: flex;
+  justify-content: center;
+}
+.filter-buttons-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 6px;
+  background: #f7f4ee;
+  border: 1px solid #ded6c8;
+  border-radius: 999px;
+  scrollbar-width: none;
+}
+.filter-btn {
+  background: transparent;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4f4233;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.filter-btn:hover {
+  color: #241a12;
+}
+.filter-btn.is-active {
+  background: #8b6648;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(139, 102, 72, 0.25);
+}
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+  gap: 32px;
+  margin-bottom: 48px;
+}
+.empty-icon {
+  color: #a58358;
+  margin-bottom: 12px;
+}

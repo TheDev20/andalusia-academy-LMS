@@ -24,6 +24,21 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      # Integration tests run against real SQL Server (rowversion, filtered indexes, UPDLOCK seat holds).
+      # The SA password is generated per run so no credential is committed.
+      - name: Start SQL Server for Integration Tests
+        run: |
+          SA_PASSWORD="Ci_$(openssl rand -hex 16)A1"
+          echo "::add-mask::$SA_PASSWORD"
+          docker run -d --name mssql -e ACCEPT_EULA=Y -e "MSSQL_SA_PASSWORD=$SA_PASSWORD" -p 1433:1433 mcr.microsoft.com/mssql/server:2022-latest
+          for i in $(seq 1 60); do
+            if docker exec mssql /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P "$SA_PASSWORD" -Q "SELECT 1" > /dev/null 2>&1; then
+              echo "SQL Server is ready."; break
+            fi
+            sleep 2
+          done
+          echo "ANDALUSIA_TEST_SQL_SERVER=Server=localhost,1433;User Id=sa;Password=$SA_PASSWORD;TrustServerCertificate=True" >> "$GITHUB_ENV"
+
       - name: Restore, Format & Build Backend
         run: |
           if ls *.sln 1> /dev/null 2>&1 || ls **/*.csproj 1> /dev/null 2>&1; then
@@ -39,6 +54,9 @@ jobs:
   frontend-validation:
     name: React & TypeScript Frontend CI
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -47,17 +65,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: ${{ hashFiles('package-lock.json') != '' && 'npm' || '' }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
 
-      - name: Lint, Typecheck & Test Frontend
+      - name: Install, Typecheck, Test & Build Frontend
         run: |
-          if [ -f package.json ]; then
-            echo "package.json detected. Running React & TypeScript validation suite..."
-            npm ci
-            npm run lint --if-present
-            npm run typecheck --if-present
-            npm test --if-present
-            npm run build --if-present
-          else
-            echo "No package.json present yet. Pipeline placeholder validated."
-          fi
+          npm ci
+          npm run lint --if-present
+          npm run typecheck
+          npm test
+          npm run build

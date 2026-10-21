@@ -1,0 +1,10 @@
+/* HomePage specific layout styles */
+.homepage-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.scroll-section {
+  scroll-margin-top: 96px;
+}
+

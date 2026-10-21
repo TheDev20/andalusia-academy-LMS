@@ -1,0 +1,419 @@
+@import "./HeroEditor.css";
+
+.hero-section {
+  position: relative;
+  padding: clamp(40px, 6vh, 80px) 0 clamp(48px, 7vh, 88px);
+  background: radial-gradient(
+    circle at 85% 15%,
+    rgba(234, 228, 217, 0.75) 0%,
+    transparent 60%
+  );
+  border-bottom: 1px solid rgba(224, 216, 204, 0.6);
+  overflow: hidden;
+}
+.hero-container {
+  max-width: 1420px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 3.5vw, 48px);
+  display: grid;
+  grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+  gap: clamp(28px, 3vw, 52px);
+  align-items: center;
+}
+.hero-content {
+  width: 100%;
+  min-width: 0;
+}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-countdown-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 1px solid var(--color-brand-border, #ded6c8);
+  padding: 6px 16px;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(67, 57, 47, 0.05);
+  margin-bottom: 22px;
+  font-size: 12.5px;
+  animation: heroFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+
+.live-pulsing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2e9e4f;
+  box-shadow: 0 0 0 0 rgba(46, 158, 79, 0.7);
+  animation: pulseLiveDot 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  flex-shrink: 0;
+}
+
+@keyframes pulseLiveDot {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(46, 158, 79, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 8px rgba(46, 158, 79, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(46, 158, 79, 0);
+  }
+}
+
+.countdown-label {
+  font-weight: 700;
+  color: var(--color-brand-dark, #43392f);
+  letter-spacing: 0.6px;
+  font-size: 11.5px;
+}
+
+.countdown-timer {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--font-sans, "DM Sans", sans-serif);
+  font-weight: 700;
+  color: var(--color-brand-primary, #8b6648);
+  font-size: 13px;
+}
+
+.time-val {
+  background: var(--color-brand-bg, #f7f4ee);
+  padding: 2px 5px;
+  border-radius: 4px;
+  color: var(--color-brand-heading, #271e16);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.time-sec {
+  color: var(--color-brand-primary, #8b6648);
+  background: #fbf5ee;
+  border: 1px solid var(--color-brand-border, #ded6c8);
+}
+
+.time-sep {
+  color: var(--color-brand-muted, #7a6e60);
+  font-size: 11px;
+}
+
+/* Typography */
+.hero-title {
+  font-family: var(--font-display, "Libre Caslon Display", Georgia, serif);
+  font-size: clamp(40px, 4.8vw, 62px);
+  line-height: 1.1;
+  color: var(--color-brand-heading, #271e16);
+  margin: 0 0 20px;
+  font-weight: 400;
+  letter-spacing: -0.8px;
+  animation: heroFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+.hero-title em {
+  color: var(--color-brand-primary, #8b6648);
+  font-style: italic;
+  text-decoration: underline;
+  text-decoration-color: rgba(140, 100, 59, 0.28);
+  text-underline-offset: 6px;
+}
+
+.hero-subtitle {
+  font-size: clamp(15.5px, 1.4vw, 18.5px);
+  line-height: 1.68;
+  color: var(--color-brand-dark, #43392f);
+  margin: 0 0 28px;
+  max-width: 610px;
+  animation: heroFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+/* Primary Hero Actions */
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  animation: heroFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+
+.btn-primary-hero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 52px;
+  background: var(--color-brand-primary, #8b6648);
+  color: #ffffff;
+  padding: 0 32px;
+  border-radius: 999px;
+  border: 1px solid var(--color-brand-primary, #8b6648);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  box-shadow: 0 6px 20px rgba(139, 102, 72, 0.26);
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+  box-sizing: border-box;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-primary-hero:hover {
+  background: var(--color-brand-primary-hover, #755237);
+  border-color: var(--color-brand-primary-hover, #755237);
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 28px rgba(139, 102, 72, 0.38),
+    0 0 14px rgba(212, 163, 89, 0.2);
+}
+
+.btn-primary-hero:active {
+  transform: translateY(0);
+}
+
+.btn-secondary-hero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 52px;
+  background: #ffffff;
+  color: var(--color-brand-dark, #43392f);
+  border: 1px solid var(--color-brand-border, #ded6c8);
+  padding: 0 28px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+  box-sizing: border-box;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-secondary-hero:hover {
+  background: #ffffff;
+  border-color: var(--color-brand-primary, #8b6648);
+  color: var(--color-brand-heading, #271e16);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(67, 57, 47, 0.08);
+}
+
+.btn-secondary-hero:active {
+  transform: translateY(0);
+}
+
+/* Search Bar (Micro-interaction) */
+.hero-search-bar {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--color-brand-border, #ded6c8);
+  border-radius: 999px;
+  padding: 6px 8px 6px 20px;
+  max-width: 610px;
+  box-shadow: 0 6px 24px rgba(67, 57, 47, 0.07);
+  margin-bottom: 26px;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+  animation: heroFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+}
+
+.hero-search-bar:focus-within {
+  border-color: var(--color-brand-primary, #8b6648);
+  transform: scale(1.008);
+  box-shadow:
+    0 10px 30px rgba(139, 102, 72, 0.18),
+    0 0 0 3px rgba(212, 163, 89, 0.15);
+}
+
+.search-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.search-input-wrap input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  font-size: 13.5px;
+  color: var(--color-brand-heading, #271e16);
+  outline: none;
+}
+
+.search-input-wrap input::placeholder {
+  color: var(--color-brand-muted, #7a6e60);
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.search-icon {
+  color: var(--color-brand-muted, #7a6e60);
+  flex-shrink: 0;
+}
+
+.hero-search-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--color-brand-dark, #43392f);
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 11px 22px;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.hero-search-btn:hover {
+  background: var(--color-brand-heading, #271e16);
+  transform: scale(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-countdown-badge,
+  .hero-title,
+  .hero-subtitle,
+  .hero-actions,
+  .hero-search-bar,
+  .live-pulsing-dot {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* Right Column: Full Authentic VS Code Studio Window in Website Theme */
+.hero-visual {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Prismatic Ambient Liquid Caustic Glow Behind the VS Code Studio */
+.hero-visual::before {
+  content: "";
+  position: absolute;
+  inset: -26px -22px -26px -22px;
+  background:
+    radial-gradient(
+      circle at 20% 22%,
+      rgba(216, 165, 111, 0.46) 0%,
+      transparent 46%
+    ),
+    radial-gradient(
+      circle at 82% 24%,
+      rgba(147, 95, 246, 0.36) 0%,
+      transparent 48%
+    ),
+    radial-gradient(
+      circle at 48% 85%,
+      rgba(56, 189, 248, 0.34) 0%,
+      transparent 46%
+    ),
+    radial-gradient(
+      circle at 82% 78%,
+      rgba(244, 114, 182, 0.28) 0%,
+      transparent 42%
+    );
+  filter: blur(48px);
+  border-radius: 36px;
+  pointer-events: none;
+  z-index: 0;
+  animation: vscodeGlowAura 12s ease-in-out infinite alternate;
+}
+
+@keyframes vscodeGlowAura {
+  0% {
+    transform: scale(0.97) rotate(0deg);
+    opacity: 0.88;
+  }
+  50% {
+    transform: scale(1.025) rotate(1.5deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.98) rotate(-1.5deg);
+    opacity: 0.92;
+  }
+}
+
+/* Responsive adjustments for Hero */
+@media (max-width: 1024px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .hero-visual {
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+@media (max-width: 640px) {
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .btn-primary-hero,
+  .btn-secondary-hero {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   ACADEMIC CURRICULA & SEARCH DISCOVERY HUB MODAL (ON TOP OF IDE)
+   ========================================================================== */
+
+.hero-search-clear-btn {
+  background: none;
+  border: none;
+  color: #8e8070;
+  cursor: pointer;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+.hero-search-clear-btn:hover {
+  color: #1c1612;
+  background: rgba(67, 57, 47, 0.08);
+}

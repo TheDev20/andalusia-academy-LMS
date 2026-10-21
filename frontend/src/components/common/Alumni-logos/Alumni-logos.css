@@ -1,0 +1,73 @@
+.alumni {
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.alumni-title {
+  display: block;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: #6e5e4d;
+}
+
+.alumni-marquee {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.alumni-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: 64px;
+  animation: alumni-scroll 25s linear infinite;
+}
+
+.alumni-logo-item {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 110px;
+}
+
+.alumni-logo {
+  width: auto;
+  height: 38px;
+  object-fit: contain;
+}
+
+@keyframes alumni-scroll {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alumni-track {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .alumni-track {
+    gap: 42px;
+    animation-duration: 20s;
+  }
+
+  .alumni-logo {
+    height: 32px;
+  }
+
+  .alumni-logo-item {
+    min-width: 90px;
+  }
+}

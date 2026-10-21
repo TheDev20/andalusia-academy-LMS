@@ -95,6 +95,7 @@ public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
         builder.HasAlternateKey(r => new { r.Id, r.CourseOfferingId });
 
         builder.Property(r => r.Title).HasMaxLength(250).IsRequired();
+        builder.Property(r => r.Url).HasMaxLength(1000);
         builder.Property(r => r.CourseKind).HasMaxLength(8).IsRequired();
         builder.Property(r => r.RowVersion).IsRowVersion();
 
