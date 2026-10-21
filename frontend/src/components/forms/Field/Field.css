@@ -1,0 +1,80 @@
+.field {
+  display: block;
+  margin-bottom: clamp(7px, 1.2vh, 14px);
+}
+
+.field-label,
+.field > span {
+  display: block;
+  font-size: clamp(10px, 1.1vh, 11px);
+  font-weight: 500;
+  color: var(--color-brand-dark, #43392f);
+  margin-bottom: clamp(3px, 0.5vh, 6px);
+}
+
+.input-wrap {
+  border: 1px solid var(--color-brand-border, #ded6c8);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  height: clamp(36px, 4.2vh, 44px);
+  background: var(--color-brand-bg, #f7f4ee);
+  color: var(--color-brand-muted, #7a6e60);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.input-wrap:focus-within {
+  border-color: var(--color-brand-primary, #8b6648);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(139, 102, 72, 0.15);
+}
+
+.input-wrap input {
+  background: transparent;
+  border: 0;
+  outline: none;
+  width: 100%;
+  min-width: 0;
+  color: var(--color-brand-heading, #271e16);
+  font-size: 12px;
+  font-family: inherit;
+}
+
+.input-wrap input::placeholder {
+  color: var(--color-brand-muted, #7a6e60);
+  opacity: 0.7;
+}
+
+.input-wrap input:focus-visible {
+  outline: none;
+}
+
+.eye {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  padding: 4px;
+  color: var(--color-brand-muted, #7a6e60);
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.eye:hover {
+  color: var(--color-brand-dark, #43392f);
+  transform: scale(1.05);
+}
+
+.eye:focus-visible {
+  outline: 2px solid var(--color-brand-primary, #8b6648);
+  outline-offset: 2px;
+  border-radius: 4px;
+}

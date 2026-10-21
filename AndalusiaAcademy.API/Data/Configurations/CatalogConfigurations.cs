@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using AndalusiaAcademy.API.Models.Catalog;
 using CatalogProgram = AndalusiaAcademy.API.Models.Catalog.Program;
@@ -15,6 +15,9 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.Property(c => c.Name).HasMaxLength(200).IsRequired();
         builder.Property(c => c.Slug).HasMaxLength(160).IsRequired();
         builder.HasIndex(c => c.Slug).IsUnique();
+
+        builder.Property(c => c.Description).HasMaxLength(500).HasDefaultValue("");
+        builder.Property(c => c.Icon).HasMaxLength(50).HasDefaultValue("Code2");
     }
 }
 

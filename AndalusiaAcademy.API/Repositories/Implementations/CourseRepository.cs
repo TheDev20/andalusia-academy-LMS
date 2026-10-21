@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using AndalusiaAcademy.API.Data;
 using AndalusiaAcademy.API.DTOs.Catalog;
 using AndalusiaAcademy.API.DTOs.Common;
@@ -47,5 +47,50 @@ public class CourseRepository : ICourseRepository
             .ToListAsync(cancellationToken);
 
         return new PagedResult<CourseSummaryDto>(items, totalCount, query.PageNumber, query.PageSize);
+    }
+
+    public async Task<CourseDetailDto?> GetCourseDetailAsync(
+        string idOrSlug,
+        CancellationToken cancellationToken = default)
+    {
+        var now = DateTimeOffset.UtcNow;
+        var isGuid = Guid.TryParse(idOrSlug, out var id);
+
+        var query = _context.Courses
+            .AsNoTracking()
+            .Where(c => isGuid ? c.Id == id : c.Slug == idOrSlug);
+
+        var course = await query
+            .Include(c => c.CourseCategories).ThenInclude(cc => cc.Category)
+            .Include(c => c.Offerings)
+            .Include(c => c.ProgramCourses).ThenInclude(pc => pc.Program)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (course == null) return null;
+
+        return new CourseDetailDto(
+            course.Id,
+            course.Title,
+            course.Slug,
+            course.Description,
+            course.ImageUrl,
+            course.PublicationStatus,
+            course.CourseCategories.OrderBy(cc => cc.Sequence).Select(cc => cc.Category.Name).ToList(),
+            course.Offerings
+                .Where(o => o.Status == "Published")
+                .OrderBy(o => o.StartsAt)
+                .Select(o => new CatalogOfferingDto(
+                    o.Id,
+                    o.Kind,
+                    o.StartsAt,
+                    o.EndsAt,
+                    o.TimeZoneId,
+                    o.Price,
+                    o.Currency,
+                    o.Capacity,
+                    o.Status
+                )).ToList(),
+            course.ProgramCourses.Select(pc => pc.Program.Title).ToList()
+        );
     }
 }

@@ -1,0 +1,112 @@
+/* ==========================================================================
+   BASE RESETS & GLOBAL SCROLLBAR
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  background: #f7f4ee;
+  color: #43392f;
+  -webkit-font-smoothing: antialiased;
+}
+
+html.auth-mode,
+body.auth-mode {
+  height: 100%;
+  overflow: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html.auth-mode::-webkit-scrollbar,
+body.auth-mode::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Elegant subtle scrollbar for public academy site */
+html:not(.auth-mode) {
+  scrollbar-width: thin;
+  scrollbar-color: #d8cfc2 #f7f4ee;
+  scroll-behavior: smooth;
+}
+
+html:not(.auth-mode)::-webkit-scrollbar {
+  width: 8px;
+}
+html:not(.auth-mode)::-webkit-scrollbar-track {
+  background: #f7f4ee;
+}
+html:not(.auth-mode)::-webkit-scrollbar-thumb {
+  background: #d8cfc2;
+  border-radius: 4px;
+}
+html:not(.auth-mode)::-webkit-scrollbar-thumb:hover {
+  background: #ae8a58;
+}
+
+button,
+input,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid #8b6648;
+  outline-offset: 5px;
+}
+
+/* Standard Section & Footer Container Constraints */
+.section-container,
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 56px);
+  width: 100%;
+}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

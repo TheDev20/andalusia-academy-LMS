@@ -6,6 +6,8 @@ public class Category
     public string Name { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
 
+    public string Description { get; set; } = string.Empty;
+    public string Icon { get; set; } = "Database";
     // Navigation
     public ICollection<CourseCategory> CourseCategories { get; set; } = new List<CourseCategory>();
     public ICollection<ProgramCategory> ProgramCategories { get; set; } = new List<ProgramCategory>();
@@ -17,6 +19,7 @@ public class Course
     public string Title { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public string? ImageUrl { get; set; }
     public string PublicationStatus { get; set; } = "Draft";
     public byte[] RowVersion { get; set; } = [];
 
@@ -33,6 +36,7 @@ public class Program
     public string Title { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public string? ImageUrl { get; set; }
     public string PublicationStatus { get; set; } = "Draft";
     public byte[] RowVersion { get; set; } = [];
 

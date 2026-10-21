@@ -1,0 +1,162 @@
+.pay-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+  padding: 20px;
+}
+
+.pay-modal-card {
+  background: #ffffff;
+  border: 1px solid #e8dfd1;
+  border-radius: 20px;
+  max-width: 460px;
+  width: 100%;
+  padding: 28px;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+}
+
+.pay-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.pay-modal-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8b6648;
+  background: #f6efe6;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 6px;
+}
+
+.pay-modal-title {
+  font-family: "Libre Caslon Display", Georgia, serif;
+  font-size: 24px;
+  color: #1e1812;
+  margin: 0;
+}
+
+.pay-modal-close {
+  background: transparent;
+  border: none;
+  color: #6b5e50;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.pay-order-summary {
+  background: #faf7f2;
+  border: 1px solid #eee5d8;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.pay-order-label {
+  font-size: 12px;
+  color: #7b6d5e;
+  margin-bottom: 4px;
+}
+
+.pay-order-course {
+  font-size: 15px;
+  font-weight: 600;
+  color: #271e16;
+  margin-bottom: 12px;
+}
+
+.pay-order-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #e8dfd1;
+  padding-top: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #271e16;
+}
+
+.pay-amount-highlight {
+  font-size: 18px;
+  color: #8b6648;
+  font-weight: 700;
+}
+
+.pay-sim-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.pay-field-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4a3f35;
+  margin-bottom: 5px;
+}
+
+.pay-field-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #dcd1c1;
+  border-radius: 10px;
+  font-size: 14px;
+  background: #fdfcfb;
+  color: #271e16;
+  box-sizing: border-box;
+}
+
+.pay-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.pay-error-box {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.pay-submit-btn {
+  width: 100%;
+  padding: 13px 18px;
+  border: none;
+  border-radius: 12px;
+  background: #8b6648;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s ease;
+}
+
+.pay-submit-btn:hover:not(:disabled) {
+  background: #735238;
+}
+
+.pay-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}

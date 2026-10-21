@@ -76,7 +76,19 @@ public sealed class DemoDataSeeder
         var contentManager = CreateUser("Cairo", "Content", ContentManagerEmail, AppRoles.ContentManager);
         _context.AppUsers.AddRange(admin, instructor, learner, contentManager);
 
-        if (!await _context.Courses.AnyAsync(c => c.Slug == CourseSlug, cancellationToken))
+        // Prefer running the demo cohort on an upcoming offering from the catalog seed; otherwise create one.
+        var now = _clock.GetUtcNow();
+        var existingOfferingId = await _context.Offerings
+            .Where(o => o.Kind == OfferingKinds.Course && o.Status == OfferingStatuses.Published && o.StartsAt > now)
+            .OrderBy(o => o.StartsAt)
+            .Select(o => (Guid?)o.Id)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (existingOfferingId.HasValue)
+        {
+            SeedCohortOperations(existingOfferingId.Value, DemoFirstSessionAt(now), instructor.Id);
+        }
+        else if (!await _context.Courses.AnyAsync(c => c.Slug == CourseSlug, cancellationToken))
         {
             SeedCourse(instructor.Id);
         }
@@ -120,19 +132,27 @@ public sealed class DemoDataSeeder
             Status = OfferingStatuses.Published
         };
 
-        var location = new Location { Name = "Andalusia Academy - Smart Village Campus", Address = "Smart Village, Giza, Egypt" };
-
         _context.Courses.Add(course);
         _context.Offerings.Add(offering);
+        SeedCohortOperations(offering.Id, DemoFirstSessionAt(now), instructorId);
+    }
+
+    /// <summary>The first workshop is already underway so attendance can be recorded during the sprint demo.</summary>
+    private static DateTimeOffset DemoFirstSessionAt(DateTimeOffset now) => now.AddHours(-1);
+
+    /// <summary>Instructor assignment, location, weekly sessions, materials and an assignment for one course offering.</summary>
+    private void SeedCohortOperations(Guid offeringId, DateTimeOffset firstSessionAt, Guid instructorId)
+    {
+        var location = new Location { Name = "Andalusia Academy - Smart Village Campus", Address = "Smart Village, Giza, Egypt" };
         _context.Locations.Add(location);
-        _context.OfferingInstructors.Add(new OfferingInstructor { OfferingId = offering.Id, InstructorId = instructorId });
+        _context.OfferingInstructors.Add(new OfferingInstructor { OfferingId = offeringId, InstructorId = instructorId });
 
         for (var week = 0; week < 4; week++)
         {
-            var start = offering.StartsAt.AddDays(week * 7);
+            var start = firstSessionAt.AddDays(week * 7);
             _context.Sessions.Add(new Session
             {
-                CourseOfferingId = offering.Id,
+                CourseOfferingId = offeringId,
                 CourseKind = OfferingKinds.Course,
                 Location = location,
                 LocationId = location.Id,
@@ -144,18 +164,18 @@ public sealed class DemoDataSeeder
         }
 
         _context.Resources.AddRange(
-            new Resource { CourseOfferingId = offering.Id, CourseKind = OfferingKinds.Course, Title = "Course handbook", Url = "https://learn.microsoft.com/aspnet/core/", Required = true, Sequence = 1 },
-            new Resource { CourseOfferingId = offering.Id, CourseKind = OfferingKinds.Course, Title = "React fundamentals", Url = "https://react.dev/learn", Required = true, Sequence = 2 },
-            new Resource { CourseOfferingId = offering.Id, CourseKind = OfferingKinds.Course, Title = "Optional reading: EF Core performance", Url = "https://learn.microsoft.com/ef/core/performance/", Required = false, Sequence = 3 });
+            new Resource { CourseOfferingId = offeringId, CourseKind = OfferingKinds.Course, Title = "Course handbook", Url = "https://learn.microsoft.com/aspnet/core/", Required = true, Sequence = 1 },
+            new Resource { CourseOfferingId = offeringId, CourseKind = OfferingKinds.Course, Title = "React fundamentals", Url = "https://react.dev/learn", Required = true, Sequence = 2 },
+            new Resource { CourseOfferingId = offeringId, CourseKind = OfferingKinds.Course, Title = "Optional reading: EF Core performance", Url = "https://learn.microsoft.com/ef/core/performance/", Required = false, Sequence = 3 });
 
         _context.Assignments.Add(new Assignment
         {
-            CourseOfferingId = offering.Id,
+            CourseOfferingId = offeringId,
             CourseKind = OfferingKinds.Course,
             Title = "Build a REST API",
             Instructions = "Implement a CRUD API for a resource of your choice with validation and tests.",
             MaxScore = 100m,
-            DueAt = offering.StartsAt.AddDays(21),
+            DueAt = firstSessionAt.AddDays(21),
             Status = AssignmentStatuses.Published
         });
     }

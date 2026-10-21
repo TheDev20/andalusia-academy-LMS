@@ -19,7 +19,7 @@ public sealed class NotFoundException : AppException
     public override string Title => "Resource not found";
 }
 
-public sealed class ConflictException : AppException
+public class ConflictException : AppException
 {
     public ConflictException(string message) : base(message) { }
     public override int StatusCode => StatusCodes.Status409Conflict;
