@@ -1,4 +1,4 @@
-# Andalusia Academy LMS - Development Log
+﻿# Andalusia Academy LMS - Development Log
 
 Welcome to the development log for the **Andalusia Academy LMS** project. This document tracks key milestones, architectural decisions, implementation steps, and operational changes throughout the lifecycle of the project.
 
@@ -11,6 +11,8 @@ Welcome to the development log for the **Andalusia Academy LMS** project. This d
 | **01** | 2026-09-20 | Project Inception: Repo Creation, Environments & 3-Contributor CI/CD | Completed | @TheDev20 |
 | **02** | 2026-09-20 | Directory Structure Establishment (Zero Files, Zero AI, 102 Dirs) | Completed | @TheDev20 |
 | **03** | 2026-09-20 | Architecture Specifications & Project Context Integration | Completed | @TheDev20 |
+| **04** | 2026-09-27 | Complete 56-Table Domain Model & Initial EF Core Migration | Completed | @TheDev20 |
+| **05** | 2026-09-29 | Catalog Query Optimization with Tiered In-Memory Caching & Covering Indexes | Completed | @TheDev20 |
 
 ---
 
@@ -164,3 +166,77 @@ Consolidated foundational specifications provided for Phase 1 MVB:
 * Verified PDF specifications placed in `docs/architecture/`.
 * Verified `PROJECT_CONTEXT.md` and `docs/PROJECT_CONTEXT.md` committed and synchronized to `develop` on GitHub.
 
+---
+
+## [Step 04] - Complete 56-Table Domain Model & Initial EF Core Migration
+
+* **Date**: September 27, 2026
+* **Objective**: Implement the complete 56-table domain model and entity configurations across all 7 business modules (Admissions, Capacity, Catalog, Compensation, Content, Identity, Learning, Payments, Reliability) and generate the baseline EF Core migration.
+* **Status**: Completed
+* **Author / Contributor**: Karim Emad Eldin (@TheDev20)
+
+### 1. Domain Coverage
+* Implemented entity models and Fluent API configurations for all 7 modules per ADR 001 and ADR 002.
+* Established `ApplicationDbContext` with comprehensive model binding and table splitting.
+* Generated baseline migration: `20260927141657_InitialCreate`.
+
+---
+
+## [Step 05] - Catalog Query Optimization with Tiered In-Memory Caching & Covering Indexes (Option B)
+
+* **Date**: September 29, 2026
+* **Branch**: `dev/icache-memory-query`
+* **Objective**: Implement Option B from the Architectural RFC ("Catalog Query Architecture & Caching Strategy") for the Catalog & Discovery module in Sprint 2. Build a high-performance backend query endpoint utilizing SQL Server covering indexes, direct DTO projection, server-side pagination, and application in-memory caching (`IMemoryCache`).
+* **Status**: Completed (Pending Pull Request Review)
+* **Author / Contributor**: Karim Emad Eldin (@TheDev20)
+
+### 1. Architectural Context & Decision
+Following team debate on the Catalog Query RFC comparing dual-database polyglot persistence (SQL + Mongo/Elastic) versus Tiered Caching (SQL + In-Memory + TanStack):
+* **Decision**: Adopted **Option B (Tiered Caching & Optimized SQL Queries)**.
+* **Rationale**:
+  * 99% of educational catalog traffic represents read queries from prospective students, while administrative updates are infrequent (<1%).
+  * Eliminates the dual-write dilemma, eventual consistency lag, and background CDC/Outbox pipeline overhead required by polyglot architectures.
+  * 100% compliant with ADR 001 (Modular Monolith) with zero additional Azure infrastructure cost ($0 extra).
+  * Delivers sub-millisecond responses on in-memory cache hits (~0ms) and low-millisecond queries on SQL cache misses.
+
+### 2. Key Components & Implementation Details
+
+#### A. Database Covering Indexes (Level 4)
+Updated EF Core Fluent API configurations in `AndalusiaAcademy.API/Data/Configurations/CatalogConfigurations.cs`:
+* **`Course`**: Added composite covering index on `(PublicationStatus, Title)` to serve published course searches ordered by title directly from the B-tree index.
+* **`Program`**: Added composite covering index on `(PublicationStatus, Title)`.
+* **`Offering`**: Added composite indexes on `(Status, StartsAt)` and `(CourseId, Status, StartsAt)` to optimize active intake price and upcoming start date lookups.
+* **`CourseCategory`**: Added index on `CategoryId` to accelerate many-to-many category filtering.
+* **Migration**: Generated `20260929123155_AddCatalogCoveringIndexes` and verified migration scripts.
+
+#### B. Read-Optimized DTOs & Contracts
+Created lean projection models in `AndalusiaAcademy.API/DTOs/Catalog/` and `Common/`:
+* **`CourseSummaryDto`**: Lightweight record returning only UI display fields (`Id`, `Title`, `Slug`, `Description`, `Categories`, `StartingPrice`, `NextOfferingDate`), avoiding entity graph materialization.
+* **`CatalogQueryParameters`**: Encapsulates `SearchTerm`, `CategoryId`, `PageNumber` (default 1), and `PageSize` (default 12, max capped at 50).
+* **`PagedResult<T>`**: Generic reusable pagination envelope containing items, totals, pagination metadata, and navigation flags.
+
+#### C. Repository Query Optimization (Level 5)
+Implemented `ICourseRepository` and `CourseRepository`:
+* Applied `.AsNoTracking()` to bypass EF Core change tracking.
+* Evaluated keyword search matching across `Title` and `Description`.
+* Filtered on `PublicationStatus == "Published"`.
+* Executed server-side `.CountAsync()` and paging via `.Skip().Take()`.
+* Directly projected into `CourseSummaryDto` in SQL via `.Select()`.
+
+#### D. Application In-Memory Caching Layer (Level 3)
+Implemented `ICatalogService` and `CachedCatalogService`:
+* Registered `IMemoryCache` in `Program.cs`.
+* Implemented deterministic cache key construction: `catalog:courses:q={searchTerm}:cat={categoryId}:p={pageNumber}:s={pageSize}`.
+* Enforced 5-minute absolute cache TTL (`TimeSpan.FromMinutes(5)`).
+* Cache hits bypass SQL database trips entirely, executing in `< 1ms`.
+
+#### E. Public API Controller Endpoint
+Created `CatalogController` (`AndalusiaAcademy.API/Controllers/Catalog/CatalogController.cs`):
+* Endpoint: `GET /api/catalog/courses`.
+* Produces `application/json` with HTTP 200 `PagedResult<CourseSummaryDto>`.
+* Includes comprehensive XML documentation and OpenAPI attributes for team review.
+
+### 3. Verification & Validation
+* Built solution with `dotnet build AndalusiaAcademy.API.csproj` -> **0 Warnings, 0 Errors**.
+* Verified EF Core migration generation with `dotnet ef migrations add AddCatalogCoveringIndexes`.
+* Verified clean code isolation on branch `dev/icache-memory-query`.

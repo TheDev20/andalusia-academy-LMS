@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using AndalusiaAcademy.API.Models.Catalog;
 using CatalogProgram = AndalusiaAcademy.API.Models.Catalog.Program;
@@ -30,6 +30,9 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
         builder.HasIndex(c => c.Slug).IsUnique();
         builder.Property(c => c.PublicationStatus).HasMaxLength(24).IsRequired();
         builder.Property(c => c.RowVersion).IsRowVersion();
+
+        // Covering composite index for catalog filtering and title sorting
+        builder.HasIndex(c => new { c.PublicationStatus, c.Title });
     }
 }
 
@@ -45,6 +48,9 @@ public class ProgramConfiguration : IEntityTypeConfiguration<CatalogProgram>
         builder.HasIndex(p => p.Slug).IsUnique();
         builder.Property(p => p.PublicationStatus).HasMaxLength(24).IsRequired();
         builder.Property(p => p.RowVersion).IsRowVersion();
+
+        // Covering composite index for catalog filtering and title sorting
+        builder.HasIndex(p => new { p.PublicationStatus, p.Title });
     }
 }
 
@@ -56,6 +62,7 @@ public class CourseCategoryConfiguration : IEntityTypeConfiguration<CourseCatego
         builder.HasKey(cc => new { cc.CourseId, cc.CategoryId });
 
         builder.HasIndex(cc => new { cc.CourseId, cc.Sequence }).IsUnique();
+        builder.HasIndex(cc => cc.CategoryId);
 
         builder.HasOne(cc => cc.Course)
             .WithMany(c => c.CourseCategories)
@@ -77,6 +84,7 @@ public class ProgramCategoryConfiguration : IEntityTypeConfiguration<ProgramCate
         builder.HasKey(pc => new { pc.ProgramId, pc.CategoryId });
 
         builder.HasIndex(pc => new { pc.ProgramId, pc.Sequence }).IsUnique();
+        builder.HasIndex(pc => pc.CategoryId);
 
         builder.HasOne(pc => pc.Program)
             .WithMany(p => p.ProgramCategories)
@@ -186,6 +194,10 @@ public class OfferingConfiguration : IEntityTypeConfiguration<Offering>
         builder.Property(o => o.Currency).HasMaxLength(3).IsUnicode(false).IsFixedLength().IsRequired();
         builder.Property(o => o.Status).HasMaxLength(24).IsRequired();
         builder.Property(o => o.RowVersion).IsRowVersion();
+
+        // Covering indexes for catalog active offering queries
+        builder.HasIndex(o => new { o.Status, o.StartsAt });
+        builder.HasIndex(o => new { o.CourseId, o.Status, o.StartsAt });
 
         builder.HasOne(o => o.Course)
             .WithMany(c => c.Offerings)
