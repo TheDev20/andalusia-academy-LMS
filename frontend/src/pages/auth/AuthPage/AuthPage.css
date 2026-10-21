@@ -432,3 +432,8 @@
   border-radius: 50%;
   background-color: #a8a29e;
 }
+
+/* Inline notices for login / recovery forms */
+.auth-notice { padding: 10px 14px; border-radius: 8px; margin-bottom: 16px; font-size: 13px; }
+.auth-notice-error { color: #b4382d; background: #fdf2f1; }
+.auth-notice-success { color: #2f6b2c; background: #edf6ec; }

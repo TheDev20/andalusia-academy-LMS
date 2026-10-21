@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
 import { admissionsApi } from "../../../services/api/admissionsApi";
+import { ErrorAlert, ProgressBar } from "../../../components/portal/Portal";
+import { formatDate, formatDateTime, formatMoney } from "../../../utils/format";
 import { ApplicationDto } from "../../../types/admissions";
 import PaymentSimulationModal from "../../../components/ui/PaymentSimulationModal/PaymentSimulationModal";
 import "./DashboardPage.css";
@@ -22,21 +24,66 @@ export default function DashboardPage() {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState<DashboardTab>("learning");
   const [selectedOrder, setSelectedOrder] = useState<ApplicationDto | null>(null);
+  const [actionError, setActionError] = useState<unknown>(null);
+  const [busyApplicationId, setBusyApplicationId] = useState<string | null>(null);
 
-  const { data: myLearning = [], isLoading: loadingLearning } = useQuery({
+  const { data: myLearning = [], isLoading: loadingLearning, error: learningError } = useQuery({
     queryKey: ["myLearning"],
     queryFn: admissionsApi.getMyLearning,
   });
 
-  const { data: myApplications = [], isLoading: loadingApps } = useQuery({
+  const { data: myApplications = [], isLoading: loadingApps, error: appsError } = useQuery({
     queryKey: ["myApplications"],
     queryFn: admissionsApi.getMyApplications,
   });
 
-  const { data: myPayments = [], isLoading: loadingPayments } = useQuery({
+  const { data: myPayments = [], isLoading: loadingPayments, error: paymentsError } = useQuery({
     queryKey: ["myPayments"],
     queryFn: admissionsApi.getMyPayments,
   });
+
+  const refreshApplications = () => {
+    queryClient.invalidateQueries({ queryKey: ["myApplications"] });
+    queryClient.invalidateQueries({ queryKey: ["myPayments"] });
+  };
+
+  /** Opens the payment modal, creating the sales order first if the application has none yet. */
+  const handlePay = async (app: ApplicationDto) => {
+    setActionError(null);
+    if (app.salesOrderId) {
+      setSelectedOrder(app);
+      return;
+    }
+    setBusyApplicationId(app.id);
+    try {
+      setSelectedOrder(await admissionsApi.checkout(app.id));
+      refreshApplications();
+    } catch (err) {
+      setActionError(err);
+      refreshApplications();
+    } finally {
+      setBusyApplicationId(null);
+    }
+  };
+
+  const handleCancel = async (app: ApplicationDto) => {
+    if (!window.confirm(`Withdraw your application for "${app.title}"? Your held seat will be released.`)) return;
+    setActionError(null);
+    setBusyApplicationId(app.id);
+    try {
+      await admissionsApi.cancelApplication(app.id);
+    } catch (err) {
+      setActionError(err);
+    } finally {
+      setBusyApplicationId(null);
+      refreshApplications();
+    }
+  };
+
+  const handlePaymentClosed = () => {
+    setSelectedOrder(null);
+    refreshApplications();
+  };
 
   const handlePaymentSuccess = () => {
     setSelectedOrder(null);
@@ -89,8 +136,11 @@ export default function DashboardPage() {
           </button>
         </div>
 
+        <ErrorAlert error={actionError} />
+
         {activeTab === "learning" && (
           <div>
+            <ErrorAlert error={learningError} />
             {loadingLearning ? (
               <p>Loading your enrolled courses...</p>
             ) : myLearning.length === 0 ? (
@@ -106,20 +156,18 @@ export default function DashboardPage() {
                       <span className="dash-badge active">
                         <CheckCircle2 size={12} /> {item.status}
                       </span>
-                      <h3 className="dash-card-title">{item.title}</h3>
+                      <h3 className="dash-card-title">{item.courseTitle}</h3>
                       <div className="dash-meta">
-                        <span>Discipline: {item.category}</span>
-                        <span>
-                          Cohort Starts:{" "}
-                          {new Date(item.startsAt).toLocaleDateString()}
-                        </span>
+                        {item.category && <span>Discipline: {item.category}</span>}
+                        <span>Cohort starts: {formatDate(item.startsAt)}</span>
+                        <span>Next session: {formatDateTime(item.nextSessionAt)}</span>
+                      </div>
+                      <div style={{ marginTop: 12 }}>
+                        <ProgressBar percent={item.progress.overallPercent} label="Course progress" />
                       </div>
                     </div>
-                    <Link
-                      to={`/courses/${item.courseId}/syllabus`}
-                      className="dash-btn"
-                    >
-                      <span>Open Course Syllabus</span>
+                    <Link to={`/learn/${item.courseOfferingId}`} className="dash-btn">
+                      <span>Open Course</span>
                       <ArrowUpRight size={14} />
                     </Link>
                   </div>
@@ -131,6 +179,7 @@ export default function DashboardPage() {
 
         {activeTab === "applications" && (
           <div>
+            <ErrorAlert error={appsError} />
             {loadingApps ? (
               <p>Loading your applications...</p>
             ) : myApplications.length === 0 ? (
@@ -141,43 +190,50 @@ export default function DashboardPage() {
             ) : (
               <div className="dashboard-grid">
                 {myApplications.map((app) => {
-                  const isPaid = app.orderStatus === "Paid";
+                  const isAccepted = app.status === "Accepted";
+                  const isOpen = app.status === "Submitted";
+                  const busy = busyApplicationId === app.id;
                   return (
                     <div key={app.id} className="dash-card">
                       <div>
-                        <span
-                          className={`dash-badge ${isPaid ? "approved" : "pending"}`}
-                        >
-                          {isPaid ? (
+                        <span className={`dash-badge ${isAccepted ? "approved" : "pending"}`}>
+                          {isAccepted ? (
                             <>
-                              <CheckCircle2 size={12} /> Approved &amp; Enrolled
+                              <CheckCircle2 size={12} /> Accepted &amp; Enrolled
+                            </>
+                          ) : isOpen ? (
+                            <>
+                              <Clock size={12} /> Awaiting Tuition Payment
                             </>
                           ) : (
-                            <>
-                              <Clock size={12} /> Pending Tuition Payment
-                            </>
+                            <>{app.status}</>
                           )}
                         </span>
                         <h3 className="dash-card-title">{app.title}</h3>
                         <div className="dash-meta">
-                          <span>
-                            Submitted:{" "}
-                            {new Date(app.submittedAt).toLocaleDateString()}
-                          </span>
-                          <span>
-                            Tuition: {app.currency} {app.amountDue.toLocaleString()}
-                          </span>
+                          <span>Submitted: {formatDate(app.submittedAt)}</span>
+                          <span>Tuition: {formatMoney(app.amountDue, app.currency)}</span>
+                          {isOpen && app.seatHeldUntil && (
+                            <span>Seat held until: {formatDateTime(app.seatHeldUntil)}</span>
+                          )}
                         </div>
                       </div>
-                      {!isPaid && app.salesOrderId && (
-                        <button
-                          type="button"
-                          className="dash-btn"
-                          onClick={() => setSelectedOrder(app)}
-                        >
-                          <CreditCard size={14} />
-                          <span>Pay Tuition Now</span>
-                        </button>
+                      {isOpen && (
+                        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                          <button type="button" className="dash-btn" disabled={busy} onClick={() => handlePay(app)}>
+                            <CreditCard size={14} />
+                            <span>Pay Tuition Now</span>
+                          </button>
+                          <button
+                            type="button"
+                            className="dash-btn"
+                            style={{ background: "#fff", color: "#43392f", border: "1px solid #ded6c8" }}
+                            disabled={busy}
+                            onClick={() => handleCancel(app)}
+                          >
+                            Withdraw
+                          </button>
+                        </div>
                       )}
                     </div>
                   );
@@ -189,6 +245,7 @@ export default function DashboardPage() {
 
         {activeTab === "payments" && (
           <div>
+            <ErrorAlert error={paymentsError} />
             {loadingPayments ? (
               <p>Loading payment history...</p>
             ) : myPayments.length === 0 ? (
@@ -201,21 +258,14 @@ export default function DashboardPage() {
                 {myPayments.map((pay) => (
                   <div key={pay.id} className="dash-card">
                     <div>
-                      <span className="dash-badge settled">
-                        <CheckCircle2 size={12} /> {pay.status}
+                      <span className={`dash-badge ${pay.status === "Succeeded" ? "settled" : "pending"}`}>
+                        {pay.status === "Succeeded" && <CheckCircle2 size={12} />} {pay.status}
                       </span>
                       <h3 className="dash-card-title">{pay.title}</h3>
                       <div className="dash-meta">
-                        <span>
-                          Amount: {pay.currency} {pay.amount.toLocaleString()}
-                        </span>
-                        <span>Receipt ID: {pay.providerPaymentId}</span>
-                        <span>
-                          Date:{" "}
-                          {new Date(
-                            pay.settledAt || pay.createdAt,
-                          ).toLocaleString()}
-                        </span>
+                        <span>Amount: {formatMoney(pay.amount, pay.currency)}</span>
+                        <span>Receipt ID: {pay.providerPaymentId ?? "—"}</span>
+                        <span>Date: {formatDateTime(pay.settledAt || pay.createdAt)}</span>
                       </div>
                     </div>
                   </div>
@@ -229,7 +279,7 @@ export default function DashboardPage() {
       {selectedOrder && selectedOrder.salesOrderId && (
         <PaymentSimulationModal
           isOpen={true}
-          onClose={() => setSelectedOrder(null)}
+          onClose={handlePaymentClosed}
           salesOrderId={selectedOrder.salesOrderId}
           courseTitle={selectedOrder.title}
           amount={selectedOrder.amountDue}

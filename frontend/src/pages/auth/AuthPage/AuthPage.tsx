@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowUpRight, ArrowRight, ArrowLeft, Mail, LockKeyhole, UserRound, Check } from 'lucide-react';
 import { AppRoute, NavigateFunction } from '../../../types/navigation';
 import Brand from '../../../components/common/Brand';
 import Field from '../../../components/forms/Field';
-import { useAuth } from '../../../context/AuthContext';
+import { homePathFor, useAuth } from '../../../context/AuthContext';
 import { authApi } from '../../../services/api/authApi';
 import './AuthPage.css';
 
@@ -15,7 +15,10 @@ export interface AuthPageProps {
 
 export default function AuthPage({ page, onNavigate }: AuthPageProps) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
+  const navState = location.state as { from?: { pathname: string }; passwordReset?: boolean } | null;
+  const returnTo = navState?.from?.pathname;
   const isSignup = page === 'signup';
 
   const [name, setName] = useState('');
@@ -53,31 +56,20 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
     setLoading(true);
 
     try {
-      if (isSignup) {
-        const parts = name.trim().split(' ');
-        const firstName = parts[0] || 'Learner';
-        const lastName = parts.slice(1).join(' ') || 'Academy';
+      const parts = name.trim().split(/\s+/);
+      const session = isSignup
+        ? await authApi.register({
+            firstName: parts[0] || 'Learner',
+            lastName: parts.slice(1).join(' ') || 'Academy',
+            email,
+            password,
+          })
+        : await authApi.login({ email, password });
 
-        const res = await authApi.register({ firstName, lastName, email, password });
-        login(res.token, {
-          id: res.userId,
-          email: res.email,
-          fullName: res.fullName,
-          roles: res.roles,
-        });
-      } else {
-        const res = await authApi.login({ email, password });
-        login(res.token, {
-          id: res.userId,
-          email: res.email,
-          fullName: res.fullName,
-          roles: res.roles,
-        });
-      }
-
-      navigate('/courses');
-    } catch (err: any) {
-      setError(err.message || 'Authentication failed. Please try again.');
+      login(session.token, session.user);
+      navigate(returnTo ?? homePathFor(session.user), { replace: true });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Authentication failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -138,8 +130,14 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
           </Link>
         </div>
 
+        {navState?.passwordReset && !isSignup && !error && (
+          <div role="status" className="auth-notice auth-notice-success">
+            Your password has been reset. Sign in with your new password.
+          </div>
+        )}
+
         {error && (
-          <div style={{ color: '#E05D52', background: '#FDF2F1', padding: '10px 14px', borderRadius: '8px', marginBottom: '16px', fontSize: '13px' }}>
+          <div role="alert" style={{ color: '#E05D52', background: '#FDF2F1', padding: '10px 14px', borderRadius: '8px', marginBottom: '16px', fontSize: '13px' }}>
             {error}
           </div>
         )}
@@ -179,6 +177,12 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+
+          {!isSignup && (
+            <p style={{ textAlign: 'right', margin: '-4px 0 14px', fontSize: '13px' }}>
+              <Link to="/forgot-password">Forgot your password?</Link>
+            </p>
+          )}
 
           {isSignup && (
             <div className="password-requirements" aria-label="Password requirements">

@@ -1,53 +1,63 @@
-import { AuthResponse, User } from "../../types/auth";
+import { apiRequest } from "./httpClient";
+import type {
+  AuthResponseDto,
+  ForgotPasswordResponse,
+  ProfileDto,
+  UpdateProfileRequest,
+  User,
+} from "../../types/auth";
 
-const API_BASE = "/api/v1/auth";
+export interface Session {
+  token: string;
+  user: User;
+}
+
+export function toSession(response: AuthResponseDto): Session {
+  const u = response.user;
+  return {
+    token: response.accessToken,
+    user: {
+      id: u.id,
+      email: u.email,
+      firstName: u.firstName,
+      lastName: u.lastName,
+      fullName: `${u.firstName} ${u.lastName}`.trim(),
+      roles: u.roles,
+      permissions: u.permissions,
+    },
+  };
+}
 
 export const authApi = {
-  async register(data: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-  }): Promise<AuthResponse> {
-    const res = await fetch(`${API_BASE}/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    if (!res.ok) {
-      const error = await res.json();
-      throw new Error(error.detail || "Registration failed");
-    }
-    return res.json();
+  async register(data: { firstName: string; lastName: string; email: string; password: string }): Promise<Session> {
+    return toSession(await apiRequest<AuthResponseDto>("/api/auth/register", { method: "POST", body: data, auth: false }));
   },
 
-  async login(credentials: {
-    email: string;
-    password: string;
-  }): Promise<AuthResponse> {
-    const res = await fetch(`${API_BASE}/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(credentials),
-    });
-    if (!res.ok) {
-      const error = await res.json();
-      throw new Error(error.detail || "Invalid email or password");
-    }
-    return res.json();
+  async login(credentials: { email: string; password: string }): Promise<Session> {
+    return toSession(await apiRequest<AuthResponseDto>("/api/auth/login", { method: "POST", body: credentials, auth: false }));
   },
 
-  async getMe(token: string): Promise<User> {
-    const res = await fetch(`${API_BASE}/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!res.ok) throw new Error("Session expired");
-    const data = await res.json();
-    return {
-      id: data.id,
-      email: data.email,
-      fullName: `${data.firstName} ${data.lastName}`,
-      roles: data.roles,
-    };
+  logout(): Promise<void> {
+    return apiRequest<void>("/api/auth/logout", { method: "POST" });
+  },
+
+  forgotPassword(email: string): Promise<ForgotPasswordResponse> {
+    return apiRequest<ForgotPasswordResponse>("/api/auth/forgot-password", { method: "POST", body: { email }, auth: false });
+  },
+
+  resetPassword(data: { email: string; token: string; newPassword: string }): Promise<void> {
+    return apiRequest<void>("/api/auth/reset-password", { method: "POST", body: data, auth: false });
+  },
+
+  getProfile(signal?: AbortSignal): Promise<ProfileDto> {
+    return apiRequest<ProfileDto>("/api/me/profile", { signal });
+  },
+
+  updateProfile(data: UpdateProfileRequest): Promise<ProfileDto> {
+    return apiRequest<ProfileDto>("/api/me/profile", { method: "PUT", body: data });
+  },
+
+  async changePassword(data: { currentPassword: string; newPassword: string }): Promise<Session> {
+    return toSession(await apiRequest<AuthResponseDto>("/api/me/change-password", { method: "POST", body: data }));
   },
 };

@@ -31,7 +31,23 @@ export default function PublicNavbar({
 }: PublicNavbarProps) {
   const navigate = useNavigate();
   const scrolled = useScroll(20);
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout, hasRole } = useAuth();
+
+  /** Portal entry points for the signed-in user's roles. */
+  const portalLinks = useMemo(() => {
+    const links: { to: string; label: string }[] = [];
+    if (hasRole("Learner")) links.push({ to: "/dashboard", label: "My Dashboard" });
+    if (hasRole("Instructor", "Admin")) links.push({ to: "/instructor", label: "Teaching" });
+    if (hasRole("Admin", "ContentManager")) links.push({ to: "/admin", label: "Admin" });
+    return links;
+  }, [hasRole]);
+
+  const handleLogout = async () => {
+    setMobileMenuOpen(false);
+    // Leave protected pages first, so the route guard doesn't record them as a post-login return target.
+    navigate("/", { replace: true });
+    await logout();
+  };
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const spySection = useScrollSpy(
     HOME_SECTION_IDS,
@@ -112,22 +128,27 @@ export default function PublicNavbar({
         {/* Auth CTA Actions */}
         <div className="navbar-actions">
           {isAuthenticated && user ? (
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <Link to="/dashboard" className="navbar-login-btn">
-                My Dashboard
-              </Link>
-              <span
+            <div className="navbar-account" style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              {portalLinks.map((link) => (
+                <Link key={link.to} to={link.to} className="navbar-login-btn">
+                  {link.label}
+                </Link>
+              ))}
+              <Link
+                to="/profile"
+                title="My profile"
                 style={{
                   fontSize: "13px",
                   fontWeight: 600,
                   color: "var(--color-navy-dark, #0B2545)",
+                  textDecoration: "none",
                 }}
               >
                 {user.fullName}
-              </span>
+              </Link>
               <button
                 type="button"
-                onClick={logout}
+                onClick={handleLogout}
                 className="navbar-login-btn"
                 style={{ cursor: "pointer", background: "transparent" }}
               >
@@ -201,20 +222,20 @@ export default function PublicNavbar({
                   >
                     {user.fullName}
                   </span>
-                  <Link
-                    to="/dashboard"
-                    className="mobile-login-btn"
-                    onClick={() => setMobileMenuOpen(false)}
-                    style={{ textAlign: "center" }}
-                  >
-                    My Dashboard
-                  </Link>
+                  {[...portalLinks, { to: "/profile", label: "Profile" }].map((link) => (
+                    <Link
+                      key={link.to}
+                      to={link.to}
+                      className="mobile-login-btn"
+                      onClick={() => setMobileMenuOpen(false)}
+                      style={{ textAlign: "center" }}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
                   <button
                     type="button"
-                    onClick={() => {
-                      logout();
-                      setMobileMenuOpen(false);
-                    }}
+                    onClick={handleLogout}
                     className="mobile-login-btn"
                     style={{ cursor: "pointer", textAlign: "center" }}
                   >

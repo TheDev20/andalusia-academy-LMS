@@ -1,25 +1,28 @@
-# Andalusia Academy — authentication UI
+# Andalusia Academy — web app
 
-React + Vite login and sign-up screens. Presentation only: no authentication, API calls, account creation, or data storage. Form submissions intentionally do nothing. The password visibility toggle, page links, scene controls, and animation pause are UI interactions only.
-
-## Run locally
-
-Install Node.js 20.19+ or 22.12+, then open a terminal in this folder:
+React 19 + TypeScript + Vite front end for the Andalusia Academy LMS. See the [root README](../README.md) for
+running the API alongside it.
 
 ```sh
-npm install
-npm run dev
+npm ci
+npm run dev          # http://127.0.0.1:5173 (proxies /api; override with VITE_API_PROXY_TARGET)
+npm run typecheck
+npm test             # Vitest + Testing Library
+npm run build
 ```
 
-Open the local address printed by Vite. Use `#login` and `#signup` to open either screen. Run `npm run build` for the production build.
+## Structure
 
-## Design
+- `src/pages/public` — website, catalog (courses, programs, career paths), syllabus and apply flow
+- `src/pages/auth` — login, sign-up, forgot/reset password
+- `src/pages/learner` — learner dashboard (My Learning / Applications / Payments) and course learning page
+- `src/pages/instructor` — assigned cohorts: attendance, assignments, grading, progress
+- `src/pages/admin` — students, instructors, courses, schedule, locations, payments
+- `src/services/api` — typed API clients over a single `httpClient` (bearer auth, problem-details errors, session expiry)
+- `src/components/portal` — shared portal UI (tabs, tables, forms, modal, badges)
 
-Cream, sand, bronze and warm brown; responsive layouts; gentle image drift and scene crossfades; keyboard focus styles; reduced-motion support. Google Fonts loads DM Sans and Libre Caslon Display with local fallback fonts. The branding uses the supplied Andalusia Academy logo, including its Arabic and English lettering. The hospital artwork is fictional.
-
-Reference: https://andalusiaegypt.com/en and the supplied GIF.
+Route guards in `App.tsx` improve navigation only; the API enforces every role and permission.
 
 ## Images
 
-Both assets were created with the built-in image-generation tool, then saved in `public/images/`. Full prompts are in `IMAGE-PROMPTS.md`.
-
+Image assets in `public/images/` were generated with an image tool; prompts are in `IMAGE-PROMPTS.md`.

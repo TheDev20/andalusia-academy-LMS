@@ -113,6 +113,10 @@
   .desktop-nav {
     display: none;
   }
+  /* Signed-in links live in the mobile drawer on small screens. */
+  .navbar-account {
+    display: none !important;
+  }
   .mobile-menu-btn {
     display: block;
   }

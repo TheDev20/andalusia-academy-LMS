@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { X, CreditCard, ShieldCheck, Loader2 } from "lucide-react";
-import { admissionsApi } from "../../../services/api/admissionsApi";
+import { admissionsApi, newIdempotencyKey } from "../../../services/api/admissionsApi";
+import type { PaymentOutcome } from "../../../types/admissions";
 import "./PaymentSimulationModal.css";
 
 interface PaymentSimulationModalProps {
@@ -24,8 +25,11 @@ export default function PaymentSimulationModal({
 }: PaymentSimulationModalProps) {
   const [cardHolder, setCardHolder] = useState("Andalusia Student");
   const [cardNumber, setCardNumber] = useState("4242 •••• •••• 4242");
+  const [outcome, setOutcome] = useState<PaymentOutcome>("Succeeded");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // One key per pay attempt: a network retry of the same attempt never charges twice.
+  const [idempotencyKey, setIdempotencyKey] = useState(newIdempotencyKey);
 
   if (!isOpen) return null;
 
@@ -35,12 +39,13 @@ export default function PaymentSimulationModal({
     setError(null);
 
     try {
-      await admissionsApi.submitPaymentAttempt({
-        salesOrderId,
-        provider: "SimulatedCard",
-        idempotencyKey: `sim-${salesOrderId}`,
-      });
-      onSuccess();
+      const result = await admissionsApi.simulatePayment(salesOrderId, outcome, idempotencyKey);
+      setIdempotencyKey(newIdempotencyKey());
+      if (result.attempt.status === "Succeeded") {
+        onSuccess();
+      } else {
+        setError("The simulated card was declined. Your seat is still held — you can try again.");
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Payment simulation failed.");
     } finally {
@@ -77,7 +82,11 @@ export default function PaymentSimulationModal({
           </div>
         </div>
 
-        {error && <div className="pay-error-box">{error}</div>}
+        {error && (
+          <div className="pay-error-box" role="alert">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSimulatePayment}>
           <div className="pay-sim-fields">
@@ -123,6 +132,19 @@ export default function PaymentSimulationModal({
                 />
               </div>
             </div>
+
+            <div className="pay-field-group">
+              <label htmlFor="pay-sim-outcome">Simulated gateway response</label>
+              <select
+                id="pay-sim-outcome"
+                className="pay-field-input"
+                value={outcome}
+                onChange={(e) => setOutcome(e.target.value as PaymentOutcome)}
+              >
+                <option value="Succeeded">Approve payment</option>
+                <option value="Failed">Decline card</option>
+              </select>
+            </div>
           </div>
 
           <button
@@ -158,7 +180,7 @@ export default function PaymentSimulationModal({
           }}
         >
           <ShieldCheck size={14} />
-          <span>Simulated instant verification — unlocks course immediately</span>
+          <span>Sandbox only — no real money moves. Approval enrolls you immediately.</span>
         </div>
       </div>
     </div>

@@ -1,9 +1,10 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCourseDetail } from "../../../services/catalogService";
 import { useAuth } from "../../../context/AuthContext";
 import { admissionsApi } from "../../../services/api/admissionsApi";
+import { ApiError } from "../../../services/api/httpClient";
 import { ApplicationDto } from "../../../types/admissions";
 import PaymentSimulationModal from "../../../components/ui/PaymentSimulationModal/PaymentSimulationModal";
 import {
@@ -23,6 +24,7 @@ import "./SyllabusPage.css";
 export default function SyllabusPage() {
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated } = useAuth();
   const [downloadSuccess, setDownloadSuccess] = useState(false);
   const [activeOrder, setActiveOrder] = useState<ApplicationDto | null>(null);
@@ -89,33 +91,45 @@ export default function SyllabusPage() {
 
   const handleEnroll = async () => {
     if (!isAuthenticated) {
-      navigate("/login");
+      navigate("/login", { state: { from: location } });
       return;
     }
 
-    const offeringId = courseDetail?.offerings?.[0]?.id;
-    if (!offeringId) {
-      setEnrollError("No active cohort offering found for this course.");
-      return;
-    }
+    const slug = courseDetail?.slug ?? courseId;
+    if (!slug) return;
 
     try {
       setEnrollError(null);
-      const appDto = await admissionsApi.submitApplication(offeringId);
-      setActiveOrder(appDto);
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : "Failed to submit application.";
-      if (msg.toLowerCase().includes("already")) {
-        const myApps = await admissionsApi.getMyApplications().catch(() => []);
-        const existingApp = myApps.find((a) => a.offeringId === offeringId);
-        if (existingApp && existingApp.orderStatus !== "Paid" && existingApp.salesOrderId) {
-          setActiveOrder(existingApp);
-          return;
-        }
-        navigate("/dashboard");
-      } else {
-        setEnrollError(msg);
+      // Only intakes that are published, not yet started and with seats left can be applied for.
+      const openOfferings = await admissionsApi.getOpenOfferings(slug);
+      const offering = openOfferings.find((o) => o.seatsRemaining > 0);
+      if (!offering) {
+        setEnrollError(
+          openOfferings.length > 0
+            ? "All upcoming cohorts for this course are fully booked."
+            : "There is no upcoming cohort open for applications yet.",
+        );
+        return;
       }
+
+      try {
+        setActiveOrder(await admissionsApi.submitApplication(offering.id));
+      } catch (err) {
+        if (!(err instanceof ApiError) || err.status !== 409) throw err;
+        // Already applied: resume the existing application instead of failing.
+        const existing = (await admissionsApi.getMyApplications()).find(
+          (a) => openOfferings.some((o) => o.id === a.offeringId) && (a.status === "Submitted" || a.status === "Accepted"),
+        );
+        if (existing?.status === "Submitted") {
+          setActiveOrder(await admissionsApi.checkout(existing.id));
+        } else if (existing?.status === "Accepted") {
+          navigate("/dashboard");
+        } else {
+          throw err;
+        }
+      }
+    } catch (err) {
+      setEnrollError(err instanceof Error ? err.message : "Failed to submit application.");
     }
   };
 

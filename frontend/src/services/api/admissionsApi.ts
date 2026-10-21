@@ -1,71 +1,105 @@
-import {
+import { apiRequest } from "./httpClient";
+import type {
+  ApiApplicationDto,
+  ApiOrderDto,
+  ApiPaymentResultDto,
   ApplicationDto,
-  CreatePaymentAttemptRequest,
-  PaymentAttemptDto,
   EnrolledCourseDto,
+  OpenOfferingDto,
+  PaymentAttemptDto,
+  PaymentOutcome,
+  PaymentResult,
 } from "../../types/admissions";
 
-function getAuthHeaders(): HeadersInit {
-  const token = localStorage.getItem("access_token");
+export function toApplication(a: ApiApplicationDto): ApplicationDto {
   return {
-    "Content-Type": "application/json",
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    id: a.id,
+    offeringId: a.offeringId,
+    offeringKind: a.offeringKind,
+    title: a.title,
+    status: a.status,
+    submittedAt: a.submittedAt,
+    startsAt: a.startsAt,
+    seatHeldUntil: a.seatHeldUntil,
+    salesOrderId: a.orderId,
+    amountDue: a.price,
+    currency: a.currency.trim(),
+    orderStatus: a.orderStatus,
+    enrollmentId: a.enrollmentId,
   };
 }
 
-async function handleResponse<T>(res: Response): Promise<T> {
-  if (res.status === 401) {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("user_profile");
-    window.location.href = "/login";
-    throw new Error("Your session has expired. Please log in again.");
-  }
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.detail || err.title || err.message || "Request failed");
-  }
-  return res.json();
+export function toPaymentAttempts(orders: ApiOrderDto[]): PaymentAttemptDto[] {
+  return orders
+    .flatMap((order) =>
+      order.attempts.map((attempt) => ({
+        ...attempt,
+        currency: attempt.currency.trim(),
+        salesOrderId: order.id,
+        applicationId: order.applicationId,
+        title: order.title,
+      })),
+    )
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+/** One key per user action: retries of the same click are deduplicated by the API. */
+export function newIdempotencyKey(): string {
+  return typeof crypto !== "undefined" && "randomUUID" in crypto
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
 export const admissionsApi = {
-  submitApplication: async (offeringId: string): Promise<ApplicationDto> => {
-    const res = await fetch("/api/v1/applications", {
+  getOpenOfferings(courseSlug: string, signal?: AbortSignal): Promise<OpenOfferingDto[]> {
+    return apiRequest<OpenOfferingDto[]>(`/api/catalog/courses/${encodeURIComponent(courseSlug)}/offerings`, {
+      signal,
+      auth: false,
+    });
+  },
+
+  /** Ensures a sales order exists for a submitted application and returns the refreshed application. */
+  async checkout(applicationId: string): Promise<ApplicationDto> {
+    await apiRequest<ApiOrderDto>("/api/payments/orders", { method: "POST", body: { applicationId } });
+    return toApplication(await apiRequest<ApiApplicationDto>(`/api/applications/${applicationId}`));
+  },
+
+  /** Apply for an offering (holds a seat) and open its sales order, ready for payment. */
+  async submitApplication(offeringId: string): Promise<ApplicationDto> {
+    const application = await apiRequest<ApiApplicationDto>("/api/applications", {
       method: "POST",
-      headers: getAuthHeaders(),
-      body: JSON.stringify({ offeringId }),
+      body: { offeringId },
     });
-    return handleResponse<ApplicationDto>(res);
+    return admissionsApi.checkout(application.id);
   },
 
-  getMyApplications: async (): Promise<ApplicationDto[]> => {
-    const res = await fetch("/api/v1/applications/my", {
-      headers: getAuthHeaders(),
-    });
-    return handleResponse<ApplicationDto[]>(res);
+  async getMyApplications(): Promise<ApplicationDto[]> {
+    return (await apiRequest<ApiApplicationDto[]>("/api/applications/mine")).map(toApplication);
   },
 
-  submitPaymentAttempt: async (
-    data: CreatePaymentAttemptRequest,
-  ): Promise<PaymentAttemptDto> => {
-    const res = await fetch("/api/v1/payments/attempt", {
+  async cancelApplication(applicationId: string): Promise<ApplicationDto> {
+    return toApplication(await apiRequest<ApiApplicationDto>(`/api/applications/${applicationId}/cancel`, { method: "POST" }));
+  },
+
+  async simulatePayment(orderId: string, outcome: PaymentOutcome, idempotencyKey: string): Promise<PaymentResult> {
+    const result = await apiRequest<ApiPaymentResultDto>(`/api/payments/orders/${orderId}/simulate`, {
       method: "POST",
-      headers: getAuthHeaders(),
-      body: JSON.stringify(data),
+      body: { outcome },
+      headers: { "Idempotency-Key": idempotencyKey },
     });
-    return handleResponse<PaymentAttemptDto>(res);
+    return {
+      orderId: result.orderId,
+      orderStatus: result.orderStatus,
+      enrollmentId: result.enrollmentId,
+      attempt: { ...result.attempt, salesOrderId: result.orderId, applicationId: "", title: "" },
+    };
   },
 
-  getMyPayments: async (): Promise<PaymentAttemptDto[]> => {
-    const res = await fetch("/api/v1/payments/my", {
-      headers: getAuthHeaders(),
-    });
-    return handleResponse<PaymentAttemptDto[]>(res);
+  async getMyPayments(): Promise<PaymentAttemptDto[]> {
+    return toPaymentAttempts(await apiRequest<ApiOrderDto[]>("/api/payments/mine"));
   },
 
-  getMyLearning: async (): Promise<EnrolledCourseDto[]> => {
-    const res = await fetch("/api/v1/enrollments/my-learning", {
-      headers: getAuthHeaders(),
-    });
-    return handleResponse<EnrolledCourseDto[]>(res);
+  getMyLearning(): Promise<EnrolledCourseDto[]> {
+    return apiRequest<EnrolledCourseDto[]>("/api/learning/courses");
   },
 };
