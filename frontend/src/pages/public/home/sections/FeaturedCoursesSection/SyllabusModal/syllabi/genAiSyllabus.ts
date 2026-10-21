@@ -104,7 +104,7 @@ export const genAiSyllabus: ProgramSyllabusDetails = {
         description:
           "Develop a collaborative 3-agent software team in LangGraph that reads GitHub issue tickets, writes Python code in a sandboxed Docker environment, runs automated unit tests, and iterates until all tests pass.",
       },
-      technologies: ["LangGraph", "LangSmith", "Docker Sandbox", "NeMo Guardrails", "OpenAI / Claude APIs"],
+      technologies: ["LangGraph", "LangSmith", "Docker Sandbox", "NeMo Guardrails", "OpenAI & LLM provider APIs"],
     },
     {
       id: "mod-4",
