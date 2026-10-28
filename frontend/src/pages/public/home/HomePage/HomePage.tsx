@@ -24,17 +24,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleCategorySelect = (categoryId: string) => {
-    const filterMap: Record<string, string> = {
-      "software-engineering": "dev",
-      "ai-ml": "ai",
-      "data-science": "data",
-      "big-data-engineering": "data",
-      "cloud-devops": "cloud",
-      cybersecurity: "cyber",
-    };
-
-    const targetFilter = filterMap[categoryId] || "all";
-    navigate(`/courses?filter=${targetFilter}`);
+    navigate(`/courses?filter=${encodeURIComponent(categoryId)}`);
   };
 
   const [courseFilter, setCourseFilter] = useState("all");

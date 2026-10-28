@@ -80,4 +80,40 @@ public class InstructorController : ControllerBase
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public async Task<ActionResult<SubmissionForGradingDto>> Grade(Guid submissionId, GradeSubmissionRequest request, CancellationToken cancellationToken) =>
         Ok(await _instructor.GradeSubmissionAsync(submissionId, request, cancellationToken));
+
+    [HttpPost("upload-attachment")]
+    [Authorize(Policy = PermissionCodes.AssignmentsManage)]
+    [Consumes("multipart/form-data")]
+    [ProducesResponseType(typeof(UploadAttachmentResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<UploadAttachmentResponse>> UploadAttachment(IFormFile file, CancellationToken cancellationToken)
+    {
+        if (file == null || file.Length == 0)
+            return BadRequest(new { message = "No file uploaded." });
+
+        if (file.Length > 25 * 1024 * 1024)
+            return BadRequest(new { message = "File must be under 25MB." });
+
+        var allowedExtensions = new[] { ".pdf", ".doc", ".docx", ".txt", ".zip", ".png", ".jpg", ".jpeg" };
+        var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+        if (!allowedExtensions.Contains(ext))
+            return BadRequest(new { message = "Only documents (.pdf, .doc, .docx, .txt, .zip, .png, .jpg) are allowed." });
+
+        var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+        Directory.CreateDirectory(uploadsDir);
+
+        var originalName = Path.GetFileNameWithoutExtension(file.FileName);
+        var safeOriginal = System.Text.RegularExpressions.Regex.Replace(originalName, @"[^a-zA-Z0-9_\-]", "");
+        if (safeOriginal.Length > 30) safeOriginal = safeOriginal[..30];
+        var fileName = $"{Guid.NewGuid():N}_{safeOriginal}{ext}";
+        var filePath = Path.Combine(uploadsDir, fileName);
+
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream, cancellationToken);
+        }
+
+        var url = $"/api/uploads/{fileName}";
+        return Ok(new UploadAttachmentResponse(url, file.FileName, file.Length));
+    }
 }

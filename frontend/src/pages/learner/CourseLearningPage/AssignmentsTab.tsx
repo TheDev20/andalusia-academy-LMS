@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Download, FileText } from "lucide-react";
 import { learningApi } from "../../../services/api/learningApi";
 import type { LearnerAssignmentDto } from "../../../types/learning";
 import { EmptyState, ErrorAlert, Field, StatusBadge, SuccessAlert } from "../../../components/portal/Portal";
 import { formatDateTime } from "../../../utils/format";
 import { courseQueryKey } from "./queryKeys";
+
+const ATTACHMENT_REGEX = /\n\n📎 Attachment:\s*\[(.*?)\]\((.*?)\)/;
 
 export default function AssignmentsTab({ courseOfferingId, assignments }: { courseOfferingId: string; assignments: LearnerAssignmentDto[] }) {
   if (assignments.length === 0) {
@@ -38,6 +41,12 @@ function AssignmentCard({ courseOfferingId, assignment }: { courseOfferingId: st
     },
   });
 
+  const match = assignment.instructions ? assignment.instructions.match(ATTACHMENT_REGEX) : null;
+  const cleanInstructions = match
+    ? assignment.instructions.replace(ATTACHMENT_REGEX, "").trim()
+    : assignment.instructions;
+  const attachment = match ? { name: match[1], url: match[2] } : null;
+
   return (
     <article className="portal-card">
       <div className="portal-row-between">
@@ -48,7 +57,45 @@ function AssignmentCard({ courseOfferingId, assignment }: { courseOfferingId: st
         <span>Due: {formatDateTime(assignment.dueAt)}{isOverdue && canSubmit ? " (past due)" : ""}</span>
         <span>Max score: {assignment.maxScore}</span>
       </div>
-      <p style={{ whiteSpace: "pre-wrap", color: "#43392f", fontSize: 14.5 }}>{assignment.instructions}</p>
+      {cleanInstructions && (
+        <p style={{ whiteSpace: "pre-wrap", color: "#43392f", fontSize: 14.5, marginBottom: 12 }}>
+          {cleanInstructions}
+        </p>
+      )}
+
+      {attachment && (
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 12,
+          padding: "10px 14px",
+          background: "#fbf8f3",
+          border: "1px solid #ebd9c8",
+          borderRadius: 8,
+          marginBottom: 16
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 200 }}>
+            <FileText size={22} color="#8a532b" />
+            <div>
+              <div style={{ fontWeight: 600, fontSize: 13.5, color: "#2b2118", wordBreak: "break-all" }}>{attachment.name}</div>
+              <div style={{ fontSize: 11.5, color: "#877464" }}>Assignment questions / attachment</div>
+            </div>
+          </div>
+          <a
+            href={attachment.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            download={attachment.name}
+            className="portal-btn"
+            style={{ padding: "6px 12px", fontSize: 12.5, display: "inline-flex", alignItems: "center", gap: 6, textDecoration: "none" }}
+          >
+            <Download size={14} />
+            <span>Download Document</span>
+          </a>
+        </div>
+      )}
 
       {latest && (
         <div className="portal-alert portal-alert-info">

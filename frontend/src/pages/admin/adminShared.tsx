@@ -12,6 +12,7 @@ export const adminKeys = {
   sessions: (offeringId: string) => ["admin", "sessions", offeringId] as const,
   resources: (offeringId: string) => ["admin", "resources", offeringId] as const,
   orders: ["admin", "orders"] as const,
+  disciplines: ["admin", "disciplines"] as const,
 };
 
 /**

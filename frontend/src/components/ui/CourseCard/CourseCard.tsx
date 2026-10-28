@@ -8,6 +8,17 @@ export interface CourseCardProps {
   course: Course;
   onSelect?: (course: Course) => void;
 }
+function getCourseCover(imageUrl?: string | null, category?: string | null): string {
+  if (imageUrl) return imageUrl;
+  const cat = (category || "").toLowerCase();
+  if (cat.includes("game") || cat.includes("xr")) return "/images/GameDevelopment.jpg";
+  if (cat.includes("cloud") || cat.includes("devops")) return "/images/CloudComputing.jpg";
+  if (cat.includes("cyber") || cat.includes("security")) return "/images/Cybersecurity.jpg";
+  if (cat.includes("data") || cat.includes("analyt")) return "/images/DataScience.jpg";
+  if (cat.includes("ai") || cat.includes("intelligence") || cat.includes("machine")) return "/images/GenerativeAi.jpg";
+  return "/images/SoftwareEngineering.jpg";
+}
+
 export default function CourseCard({ course, onSelect }: CourseCardProps) {
   const {
     id,
@@ -27,7 +38,7 @@ export default function CourseCard({ course, onSelect }: CourseCardProps) {
     <article className="course-card" aria-labelledby={`course-title-${id}`}>
       <div className="course-card-image">
         <img
-          src={course.imageUrl ?? "/images/SoftwareEngineering.jpg"}
+          src={getCourseCover(course.imageUrl, category)}
           alt={course.title}
         />
       </div>

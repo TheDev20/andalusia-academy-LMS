@@ -9,11 +9,13 @@ import type {
   AdminUserDto,
   CreateInstructorRequest,
   PagedResult,
+  TechDisciplineDto,
   UpsertCourseRequest,
   UpsertLocationRequest,
   UpsertOfferingRequest,
   UpsertResourceRequest,
   UpsertSessionRequest,
+  UpsertTechDisciplineRequest,
 } from "../../types/operations";
 
 interface ListQuery {
@@ -49,6 +51,11 @@ export const adminApi = {
   },
   deleteCourse(courseId: string): Promise<void> {
     return apiRequest(`/api/admin/courses/${courseId}`, { method: "DELETE" });
+  },
+  uploadCourseImage(file: File): Promise<{ url: string }> {
+    const data = new FormData();
+    data.append("file", file);
+    return apiRequest("/api/admin/courses/upload-image", { method: "POST", body: data });
   },
 
   /* Offerings */
@@ -111,5 +118,16 @@ export const adminApi = {
   /* Payments */
   listOrders(query: ListQuery & { status?: string }, signal?: AbortSignal): Promise<PagedResult<AdminOrderDto>> {
     return apiRequest(`/api/admin/payments/orders${toQuery({ ...query })}`, { signal });
+  },
+
+  /* Disciplines / Categories */
+  listDisciplines(signal?: AbortSignal): Promise<TechDisciplineDto[]> {
+    return apiRequest("/api/catalog/disciplines", { signal, auth: false });
+  },
+  createDiscipline(request: UpsertTechDisciplineRequest): Promise<TechDisciplineDto> {
+    return apiRequest("/api/catalog/disciplines", { method: "POST", body: request });
+  },
+  updateDiscipline(id: string, request: UpsertTechDisciplineRequest): Promise<void> {
+    return apiRequest(`/api/catalog/disciplines/${id}`, { method: "PUT", body: request });
   },
 };

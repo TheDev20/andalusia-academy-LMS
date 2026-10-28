@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus } from "lucide-react";
+import { FileText, Paperclip, Plus } from "lucide-react";
 import { instructorApi } from "../../../services/api/instructorApi";
 import { EmptyState, ErrorAlert, Field, Modal, StatusBadge } from "../../../components/portal/Portal";
 import { formatDateTime, fromDateTimeLocal, toDateTimeLocal } from "../../../utils/format";
@@ -12,6 +12,8 @@ import {
 } from "../../../types/learning";
 import SubmissionsModal from "./SubmissionsModal";
 import { cohortKeys } from "./queryKeys";
+
+const ATTACHMENT_REGEX = /\n\n📎 Attachment:\s*\[(.*?)\]\((.*?)\)/;
 
 type EditorState = { mode: "create" } | { mode: "edit"; assignment: InstructorAssignmentDto } | null;
 
@@ -114,11 +116,45 @@ function AssignmentEditor({
   onClose: () => void;
 }) {
   const queryClient = useQueryClient();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const initialData = useMemo(() => {
+    const raw = assignment?.instructions ?? "";
+    const match = raw.match(ATTACHMENT_REGEX);
+    if (match) {
+      return {
+        instructions: raw.replace(ATTACHMENT_REGEX, "").trim(),
+        attachment: { name: match[1], url: match[2] },
+      };
+    }
+    return { instructions: raw, attachment: null };
+  }, [assignment]);
+
   const [title, setTitle] = useState(assignment?.title ?? "");
-  const [instructions, setInstructions] = useState(assignment?.instructions ?? "");
+  const [instructions, setInstructions] = useState(initialData.instructions);
+  const [attachment, setAttachment] = useState<{ name: string; url: string } | null>(initialData.attachment);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const [maxScore, setMaxScore] = useState(String(assignment?.maxScore ?? 100));
   const [dueAt, setDueAt] = useState(toDateTimeLocal(assignment?.dueAt));
   const [status, setStatus] = useState<AssignmentStatus>(assignment?.status ?? "Draft");
+
+  const handleFileUpload = async (file: File) => {
+    setUploadError(null);
+    if (file.size > 25 * 1024 * 1024) {
+      setUploadError("File must be smaller than 25MB.");
+      return;
+    }
+    try {
+      setUploading(true);
+      const res = await instructorApi.uploadAttachment(file);
+      setAttachment({ name: res.fileName, url: res.url });
+    } catch (err: unknown) {
+      setUploadError(err instanceof Error ? err.message : "Failed to upload document.");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const save = useMutation({
     mutationFn: (request: UpsertAssignmentRequest) =>
@@ -135,9 +171,13 @@ function AssignmentEditor({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const finalInstructions = attachment
+      ? `${instructions.trim()}\n\n📎 Attachment: [${attachment.name}](${attachment.url})`
+      : instructions.trim();
+
     save.mutate({
       title: title.trim(),
-      instructions: instructions.trim(),
+      instructions: finalInstructions,
       maxScore: Number(maxScore),
       dueAt: dueAt ? fromDateTimeLocal(dueAt) : null,
       status,
@@ -162,7 +202,76 @@ function AssignmentEditor({
               onChange={(e) => setInstructions(e.target.value)}
               required
               maxLength={20000}
+              placeholder="Provide assignment brief, rubrics, expectations or questions..."
             />
+          )}
+        </Field>
+
+        <Field label="Assignment Attachment (PDF, Document, Questions Sheet)">
+          {() => (
+            <div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".pdf,.doc,.docx,.zip,.txt,.png,.jpg"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleFileUpload(file);
+                }}
+              />
+              {attachment ? (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "0.6rem 0.85rem",
+                    borderRadius: "8px",
+                    border: "1px solid #dfd7c8",
+                    backgroundColor: "#fdfbf7",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.55rem" }}>
+                    <FileText size={18} color="#b5833e" />
+                    <span style={{ fontSize: "0.85rem", fontWeight: 500, color: "#3d342c" }}>{attachment.name}</span>
+                  </div>
+                  <div style={{ display: "flex", gap: "0.6rem" }}>
+                    <a
+                      href={attachment.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="portal-btn-link"
+                      style={{ fontSize: "0.8rem", textDecoration: "underline" }}
+                    >
+                      Preview document
+                    </a>
+                    <button
+                      type="button"
+                      className="portal-btn-link portal-btn-link-danger"
+                      style={{ fontSize: "0.8rem" }}
+                      onClick={() => setAttachment(null)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  className="portal-btn portal-btn-secondary"
+                  disabled={uploading}
+                  onClick={() => fileInputRef.current?.click()}
+                  style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}
+                >
+                  <Paperclip size={15} /> {uploading ? "Uploading attachment…" : "Attach PDF or Document"}
+                </button>
+              )}
+
+              {uploadError && (
+                <div style={{ fontSize: "0.8rem", color: "#b91c1c", marginTop: "0.3rem" }}>{uploadError}</div>
+              )}
+            </div>
           )}
         </Field>
         <div className="portal-form-grid">

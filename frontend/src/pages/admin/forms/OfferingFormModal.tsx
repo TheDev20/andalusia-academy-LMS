@@ -46,7 +46,7 @@ export default function OfferingFormModal({
   const save = useAdminMutation(
     (request: UpsertOfferingRequest) =>
       offering ? adminApi.updateOffering(offering.id, request) : adminApi.createOffering(request),
-    [adminKeys.offerings, adminKeys.courses],
+    [adminKeys.offerings, adminKeys.courses, ["catalog", "courses"]],
     onClose,
   );
 

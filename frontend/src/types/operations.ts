@@ -20,6 +20,9 @@ export interface AdminCourseDto {
   description: string;
   publicationStatus: "Draft" | "Published" | "Archived";
   offeringCount: number;
+  categoryId?: string | null;
+  categoryName?: string | null;
+  imageUrl?: string | null;
 }
 
 export interface UpsertCourseRequest {
@@ -27,6 +30,8 @@ export interface UpsertCourseRequest {
   slug: string;
   description: string;
   publicationStatus: "Draft" | "Published" | "Archived";
+  categoryId?: string | null;
+  imageUrl?: string | null;
 }
 
 export interface OfferingInstructorDto {
@@ -135,4 +140,20 @@ export interface CreateInstructorRequest {
   email: string;
   temporaryPassword: string;
   biography?: string | null;
+}
+
+export interface TechDisciplineDto {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  icon: string;
+  programsCount?: number;
+  countDisplay?: string;
+}
+
+export interface UpsertTechDisciplineRequest {
+  title: string;
+  description: string;
+  icon: string;
 }

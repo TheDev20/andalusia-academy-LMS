@@ -1,5 +1,6 @@
-import { useState, useMemo } from "react";
-import { Terminal } from "lucide-react";
+import { useState, useMemo, useRef, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Terminal, ChevronLeft, ChevronRight } from "lucide-react";
 import { Course } from "../../../../../types/course";
 import { NavigateFunction } from "../../../../../types/navigation";
 import { useDebounce } from "../../../../../hooks/useDebounce";
@@ -38,114 +39,6 @@ export default function FeaturedCoursesSection({
   };
 
 
-  const allCourses: Course[] = [
-    {
-      id: "aspnet-core-enterprise",
-      title: "ASP.NET Core & Enterprise Microservices Masterclass",
-      category: "Software Engineering",
-      badge: "FLAGSHIP PROGRAM",
-      badgeVariant: "bronze",
-      duration: "6 Months · 180 Lab Hours",
-      format: "Hybrid · Offline & Online",
-      intake: "Oct 15, 2026",
-      rating: 4.96,
-      reviewsCount: 142,
-      level: "Intermediate to Advanced",
-      summary:
-        "Architect high-performance distributed systems using .NET 10, EF Core code-first migrations, SQL Server, Clean Architecture, and Redis caching.",
-    },
-    {
-      id: "applied-genai-llm",
-      title: "Applied Generative AI, LLMs & Autonomous Agents Bootcamp",
-      category: "AI & Machine Learning",
-      badge: "TOP ENROLLED",
-      badgeVariant: "bronze",
-      duration: "5 Months · 160 Lab Hours",
-      format: "Hybrid · Hands-on AI Studio",
-      intake: "Nov 1, 2026",
-      rating: 4.98,
-      reviewsCount: 184,
-      level: "All Developers",
-      summary:
-        "Build production-ready agentic AI systems using LangChain, vector databases (Chroma/Pinecone), RAG architectures, and fine-tuned open-source LLMs.",
-    },
-    {
-      id: "react-fullstack-architecture",
-      title: "Modern Full-Stack React 19 & TypeScript Systems Architecture",
-      category: "Software Engineering",
-      badge: "CAREER ACCELERATOR",
-      badgeVariant: "bronze",
-      duration: "4 Months · 120 Lab Hours",
-      format: "Live Interactive & Offline Hubs",
-      intake: "Oct 20, 2026",
-      rating: 4.92,
-      reviewsCount: 128,
-      level: "Frontend & Full-Stack",
-      summary:
-        "Master Next.js App Router, React Server Components, state management, full-stack typed APIs, and scalable modular design systems.",
-    },
-    {
-      id: "data-science-ml",
-      title: "Data Science & Machine Learning Engineering Specialization",
-      category: "Data Science",
-      badge: "INDUSTRY CERTIFIED",
-      badgeVariant: "bronze",
-      duration: "6 Months · 190 Lab Hours",
-      format: "In-Depth Labs & Capstone",
-      intake: "Nov 10, 2026",
-      rating: 4.94,
-      reviewsCount: 96,
-      level: "Data Professionals",
-      summary:
-        "Master statistical machine learning with Python, Pandas, Scikit-Learn, PyTorch neural networks, feature engineering, and production MLOps.",
-    },
-    {
-      id: "bigdata-spark-bigquery",
-      title: "Big Data Engineering with Apache Spark & Google BigQuery",
-      category: "Data Science",
-      badge: "HIGH DEMAND",
-      badgeVariant: "bronze",
-      duration: "5 Months · 150 Lab Hours",
-      format: "Cloud Data Lab & Weekend Sessions",
-      intake: "Oct 28, 2026",
-      rating: 4.91,
-      reviewsCount: 79,
-      level: "Software & Data Engineers",
-      summary:
-        "Process massive streaming datasets using Apache Spark, build scalable cloud data warehouses on BigQuery, and automate enterprise DBT pipelines.",
-    },
-    {
-      id: "kubernetes-devops-cloud",
-      title: "Cloud-Native Kubernetes, Terraform & DevOps Orchestration",
-      category: "Cloud & DevOps",
-      badge: "ENTERPRISE ESSENTIAL",
-      badgeVariant: "bronze",
-      duration: "4 Months · 130 Lab Hours",
-      format: "Hands-on Cloud Infrastructure",
-      intake: "Nov 15, 2026",
-      rating: 4.95,
-      reviewsCount: 110,
-      level: "DevOps & Backend Engineers",
-      summary:
-        "Provision cloud environments with Terraform, orchestrate containerized microservices in production Kubernetes, and automate GitHub Actions CI/CD.",
-    },
-    {
-      id: "cybersecurity-devsecops",
-      title: "Enterprise Cybersecurity, Penetration Testing & DevSecOps",
-      category: "Cybersecurity",
-      badge: "DEFENSE & DEVSECOPS",
-      badgeVariant: "bronze",
-      duration: "6 Months · 175 Lab Hours",
-      format: "Hybrid · Offensive & Defensive Cyber Labs",
-      intake: "Nov 5, 2026",
-      rating: 4.97,
-      reviewsCount: 118,
-      level: "Intermediate to Advanced",
-      summary:
-        "Master hands-on penetration testing, OWASP Top 10 mitigation, Zero-Trust network architecture, SOC threat hunting, and automated DevSecOps pipelines.",
-    },
-  ];
-
   // Level 2: UI Keystroke Debounce (300ms delay per RFC Option B)
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
@@ -153,12 +46,12 @@ export default function FeaturedCoursesSection({
   const { data: catalogData, isFetching } = useCatalogCourses({
     searchTerm: debouncedSearchQuery,
     pageNumber: 1,
-    pageSize: 12,
+    pageSize: 24,
   });
 
   // Map backend DTOs to UI Course objects
   const serverCourses = useMemo(() => {
-    if (!catalogData?.items || catalogData.items.length === 0) return null;
+    if (!catalogData?.items) return [];
 
     return catalogData.items.map((dto: CourseSummaryDto): Course => {
       const primaryCategory = dto.categories?.[0] || "Software Engineering";
@@ -190,22 +83,123 @@ export default function FeaturedCoursesSection({
     });
   }, [catalogData]);
 
-  const displayCourses = useMemo(() => {
-    const sourceList = serverCourses ?? allCourses;
-    return sourceList.filter((course) => {
-      const matchesFilter =
-        activeFilter === "all" ||
-        (activeFilter === "dev" &&
-          course.category === "Software Engineering") ||
-        (activeFilter === "ai" &&
-          course.category === "AI & Machine Learning") ||
-        (activeFilter === "data" && course.category === "Data Science") ||
-        (activeFilter === "cloud" && course.category === "Cloud & DevOps") ||
-        (activeFilter === "cyber" && course.category === "Cybersecurity");
+  const { data: disciplines } = useQuery({
+    queryKey: ["catalog", "disciplines"],
+    queryFn: async () => {
+      const res = await fetch("/api/catalog/disciplines");
+      if (!res.ok) throw new Error("Failed to load disciplines");
+      return res.json() as Promise<{ id: string; title: string; slug: string }[]>;
+    },
+    staleTime: 5 * 60 * 1000,
+  });
 
-      if (serverCourses) {
-        return matchesFilter;
+  const legacyAliases: Record<string, string> = {
+    dev: "software-engineering",
+    ai: "ai-machine-learning",
+    data: "data-science",
+    cloud: "cloud-devops",
+    cyber: "cybersecurity",
+  };
+
+  const normalizeSlug = (str: string) =>
+    str.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+  const PRIORITY_ORDER: Record<string, number> = {
+    "software-engineering": 1,
+    "ai-and-machine-learning": 2,
+    "ai-machine-learning": 2,
+    "data-science": 3,
+    "cloud-devops": 4,
+    "cybersecurity": 5,
+    "game-development-and-xr": 6,
+    "game-development-xr": 6,
+    "mobile-app-development": 7,
+  };
+
+  const filterTabs = useMemo(() => {
+    const allTab = { id: "all", label: "All Programs", slug: "all" };
+    if (disciplines && disciplines.length > 0) {
+      const sorted = [...disciplines].sort((a, b) => {
+        const orderA = PRIORITY_ORDER[a.slug] ?? 99;
+        const orderB = PRIORITY_ORDER[b.slug] ?? 99;
+        return orderA - orderB;
+      });
+      return [
+        allTab,
+        ...sorted.map((d) => ({
+          id: d.slug,
+          label: d.title,
+          slug: d.slug,
+        })),
+      ];
+    }
+    return [
+      allTab,
+      { id: "software-engineering", label: "Software Engineering", slug: "software-engineering" },
+      { id: "ai-machine-learning", label: "AI & Machine Learning", slug: "ai-machine-learning" },
+      { id: "data-science", label: "Data Science", slug: "data-science" },
+      { id: "cloud-devops", label: "Cloud & DevOps", slug: "cloud-devops" },
+      { id: "cybersecurity", label: "Cybersecurity", slug: "cybersecurity" },
+      { id: "game-development-and-xr", label: "Game Development & XR", slug: "game-development-and-xr" },
+    ];
+  }, [disciplines]);
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -260, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 260, behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      const activeEl = scrollContainerRef.current.querySelector(".is-active") as HTMLElement | null;
+      if (activeEl) {
+        activeEl.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
       }
+    }
+  }, [activeFilter, filterTabs]);
+
+  const matchesCategoryFilter = (courseCategory: string, filterSlug: string) => {
+    if (!filterSlug || filterSlug === "all") return true;
+
+    const cat = courseCategory.toLowerCase();
+    const filter = filterSlug.toLowerCase();
+
+    // Check direct equality
+    if (cat === filter) return true;
+
+    // Direct slug representations
+    const slugWithAnd = cat.replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    const slugNoAnd = cat.replace(/&/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+    if (slugWithAnd === filter || slugNoAnd === filter) return true;
+
+    // Cleaned alphanumeric comparison (ignores hyphens, & and 'and')
+    const cleanCat = cat.replace(/&/g, "").replace(/\band\b/g, "").replace(/[^a-z0-9]/g, "");
+    const cleanFilter = filter.replace(/&/g, "").replace(/\band\b/g, "").replace(/[^a-z0-9]/g, "");
+
+    if (cleanCat && cleanFilter && (cleanCat === cleanFilter || cleanCat.includes(cleanFilter) || cleanFilter.includes(cleanCat))) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const displayCourses = useMemo(() => {
+    const sourceList = serverCourses;
+    const targetFilter = activeFilter.toLowerCase();
+    const resolvedFilterSlug = legacyAliases[targetFilter] || targetFilter;
+
+    return sourceList.filter((course) => {
+      const matchesFilter = matchesCategoryFilter(course.category || "", resolvedFilterSlug);
 
       const matchesSearch =
         !searchQuery ||
@@ -215,16 +209,7 @@ export default function FeaturedCoursesSection({
 
       return matchesFilter && matchesSearch;
     });
-  }, [serverCourses, allCourses, activeFilter, searchQuery]);
-
-  const filterTabs = [
-    { id: "all", label: "All Programs" },
-    { id: "dev", label: "Software Engineering" },
-    { id: "ai", label: "AI & Machine Learning" },
-    { id: "data", label: "Data Science" },
-    { id: "cloud", label: "Cloud & DevOps" },
-    { id: "cyber", label: "Cybersecurity" },
-  ];
+  }, [serverCourses, activeFilter, searchQuery]);
 
   return (
     <section
@@ -244,25 +229,54 @@ export default function FeaturedCoursesSection({
             align="center"
           />
 
-          {/* Styled Pill Filter Bar */}
-          <div
-            className="course-filters-bar"
-            role="tablist"
-            aria-label="Program Filter"
-          >
-            <div className="filter-buttons-scroll">
-              {filterTabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  role="tab"
-                  aria-selected={activeFilter === tab.id}
-                  className={`filter-btn ${activeFilter === tab.id ? "is-active" : ""}`}
-                  onClick={() => handleTabChange(tab.id)}
-                >
-                  {tab.label}
-                </button>
-              ))}
+          {/* Styled Pill Filter Bar with Scroll Arrows */}
+          <div className="course-filters-bar-container">
+            <button
+              type="button"
+              className="filter-scroll-arrow"
+              onClick={scrollLeft}
+              aria-label="Scroll filter tabs left"
+              title="Scroll left"
+            >
+              <ChevronLeft size={18} />
+            </button>
+
+            <div
+              className="course-filters-bar"
+              role="tablist"
+              aria-label="Program Filter"
+            >
+              <div className="filter-buttons-scroll" ref={scrollContainerRef}>
+                {filterTabs.map((tab) => {
+                  const isActive =
+                    activeFilter === tab.id ||
+                    activeFilter === tab.slug ||
+                    legacyAliases[activeFilter] === tab.slug;
+
+                  return (
+                    <button
+                      key={tab.id}
+                      role="tab"
+                      aria-selected={isActive}
+                      className={`filter-btn ${isActive ? "is-active" : ""}`}
+                      onClick={() => handleTabChange(tab.slug)}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
+
+            <button
+              type="button"
+              className="filter-scroll-arrow"
+              onClick={scrollRight}
+              aria-label="Scroll filter tabs right"
+              title="Scroll right"
+            >
+              <ChevronRight size={18} />
+            </button>
           </div>
         </div>
 

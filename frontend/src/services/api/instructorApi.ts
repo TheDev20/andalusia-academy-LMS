@@ -58,4 +58,13 @@ export const instructorApi = {
       body: { score },
     });
   },
+
+  uploadAttachment(file: File): Promise<{ url: string; fileName: string; sizeBytes: number }> {
+    const data = new FormData();
+    data.append("file", file);
+    return apiRequest<{ url: string; fileName: string; sizeBytes: number }>("/api/instructor/upload-attachment", {
+      method: "POST",
+      body: data,
+    });
+  },
 };

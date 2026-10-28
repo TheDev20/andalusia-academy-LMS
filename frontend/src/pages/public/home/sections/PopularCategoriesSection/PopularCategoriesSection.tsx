@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   Code2,
   Brain,
@@ -8,6 +8,18 @@ import {
   Smartphone,
   Server,
   Layers,
+  Gamepad2,
+  Atom,
+  Cpu,
+  Palette,
+  Boxes,
+  Network,
+  Terminal,
+  Globe,
+  Dna,
+  Bot,
+  Radio,
+  Sparkles,
   ArrowRight,
   type LucideIcon,
 } from "lucide-react";
@@ -25,6 +37,18 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Smartphone,
   Server,
   Layers,
+  Gamepad2,
+  Atom,
+  Cpu,
+  Palette,
+  Boxes,
+  Network,
+  Terminal,
+  Globe,
+  Dna,
+  Bot,
+  Radio,
+  Sparkles,
 };
 
 interface TechDiscipline {
@@ -43,25 +67,16 @@ export interface PopularCategoriesSectionProps {
 export default function PopularCategoriesSection({
   onSelectCategory,
 }: PopularCategoriesSectionProps) {
-  const [categories, setCategories] = useState<TechDiscipline[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  // Fetch live disciplines from the backend API
-  useEffect(() => {
-    fetch("/api/catalog/disciplines")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to load disciplines");
-        return res.json();
-      })
-      .then((data) => {
-        setCategories(data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching categories:", err);
-        setIsLoading(false);
-      });
-  }, []);
+  // Level 1: Client Query Cache (TanStack Query - 5 min staleTime per RFC Option B)
+  const { data: categories = [], isLoading } = useQuery<TechDiscipline[]>({
+    queryKey: ["catalog", "disciplines"],
+    queryFn: async () => {
+      const res = await fetch("/api/catalog/disciplines");
+      if (!res.ok) throw new Error("Failed to load disciplines");
+      return res.json();
+    },
+    staleTime: 5 * 60 * 1000,
+  });
 
   if (isLoading) {
     return <div className="text-center py-12">Loading programs...</div>;

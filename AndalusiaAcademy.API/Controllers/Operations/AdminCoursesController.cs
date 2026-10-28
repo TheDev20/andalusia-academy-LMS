@@ -53,4 +53,36 @@ public class AdminCoursesController : ControllerBase
         await _courses.DeleteAsync(courseId, cancellationToken);
         return NoContent();
     }
+
+    [HttpPost("upload-image")]
+    [Consumes("multipart/form-data")]
+    [ProducesResponseType(typeof(UploadImageResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<UploadImageResponse>> UploadImage(IFormFile file, CancellationToken cancellationToken)
+    {
+        if (file == null || file.Length == 0)
+            return BadRequest(new { message = "No file uploaded." });
+
+        if (file.Length > 10 * 1024 * 1024)
+            return BadRequest(new { message = "Image must be under 10MB." });
+
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp", ".gif" };
+        var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+        if (!allowedExtensions.Contains(ext))
+            return BadRequest(new { message = "Only image files (.jpg, .jpeg, .png, .webp, .gif) are allowed." });
+
+        var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+        Directory.CreateDirectory(uploadsDir);
+
+        var fileName = $"{Guid.NewGuid():N}{ext}";
+        var filePath = Path.Combine(uploadsDir, fileName);
+
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream, cancellationToken);
+        }
+
+        var url = $"/api/uploads/{fileName}";
+        return Ok(new UploadImageResponse(url));
+    }
 }

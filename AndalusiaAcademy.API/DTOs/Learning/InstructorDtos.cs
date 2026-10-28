@@ -74,6 +74,8 @@ public sealed record UpsertAssignmentRequest(
     DateTimeOffset? DueAt,
     [Required, RegularExpression("^(Draft|Published|Closed)$")] string Status);
 
+public sealed record UploadAttachmentResponse(string Url, string FileName, long SizeBytes);
+
 public sealed record SubmissionForGradingDto(
     Guid Id,
     Guid LearningEnrollmentId,

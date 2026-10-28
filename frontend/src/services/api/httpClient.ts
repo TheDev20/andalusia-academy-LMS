@@ -1,9 +1,3 @@
-/**
- * Single HTTP entry point for the Andalusia Academy API.
- * - Attaches the bearer token for authenticated calls.
- * - Normalises RFC 7807 problem details into ApiError (status, message, field errors).
- * - Broadcasts session expiry (401 on an authenticated call) so AuthContext can sign the user out.
- */
 import { tokenStore } from "./tokenStore";
 
 export const API_BASE = ""; // Relative: Vite dev proxy forwards /api to the backend.
@@ -14,7 +8,11 @@ export class ApiError extends Error {
   readonly status: number;
   readonly fieldErrors: Record<string, string[]>;
 
-  constructor(status: number, message: string, fieldErrors: Record<string, string[]> = {}) {
+  constructor(
+    status: number,
+    message: string,
+    fieldErrors: Record<string, string[]> = {},
+  ) {
     super(message);
     this.name = "ApiError";
     this.status = status;
@@ -60,20 +58,33 @@ async function toApiError(response: Response): Promise<ApiError> {
   return new ApiError(response.status, message, fieldErrors);
 }
 
-export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
+export async function apiRequest<T>(
+  path: string,
+  options: RequestOptions = {},
+): Promise<T> {
   const { method = "GET", body, headers = {}, signal, auth = true } = options;
   const token = auth ? tokenStore.getToken() : null;
+
+  const isFormData =
+    typeof FormData !== "undefined" && body instanceof FormData;
 
   const response = await fetch(`${API_BASE}${path}`, {
     method,
     signal,
     headers: {
       Accept: "application/json",
-      ...(body !== undefined ? { "Content-Type": "application/json" } : {}),
+      ...(body !== undefined && !isFormData
+        ? { "Content-Type": "application/json" }
+        : {}),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...headers,
     },
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    body:
+      body !== undefined
+        ? isFormData
+          ? (body as BodyInit)
+          : JSON.stringify(body)
+        : undefined,
   });
 
   if (!response.ok) {
@@ -83,7 +94,10 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
     throw await toApiError(response);
   }
 
-  if (response.status === 204 || response.headers.get("content-length") === "0") {
+  if (
+    response.status === 204 ||
+    response.headers.get("content-length") === "0"
+  ) {
     return undefined as T;
   }
 
@@ -91,7 +105,9 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 }
 
 /** Builds a query string, skipping empty values. */
-export function toQuery(params: Record<string, string | number | boolean | undefined | null>): string {
+export function toQuery(
+  params: Record<string, string | number | boolean | undefined | null>,
+): string {
   const search = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
     if (value !== undefined && value !== null && value !== "") {

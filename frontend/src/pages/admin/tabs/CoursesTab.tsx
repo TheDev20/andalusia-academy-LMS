@@ -56,6 +56,7 @@ export default function CoursesTab() {
               <thead>
                 <tr>
                   <th scope="col">Title</th>
+                  <th scope="col">Category</th>
                   <th scope="col">Slug</th>
                   <th scope="col">Status</th>
                   <th scope="col">Offerings</th>
@@ -67,7 +68,19 @@ export default function CoursesTab() {
               <tbody>
                 {courses.data.items.map((c) => (
                   <tr key={c.id}>
-                    <td>{c.title}</td>
+                    <td>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                        {c.imageUrl && (
+                          <img
+                            src={c.imageUrl}
+                            alt=""
+                            style={{ width: "32px", height: "22px", objectFit: "cover", borderRadius: "4px", flexShrink: 0, border: "1px solid #e0d8cc" }}
+                          />
+                        )}
+                        <span style={{ fontWeight: 500 }}>{c.title}</span>
+                      </div>
+                    </td>
+                    <td>{c.categoryName || "—"}</td>
                     <td>
                       <code>{c.slug}</code>
                     </td>

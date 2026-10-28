@@ -3,16 +3,18 @@ import { PortalPage, Tabs, type TabItem } from "../../components/portal/Portal";
 import { useAuth } from "../../context/AuthContext";
 import UsersTab from "./tabs/UsersTab";
 import CoursesTab from "./tabs/CoursesTab";
+import DisciplinesTab from "./tabs/DisciplinesTab";
 import ScheduleTab from "./tabs/ScheduleTab";
 import PaymentsTab from "./tabs/PaymentsTab";
 
-type AdminTab = "students" | "instructors" | "courses" | "schedule" | "payments";
+type AdminTab = "students" | "instructors" | "courses" | "disciplines" | "schedule" | "payments";
 
 /** Tabs are shown per permission (the API enforces the same permissions on every call). */
 const TAB_PERMISSIONS: { tab: TabItem<AdminTab>; permission: string }[] = [
   { tab: { id: "students", label: "Students" }, permission: "users.manage" },
   { tab: { id: "instructors", label: "Instructors" }, permission: "users.manage" },
   { tab: { id: "courses", label: "Courses" }, permission: "courses.manage" },
+  { tab: { id: "disciplines", label: "Disciplines" }, permission: "courses.manage" },
   { tab: { id: "schedule", label: "Schedule" }, permission: "schedules.manage" },
   { tab: { id: "payments", label: "Payments" }, permission: "payments.manage" },
 ];
@@ -30,7 +32,7 @@ export default function AdminDashboardPage() {
     <PortalPage
       eyebrow="Management Portal"
       title="Academy administration"
-      subtitle={`Signed in as ${user?.fullName ?? ""} — manage students, instructors, courses, schedules and payments.`}
+      subtitle={`Signed in as ${user?.fullName ?? ""} — manage students, instructors, courses, disciplines, schedules and payments.`}
     >
       {tabs.length === 0 || !active ? (
         <div className="portal-alert portal-alert-info">Your role has no management permissions.</div>
@@ -41,6 +43,7 @@ export default function AdminDashboardPage() {
             {active === "students" && <UsersTab key="Learner" role="Learner" />}
             {active === "instructors" && <UsersTab key="Instructor" role="Instructor" />}
             {active === "courses" && <CoursesTab />}
+            {active === "disciplines" && <DisciplinesTab />}
             {active === "schedule" && <ScheduleTab />}
             {active === "payments" && <PaymentsTab />}
           </div>

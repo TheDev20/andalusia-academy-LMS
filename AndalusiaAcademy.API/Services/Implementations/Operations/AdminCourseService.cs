@@ -53,6 +53,15 @@ public sealed class AdminCourseService : IAdminCourseService
 
         var course = new Course();
         Apply(course, request);
+        if (request.CategoryId.HasValue)
+        {
+            course.CourseCategories.Add(new CourseCategory
+            {
+                CourseId = course.Id,
+                CategoryId = request.CategoryId.Value,
+                Sequence = 1
+            });
+        }
         _context.Courses.Add(course);
         await _context.SaveChangesAsync(cancellationToken);
         _catalogCache.Invalidate();
@@ -62,11 +71,42 @@ public sealed class AdminCourseService : IAdminCourseService
 
     public async Task<AdminCourseDto> UpdateAsync(Guid courseId, UpsertCourseRequest request, CancellationToken cancellationToken = default)
     {
-        var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == courseId, cancellationToken)
+        var course = await _context.Courses
+            .Include(c => c.CourseCategories)
+            .FirstOrDefaultAsync(c => c.Id == courseId, cancellationToken)
             ?? throw new NotFoundException("Course not found.");
         await EnsureSlugAvailableAsync(request.Slug, courseId, cancellationToken);
 
         Apply(course, request);
+
+        if (request.CategoryId.HasValue)
+        {
+            var existing = course.CourseCategories.FirstOrDefault();
+            if (existing == null)
+            {
+                course.CourseCategories.Add(new CourseCategory
+                {
+                    CourseId = course.Id,
+                    CategoryId = request.CategoryId.Value,
+                    Sequence = 1
+                });
+            }
+            else if (existing.CategoryId != request.CategoryId.Value)
+            {
+                _context.CourseCategories.Remove(existing);
+                course.CourseCategories.Add(new CourseCategory
+                {
+                    CourseId = course.Id,
+                    CategoryId = request.CategoryId.Value,
+                    Sequence = 1
+                });
+            }
+        }
+        else
+        {
+            _context.CourseCategories.RemoveRange(course.CourseCategories);
+        }
+
         await _context.SaveChangesAsync(cancellationToken);
         _catalogCache.Invalidate();
 
@@ -107,8 +147,18 @@ public sealed class AdminCourseService : IAdminCourseService
         course.Slug = request.Slug.Trim();
         course.Description = request.Description.Trim();
         course.PublicationStatus = request.PublicationStatus;
+        course.ImageUrl = string.IsNullOrWhiteSpace(request.ImageUrl) ? null : request.ImageUrl.Trim();
     }
 
     private static readonly System.Linq.Expressions.Expression<Func<Course, AdminCourseDto>> ToDto =
-        c => new AdminCourseDto(c.Id, c.Title, c.Slug, c.Description, c.PublicationStatus, c.Offerings.Count);
+        c => new AdminCourseDto(
+            c.Id,
+            c.Title,
+            c.Slug,
+            c.Description,
+            c.PublicationStatus,
+            c.Offerings.Count,
+            c.CourseCategories.Select(cc => (Guid?)cc.CategoryId).FirstOrDefault(),
+            c.CourseCategories.Select(cc => cc.Category.Name).FirstOrDefault(),
+            c.ImageUrl);
 }

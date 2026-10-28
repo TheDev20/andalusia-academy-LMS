@@ -56,13 +56,20 @@ public sealed record AdminCourseDto(
     string Slug,
     string Description,
     string PublicationStatus,
-    int OfferingCount);
+    int OfferingCount,
+    Guid? CategoryId = null,
+    string? CategoryName = null,
+    string? ImageUrl = null);
 
 public sealed record UpsertCourseRequest(
     [Required, StringLength(250, MinimumLength = 1)] string Title,
     [Required, StringLength(160, MinimumLength = 1), RegularExpression("^[a-z0-9]+(?:-[a-z0-9]+)*$", ErrorMessage = "Slug must be lowercase kebab-case.")] string Slug,
     [Required, StringLength(8000)] string Description,
-    [Required, RegularExpression("^(Draft|Published|Archived)$")] string PublicationStatus);
+    [Required, RegularExpression("^(Draft|Published|Archived)$")] string PublicationStatus,
+    Guid? CategoryId = null,
+    [StringLength(2000)] string? ImageUrl = null);
+
+public sealed record UploadImageResponse(string Url);
 
 public sealed record AdminOfferingDto(
     Guid Id,
