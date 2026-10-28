@@ -6,6 +6,7 @@
 *.userosscache
 *.sln.docstates
 .vs/
+**/wwwroot/uploads/
 
 # Node / React
 node_modules/
