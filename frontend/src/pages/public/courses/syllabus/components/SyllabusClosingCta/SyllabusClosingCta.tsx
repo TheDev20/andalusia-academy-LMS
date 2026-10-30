@@ -23,7 +23,8 @@ export function SyllabusClosingCta({
             Next intake starts {syllabus.intake || "Nov 1, 2026"}
           </h2>
           <p className="closing-cta-desc">
-            {syllabus.format} · {syllabus.duration}. Secure your seat in this upcoming cohort or consult directly with an academic advisor.
+            {syllabus.format} · {syllabus.duration}. Secure your seat in this
+            upcoming cohort or consult directly with an academic advisor.
           </p>
         </div>
 

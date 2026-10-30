@@ -8,7 +8,11 @@ interface EnrollmentCardProps {
 
 export function EnrollmentCard({ syllabus, onEnroll }: EnrollmentCardProps) {
   return (
-    <aside id="enroll" aria-label="Enrollment summary" className="syllabus-enrollment-card">
+    <aside
+      id="enroll"
+      aria-label="Enrollment summary"
+      className="syllabus-enrollment-card"
+    >
       <div className="enroll-header">
         <span className="enroll-tag">Next intake</span>
         <div className="enroll-date">{syllabus.intake || "Nov 1, 2026"}</div>
@@ -48,11 +52,7 @@ export function EnrollmentCard({ syllabus, onEnroll }: EnrollmentCardProps) {
         </div>
       </div>
 
-      <button
-        type="button"
-        className="enroll-primary-btn"
-        onClick={onEnroll}
-      >
+      <button type="button" className="enroll-primary-btn" onClick={onEnroll}>
         Enroll for the {syllabus.intake} intake
       </button>
 

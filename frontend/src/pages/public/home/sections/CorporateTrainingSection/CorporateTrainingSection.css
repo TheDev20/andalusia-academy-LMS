@@ -2,9 +2,11 @@
 .corporate-section {
   padding: clamp(72px, 10vh, 110px) 0;
   background: #ede7dc;
-  border-bottom: 1px solid rgba(224, 216, 204, 0.6);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
 }
 .corporate-card-wrap {
+  max-width: 1200px;
+  margin-inline: auto;
   background: #ffffff;
   border: 1px solid #ded6c8;
   border-radius: 26px;
@@ -15,7 +17,7 @@
   box-shadow: 0 12px 40px rgba(67, 57, 47, 0.06);
 }
 .corporate-title {
-  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-family: "Libre Caslon Display", Georgia, serif;
   font-size: clamp(30px, 3.6vw, 44px);
   line-height: 1.15;
   color: #271e16;
@@ -89,11 +91,19 @@
   gap: 18px;
   margin-bottom: 26px;
 }
+.corporate-right {
+  display: flex;
+  align-items: center;
+}
 .corporate-pillar-card {
+  display: flex;
+}
+.pillar-content {
   background: #f7f4ee;
   border: 1px solid #e2dacd;
   border-radius: 18px;
   padding: 24px;
+  width: 100%;
 }
 .pillar-icon-wrap {
   width: 48px;
@@ -106,17 +116,11 @@
   margin-bottom: 14px;
 }
 .pillar-title {
-  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-family: "Libre Caslon Display", Georgia, serif;
   font-size: 17.5px;
   color: #271e16;
-  margin: 0 0 8px;
-  font-weight: 400;
-}
-.pillar-desc {
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: #594a3a;
   margin: 0;
+  font-weight: 400;
 }
 
 @media (max-width: 1024px) {

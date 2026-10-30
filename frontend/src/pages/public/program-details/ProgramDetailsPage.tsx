@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProgramDetail } from "../../../services/catalogService";
 import { useApplyAndPay } from "../../../hooks/useApplyAndPay";
-import PaymentSimulationModal from "../../../components/ui/PaymentSimulationModal/PaymentSimulationModal";
+import StripePaymentModal from "../../../components/ui/StripePaymentModal/StripePaymentModal";
 import { EmptyState, ErrorAlert, LoadingState, PortalPage } from "../../../components/portal/Portal";
 import { formatDate, formatMoney } from "../../../utils/format";
 
@@ -87,14 +87,11 @@ export default function ProgramDetailsPage() {
       )}
 
       {applyFlow.pendingOrder?.salesOrderId && (
-        <PaymentSimulationModal
-          isOpen
-          onClose={applyFlow.closePayment}
-          salesOrderId={applyFlow.pendingOrder.salesOrderId}
-          courseTitle={applyFlow.pendingOrder.title}
+        <StripePaymentModal
+          title={applyFlow.pendingOrder.title}
           amount={applyFlow.pendingOrder.amountDue}
           currency={applyFlow.pendingOrder.currency}
-          onSuccess={applyFlow.onPaid}
+          onClose={applyFlow.closePayment}
         />
       )}
     </PortalPage>

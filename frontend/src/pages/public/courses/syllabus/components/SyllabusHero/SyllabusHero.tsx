@@ -49,10 +49,7 @@ export function SyllabusHero({ syllabus, onEnroll }: SyllabusHeroProps) {
             <p className="hero-course-desc">{syllabus.overview}</p>
 
             <div className="hero-actions-row">
-              <a href="#enroll" className="hero-primary-cta">
-                Reserve your seat
-              </a>
-              <a href="#curriculum" className="hero-secondary-cta">
+              <a href="#curriculum" className="hero-primary-cta">
                 Explore the curriculum
               </a>
             </div>

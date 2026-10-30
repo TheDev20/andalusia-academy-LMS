@@ -6,7 +6,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { admissionsApi } from "../../../services/api/admissionsApi";
 import { ApiError } from "../../../services/api/httpClient";
 import { ApplicationDto } from "../../../types/admissions";
-import PaymentSimulationModal from "../../../components/ui/PaymentSimulationModal/PaymentSimulationModal";
+import StripePaymentModal from "../../../components/ui/StripePaymentModal/StripePaymentModal";
 import {
   getProgramSyllabus,
   PROGRAM_SYLLABI,
@@ -64,7 +64,9 @@ export default function SyllabusPage() {
         (m) =>
           `[${m.number}] ${m.title} (${m.duration})\nSummary: ${m.summary}\nTopics:\n${m.topics
             .map((t) => ` - ${t}`)
-            .join("\n")}\nHands-on Lab: ${m.handsOnLab?.title || "Comprehensive Lab"} - ${
+            .join(
+              "\n",
+            )}\nHands-on Lab: ${m.handsOnLab?.title || "Comprehensive Lab"} - ${
             m.handsOnLab?.description || "Applied exercises"
           }\n`,
       )
@@ -118,7 +120,9 @@ export default function SyllabusPage() {
         if (!(err instanceof ApiError) || err.status !== 409) throw err;
         // Already applied: resume the existing application instead of failing.
         const existing = (await admissionsApi.getMyApplications()).find(
-          (a) => openOfferings.some((o) => o.id === a.offeringId) && (a.status === "Submitted" || a.status === "Accepted"),
+          (a) =>
+            openOfferings.some((o) => o.id === a.offeringId) &&
+            (a.status === "Submitted" || a.status === "Accepted"),
         );
         if (existing?.status === "Submitted") {
           setActiveOrder(await admissionsApi.checkout(existing.id));
@@ -129,7 +133,9 @@ export default function SyllabusPage() {
         }
       }
     } catch (err) {
-      setEnrollError(err instanceof Error ? err.message : "Failed to submit application.");
+      setEnrollError(
+        err instanceof Error ? err.message : "Failed to submit application.",
+      );
     }
   };
 
@@ -137,7 +143,9 @@ export default function SyllabusPage() {
     return (
       <div className="syllabus-state-container">
         <Loader2 size={36} className="syllabus-spin-icon" />
-        <h3 className="syllabus-state-title">Loading program curriculum &amp; syllabus...</h3>
+        <h3 className="syllabus-state-title">
+          Loading program curriculum &amp; syllabus...
+        </h3>
       </div>
     );
   }
@@ -205,17 +213,11 @@ export default function SyllabusPage() {
       )}
 
       {activeOrder && activeOrder.salesOrderId && (
-        <PaymentSimulationModal
-          isOpen={true}
-          onClose={() => setActiveOrder(null)}
-          salesOrderId={activeOrder.salesOrderId}
-          courseTitle={activeOrder.title}
+        <StripePaymentModal
+          title={activeOrder.title}
           amount={activeOrder.amountDue}
           currency={activeOrder.currency}
-          onSuccess={() => {
-            setActiveOrder(null);
-            navigate("/dashboard");
-          }}
+          onClose={() => setActiveOrder(null)}
         />
       )}
     </div>
