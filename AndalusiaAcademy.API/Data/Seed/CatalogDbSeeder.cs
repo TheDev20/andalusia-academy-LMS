@@ -94,7 +94,7 @@ public static class CatalogDbSeeder
                 "aspnet-core-enterprise",
                 "Architect high-performance distributed systems using .NET 10, EF Core code-first migrations, SQL Server, Clean Architecture, and Redis caching.",
                 "Software Engineering",
-                750m,
+                150m,
                 8, "/images/SoftwareEngineering.jpg"
             ),
             (
@@ -103,7 +103,7 @@ public static class CatalogDbSeeder
                 "react-fullstack-architecture",
                 "Master Next.js App Router, React Server Components, state management, full-stack typed APIs, and scalable modular design systems.",
                 "Software Engineering",
-                680m,
+                150m,
                 13, "/images/SoftwareEngineering.jpg"
             ),
             (
@@ -112,7 +112,7 @@ public static class CatalogDbSeeder
                 "applied-genai-llm",
                 "Build production-ready agentic AI systems using LangChain, vector databases, RAG architectures, and fine-tuned open-source LLMs.",
                 "AI & Machine Learning",
-                950m,
+                150m,
                 24, "/images/GenerativeAi.jpg"
             ),
             (
@@ -121,7 +121,7 @@ public static class CatalogDbSeeder
                 "data-science-ml",
                 "Master statistical machine learning with Python, Pandas, Scikit-Learn, PyTorch neural networks, feature engineering, and production MLOps.",
                 "Data Science",
-                820m,
+                150m,
                 33, "/images/GenerativeAi.jpg"
             ),
             (
@@ -130,7 +130,7 @@ public static class CatalogDbSeeder
                 "bigdata-spark-bigquery",
                 "Process massive streaming datasets using Apache Spark, build scalable cloud data warehouses on BigQuery, and automate enterprise DBT pipelines.",
                 "Data Science",
-                890m,
+                150m,
                 21, "/images/DataScience.jpg"
             ),
             (
@@ -139,7 +139,7 @@ public static class CatalogDbSeeder
                 "kubernetes-devops-cloud",
                 "Provision cloud environments with Terraform, orchestrate containerized microservices in production Kubernetes, and automate GitHub Actions CI/CD.",
                 "Cloud & DevOps",
-                790m,
+                150m,
                 38, "/images/CloudComputing.jpg"
             ),
             (
@@ -148,7 +148,7 @@ public static class CatalogDbSeeder
                 "cybersecurity-devsecops",
                 "Master hands-on penetration testing, OWASP Top 10 mitigation, Zero-Trust network architecture, SOC threat hunting, and automated DevSecOps pipelines.",
                 "Cybersecurity",
-                850m,
+                150m,
                 28, "/images/Cybersecurity.jpg"
             )
         };
@@ -280,7 +280,7 @@ public static class CatalogDbSeeder
                 "full-stack-software-engineering-systems",
                 "Comprehensive degree-caliber program covering enterprise ASP.NET Core backends, React 19 frontend systems, Clean Architecture, and microservices.",
                 "Software Engineering",
-                2400m,
+                150m,
                 14,
                 new List<string> { "aspnet", "react", "devops" }
             ),
@@ -290,7 +290,7 @@ public static class CatalogDbSeeder
                 "applied-generative-ai-agentic-systems",
                 "Master LLMs, fine-tuning, retrieval-augmented generation (RAG), autonomous multi-agent systems, and PyTorch deep learning architectures.",
                 "AI & Machine Learning",
-                2800m,
+                150m,
                 20,
                 new List<string> { "genai", "datascience" }
             ),
@@ -300,7 +300,7 @@ public static class CatalogDbSeeder
                 "data-science-big-data-engineering",
                 "End-to-end data platform engineering: statistical machine learning, PySpark distributed computation, and BigQuery data warehousing.",
                 "Data Science",
-                2200m,
+                150m,
                 25,
                 new List<string> { "datascience", "bigdata" }
             ),
@@ -310,7 +310,7 @@ public static class CatalogDbSeeder
                 "cloud-infrastructure-kubernetes-devops",
                 "Enterprise cloud infrastructure, container orchestration with Kubernetes, Infrastructure as Code with Terraform, and DevSecOps pipelines.",
                 "Cloud & DevOps",
-                2100m,
+                150m,
                 18,
                 new List<string> { "devops", "cybersec" }
             )
@@ -369,6 +369,16 @@ public static class CatalogDbSeeder
             }
             else
             {
+                var existingOffering = await context.Offerings
+                    .FirstOrDefaultAsync(o =>
+                        o.Kind == "Program" &&
+                        o.ProgramId == existingProg.Id);
+                if (existingOffering != null)
+                {
+                    existingOffering.Price = price;
+                    existingOffering.Currency = "USD";
+                    existingOffering.Status = "Published";
+                }
                 programMap[key] = existingProg;
             }
         }
