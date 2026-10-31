@@ -1,18 +1,57 @@
+import { useEffect, useState } from "react";
+import { admissionsApi } from "../../../services/api/admissionsApi";
 import StripeBuyButton from "../StripeBuyButton/StripeBuyButton";
 
 interface StripePaymentModalProps {
+  orderId: string;
   title: string;
   amount: number;
   currency: string;
   onClose: () => void;
+  onPaid?: () => void;
 }
 
 export default function StripePaymentModal({
+  orderId,
   title,
   amount,
   currency,
   onClose,
+  onPaid,
 }: StripePaymentModalProps) {
+  const [confirmationError, setConfirmationError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!onPaid) return;
+
+    let isActive = true;
+    const checkPayment = async () => {
+      try {
+        const applications = await admissionsApi.getMyApplications();
+        const application = applications.find((item) => item.salesOrderId === orderId);
+        if (isActive && application?.orderStatus === "Paid") {
+          onPaid();
+        }
+      } catch (error) {
+        if (isActive) {
+          setConfirmationError(
+            error instanceof Error
+              ? error.message
+              : "Unable to confirm the Stripe payment.",
+          );
+        }
+      }
+    };
+
+    const intervalId = window.setInterval(checkPayment, 2000);
+    checkPayment();
+
+    return () => {
+      isActive = false;
+      window.clearInterval(intervalId);
+    };
+  }, [onPaid, orderId]);
+
   return (
     <div
       role="dialog"
@@ -55,7 +94,15 @@ export default function StripePaymentModal({
         <p style={{ margin: "0 0 20px" }}>
           Amount due: {currency} {amount.toLocaleString()}
         </p>
-        <StripeBuyButton />
+        <StripeBuyButton clientReferenceId={orderId} />
+        <p style={{ margin: "14px 0 0", color: "#7b6d5e", fontSize: 12 }}>
+          Payment confirmation may take a few seconds after Stripe checkout completes.
+        </p>
+        {confirmationError && (
+          <p role="alert" style={{ margin: "10px 0 0", color: "#b91c1c", fontSize: 12 }}>
+            {confirmationError}
+          </p>
+        )}
         <p style={{ margin: "18px 0 0", color: "#7b6d5e", fontSize: 12 }}>
           This Stripe Buy Button uses the configured test payment link.
         </p>

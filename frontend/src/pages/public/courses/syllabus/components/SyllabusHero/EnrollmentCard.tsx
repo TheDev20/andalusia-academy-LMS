@@ -4,9 +4,14 @@ import { ProgramSyllabusDetails } from "../../types";
 interface EnrollmentCardProps {
   syllabus: ProgramSyllabusDetails;
   onEnroll?: () => void;
+  enrollLabel?: string;
 }
 
-export function EnrollmentCard({ syllabus, onEnroll }: EnrollmentCardProps) {
+export function EnrollmentCard({
+  syllabus,
+  onEnroll,
+  enrollLabel = "Pay USD",
+}: EnrollmentCardProps) {
   return (
     <aside
       id="enroll"
@@ -14,8 +19,8 @@ export function EnrollmentCard({ syllabus, onEnroll }: EnrollmentCardProps) {
       className="syllabus-enrollment-card"
     >
       <div className="enroll-header">
-        <span className="enroll-tag">Next intake</span>
-        <div className="enroll-date">{syllabus.intake || "Nov 1, 2026"}</div>
+        <span className="enroll-tag">{syllabus.intake || "Nov 15, 2026"}</span>
+        <div className="enroll-date">Enrol now</div>
       </div>
 
       <div className="enroll-divider" />
@@ -53,7 +58,7 @@ export function EnrollmentCard({ syllabus, onEnroll }: EnrollmentCardProps) {
       </div>
 
       <button type="button" className="enroll-primary-btn" onClick={onEnroll}>
-        Enroll for the {syllabus.intake} intake
+        {enrollLabel}
       </button>
 
       <a href="#outcomes" className="advisor-link">

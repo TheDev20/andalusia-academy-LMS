@@ -14,7 +14,7 @@ import { admissionsApi } from "../../../services/api/admissionsApi";
 import { ErrorAlert, ProgressBar } from "../../../components/portal/Portal";
 import { formatDate, formatDateTime, formatMoney } from "../../../utils/format";
 import { ApplicationDto } from "../../../types/admissions";
-import StripeBuyButton from "../../../components/ui/StripeBuyButton/StripeBuyButton";
+import StripePaymentModal from "../../../components/ui/StripePaymentModal/StripePaymentModal";
 import "./DashboardPage.css";
 
 type DashboardTab = "learning" | "applications" | "payments";
@@ -83,6 +83,14 @@ export default function DashboardPage() {
   const handlePaymentClosed = () => {
     setSelectedOrder(null);
     refreshApplications();
+  };
+
+  const handlePaymentSuccess = () => {
+    setSelectedOrder(null);
+    queryClient.invalidateQueries({ queryKey: ["myLearning"] });
+    queryClient.invalidateQueries({ queryKey: ["myApplications"] });
+    queryClient.invalidateQueries({ queryKey: ["myPayments"] });
+    setActiveTab("learning");
   };
 
   return (
@@ -268,52 +276,15 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {selectedOrder && selectedOrder.salesOrderId && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="stripe-tuition-title"
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 1000,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 20,
-            background: "rgba(35, 29, 24, 0.62)",
-          }}
-        >
-          <div
-            style={{
-              width: "min(100%, 520px)",
-              padding: 28,
-              borderRadius: 16,
-              background: "#fffdf9",
-              boxShadow: "0 20px 60px rgba(35, 29, 24, 0.24)",
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "start" }}>
-              <div>
-                <span className="dashboard-eyebrow">Secure Stripe Checkout</span>
-                <h2 id="stripe-tuition-title" className="dashboard-title" style={{ fontSize: 24 }}>
-                  Pay Tuition
-                </h2>
-              </div>
-              <button type="button" className="dash-btn" onClick={handlePaymentClosed}>
-                Close
-              </button>
-            </div>
-            <p style={{ margin: "16px 0 6px", fontWeight: 700 }}>{selectedOrder.title}</p>
-            <p style={{ margin: "0 0 20px" }}>
-              Amount due: {formatMoney(selectedOrder.amountDue, selectedOrder.currency)}
-            </p>
-            <StripeBuyButton />
-            <p style={{ margin: "18px 0 0", color: "#7b6d5e", fontSize: 12 }}>
-              This Stripe Buy Button uses the configured test payment link.
-            </p>
-          </div>
-        </div>
+      {selectedOrder?.salesOrderId && (
+        <StripePaymentModal
+          orderId={selectedOrder.salesOrderId}
+          title={selectedOrder.title}
+          amount={selectedOrder.amountDue}
+          currency={selectedOrder.currency}
+          onClose={handlePaymentClosed}
+          onPaid={handlePaymentSuccess}
+        />
       )}
     </div>
   );

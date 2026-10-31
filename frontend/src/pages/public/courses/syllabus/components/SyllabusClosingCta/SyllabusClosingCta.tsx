@@ -5,6 +5,7 @@ import "./SyllabusClosingCta.css";
 interface SyllabusClosingCtaProps {
   syllabus: ProgramSyllabusDetails;
   onEnroll?: () => void;
+  enrollLabel?: string;
   onDownload?: () => void;
   downloadSuccess?: boolean;
 }
@@ -12,6 +13,7 @@ interface SyllabusClosingCtaProps {
 export function SyllabusClosingCta({
   syllabus,
   onEnroll,
+  enrollLabel = "Pay USD",
   onDownload,
   downloadSuccess,
 }: SyllabusClosingCtaProps) {
@@ -20,7 +22,7 @@ export function SyllabusClosingCta({
       <div className="closing-cta-card">
         <div className="closing-cta-info">
           <h2 className="closing-cta-title">
-            Next intake starts {syllabus.intake || "Nov 1, 2026"}
+            Enrol now · {syllabus.intake || "Nov 15, 2026"}
           </h2>
           <p className="closing-cta-desc">
             {syllabus.format} · {syllabus.duration}. Secure your seat in this
@@ -34,7 +36,7 @@ export function SyllabusClosingCta({
             className="closing-enroll-btn"
             onClick={onEnroll}
           >
-            Reserve your seat
+            {enrollLabel}
           </button>
 
           {onDownload && (

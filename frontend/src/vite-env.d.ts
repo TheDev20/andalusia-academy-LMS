@@ -6,6 +6,7 @@ declare namespace React {
       "stripe-buy-button": {
         "buy-button-id": string;
         "publishable-key": string;
+        "client-reference-id"?: string;
       };
     }
   }

@@ -19,6 +19,7 @@ import { SyllabusTechSection } from "./syllabus/components/SyllabusTech/Syllabus
 import { SyllabusOutcomesSection } from "./syllabus/components/SyllabusOutcomes/SyllabusOutcomesSection";
 import { SyllabusClosingCta } from "./syllabus/components/SyllabusClosingCta/SyllabusClosingCta";
 import { Loader2 } from "lucide-react";
+import { formatMoney } from "../../../utils/format";
 import "./SyllabusPage.css";
 
 export default function SyllabusPage() {
@@ -39,6 +40,13 @@ export default function SyllabusPage() {
     staleTime: 5 * 60 * 1000,
   });
 
+  const { data: openOfferings = [] } = useQuery({
+    queryKey: ["openOfferings", courseId],
+    queryFn: () => admissionsApi.getOpenOfferings(courseId!),
+    enabled: !!courseId,
+    staleTime: 60 * 1000,
+  });
+
   const syllabus = useMemo(() => {
     if (!courseId) return null;
     if (isKnownSlug) {
@@ -55,6 +63,13 @@ export default function SyllabusPage() {
     }
     return null;
   }, [courseId, isKnownSlug, courseDetail]);
+
+  const courseOffering = openOfferings.find(
+    (offering) => offering.seatsRemaining > 0,
+  );
+  const enrollLabel = courseOffering
+    ? `Pay ${formatMoney(courseOffering.price, courseOffering.currency)} ${courseOffering.currency}`
+    : "Pay USD";
 
   const handleDownloadPdf = () => {
     if (!syllabus) return;
@@ -182,7 +197,11 @@ export default function SyllabusPage() {
       )}
 
       {/* 1. Hero Section with Breadcrumbs & Floating Aside Card */}
-      <SyllabusHero syllabus={syllabus} onEnroll={handleEnroll} />
+      <SyllabusHero
+        syllabus={syllabus}
+        onEnroll={handleEnroll}
+        enrollLabel={enrollLabel}
+      />
 
       {/* 2. Sticky Tab Bar */}
       <SyllabusSectionNav
@@ -202,6 +221,7 @@ export default function SyllabusPage() {
       <SyllabusClosingCta
         syllabus={syllabus}
         onEnroll={handleEnroll}
+        enrollLabel={enrollLabel}
         onDownload={handleDownloadPdf}
         downloadSuccess={downloadSuccess}
       />
@@ -214,10 +234,12 @@ export default function SyllabusPage() {
 
       {activeOrder && activeOrder.salesOrderId && (
         <StripePaymentModal
+          orderId={activeOrder.salesOrderId}
           title={activeOrder.title}
           amount={activeOrder.amountDue}
           currency={activeOrder.currency}
           onClose={() => setActiveOrder(null)}
+          onPaid={() => navigate("/dashboard")}
         />
       )}
     </div>

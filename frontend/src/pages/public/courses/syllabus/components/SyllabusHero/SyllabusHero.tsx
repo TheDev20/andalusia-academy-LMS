@@ -7,9 +7,10 @@ import "./SyllabusHero.css";
 interface SyllabusHeroProps {
   syllabus: ProgramSyllabusDetails;
   onEnroll?: () => void;
+  enrollLabel?: string;
 }
 
-export function SyllabusHero({ syllabus, onEnroll }: SyllabusHeroProps) {
+export function SyllabusHero({ syllabus, onEnroll, enrollLabel }: SyllabusHeroProps) {
   return (
     <section id="top" className="syllabus-hero-section">
       <div className="syllabus-hero-container">
@@ -56,7 +57,11 @@ export function SyllabusHero({ syllabus, onEnroll }: SyllabusHeroProps) {
           </div>
 
           {/* Floating Sidebar Card */}
-          <EnrollmentCard syllabus={syllabus} onEnroll={onEnroll} />
+          <EnrollmentCard
+            syllabus={syllabus}
+            onEnroll={onEnroll}
+            enrollLabel={enrollLabel}
+          />
         </div>
       </div>
     </section>
