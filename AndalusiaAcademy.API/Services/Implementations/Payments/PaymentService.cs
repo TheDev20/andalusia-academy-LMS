@@ -134,6 +134,79 @@ public sealed class PaymentService : IPaymentService
             .ToListAsync(cancellationToken);
     }
 
+    public async Task SettleStripePaymentAsync(
+        Guid orderId,
+        string providerPaymentId,
+        string eventId,
+        long amountTotalMinor,
+        string currency,
+        CancellationToken cancellationToken = default)
+    {
+        var now = _clock.GetUtcNow();
+        await using var transaction = await _context.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
+
+        var order = await _context.SalesOrders
+            .Include(o => o.Application)
+            .FirstOrDefaultAsync(o => o.Id == orderId, cancellationToken)
+            ?? throw new NotFoundException("Sales order not found.");
+
+        if (order.Status == OrderStatuses.Paid)
+        {
+            await transaction.CommitAsync(cancellationToken);
+            return;
+        }
+
+        if (await _context.PaymentAttempts.AnyAsync(
+            a => a.Provider == "Stripe" && a.ProviderPaymentId == providerPaymentId,
+            cancellationToken))
+        {
+            await transaction.CommitAsync(cancellationToken);
+            return;
+        }
+
+        if (order.Status != OrderStatuses.PendingPayment)
+        {
+            throw new ConflictException($"Order is '{order.Status}' and cannot be settled.");
+        }
+
+        var expectedAmountMinor = decimal.ToInt64(decimal.Round(order.AmountDue * 100, 0));
+        if (amountTotalMinor != expectedAmountMinor
+            || !string.Equals(order.Currency, currency, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new ConflictException("Stripe amount or currency does not match the sales order.");
+        }
+
+        await EnsureSeatHeldAsync(order.ApplicationId, now, cancellationToken);
+
+        var attempt = new PaymentAttempt
+        {
+            SalesOrderId = order.Id,
+            Amount = order.AmountDue,
+            Currency = order.Currency,
+            Provider = "Stripe",
+            ProviderPaymentId = providerPaymentId,
+            IdempotencyKey = $"stripe:{eventId}",
+            Status = PaymentAttemptStatuses.Succeeded,
+            CreatedAt = now,
+            SettledAt = now
+        };
+        _context.PaymentAttempts.Add(attempt);
+
+        order.Status = OrderStatuses.Paid;
+        order.Application.Status = ApplicationStatuses.Accepted;
+
+        var reservation = await _context.SeatReservations
+            .FirstAsync(r => r.ApplicationId == order.ApplicationId, cancellationToken);
+        reservation.Status = ReservationStatuses.Converted;
+
+        await _enrollments.StageFulfillmentAsync(order.Application, now, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+        await transaction.CommitAsync(cancellationToken);
+
+        _logger.LogInformation("Stripe payment {PaymentId} settled order {OrderId} from event {EventId}",
+            providerPaymentId, order.Id, eventId);
+    }
+
     private async Task<PaymentResultDto> SettleAsync(
         SalesOrder order, PaymentAttempt attempt, GatewayChargeResult charge, CancellationToken cancellationToken)
     {

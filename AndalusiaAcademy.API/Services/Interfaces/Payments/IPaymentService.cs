@@ -14,5 +14,13 @@ public interface IPaymentService
     Task<PaymentResultDto> PayWithSimulationAsync(
         Guid learnerId, Guid orderId, SimulatePaymentRequest request, string idempotencyKey, CancellationToken cancellationToken = default);
 
+    Task SettleStripePaymentAsync(
+        Guid orderId,
+        string providerPaymentId,
+        string eventId,
+        long amountTotalMinor,
+        string currency,
+        CancellationToken cancellationToken = default);
+
     Task<IReadOnlyList<OrderDto>> GetForLearnerAsync(Guid learnerId, CancellationToken cancellationToken = default);
 }

@@ -48,6 +48,21 @@ is set, four demo accounts that share that password:
 The payment simulation and the in-response password-reset token are enabled only in Development
 (`appsettings.Development.json`).
 
+### Stripe webhook testing
+
+The API accepts signed Stripe events at `POST /api/payments/webhook`. Store the signing secret in
+user-secrets instead of committing it:
+
+```bash
+dotnet user-secrets set "Payments:StripeWebhookSecret" "<whsec_...>"
+stripe login
+stripe listen --forward-to https://localhost:59372/api/payments/webhook
+```
+
+The frontend passes the LMS sales-order GUID as Stripe `client_reference_id`. Server-created
+Checkout Sessions may use either `client_reference_id` or `metadata.orderId`. Use Stripe CLI
+overrides or a signed test payload with a real pending order GUID to test settlement.
+
 ### 2. Web app
 
 ```bash

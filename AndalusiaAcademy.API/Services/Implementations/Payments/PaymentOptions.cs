@@ -10,4 +10,6 @@ public sealed class PaymentOptions
     /// so this must be explicitly enabled per environment.
     /// </summary>
     public bool SimulationEnabled { get; init; }
+
+    public string StripeWebhookSecret { get; init; } = string.Empty;
 }
