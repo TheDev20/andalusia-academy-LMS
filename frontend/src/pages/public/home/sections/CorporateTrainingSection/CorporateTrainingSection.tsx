@@ -22,26 +22,18 @@ export default function CorporateTrainingSection({
     {
       icon: Code2,
       title: "Custom Engineering Bootcamps & Upskilling",
-      description:
-        "Bespoke software development curricula mapped precisely to your company tech stack, architectural conventions, and business domains.",
     },
     {
       icon: Brain,
       title: "Enterprise AI & LLM Transformation",
-      description:
-        "Empower internal product, engineering, and data teams to build secure GenAI systems, private RAG pipelines, and automated agent workflows.",
     },
     {
       icon: Cloud,
       title: "Cloud Migration & DevOps Enablement",
-      description:
-        "Accelerate cloud transformation with hands-on labs in Kubernetes, microservices architecture, infrastructure as code, and zero-trust security.",
     },
     {
       icon: BarChart3,
       title: "Skill Benchmarking & Progress Tracking",
-      description:
-        "Dedicated enterprise portal tracking employee course completion, coding project reviews, and verified skill competency assessments in real time.",
     },
   ];
 
@@ -123,7 +115,6 @@ export default function CorporateTrainingSection({
                       <Icon size={22} aria-hidden="true" />
                     </div>
                     <h3 className="pillar-title">{pillar.title}</h3>
-                    <p className="pillar-desc">{pillar.description}</p>
                   </div>
                 );
               })}
