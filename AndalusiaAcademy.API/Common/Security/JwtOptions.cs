@@ -18,7 +18,7 @@ public sealed class JwtOptions
 
     /// <summary>HMAC-SHA256 key; at least 32 bytes (UTF-8).</summary>
     [Required, MinLength(32)]
-    public string SigningKey { get; init; } = string.Empty;
+    public string SigningKey { get; set; } = string.Empty;
 
     [Range(5, 1440)]
     public int AccessTokenMinutes { get; init; } = 60;

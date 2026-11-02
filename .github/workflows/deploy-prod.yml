@@ -16,7 +16,7 @@ jobs:
     runs-on: windows-latest
     environment:
       name: production
-      url: https://andalusiaacademylms-ffegckcff9clxhkc2.westeurope-01.azurewebsites.net
+      url: https://andalusiaacademylms-ffegckcff9dxhkc2.westeurope-01.azurewebsites.net
 
     steps:
       - name: Checkout Code
