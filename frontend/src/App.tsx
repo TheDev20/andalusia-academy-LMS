@@ -14,9 +14,7 @@ import AuthPage from "./pages/auth/AuthPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 import SyllabusPage from "./pages/public/courses/SyllabusPage";
-import ProgramsPage from "./pages/public/programs/ProgramsPage";
 import ProgramDetailsPage from "./pages/public/program-details/ProgramDetailsPage";
-import CareerPathsPage from "./pages/public/career-paths/CareerPathsPage";
 import CareerPathDetailsPage from "./pages/public/career-paths/CareerPathDetailsPage";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import DashboardPage from "./pages/learner/DashboardPage";
@@ -67,9 +65,9 @@ export default function App() {
               <Route path="home" element={<Navigate to="/" replace />} />
               <Route path="courses" element={<CoursesPage />} />
               <Route path="courses/:courseId/syllabus" element={<SyllabusPage />} />
-              <Route path="programs" element={<ProgramsPage />} />
+              <Route path="programs" element={<Navigate to="/courses?tab=programs" replace />} />
               <Route path="programs/:slug" element={<ProgramDetailsPage />} />
-              <Route path="career-paths" element={<CareerPathsPage />} />
+              <Route path="career-paths" element={<Navigate to="/courses?tab=career-paths" replace />} />
               <Route path="career-paths/:slug" element={<CareerPathDetailsPage />} />
               <Route path="about" element={<PageWithNavigate Component={AboutPage} />} />
               <Route path="contact" element={<ContactPage />} />

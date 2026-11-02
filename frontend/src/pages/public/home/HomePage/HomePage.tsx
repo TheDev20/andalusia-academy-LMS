@@ -8,6 +8,7 @@ import {
 import HeroSection from "../sections/HeroSection";
 import CareerPathDiscoverySection from "../sections/CareerPathDiscoverySection";
 import PopularCategoriesSection from "../sections/PopularCategoriesSection";
+import FeaturedCoursesSection from "../sections/FeaturedCoursesSection";
 import ComingSoonSection from "../sections/ComingSoonSection";
 import CorporateTrainingSection from "../sections/CorporateTrainingSection";
 import PartnersTrustSection from "../sections/PartnersTrustSection";
@@ -29,8 +30,12 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
   const [courseFilter, setCourseFilter] = useState("all");
 
-  const handleTrackSelect = (_filterId: string) => {
-    if (onNavigate) {
+  const handleTrackSelect = (filterId: string) => {
+    setCourseFilter(filterId);
+    const el = document.getElementById(SECTION_IDS.COURSES);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    } else if (onNavigate) {
       onNavigate(ROUTES.COURSES);
     }
   };
@@ -53,6 +58,14 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       <HeroSection onNavigate={onNavigate} onSearch={handleHeroSearch} />
       <CareerPathDiscoverySection onExploreTrack={handleTrackSelect} />
       <PopularCategoriesSection onSelectCategory={handleCategorySelect} />
+      <FeaturedCoursesSection
+        searchQuery={searchQuery}
+        activeFilter={courseFilter}
+        onFilterChange={setCourseFilter}
+        onClearSearch={() => setSearchQuery("")}
+        onSelectCourse={handleCourseSelect}
+        onNavigate={onNavigate}
+      />
       <ComingSoonSection />
       <CorporateTrainingSection onNavigate={onNavigate} />
       <PartnersTrustSection />

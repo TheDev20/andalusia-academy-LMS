@@ -1,11 +1,21 @@
 import { useState, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  Menu,
+  X,
+  ArrowUpRight,
+  LayoutDashboard,
+  GraduationCap,
+  BookOpen,
+  UserCircle2,
+  LogOut,
+  ShieldCheck,
+} from "lucide-react";
 import { AppRoute, NavigateFunction } from "../../../types/navigation";
 import { useScroll } from "../../../hooks/useScroll";
 import { useScrollSpy } from "../../../hooks/useScrollSpy";
 import Brand from "../../common/Brand";
-import { useAuth } from "../../../context/AuthContext";
+import { homePathFor, useAuth } from "../../../context/AuthContext";
 import "./PublicNavbar.css";
 
 export interface PublicNavbarProps {
@@ -19,6 +29,13 @@ interface NavItem {
   key: AppRoute;
 }
 
+interface PortalNavItem {
+  label: string;
+  to: string;
+  icon: React.ReactNode;
+  isActive: (pathname: string) => boolean;
+}
+
 const HOME_SECTION_IDS = [
   "home",
   "career-paths",
@@ -30,29 +47,143 @@ export default function PublicNavbar({
   onNavigate,
 }: PublicNavbarProps) {
   const navigate = useNavigate();
+  const location = useLocation();
   const scrolled = useScroll(20);
   const { user, isAuthenticated, logout, hasRole } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
-  /** Portal entry points for the signed-in user's roles. */
-  const portalLinks = useMemo(() => {
-    const links: { to: string; label: string }[] = [];
-    if (hasRole("Learner")) links.push({ to: "/dashboard", label: "My Dashboard" });
-    if (hasRole("Instructor", "Admin")) links.push({ to: "/instructor", label: "Teaching" });
-    if (hasRole("Admin", "ContentManager")) links.push({ to: "/admin", label: "Admin" });
-    return links;
-  }, [hasRole]);
+  const isCatalogPath = (pathname: string) =>
+    pathname.startsWith("/courses") ||
+    pathname.startsWith("/programs") ||
+    pathname.startsWith("/career-paths");
+
+  /** Role workspace badge & dedicated navigation tabs when signed in (no landing-page tabs). */
+  const workspaceMeta = useMemo(() => {
+    if (!isAuthenticated || !user) return null;
+
+    if (hasRole("Admin")) {
+      return {
+        badge: "Admin Workspace",
+        homeTo: "/admin",
+        tabs: [
+          {
+            label: "Admin Console",
+            to: "/admin",
+            icon: <ShieldCheck size={15} aria-hidden="true" />,
+            isActive: (p: string) => p.startsWith("/admin"),
+          },
+          {
+            label: "Instructor Cohorts",
+            to: "/instructor",
+            icon: <GraduationCap size={15} aria-hidden="true" />,
+            isActive: (p: string) => p.startsWith("/instructor"),
+          },
+          {
+            label: "Course Catalog",
+            to: "/courses",
+            icon: <BookOpen size={15} aria-hidden="true" />,
+            isActive: isCatalogPath,
+          },
+          {
+            label: "Account Settings",
+            to: "/profile",
+            icon: <UserCircle2 size={15} aria-hidden="true" />,
+            isActive: (p: string) => p.startsWith("/profile"),
+          },
+        ] satisfies PortalNavItem[],
+      };
+    }
+
+    if (hasRole("ContentManager")) {
+      return {
+        badge: "Content Studio",
+        homeTo: "/admin",
+        tabs: [
+          {
+            label: "Curriculum Manager",
+            to: "/admin",
+            icon: <LayoutDashboard size={15} aria-hidden="true" />,
+            isActive: (p: string) => p.startsWith("/admin"),
+          },
+          {
+            label: "Course Catalog",
+            to: "/courses",
+            icon: <BookOpen size={15} aria-hidden="true" />,
+            isActive: isCatalogPath,
+          },
+          {
+            label: "Account Settings",
+            to: "/profile",
+            icon: <UserCircle2 size={15} aria-hidden="true" />,
+            isActive: (p: string) => p.startsWith("/profile"),
+          },
+        ] satisfies PortalNavItem[],
+      };
+    }
+
+    if (hasRole("Instructor")) {
+      return {
+        badge: "Instructor Portal",
+        homeTo: "/instructor",
+        tabs: [
+          {
+            label: "My Cohorts",
+            to: "/instructor",
+            icon: <GraduationCap size={15} aria-hidden="true" />,
+            isActive: (p: string) => p.startsWith("/instructor"),
+          },
+          {
+            label: "Course Catalog",
+            to: "/courses",
+            icon: <BookOpen size={15} aria-hidden="true" />,
+            isActive: isCatalogPath,
+          },
+          {
+            label: "Account Settings",
+            to: "/profile",
+            icon: <UserCircle2 size={15} aria-hidden="true" />,
+            isActive: (p: string) => p.startsWith("/profile"),
+          },
+        ] satisfies PortalNavItem[],
+      };
+    }
+
+    return {
+      badge: "Learner Portal",
+      homeTo: "/dashboard",
+      tabs: [
+        {
+          label: "My Learning",
+          to: "/dashboard",
+          icon: <LayoutDashboard size={15} aria-hidden="true" />,
+          isActive: (p: string) => p.startsWith("/dashboard") || p.startsWith("/learn"),
+        },
+        {
+          label: "Browse Catalog",
+          to: "/courses",
+          icon: <BookOpen size={15} aria-hidden="true" />,
+          isActive: isCatalogPath,
+        },
+        {
+          label: "Account Settings",
+          to: "/profile",
+          icon: <UserCircle2 size={15} aria-hidden="true" />,
+          isActive: (p: string) => p.startsWith("/profile"),
+        },
+      ] satisfies PortalNavItem[],
+    };
+  }, [isAuthenticated, user, hasRole]);
 
   const handleLogout = async () => {
     setMobileMenuOpen(false);
-    // Leave protected pages first, so the route guard doesn't record them as a post-login return target.
     navigate("/", { replace: true });
     await logout();
   };
-  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+
   const spySection = useScrollSpy(
     HOME_SECTION_IDS,
     160,
-    currentPath === "home",
+    !isAuthenticated && currentPath === "home",
   );
 
   const navItems: NavItem[] = useMemo(
@@ -77,6 +208,17 @@ export default function PublicNavbar({
       navigate("/courses");
       return;
     }
+    if (item.key === "home") {
+      if (location.pathname === "/") {
+        if (location.hash) {
+          navigate("/", { replace: true });
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        navigate("/");
+      }
+      return;
+    }
     onNavigate(item.key);
   };
 
@@ -93,6 +235,152 @@ export default function PublicNavbar({
     return currentPath === key;
   };
 
+  const userInitials = useMemo(() => {
+    if (!user?.fullName) return "AA";
+    return user.fullName
+      .split(" ")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase() ?? "")
+      .join("");
+  }, [user]);
+
+  // Dedicated Account / Portal Header when logged in
+  if (isAuthenticated && user && workspaceMeta) {
+    const brandTarget = homePathFor(user);
+    return (
+      <header className={`public-navbar is-portal-navbar ${scrolled ? "is-scrolled" : ""}`}>
+        <div className="navbar-container">
+          <div className="navbar-brand-wrap">
+            <Brand
+              href={brandTarget}
+              onClick={(e) => {
+                e.preventDefault();
+                setMobileMenuOpen(false);
+                navigate(brandTarget);
+              }}
+            />
+            <span className="portal-workspace-badge">{workspaceMeta.badge}</span>
+          </div>
+
+          <nav className="desktop-nav" aria-label="Account Workspace Navigation">
+            <ul className="portal-nav-pills">
+              {workspaceMeta.tabs.map((tab) => {
+                const active = tab.isActive(location.pathname);
+                return (
+                  <li key={tab.to}>
+                    <Link
+                      to={tab.to}
+                      className={`portal-nav-pill ${active ? "is-active" : ""}`}
+                    >
+                      {tab.icon}
+                      <span>{tab.label}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          <div className="navbar-actions">
+            <div className="navbar-account">
+              <Link
+                to="/profile"
+                className="portal-user-chip"
+                title="Account Settings & Profile"
+              >
+                <span className="portal-user-avatar" aria-hidden="true">
+                  {userInitials}
+                </span>
+                <span className="portal-user-name">{user.fullName}</span>
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="portal-logout-btn"
+                title="Sign out of your account"
+              >
+                <LogOut size={14} aria-hidden="true" />
+                <span>Log Out</span>
+              </button>
+            </div>
+
+            <button
+              type="button"
+              className="mobile-menu-btn"
+              aria-label={mobileMenuOpen ? "Close menu" : "Open navigation menu"}
+              aria-expanded={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
+        </div>
+
+        {mobileMenuOpen && (
+          <div
+            className="mobile-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Account Navigation"
+          >
+            <nav className="mobile-nav">
+              <ul>
+                {workspaceMeta.tabs.map((tab) => {
+                  const active = tab.isActive(location.pathname);
+                  return (
+                    <li key={tab.to}>
+                      <Link
+                        to={tab.to}
+                        className={`mobile-nav-link ${active ? "is-active" : ""}`}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {tab.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+              <div className="mobile-drawer-auth">
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      padding: "6px 0",
+                    }}
+                  >
+                    <span className="portal-user-avatar" aria-hidden="true">
+                      {userInitials}
+                    </span>
+                    <div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: "#271e16" }}>
+                        {user.fullName}
+                      </div>
+                      <div style={{ fontSize: 12, color: "#7a6e60" }}>
+                        {workspaceMeta.badge}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="mobile-login-btn"
+                    style={{ cursor: "pointer" }}
+                  >
+                    Log Out
+                  </button>
+                </div>
+              </div>
+            </nav>
+          </div>
+        )}
+      </header>
+    );
+  }
+
+  // Public Website Header when logged out
   return (
     <header className={`public-navbar ${scrolled ? "is-scrolled" : ""}`}>
       <div className="navbar-container">
@@ -127,53 +415,21 @@ export default function PublicNavbar({
 
         {/* Auth CTA Actions */}
         <div className="navbar-actions">
-          {isAuthenticated && user ? (
-            <div className="navbar-account" style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              {portalLinks.map((link) => (
-                <Link key={link.to} to={link.to} className="navbar-login-btn">
-                  {link.label}
-                </Link>
-              ))}
-              <Link
-                to="/profile"
-                title="My profile"
-                style={{
-                  fontSize: "13px",
-                  fontWeight: 600,
-                  color: "var(--color-navy-dark, #0B2545)",
-                  textDecoration: "none",
-                }}
-              >
-                {user.fullName}
-              </Link>
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="navbar-login-btn"
-                style={{ cursor: "pointer", background: "transparent" }}
-              >
-                Logout
-              </button>
-            </div>
-          ) : (
-            <>
-              <Link
-                to="/login"
-                className="navbar-login-btn"
-                onClick={() => handleAuthNavigate("login")}
-              >
-                Log in
-              </Link>
-              <Link
-                to="/signup"
-                className="navbar-cta-btn"
-                onClick={() => handleAuthNavigate("signup")}
-              >
-                <span>Join Academy</span>
-                <ArrowUpRight size={14} aria-hidden="true" />
-              </Link>
-            </>
-          )}
+          <Link
+            to="/login"
+            className="navbar-login-btn"
+            onClick={() => handleAuthNavigate("login")}
+          >
+            Log in
+          </Link>
+          <Link
+            to="/signup"
+            className="navbar-cta-btn"
+            onClick={() => handleAuthNavigate("signup")}
+          >
+            <span>Join Academy</span>
+            <ArrowUpRight size={14} aria-hidden="true" />
+          </Link>
 
           {/* Mobile menu trigger */}
           <button
@@ -211,55 +467,20 @@ export default function PublicNavbar({
               ))}
             </ul>
             <div className="mobile-drawer-auth">
-              {isAuthenticated && user ? (
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px", padding: "8px 0" }}>
-                  <span
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: 600,
-                      color: "var(--color-navy-dark, #0B2545)",
-                    }}
-                  >
-                    {user.fullName}
-                  </span>
-                  {[...portalLinks, { to: "/profile", label: "Profile" }].map((link) => (
-                    <Link
-                      key={link.to}
-                      to={link.to}
-                      className="mobile-login-btn"
-                      onClick={() => setMobileMenuOpen(false)}
-                      style={{ textAlign: "center" }}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                  <button
-                    type="button"
-                    onClick={handleLogout}
-                    className="mobile-login-btn"
-                    style={{ cursor: "pointer", textAlign: "center" }}
-                  >
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <Link
-                    to="/login"
-                    className="mobile-login-btn"
-                    onClick={() => handleAuthNavigate("login")}
-                  >
-                    Log in
-                  </Link>
-                  <Link
-                    to="/signup"
-                    className="mobile-signup-btn"
-                    onClick={() => handleAuthNavigate("signup")}
-                  >
-                    Join Andalusia Academy
-                  </Link>
-                </>
-              )}
+              <Link
+                to="/login"
+                className="mobile-login-btn"
+                onClick={() => handleAuthNavigate("login")}
+              >
+                Log in
+              </Link>
+              <Link
+                to="/signup"
+                className="mobile-signup-btn"
+                onClick={() => handleAuthNavigate("signup")}
+              >
+                Join Andalusia Academy
+              </Link>
             </div>
           </nav>
         </div>

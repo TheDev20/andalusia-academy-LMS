@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Code2, Brain, Database, Cloud, ShieldCheck } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Code2, Brain, Database, Cloud, ShieldCheck, ArrowRight, Compass } from "lucide-react";
 import Alumni from "../../../../../components/common/Alumni-logos";
 import SectionHeading from "../../../../../components/ui/SectionHeading";
 import Badge from "../../../../../components/common/Badge";
-import { useCareerPaths } from "@/hooks/useCareerPaths";
 import "./CareerPathDiscoverySection.css";
 
 export interface CareerPathDiscoverySectionProps {
@@ -13,13 +13,13 @@ export interface CareerPathDiscoverySectionProps {
 export default function CareerPathDiscoverySection({
   onExploreTrack,
 }: CareerPathDiscoverySectionProps) {
-  const { data: serverCareerPaths } = useCareerPaths();
   // Store index of selected path, or null if card is toggled closed
   const [openPathIndex, setOpenPathIndex] = useState<number | null>(0);
 
   const paths = [
     {
       id: "software-engineering",
+      slug: "full-stack-systems-architect",
       filterTab: "dev",
       title: "Full-Stack Software Engineering",
       icon: Code2,
@@ -42,6 +42,7 @@ export default function CareerPathDiscoverySection({
     },
     {
       id: "ai-engineering",
+      slug: "applied-ai-systems-engineer",
       filterTab: "ai",
       title: "Artificial Intelligence & Machine Learning",
       icon: Brain,
@@ -64,6 +65,7 @@ export default function CareerPathDiscoverySection({
     },
     {
       id: "data-science",
+      slug: "cloud-platform-big-data-lead",
       filterTab: "data",
       title: "Data Science & Big Data Engineering",
       icon: Database,
@@ -86,6 +88,7 @@ export default function CareerPathDiscoverySection({
     },
     {
       id: "cloud-devops",
+      slug: "cloud-platform-big-data-lead",
       filterTab: "cloud",
       title: "Cloud Architecture & DevOps Engineering",
       icon: Cloud,
@@ -108,6 +111,7 @@ export default function CareerPathDiscoverySection({
     },
     {
       id: "cybersecurity",
+      slug: "cybersecurity-devsecops-specialist",
       filterTab: "cyber",
       title: "Cybersecurity & Secure Systems",
       icon: ShieldCheck,
@@ -202,7 +206,7 @@ export default function CareerPathDiscoverySection({
           })}
         </div>
 
-        {/* Selected Path Details Card (Appears directly below tabs, toggles off when clicked again) */}
+        {/* Selected Path Details Card */}
         {activePath && (
           <div className="path-details-card" role="tabpanel">
             <div className="path-details-header">
@@ -218,23 +222,56 @@ export default function CareerPathDiscoverySection({
                   Target Role: <strong>{activePath.targetRole}</strong>
                 </p>
               </div>
+              <div className="path-header-actions">
+                <Link
+                  to={`/career-paths/${activePath.slug}`}
+                  className="btn-explore-track"
+                >
+                  <span>View Full Roadmap</span>
+                  <ArrowRight size={15} aria-hidden="true" />
+                </Link>
+                {onExploreTrack && (
+                  <button
+                    type="button"
+                    className="btn-explore-track-secondary"
+                    onClick={() => onExploreTrack(activePath.filterTab)}
+                  >
+                    <Compass size={15} aria-hidden="true" />
+                    <span>Filter Courses</span>
+                  </button>
+                )}
+              </div>
             </div>
 
             <p className="path-overview-text">{activePath.overview}</p>
 
-            <div className="path-columns-layout"></div>
+            <div className="path-columns-layout">
+              <div className="path-milestones-col">
+                <h4 className="milestone-col-heading">
+                  Core Technical Milestones
+                </h4>
+                <ul className="path-milestones-list">
+                  {activePath.milestones.map((m, i) => (
+                    <li key={i} className="path-milestone-item">
+                      <span className="clean-dot-accent" aria-hidden="true" />
+                      <span>{m}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            <div className="path-courses-col">
-              <h4 className="milestone-col-heading">
-                Featured Core Courses in Track
-              </h4>
-              <div className="path-course-chips">
-                {activePath.keyCourses.map((c, i) => (
-                  <div key={i} className="path-course-chip">
-                    <span className="course-chip-dot" />
-                    <span>{c}</span>
-                  </div>
-                ))}
+              <div className="path-courses-col">
+                <h4 className="milestone-col-heading">
+                  Featured Core Courses in Track
+                </h4>
+                <div className="path-course-chips">
+                  {activePath.keyCourses.map((c, i) => (
+                    <div key={i} className="path-course-chip">
+                      <span className="course-chip-dot" />
+                      <span>{c}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

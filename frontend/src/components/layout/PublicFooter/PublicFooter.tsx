@@ -49,19 +49,25 @@ export default function PublicFooter({ onNavigate }: PublicFooterProps) {
             </div>
           </div>
           <div className="footer-col">
-            <h5 className="footer-heading">Programs</h5>
+            <h5 className="footer-heading">Catalog &amp; Tracks</h5>
             <ul className="footer-links">
               <li>
-                <Link to="/#courses">Software Engineering</Link>
+                <Link to="/courses?filter=software-engineering">Software Engineering</Link>
               </li>
               <li>
-                <Link to="/#courses">Applied Generative AI</Link>
+                <Link to="/courses?filter=ai-machine-learning">Applied Generative AI</Link>
               </li>
               <li>
-                <Link to="/#courses">Data Science & BigQuery</Link>
+                <Link to="/courses?filter=data-science">Data Science &amp; BigQuery</Link>
               </li>
               <li>
-                <Link to="/#courses">Cloud & DevOps</Link>
+                <Link to="/courses?filter=cloud-devops">Cloud &amp; DevOps</Link>
+              </li>
+              <li>
+                <Link to="/programs">Multi-Course Programs</Link>
+              </li>
+              <li>
+                <Link to="/career-paths">Career Path Roadmaps</Link>
               </li>
             </ul>
           </div>
@@ -72,13 +78,13 @@ export default function PublicFooter({ onNavigate }: PublicFooterProps) {
                 <Link to="/about">About Us</Link>
               </li>
               <li>
-                <Link to="/about">Faculty & Mentors</Link>
+                <Link to="/about#faculty">Faculty &amp; Mentors</Link>
               </li>
               <li>
                 <Link to="/#corporate">Corporate Training</Link>
               </li>
               <li>
-                <Link to="/contact">Campus Hubs</Link>
+                <Link to="/contact">Campus Hubs &amp; FAQ</Link>
               </li>
             </ul>
           </div>

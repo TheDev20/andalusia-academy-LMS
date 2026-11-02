@@ -94,12 +94,12 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
 
       <div className="form-content" key={page}>
         <div className="section-label">
-          <span /> YOUR NEXT CHAPTER STARTS HERE
+          <span /> YOUR ENGINEERING CHAPTER STARTS HERE
         </div>
         <h1>
           {isSignup ? (
             <>
-              Make room<br />for <em>possibility.</em>
+              Engineer your<br /><em>next breakthrough.</em>
             </>
           ) : (
             <>
@@ -109,8 +109,8 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
         </h1>
         <p className="intro">
           {isSignup
-            ? 'Join a community where learning becomes better care.'
-            : 'Continue your journey of learning, growth, and care.'}
+            ? 'Join an elite engineering community building production software, AI, and cloud systems.'
+            : 'Sign in to access your cohorts, technical labs, assignments, and progress.'}
         </p>
 
         <div className="tabs" aria-label="Account pages">
@@ -158,7 +158,7 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
           <Field
             name="email"
             label="Work or personal email"
-            placeholder="you@andalusiagroup.net"
+            placeholder="you@andalusia-academy.com"
             type="email"
             autoComplete="email"
             icon={Mail}
@@ -221,7 +221,7 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
           )}
 
           <button type="submit" className="submit-btn" disabled={loading}>
-            <span>{loading ? 'Processing...' : isSignup ? 'Begin your journey' : 'Sign in to portal'}</span>
+            <span>{loading ? 'Processing...' : isSignup ? 'Create learner account' : 'Sign in to portal'}</span>
             <ArrowRight size={18} />
           </button>
         </form>
@@ -237,9 +237,9 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
 
       <footer>
         <span>© {new Date().getFullYear()} Andalusia Academy</span>
-        <a href="https://andalusiaegypt.com/en" target="_blank" rel="noreferrer">
-          Visit Andalusia <ArrowUpRight size={13} />
-        </a>
+        <Link to="/about">
+          About the Academy <ArrowUpRight size={13} />
+        </Link>
       </footer>
     </section>
   );

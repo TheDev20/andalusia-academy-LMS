@@ -14,6 +14,12 @@ export default function CareerPathsPage() {
       eyebrow="Catalog"
       title="Career paths"
       subtitle="Pick the role you want; each path recommends the programs and courses that get you there."
+      actions={
+        <div className="portal-row">
+          <Link to="/courses" className="portal-btn portal-btn-secondary">Browse single courses</Link>
+          <Link to="/programs" className="portal-btn portal-btn-secondary">Browse programs</Link>
+        </div>
+      }
     >
       <ErrorAlert error={error} />
       {isLoading ? (

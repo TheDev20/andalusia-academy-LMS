@@ -36,7 +36,6 @@ body.auth-mode::-webkit-scrollbar {
 html:not(.auth-mode) {
   scrollbar-width: thin;
   scrollbar-color: #d8cfc2 #f7f4ee;
-  scroll-behavior: smooth;
 }
 
 html:not(.auth-mode)::-webkit-scrollbar {
@@ -98,15 +97,16 @@ input:focus-visible {
   width: 100%;
 }
 
+@media (max-width: 768px) {
+  .section-container,
+  .footer-container {
+    padding: 0 20px;
+  }
+}
 
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+@media (max-width: 480px) {
+  .section-container,
+  .footer-container {
+    padding: 0 16px;
   }
 }

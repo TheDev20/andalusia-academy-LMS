@@ -17,6 +17,7 @@ export interface FeaturedCoursesSectionProps {
   onClearSearch?: () => void;
   onSelectCourse?: (course: Course) => void;
   onNavigate?: NavigateFunction;
+  hideHeader?: boolean;
 }
 
 export default function FeaturedCoursesSection({
@@ -25,7 +26,7 @@ export default function FeaturedCoursesSection({
   onFilterChange,
   onClearSearch,
   onSelectCourse,
-  onNavigate,
+  hideHeader = false,
 }: FeaturedCoursesSectionProps) {
   const [internalFilter, setInternalFilter] = useState("all");
   const activeFilter =
@@ -38,12 +39,11 @@ export default function FeaturedCoursesSection({
     }
   };
 
-
   // Level 2: UI Keystroke Debounce (300ms delay per RFC Option B)
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   // Level 1: Client Query Cache (TanStack Query - 5 min staleTime per RFC Option B)
-  const { data: catalogData, isFetching } = useCatalogCourses({
+  const { data: catalogData } = useCatalogCourses({
     searchTerm: debouncedSearchQuery,
     pageNumber: 1,
     pageSize: 24,
@@ -101,9 +101,6 @@ export default function FeaturedCoursesSection({
     cyber: "cybersecurity",
   };
 
-  const normalizeSlug = (str: string) =>
-    str.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-
   const PRIORITY_ORDER: Record<string, number> = {
     "software-engineering": 1,
     "ai-and-machine-learning": 2,
@@ -117,7 +114,7 @@ export default function FeaturedCoursesSection({
   };
 
   const filterTabs = useMemo(() => {
-    const allTab = { id: "all", label: "All Programs", slug: "all" };
+    const allTab = { id: "all", label: "All Courses", slug: "all" };
     if (disciplines && disciplines.length > 0) {
       const sorted = [...disciplines].sort((a, b) => {
         const orderA = PRIORITY_ORDER[a.slug] ?? 99;
@@ -158,12 +155,15 @@ export default function FeaturedCoursesSection({
     }
   };
 
+  // Scroll only the horizontal filter pill bar — never call activeEl.scrollIntoView() which scrolls the page!
   useEffect(() => {
-    if (scrollContainerRef.current) {
-      const activeEl = scrollContainerRef.current.querySelector(".is-active") as HTMLElement | null;
-      if (activeEl) {
-        activeEl.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-      }
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const activeEl = container.querySelector(".is-active") as HTMLElement | null;
+    if (activeEl) {
+      const targetLeft =
+        activeEl.offsetLeft - container.clientWidth / 2 + activeEl.clientWidth / 2;
+      container.scrollTo({ left: Math.max(0, targetLeft), behavior: "smooth" });
     }
   }, [activeFilter, filterTabs]);
 
@@ -173,16 +173,13 @@ export default function FeaturedCoursesSection({
     const cat = courseCategory.toLowerCase();
     const filter = filterSlug.toLowerCase();
 
-    // Check direct equality
     if (cat === filter) return true;
 
-    // Direct slug representations
     const slugWithAnd = cat.replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
     const slugNoAnd = cat.replace(/&/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
     if (slugWithAnd === filter || slugNoAnd === filter) return true;
 
-    // Cleaned alphanumeric comparison (ignores hyphens, & and 'and')
     const cleanCat = cat.replace(/&/g, "").replace(/\band\b/g, "").replace(/[^a-z0-9]/g, "");
     const cleanFilter = filter.replace(/&/g, "").replace(/\band\b/g, "").replace(/[^a-z0-9]/g, "");
 
@@ -215,19 +212,22 @@ export default function FeaturedCoursesSection({
     <section
       id="courses"
       className="featured-courses-section scroll-section"
+      style={hideHeader ? { paddingTop: 28 } : undefined}
       aria-label="Featured Courses and Programs"
     >
       <div className="section-container">
         <div className="courses-header-center">
-          <SectionHeading
-            title={
-              <>
-                Featured & Trending <em>Programs</em>
-              </>
-            }
-            subtitle="Explore rigorous technical curricula taught by senior software architects, AI researchers, and data leaders."
-            align="center"
-          />
+          {!hideHeader && (
+            <SectionHeading
+              title={
+                <>
+                  Featured & Trending <em>Programs</em>
+                </>
+              }
+              subtitle="Explore rigorous technical curricula taught by senior software architects, AI researchers, and data leaders."
+              align="center"
+            />
+          )}
 
           {/* Styled Pill Filter Bar with Scroll Arrows */}
           <div className="course-filters-bar-container">
@@ -280,7 +280,6 @@ export default function FeaturedCoursesSection({
           </div>
         </div>
 
-
         {/* Clean, Uncrowded Courses Grid */}
         <div className="courses-grid">
           {displayCourses.length > 0 ? (
@@ -329,7 +328,6 @@ export default function FeaturedCoursesSection({
           )}
         </div>
       </div>
-
     </section>
   );
 }

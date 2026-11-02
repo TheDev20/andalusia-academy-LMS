@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Clock, GraduationCap, Monitor } from "lucide-react";
 import { ProgramSyllabusDetails } from "../../types";
 
@@ -10,7 +11,7 @@ interface EnrollmentCardProps {
 export function EnrollmentCard({
   syllabus,
   onEnroll,
-  enrollLabel = "Pay USD",
+  enrollLabel = "Enroll in Upcoming Cohort",
 }: EnrollmentCardProps) {
   return (
     <aside
@@ -20,7 +21,7 @@ export function EnrollmentCard({
     >
       <div className="enroll-header">
         <span className="enroll-tag">{syllabus.intake || "Nov 15, 2026"}</span>
-        <div className="enroll-date">Enrol now</div>
+        <div className="enroll-date">Enroll now</div>
       </div>
 
       <div className="enroll-divider" />
@@ -61,9 +62,9 @@ export function EnrollmentCard({
         {enrollLabel}
       </button>
 
-      <a href="#outcomes" className="advisor-link">
+      <Link to="/contact" className="advisor-link">
         Talk to an advisor first
-      </a>
+      </Link>
     </aside>
   );
 }

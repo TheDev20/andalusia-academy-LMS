@@ -68,8 +68,8 @@ export default function SyllabusPage() {
     (offering) => offering.seatsRemaining > 0,
   );
   const enrollLabel = courseOffering
-    ? `Pay ${formatMoney(courseOffering.price, courseOffering.currency)} ${courseOffering.currency}`
-    : "Pay USD";
+    ? `Enroll & Pay ${formatMoney(courseOffering.price, courseOffering.currency)}`
+    : "Enroll in Upcoming Cohort";
 
   const handleDownloadPdf = () => {
     if (!syllabus) return;
@@ -118,11 +118,11 @@ export default function SyllabusPage() {
     try {
       setEnrollError(null);
       // Only intakes that are published, not yet started and with seats left can be applied for.
-      const openOfferings = await admissionsApi.getOpenOfferings(slug);
-      const offering = openOfferings.find((o) => o.seatsRemaining > 0);
+      const offerings = await admissionsApi.getOpenOfferings(slug);
+      const offering = offerings.find((o) => o.seatsRemaining > 0);
       if (!offering) {
         setEnrollError(
-          openOfferings.length > 0
+          offerings.length > 0
             ? "All upcoming cohorts for this course are fully booked."
             : "There is no upcoming cohort open for applications yet.",
         );
@@ -136,7 +136,7 @@ export default function SyllabusPage() {
         // Already applied: resume the existing application instead of failing.
         const existing = (await admissionsApi.getMyApplications()).find(
           (a) =>
-            openOfferings.some((o) => o.id === a.offeringId) &&
+            offerings.some((o) => o.id === a.offeringId) &&
             (a.status === "Submitted" || a.status === "Accepted"),
         );
         if (existing?.status === "Submitted") {

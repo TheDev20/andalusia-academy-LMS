@@ -8,6 +8,7 @@ export interface Pillar {
 }
 export interface FacultyMember {
   name: string;
+  initials: string;
   role: string;
   creds: string;
   bio: string;
@@ -46,32 +47,35 @@ export const pillars: Pillar[] = [
 export const faculty: FacultyMember[] = [
   {
     name: "Eng. Kareem Hegazy",
+    initials: "KH",
     role: "Dean of Technology & Principal Systems Architect",
-    creds: "M.Sc. Computer Science, Ex-BigTech Principal Engineer",
+    creds: "M.Sc. Computer Science · Ex-BigTech Principal Engineer",
     bio: "Over 18 years leading distributed backend systems, enterprise .NET microservices, and high-concurrency cloud architectures.",
-    img: "/images/tech-lab.jpg",
+    img: "/images/SoftwareEngineering.jpg",
   },
   {
     name: "Dr. Mona El-Shinnawy",
+    initials: "MS",
     role: "Director of AI & Machine Learning Research",
     creds: "Ph.D. in Neural Networks & Computational Intelligence",
     bio: "Pioneer in applied Generative AI, transformer architectures, and autonomous agent systems across North Africa and the Gulf.",
-    img: "/images/tech-hero.jpg",
+    img: "/images/GenerativeAi.jpg",
   },
   {
     name: "Eng. Tarek Mansour",
+    initials: "TM",
     role: "Lead Cloud Architecture & DevOps Director",
-    creds:
-      "Certified Kubernetes Administrator (CKA), AWS Solutions Architect Pro",
+    creds: "Certified Kubernetes Administrator (CKA) · AWS Solutions Architect Pro",
     bio: "Guided enterprise cloud migrations and zero-downtime CI/CD automation across prominent regional financial institutions.",
-    img: "/images/tech-lab.jpg",
+    img: "/images/CloudComputing.jpg",
   },
   {
     name: "Eng. Sarah Abdelrahman",
+    initials: "SA",
     role: "Head of Big Data & Analytics Engineering",
     creds: "Google Cloud Certified Professional Data Engineer",
     bio: "Specialist in petabyte-scale data lakes, Apache Spark streaming, and automated modern data stack pipelines.",
-    img: "/images/tech-hero.jpg",
+    img: "/images/DataScience.jpg",
   },
 ];
 

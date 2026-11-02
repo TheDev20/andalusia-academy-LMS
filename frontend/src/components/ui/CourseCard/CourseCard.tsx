@@ -19,7 +19,7 @@ function getCourseCover(imageUrl?: string | null, category?: string | null): str
   return "/images/SoftwareEngineering.jpg";
 }
 
-export default function CourseCard({ course, onSelect }: CourseCardProps) {
+export default function CourseCard({ course }: CourseCardProps) {
   const {
     id,
     title,
@@ -66,8 +66,6 @@ export default function CourseCard({ course, onSelect }: CourseCardProps) {
         <h3 id={`course-title-${id}`} className="course-card-title">
           <Link
             to={`/courses/${course.id}/syllabus`}
-            target="_blank"
-            rel="noopener noreferrer"
             style={{ color: "inherit", textDecoration: "none" }}
           >
             {title}
@@ -94,8 +92,6 @@ export default function CourseCard({ course, onSelect }: CourseCardProps) {
           </div>
           <Link
             to={`/courses/${course.id}/syllabus`}
-            target="_blank"
-            rel="noopener noreferrer"
             className="course-action-btn"
           >
             <span>View Syllabus</span>

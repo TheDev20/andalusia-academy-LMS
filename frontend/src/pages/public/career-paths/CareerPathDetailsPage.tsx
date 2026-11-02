@@ -14,7 +14,7 @@ export default function CareerPathDetailsPage() {
 
   if (isLoading) {
     return (
-      <PortalPage title="Loading career path…" backTo="/career-paths" backLabel="All career paths">
+      <PortalPage title="Loading career path…" backTo="/courses?tab=career-paths" backLabel="Back to Career Paths">
         <LoadingState />
       </PortalPage>
     );
@@ -22,14 +22,14 @@ export default function CareerPathDetailsPage() {
 
   if (error || !path) {
     return (
-      <PortalPage title="Career path not found" backTo="/career-paths" backLabel="All career paths">
+      <PortalPage title="Career path not found" backTo="/courses?tab=career-paths" backLabel="Back to Career Paths">
         <ErrorAlert error={error ?? new Error("This career path does not exist.")} />
       </PortalPage>
     );
   }
 
   return (
-    <PortalPage eyebrow="Career path" title={path.title} subtitle={path.description} backTo="/career-paths" backLabel="All career paths">
+    <PortalPage eyebrow="Career path" title={path.title} subtitle={path.description} backTo="/courses?tab=career-paths" backLabel="Back to Career Paths">
       <h2 className="portal-section-title">Recommended programs</h2>
       {path.recommendedPrograms.length === 0 ? (
         <EmptyState title="No programs linked yet" />
@@ -61,8 +61,7 @@ export default function CareerPathDetailsPage() {
               <h3 className="portal-card-title">
                 <Link to={`/courses/${c.slug}/syllabus`} style={{ color: "inherit" }}>{c.title}</Link>
               </h3>
-              <p style={{ margin: "0 0 8px", color: "#43392f", fontSize: 14 }}>{c.description}</p>
-              {c.nextOfferingDate && <div className="portal-card-meta">Next intake {formatDate(c.nextOfferingDate)}</div>}
+              <p style={{ margin: 0, color: "#43392f", fontSize: 14 }}>{c.description}</p>
             </article>
           ))}
         </div>

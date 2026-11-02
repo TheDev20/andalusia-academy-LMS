@@ -8,11 +8,6 @@ public static class CatalogDbSeeder
 {
     public static async Task SeedCatalogAsync(ApplicationDbContext context)
     {
-        // if (await context.Courses.AnyAsync() && await context.Programs.AnyAsync())
-        // {
-        //     return; 
-        // }
-
         var categories = new Dictionary<string, Category>
         {
             ["Software Engineering"] = new()
@@ -48,7 +43,7 @@ public static class CatalogDbSeeder
                 Name = "Cybersecurity",
                 Slug = "cybersecurity",
                 Description = "Master penetration testing, Zero-Trust defense, and enterprise threat detection.",
-                Icon = "Shield"
+                Icon = "ShieldCheck"
             }
         };
 
@@ -65,9 +60,11 @@ public static class CatalogDbSeeder
             {
                 if (categories.TryGetValue(cat.Name, out var seedCat))
                 {
-                    if (string.IsNullOrWhiteSpace(cat.Description))
+                    if (string.IsNullOrWhiteSpace(cat.Description) || cat.Icon != seedCat.Icon)
                     {
-                        cat.Description = seedCat.Description;
+                        cat.Description = string.IsNullOrWhiteSpace(cat.Description)
+                            ? seedCat.Description
+                            : cat.Description;
                         cat.Icon = seedCat.Icon;
                         modified = true;
                     }
@@ -153,51 +150,9 @@ public static class CatalogDbSeeder
             )
         };
 
-        // foreach (var (key, title, slug, desc, catName, price, daysUntilStart) in coursesData)
-        // {
-        //     var existingCourse = await context.Courses.FirstOrDefaultAsync(c => c.Slug == slug);
-        //     if (existingCourse == null)
-        //     {
-        //         var course = new Course
-        //         {
-        //             Title = title,
-        //             Slug = slug,
-        //             Description = desc,
-        //             PublicationStatus = "Published"
-        //         };
-        //         await context.Courses.AddAsync(course);
-
-        //         var courseCategory = new CourseCategory
-        //         {
-        //             CourseId = course.Id,
-        //             CategoryId = categories[catName].Id,
-        //             Sequence = 1
-        //         };
-        //         await context.CourseCategories.AddAsync(courseCategory);
-
-        //         var offering = new Offering
-        //         {
-        //             Kind = "Course",
-        //             CourseId = course.Id,
-        //             StartsAt = now.AddDays(daysUntilStart),
-        //             EndsAt = now.AddDays(daysUntilStart + 120),
-        //             Price = price,
-        //             Currency = "USD",
-        //             Capacity = 30,
-        //             Status = "Published"
-        //         };
-        //         await context.Offerings.AddAsync(offering);
-        //         courseMap[key] = course;
-        //     }
-        //     else
-        //     {
-        //         courseMap[key] = existingCourse;
-        //     }
-        // }
-
         foreach (var (
-    key, title, slug, desc, catName, price, daysUntilStart, imageUrl
-) in coursesData)
+            key, title, slug, desc, catName, price, daysUntilStart, imageUrl
+        ) in coursesData)
         {
             var course = await context.Courses
                 .FirstOrDefaultAsync(c => c.Slug == slug);
@@ -259,13 +214,17 @@ public static class CatalogDbSeeder
 
                 context.Offerings.Add(offering);
             }
+            else if (offering.StartsAt <= now)
+            {
+                // Keep seeded demo intakes in the future so applications remain open.
+                offering.StartsAt = now.AddDays(daysUntilStart);
+                offering.EndsAt = now.AddDays(daysUntilStart + 120);
+            }
 
             offering.Price = price;
             offering.Currency = "USD";
             offering.Status = "Published";
         }
-
-        await context.SaveChangesAsync();
 
         await context.SaveChangesAsync();
 
@@ -375,6 +334,11 @@ public static class CatalogDbSeeder
                         o.ProgramId == existingProg.Id);
                 if (existingOffering != null)
                 {
+                    if (existingOffering.StartsAt <= now)
+                    {
+                        existingOffering.StartsAt = now.AddDays(daysUntilStart);
+                        existingOffering.EndsAt = now.AddDays(daysUntilStart + 180);
+                    }
                     existingOffering.Price = price;
                     existingOffering.Currency = "USD";
                     existingOffering.Status = "Published";

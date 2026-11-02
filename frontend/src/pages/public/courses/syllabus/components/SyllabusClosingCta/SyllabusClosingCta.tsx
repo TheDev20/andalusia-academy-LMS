@@ -13,7 +13,7 @@ interface SyllabusClosingCtaProps {
 export function SyllabusClosingCta({
   syllabus,
   onEnroll,
-  enrollLabel = "Pay USD",
+  enrollLabel = "Enroll in Upcoming Cohort",
   onDownload,
   downloadSuccess,
 }: SyllabusClosingCtaProps) {
@@ -22,7 +22,7 @@ export function SyllabusClosingCta({
       <div className="closing-cta-card">
         <div className="closing-cta-info">
           <h2 className="closing-cta-title">
-            Enrol now · {syllabus.intake || "Nov 15, 2026"}
+            Enroll now · {syllabus.intake || "Nov 15, 2026"}
           </h2>
           <p className="closing-cta-desc">
             {syllabus.format} · {syllabus.duration}. Secure your seat in this

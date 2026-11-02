@@ -15,7 +15,7 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
         <div className="section-container">
           <div className="about-hero-content">
             <Badge variant="bronze" dot>
-              OUR HERITAGE & MISSION
+              OUR HERITAGE &amp; MISSION
             </Badge>
             <h1 className="about-title">
               Rooted in Engineering, Dedicated to{" "}
@@ -39,13 +39,13 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
             <div className="a-stat">
               <span className="a-stat-num">18,500+</span>
               <span className="a-stat-label">
-                Graduated Developers & Tech Alumni
+                Graduated Developers &amp; Tech Alumni
               </span>
             </div>
             <div className="a-stat">
               <span className="a-stat-num">100%</span>
               <span className="a-stat-label">
-                Industry-Grounded Faculty & Leads
+                Industry-Grounded Faculty &amp; Leads
               </span>
             </div>
             <div className="a-stat">
@@ -121,9 +121,9 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
           <div className="facilities-layout">
             <div className="facilities-text">
               <Badge variant="bronze" dot>
-                INNOVATION & CODING STUDIOS
+                INNOVATION &amp; CODING STUDIOS
               </Badge>
-              <h2>State-of-the-Art Computing Labs & Offline Cohort Studios</h2>
+              <h2>State-of-the-Art Computing Labs &amp; Offline Cohort Studios</h2>
               <p>
                 Our physical campus tech hubs feature high-performance
                 workstations, GPU-accelerated AI training clusters,
@@ -142,14 +142,14 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
                 <div className="f-bullet">
                   <span className="clean-dot-accent" />
                   <span>
-                    On-premise GPU clusters for local LLM fine-tuning & model
+                    On-premise GPU clusters for local LLM fine-tuning &amp; model
                     training
                   </span>
                 </div>
                 <div className="f-bullet">
                   <span className="clean-dot-accent" />
                   <span>
-                    Offline evening & weekend cohorts led by dedicated senior
+                    Offline evening &amp; weekend cohorts led by dedicated senior
                     engineering mentors
                   </span>
                 </div>
@@ -179,12 +179,12 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
         </div>
       </section>
 
-      <section className="about-faculty-section">
+      <section id="faculty" className="about-faculty-section">
         <div className="section-container">
           <SectionHeading
             title={
               <>
-                Distinguished Engineering <em>Faculty & Mentors</em>
+                Distinguished Engineering <em>Faculty &amp; Mentors</em>
               </>
             }
             subtitle="Our instructors are practicing senior software architects, AI researchers, and tech leads passionate about accelerating the next generation."
@@ -194,6 +194,9 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
               <div key={idx} className="faculty-card">
                 <div className="faculty-img-wrap">
                   <img src={member.img} alt={member.name} loading="lazy" />
+                  <div className="faculty-avatar-monogram" aria-hidden="true">
+                    {member.initials}
+                  </div>
                   <div className="faculty-badge-role">{member.creds}</div>
                 </div>
                 <div className="faculty-info">

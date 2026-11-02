@@ -28,8 +28,8 @@ export default function ProgramDetailsPage() {
     return (
       <PortalPage
         title="Loading program…"
-        backTo="/programs"
-        backLabel="All programs"
+        backTo="/courses?tab=programs"
+        backLabel="Back to Multi-Course Programs"
       >
         <LoadingState />
       </PortalPage>
@@ -40,8 +40,8 @@ export default function ProgramDetailsPage() {
     return (
       <PortalPage
         title="Program not found"
-        backTo="/programs"
-        backLabel="All programs"
+        backTo="/courses?tab=programs"
+        backLabel="Back to Multi-Course Programs"
       >
         <ErrorAlert
           error={
@@ -63,8 +63,8 @@ export default function ProgramDetailsPage() {
       eyebrow={program.categories.join(" · ") || "Program"}
       title={program.title}
       subtitle={program.description}
-      backTo="/programs"
-      backLabel="All programs"
+      backTo="/courses?tab=programs"
+      backLabel="Back to Multi-Course Programs"
     >
       <ErrorAlert error={applyFlow.error} />
 
@@ -131,7 +131,7 @@ export default function ProgramDetailsPage() {
               >
                 {applyFlow.isApplying
                   ? "Preparing payment…"
-                  : `Pay ${formatMoney(o.price, o.currency)} ${o.currency}`}
+                  : `Enroll & Pay ${formatMoney(o.price, o.currency)}`}
               </button>
             </div>
           ))}

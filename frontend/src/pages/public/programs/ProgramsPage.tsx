@@ -5,7 +5,7 @@ import { Search } from "lucide-react";
 import { fetchCatalogPrograms } from "../../../services/catalogService";
 import { useDebounce } from "../../../hooks/useDebounce";
 import { EmptyState, ErrorAlert, LoadingState, PortalPage } from "../../../components/portal/Portal";
-import { formatDate } from "../../../utils/format";
+import { formatDate, formatMoney } from "../../../utils/format";
 
 const PAGE_SIZE = 9;
 
@@ -24,7 +24,12 @@ export default function ProgramsPage() {
       eyebrow="Catalog"
       title="Programs"
       subtitle="Multi-course programs that take you from fundamentals to job-ready, with a cohort and a schedule."
-      actions={<Link to="/courses" className="portal-btn portal-btn-secondary">Browse single courses</Link>}
+      actions={
+        <div className="portal-row">
+          <Link to="/courses" className="portal-btn portal-btn-secondary">Browse single courses</Link>
+          <Link to="/career-paths" className="portal-btn portal-btn-secondary">Explore career paths</Link>
+        </div>
+      }
     >
       <div className="portal-field" style={{ maxWidth: 420, marginBottom: 20 }}>
         <label className="portal-label" htmlFor="program-search">Search programs</label>
@@ -61,7 +66,7 @@ export default function ProgramsPage() {
                 <p style={{ margin: 0, color: "#43392f", fontSize: 14 }}>{p.description}</p>
                 <div className="portal-card-meta">
                   <span>{p.coursesCount} courses</span>
-                  {p.startingPrice != null && <span>Tuition from {p.startingPrice.toLocaleString()}</span>}
+                  {p.startingPrice != null && <span>Tuition from {formatMoney(p.startingPrice, "USD")}</span>}
                   {p.nextOfferingDate && <span>Next intake {formatDate(p.nextOfferingDate)}</span>}
                 </div>
                 <div style={{ marginTop: "auto" }}>
