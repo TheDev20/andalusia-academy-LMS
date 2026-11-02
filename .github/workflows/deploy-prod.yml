@@ -1,4 +1,4 @@
-﻿name: Deploy to Production (Azure App Service)
+name: Deploy to Production (Azure App Service)
 
 on:
   push:
@@ -26,16 +26,31 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Setup Node.js Runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Build React Frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
       - name: Restore Dependencies
         run: |
           if (Test-Path "AndalusiaAcademy.API\AndalusiaAcademy.API.csproj") {
             dotnet restore AndalusiaAcademy.API\AndalusiaAcademy.API.csproj
           }
 
-      - name: Build & Publish Release Package
+      - name: Build & Publish Release Package with Frontend Assets
         run: |
           if (Test-Path "AndalusiaAcademy.API\AndalusiaAcademy.API.csproj") {
             dotnet publish AndalusiaAcademy.API\AndalusiaAcademy.API.csproj -c Release -o ./publish
+            New-Item -ItemType Directory -Path "./publish/wwwroot" -Force | Out-Null
+            Copy-Item -Path "frontend/dist/*" -Destination "./publish/wwwroot" -Recurse -Force
           } else {
             New-Item -ItemType Directory -Path "./publish" -Force | Out-Null
             Set-Content -Path "./publish/hostingstart.html" -Value "<h1>Andalusia Academy LMS - Production Deployment Initialized</h1>"

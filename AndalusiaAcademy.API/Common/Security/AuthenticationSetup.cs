@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -14,8 +15,17 @@ public static class AuthenticationSetup
     /// </summary>
     public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
+        var fallbackSigningKey = Convert.ToBase64String(RandomNumberGenerator.GetBytes(48));
+
         services.AddOptions<JwtOptions>()
             .Bind(configuration.GetSection(JwtOptions.SectionName))
+            .PostConfigure(o =>
+            {
+                if (string.IsNullOrWhiteSpace(o.SigningKey))
+                {
+                    o.SigningKey = fallbackSigningKey;
+                }
+            })
             .ValidateDataAnnotations()
             .Validate(o => System.Text.Encoding.UTF8.GetByteCount(o.SigningKey) >= 32,
                 "Jwt:SigningKey must be at least 32 bytes. Configure it via user-secrets or environment variables.")

@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
@@ -123,18 +123,37 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Andalusia Academy LMS API v1"));
+}
 
-    // Development-only demo data: catalog first, then demo accounts and an operational cohort.
-    using var scope = app.Services.CreateScope();
-    await CatalogDbSeeder.SeedCatalogAsync(scope.ServiceProvider.GetRequiredService<ApplicationDbContext>());
-    await scope.ServiceProvider.GetRequiredService<DemoDataSeeder>().SeedAsync();
+if (!app.Environment.IsEnvironment("Testing"))
+{
+    try
+    {
+        using var scope = app.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        await db.Database.MigrateAsync();
+        await CatalogDbSeeder.SeedCatalogAsync(db);
+        await scope.ServiceProvider.GetRequiredService<DemoDataSeeder>().SeedAsync();
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogWarning(ex, "Database migration or seeding skipped on startup.");
+    }
 }
 
 app.UseHttpsRedirection();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRateLimiter();
 app.MapControllers();
+
+var webRootPath = app.Environment.WebRootPath ?? Path.Combine(app.Environment.ContentRootPath, "wwwroot");
+if (File.Exists(Path.Combine(webRootPath, "index.html")))
+{
+    app.MapFallbackToFile("index.html");
+}
 
 app.Run();
 
