@@ -9,7 +9,7 @@ export default function AccessDenied() {
     <div className="portal-page">
       <div className="portal-container">
         <div className="portal-empty" role="alert">
-          <ShieldAlert size={36} aria-hidden="true" />
+          <ShieldAlert size={32} aria-hidden="true" />
           <h1 className="portal-empty-title">You don't have access to this page</h1>
           <p>Your account role does not include this area of the academy.</p>
           <Link to={homePathFor(user)} className="portal-btn">

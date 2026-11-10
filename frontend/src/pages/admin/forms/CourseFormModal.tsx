@@ -256,7 +256,7 @@ export default function CourseFormModal({ course, onClose }: { course?: AdminCou
                     gap: "0.4rem",
                   }}
                 >
-                  <UploadCloud size={28} color={isDragging ? "#b5833e" : "#8a7a68"} />
+                  <UploadCloud size={32} color={isDragging ? "#b5833e" : "#8a7a68"} />
                   <div style={{ fontSize: "0.88rem", fontWeight: 500, color: "#3d342c" }}>
                     {uploading ? "Uploading image…" : "Click to browse or drag & drop image"}
                   </div>

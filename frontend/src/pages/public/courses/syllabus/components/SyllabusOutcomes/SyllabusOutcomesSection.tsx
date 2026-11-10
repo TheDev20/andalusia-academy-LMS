@@ -49,7 +49,7 @@ export function SyllabusOutcomesSection({
 
           {careerOutcomes?.averageSalaryRange && (
             <div className="outcomes-stat-box">
-              <TrendingUp size={18} className="salary-icon" aria-hidden="true" />
+              <TrendingUp size={20} className="salary-icon" aria-hidden="true" />
               <div>
                 <span className="outcomes-sublabel">Industry Salary Benchmark</span>
                 <div className="salary-val">{careerOutcomes.averageSalaryRange}</div>
@@ -60,7 +60,7 @@ export function SyllabusOutcomesSection({
           {careerOutcomes?.hiringPartners && careerOutcomes.hiringPartners.length > 0 && (
             <div className="partners-wrap">
               <div className="partners-label">
-                <Building2 size={15} aria-hidden="true" />
+                <Building2 size={16} aria-hidden="true" />
                 <span>Representative Hiring Partners:</span>
               </div>
               <p className="partners-text">
@@ -86,7 +86,7 @@ export function SyllabusOutcomesSection({
           <ul className="prereq-list">
             {prerequisites?.map((req: string, idx: number) => (
               <li key={idx} className="prereq-item">
-                <CheckCircle2 size={18} className="prereq-check" aria-hidden="true" />
+                <CheckCircle2 size={20} className="prereq-check" aria-hidden="true" />
                 <span>{req}</span>
               </li>
             ))}

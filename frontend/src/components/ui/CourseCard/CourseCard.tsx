@@ -51,7 +51,7 @@ export default function CourseCard({ course }: CourseCardProps) {
             aria-label={`Rated ${rating} out of 5 stars`}
           >
             <Star
-              size={13}
+              size={14}
               fill="#d4a359"
               stroke="#d4a359"
               aria-hidden="true"
@@ -76,11 +76,11 @@ export default function CourseCard({ course }: CourseCardProps) {
 
         <div className="course-card-specs">
           <div className="spec-item">
-            <Clock size={13} aria-hidden="true" />
+            <Clock size={14} aria-hidden="true" />
             <span>{duration}</span>
           </div>
           <div className="spec-item">
-            <Award size={13} aria-hidden="true" />
+            <Award size={14} aria-hidden="true" />
             <span>{level}</span>
           </div>
         </div>

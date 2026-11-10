@@ -35,7 +35,7 @@ export function SyllabusLabsSection({ syllabus }: SyllabusLabsSectionProps) {
         <div className="capstone-main-card">
           <div className="capstone-badge-row">
             <span className="capstone-tag">
-              <Award size={15} aria-hidden="true" /> Capstone Project
+              <Award size={16} aria-hidden="true" /> Capstone Project
             </span>
           </div>
 
@@ -47,7 +47,7 @@ export function SyllabusLabsSection({ syllabus }: SyllabusLabsSectionProps) {
             <ul className="deliverables-list">
               {capstone.deliverables.map((item: string, idx: number) => (
                 <li key={idx} className="deliverable-item">
-                  <CheckCircle size={17} className="deliverable-check" aria-hidden="true" />
+                  <CheckCircle size={16} className="deliverable-check" aria-hidden="true" />
                   <span>{item}</span>
                 </li>
               ))}

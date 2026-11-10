@@ -77,7 +77,7 @@ function AssignmentCard({ courseOfferingId, assignment }: { courseOfferingId: st
           marginBottom: 16
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 200 }}>
-            <FileText size={22} color="#8a532b" />
+            <FileText size={24} color="#8a532b" />
             <div>
               <div style={{ fontWeight: 600, fontSize: 14, color: "#2b2118", wordBreak: "break-all" }}>{attachment.name}</div>
               <div style={{ fontSize: 12, color: "#877464" }}>Assignment questions / attachment</div>

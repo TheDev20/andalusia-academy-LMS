@@ -40,7 +40,7 @@ export default function ScheduleTab({ sessions, timeZoneId }: { sessions: Learne
                     {s.location.address && <div style={{ fontSize: 12, color: "#6f6456" }}>{s.location.address}</div>}
                     {s.location.meetingUrl && (
                       <a href={s.location.meetingUrl} target="_blank" rel="noreferrer" style={{ display: "inline-flex", gap: 4, alignItems: "center", fontSize: 13 }}>
-                        <Video size={13} aria-hidden="true" /> Join online
+                        <Video size={14} aria-hidden="true" /> Join online
                       </a>
                     )}
                   </div>

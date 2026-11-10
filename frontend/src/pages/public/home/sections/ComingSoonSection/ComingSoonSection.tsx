@@ -98,7 +98,7 @@ export default function ComingSoonSection() {
                   {prog.badge}
                 </Badge>
                 <div className="launch-tag">
-                  <Calendar size={13} aria-hidden="true" />
+                  <Calendar size={14} aria-hidden="true" />
                   <span>{prog.launchDate}</span>
                 </div>
               </div>

@@ -93,7 +93,7 @@ export default function TestimonialsSection() {
               {[...Array(rating)].map((_, i) => (
                 <Star
                   key={i}
-                  size={15}
+                  size={16}
                   fill="#d4a359"
                   stroke="#d4a359"
                   aria-hidden="true"
@@ -138,7 +138,7 @@ export default function TestimonialsSection() {
                 onClick={handlePrev}
                 aria-label="Previous testimonial"
               >
-                <ChevronLeft size={18} />
+                <ChevronLeft size={20} />
               </button>
               <button
                 type="button"
@@ -146,7 +146,7 @@ export default function TestimonialsSection() {
                 onClick={handleNext}
                 aria-label="Next testimonial"
               >
-                <ChevronRight size={18} />
+                <ChevronRight size={20} />
               </button>
             </div>
           </div>

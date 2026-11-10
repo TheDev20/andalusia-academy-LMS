@@ -59,7 +59,7 @@ export default function PartnersTrustSection() {
             return (
               <div key={pIdx} className="partner-card">
                 <div className="partner-icon-frame">
-                  <Icon size={26} aria-hidden="true" />
+                  <Icon size={24} aria-hidden="true" />
                 </div>
                 <div className="partner-info">
                   <h3 className="partner-name">{partner.name}</h3>

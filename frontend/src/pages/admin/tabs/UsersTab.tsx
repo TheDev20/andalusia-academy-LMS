@@ -49,7 +49,7 @@ export default function UsersTab({ role }: { role: "Learner" | "Instructor" }) {
         />
         {role === "Instructor" && (
           <button type="button" className="portal-btn" onClick={() => setCreating(true)}>
-            <UserPlus size={15} aria-hidden="true" /> New instructor
+            <UserPlus size={16} aria-hidden="true" /> New instructor
           </button>
         )}
       </div>

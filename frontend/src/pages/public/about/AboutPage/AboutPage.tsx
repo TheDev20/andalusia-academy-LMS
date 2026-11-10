@@ -63,7 +63,7 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
           <div className="mission-vision-grid">
             <div className="mission-card">
               <div className="mv-icon-frame">
-                <Target size={28} aria-hidden="true" />
+                <Target size={32} aria-hidden="true" />
               </div>
               <h2>Our Engineering Mission</h2>
               <p>
@@ -75,7 +75,7 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
             </div>
             <div className="vision-card">
               <div className="mv-icon-frame">
-                <Sparkles size={28} aria-hidden="true" />
+                <Sparkles size={32} aria-hidden="true" />
               </div>
               <h2>Our Vision for Tech Education</h2>
               <p>

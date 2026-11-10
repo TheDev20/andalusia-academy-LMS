@@ -367,7 +367,7 @@ export default function ContactPage() {
                   >
                     <span>{faq.q}</span>
                     <ChevronDown
-                      size={18}
+                      size={20}
                       className="faq-chevron"
                       aria-hidden="true"
                     />

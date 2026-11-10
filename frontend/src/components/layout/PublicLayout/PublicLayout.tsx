@@ -58,7 +58,7 @@ export default function PublicLayout({
               Engineering, AI &amp; Data Science Cohorts. Priority Seat Reservations Available.
             </span>
             <Link to="/courses" className="announcement-link">
-              Explore Tech Programs <ArrowRight size={12} aria-hidden="true" />
+              Explore Tech Programs <ArrowRight size={14} aria-hidden="true" />
             </Link>
           </div>
         </div>

@@ -29,7 +29,7 @@ export function EnrollmentCard({
       <div className="enroll-details-list">
         <div className="enroll-detail-row">
           <span className="enroll-icon-box">
-            <Clock size={19} aria-hidden="true" />
+            <Clock size={20} aria-hidden="true" />
           </span>
           <div>
             <div className="detail-label">Duration</div>
@@ -39,7 +39,7 @@ export function EnrollmentCard({
 
         <div className="enroll-detail-row">
           <span className="enroll-icon-box">
-            <GraduationCap size={19} aria-hidden="true" />
+            <GraduationCap size={20} aria-hidden="true" />
           </span>
           <div>
             <div className="detail-label">Level</div>
@@ -49,7 +49,7 @@ export function EnrollmentCard({
 
         <div className="enroll-detail-row">
           <span className="enroll-icon-box">
-            <Monitor size={19} aria-hidden="true" />
+            <Monitor size={20} aria-hidden="true" />
           </span>
           <div>
             <div className="detail-label">Format</div>

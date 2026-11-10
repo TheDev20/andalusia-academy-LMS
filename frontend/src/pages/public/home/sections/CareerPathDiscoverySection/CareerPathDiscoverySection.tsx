@@ -228,7 +228,7 @@ export default function CareerPathDiscoverySection({
                   className="btn-explore-track"
                 >
                   <span>View Full Roadmap</span>
-                  <ArrowRight size={15} aria-hidden="true" />
+                  <ArrowRight size={16} aria-hidden="true" />
                 </Link>
                 {onExploreTrack && (
                   <button
@@ -236,7 +236,7 @@ export default function CareerPathDiscoverySection({
                     className="btn-explore-track-secondary"
                     onClick={() => onExploreTrack(activePath.filterTab)}
                   >
-                    <Compass size={15} aria-hidden="true" />
+                    <Compass size={16} aria-hidden="true" />
                     <span>Filter Courses</span>
                   </button>
                 )}

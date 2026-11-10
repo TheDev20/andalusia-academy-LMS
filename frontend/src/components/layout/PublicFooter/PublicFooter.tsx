@@ -37,13 +37,13 @@ export default function PublicFooter({ onNavigate }: PublicFooterProps) {
             </p>
             <div className="footer-contact-items">
               <div className="contact-line">
-                <Phone size={13} aria-hidden="true" />
+                <Phone size={14} aria-hidden="true" />
                 <span>
                   Admissions: <strong>16781</strong>
                 </span>
               </div>
               <div className="contact-line">
-                <Mail size={13} aria-hidden="true" />
+                <Mail size={14} aria-hidden="true" />
                 <span>admissions@andalusia-academy.com</span>
               </div>
             </div>

@@ -39,7 +39,7 @@ export default function CoursesTab() {
           }}
         />
         <button type="button" className="portal-btn" onClick={() => setEditing("new")}>
-          <Plus size={15} aria-hidden="true" /> New course
+          <Plus size={16} aria-hidden="true" /> New course
         </button>
       </div>
 

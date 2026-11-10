@@ -218,7 +218,7 @@ export default function CoursesPage() {
                 transition: "all 0.18s ease",
               }}
             >
-              <BookOpen size={15} aria-hidden="true" />
+              <BookOpen size={16} aria-hidden="true" />
               <span>Single Courses</span>
             </button>
 
@@ -246,7 +246,7 @@ export default function CoursesPage() {
                 transition: "all 0.18s ease",
               }}
             >
-              <Layers size={15} aria-hidden="true" />
+              <Layers size={16} aria-hidden="true" />
               <span>Multi-Course Programs</span>
             </button>
 
@@ -275,7 +275,7 @@ export default function CoursesPage() {
                 transition: "all 0.18s ease",
               }}
             >
-              <Compass size={15} aria-hidden="true" />
+              <Compass size={16} aria-hidden="true" />
               <span>Career Paths</span>
             </button>
           </div>
@@ -500,7 +500,7 @@ export default function CoursesPage() {
                         }}
                       >
                         <span>Explore Program &amp; Curriculum</span>
-                        <ArrowUpRight size={15} aria-hidden="true" />
+                        <ArrowUpRight size={16} aria-hidden="true" />
                       </Link>
                     </div>
                   </article>
@@ -578,7 +578,7 @@ export default function CoursesPage() {
                           borderRadius: 999,
                         }}
                       >
-                        <Sparkles size={12} aria-hidden="true" />
+                        <Sparkles size={14} aria-hidden="true" />
                         Career Roadmap
                       </span>
                       <span
@@ -669,7 +669,7 @@ export default function CoursesPage() {
                       >
                         <GraduationCap size={16} aria-hidden="true" />
                         <span>View Full Career Roadmap</span>
-                        <ArrowUpRight size={15} aria-hidden="true" />
+                        <ArrowUpRight size={16} aria-hidden="true" />
                       </Link>
                     </div>
                   </article>
