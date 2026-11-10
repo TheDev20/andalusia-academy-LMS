@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Phone, Send, Sparkles, ChevronDown, Building } from "lucide-react";
-import Badge from "../../../../components/common/Badge";
 import SectionHeading from "../../../../components/ui/SectionHeading";
 import "./ContactPage.css";
 
@@ -54,9 +53,6 @@ export default function ContactPage() {
       <section className="contact-hero-section">
         <div className="section-container">
           <div className="contact-hero-content">
-            <Badge variant="bronze" dot>
-              CONNECT WITH OUR ADMISSIONS ADVISORS
-            </Badge>
             <h1 className="contact-title">
               We Are Here to Guide Your <em>Engineering Journey.</em>
             </h1>

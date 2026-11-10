@@ -103,11 +103,14 @@ export default function ComingSoonSection() {
                 </div>
               </div>
 
-              <span className="prog-track-label">{prog.track}</span>
               <h3 className="prog-title">{prog.title}</h3>
               <p className="prog-highlight">{prog.highlight}</p>
 
               <div className="prog-details-meta">
+                <div className="prog-target">
+                  <span className="meta-label">Track:</span>
+                  <span className="meta-val">{prog.track}</span>
+                </div>
                 <div className="prog-target">
                   <span className="meta-label">Ideal For:</span>
                   <span className="meta-val">{prog.targetAudience}</span>

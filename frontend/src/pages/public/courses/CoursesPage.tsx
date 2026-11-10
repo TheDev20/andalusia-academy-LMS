@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import FeaturedCoursesSection from "../home/sections/FeaturedCoursesSection";
 import SectionHeading from "../../../components/ui/SectionHeading";
-import Badge from "../../../components/common/Badge";
 import { fetchCatalogPrograms, fetchCareerPaths } from "../../../services/catalogService";
 import { useDebounce } from "../../../hooks/useDebounce";
 import { ErrorAlert, LoadingState } from "../../../components/portal/Portal";
@@ -133,9 +132,6 @@ export default function CoursesPage() {
         style={{ paddingTop: "clamp(44px, 6vh, 68px)" }}
       >
         <div style={{ textAlign: "center", marginBottom: 28 }}>
-          <Badge variant="bronze" dot>
-            ACADEMIC CATALOG &amp; LEARNING TRACKS
-          </Badge>
           <div style={{ marginTop: 12 }}>
             <SectionHeading
               as="h1"

@@ -55,24 +55,7 @@
   height: 8px;
   border-radius: 50%;
   background: #2e9e4f;
-  box-shadow: 0 0 0 0 rgba(46, 158, 79, 0.7);
-  animation: pulseLiveDot 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
   flex-shrink: 0;
-}
-
-@keyframes pulseLiveDot {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(46, 158, 79, 0.7);
-  }
-  70% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 8px rgba(46, 158, 79, 0);
-  }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(46, 158, 79, 0);
-  }
 }
 
 .countdown-label {
@@ -127,7 +110,7 @@
 
 .hero-title em {
   color: var(--color-brand-primary, #8b6648);
-  font-style: italic;
+  font-style: normal;
   text-decoration: underline;
   text-decoration-color: rgba(140, 100, 59, 0.28);
   text-underline-offset: 6px;
@@ -309,8 +292,7 @@
   .hero-title,
   .hero-subtitle,
   .hero-actions,
-  .hero-search-bar,
-  .live-pulsing-dot {
+  .hero-search-bar {
     animation: none;
     transform: none;
   }

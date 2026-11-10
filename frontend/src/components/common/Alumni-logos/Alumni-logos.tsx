@@ -33,23 +33,17 @@ export default function Alumni() {
     <div className="alumni">
       <span className="alumni-title">WHERE OUR ALUMNI ENGINEER THE FUTURE</span>
 
-      <div className="alumni-marquee" aria-label="Alumni employment partners">
-        <div className="alumni-track">
-          {[...companies, ...companies].map((company, index) => (
-            <div
-              key={`${company.name}-${index}`}
-              className="alumni-logo-item"
-              aria-hidden={index >= companies.length}
-            >
-              <img
-                src={company.logo}
-                alt={index >= companies.length ? "" : company.name}
-                className={`alumni-logo ${company.className}`}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
+      <ul className="alumni-track" aria-label="Alumni employment partners">
+        {companies.map((company) => (
+          <li key={company.name} className="alumni-logo-item">
+            <img
+              src={company.logo}
+              alt={company.name}
+              className={`alumni-logo ${company.className}`}
+            />
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

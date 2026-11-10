@@ -183,10 +183,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #f7f4ee;
-  border: 1px solid #ded6c8;
-  padding: 12px 16px;
-  border-radius: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ded6c8;
   font-size: 14px;
   font-weight: 600;
   color: #2e2419;

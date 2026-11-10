@@ -21,10 +21,10 @@
 }
 .about-title em {
   color: #92724e;
-  font-style: italic;
+  font-style: normal;
 }
 .about-subtitle {
-  max-width: 68ch;
+  max-width: 58ch;
   margin-inline: auto;
   font-size: clamp(14px, 1.4vw, 16px);
   line-height: 1.65;
@@ -74,17 +74,10 @@
   padding: clamp(28px, 4vw, 44px);
   box-shadow: 0 8px 28px rgba(67, 57, 47, 0.04);
 }
-.mv-icon-frame {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: rgba(174, 138, 88, 0.12);
-  color: #75552d;
-  display: grid;
-  place-items: center;
-  margin-bottom: 18px;
-}
 .mission-card h2, .vision-card h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-family: 'Libre Caslon Display', Georgia, serif;
   font-size: 24px;
   color: #352b21;
@@ -114,17 +107,10 @@
   padding: 26px;
   box-shadow: 0 6px 20px rgba(67, 57, 47, 0.04);
 }
-.p-icon-wrap {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(174, 138, 88, 0.12);
-  color: #75552d;
-  display: grid;
-  place-items: center;
-  margin-bottom: 14px;
-}
 .pillar-item-card h3 {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
   font-family: 'Libre Caslon Display', Georgia, serif;
   font-size: 18px;
   color: #352b21;
@@ -239,7 +225,7 @@
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #d4a359, #8b6648);
+  background: #77553b;
   color: #ffffff;
   font-family: 'Libre Caslon Display', Georgia, serif;
   font-size: 16px;
@@ -365,4 +351,11 @@
   .about-hero-stats {
     grid-template-columns: 1fr;
   }
+}
+.mission-card h2 svg, .vision-card h2 svg, .pillar-item-card h3 svg {
+  flex: none;
+  color: #75552d;
+}
+.pillar-item-card h3 svg {
+  margin-top: 2px;
 }

@@ -33,7 +33,7 @@
 
 .section-header-title em {
   color: var(--color-brand-primary, #8b6648);
-  font-style: italic;
+  font-style: normal;
 }
 
 .section-subtitle {

@@ -35,14 +35,6 @@
   padding: 5px 12px;
   border-radius: 999px;
 }
-.prog-track-label {
-  font-size: 13px;
-  font-weight: 700;
-  color: #7a5a35;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 10px;
-}
 .prog-title {
   font-family: 'Libre Caslon Display', Georgia, serif;
   font-size: 24px;

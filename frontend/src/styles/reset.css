@@ -121,3 +121,11 @@ input:focus-visible {
 p {
   text-wrap: pretty;
 }
+
+/* Keep wrapped headings evenly balanced instead of leaving one short line. */
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
