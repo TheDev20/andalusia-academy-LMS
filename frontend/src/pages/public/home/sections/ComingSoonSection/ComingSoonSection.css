@@ -1,7 +1,7 @@
 /* 5. Coming Soon Section */
 .coming-soon-section {
   padding: clamp(72px, 10vh, 110px) 0;
-  background: #f7f4ee;
+  background: #f6f5f2;
   border-bottom: 1px solid rgba(224, 216, 204, 0.6);
 }
 .coming-soon-grid {
@@ -109,7 +109,7 @@
   font-family: 'Libre Caslon Display', Georgia, serif;
   font-size: 22px;
   margin: 0;
-  color: #f7f4ee;
+  color: #f6f5f2;
   font-weight: 400;
 }
 .drawer-desc {

@@ -1,7 +1,7 @@
 /* 7. Partners & Trust Section */
 .partners-section {
   padding: clamp(64px, 8vh, 96px) 0;
-  background: #f7f4ee;
+  background: #f6f5f2;
   border-bottom: 1px solid rgba(224, 216, 204, 0.6);
 }
 .partners-intro {

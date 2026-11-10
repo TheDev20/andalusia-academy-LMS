@@ -76,7 +76,7 @@
 }
 
 .time-val {
-  background: var(--color-brand-bg, #f7f4ee);
+  background: var(--color-brand-bg, #f6f5f2);
   padding: 2px 5px;
   border-radius: 4px;
   color: var(--color-brand-heading, #271e16);

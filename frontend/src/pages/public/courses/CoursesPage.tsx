@@ -109,7 +109,7 @@ export default function CoursesPage() {
           animation: catalogTabFadeIn 0.22s ease-out;
         }
         .catalog-rich-card {
-          background: #f7f4ee;
+          background: #f6f5f2;
           border: 1px solid #ded6c8;
           border-radius: 20px;
           padding: 28px;
@@ -171,7 +171,7 @@ export default function CoursesPage() {
             justifyContent: "space-between",
             gap: 16,
             padding: "14px 18px",
-            background: "#f7f4ee",
+            background: "#f6f5f2",
             borderRadius: 20,
             border: "1px solid #ded6c8",
             boxShadow: "0 6px 22px rgba(39, 30, 22, 0.04)",
@@ -352,7 +352,7 @@ export default function CoursesPage() {
             ) : !programsData || programsData.items.length === 0 ? (
               <div
                 style={{
-                  background: "#f7f4ee",
+                  background: "#f6f5f2",
                   border: "1px solid #ded6c8",
                   borderRadius: 20,
                   padding: "48px 24px",
@@ -489,7 +489,7 @@ export default function CoursesPage() {
                           padding: "12px 18px",
                           borderRadius: 12,
                           background: "#271e16",
-                          color: "#f7f4ee",
+                          color: "#f6f5f2",
                           fontSize: 14,
                           fontWeight: 600,
                           textDecoration: "none",
@@ -518,7 +518,7 @@ export default function CoursesPage() {
             ) : filteredCareerPaths.length === 0 ? (
               <div
                 style={{
-                  background: "#f7f4ee",
+                  background: "#f6f5f2",
                   border: "1px solid #ded6c8",
                   borderRadius: 20,
                   padding: "48px 24px",

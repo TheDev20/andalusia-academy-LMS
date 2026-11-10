@@ -1,5 +1,5 @@
 /* Shared styling for authenticated portal pages (learner, instructor, admin), matching the learner dashboard. */
-.portal-page { min-height: 80vh; background: #f7f4ee; padding: 48px 24px 80px; }
+.portal-page { min-height: 80vh; background: #f6f5f2; padding: 48px 24px 80px; }
 .portal-container { max-width: 1160px; margin: 0 auto; }
 .portal-header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
 .portal-eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8b6648; margin-bottom: 6px; }
@@ -27,7 +27,7 @@
 .portal-btn:hover { background: #77553b; }
 .portal-btn:disabled { opacity: 0.55; cursor: not-allowed; }
 .portal-btn-secondary { background: #fff; color: #43392f; border-color: #ded6c8; }
-.portal-btn-secondary:hover { background: #f7f4ee; }
+.portal-btn-secondary:hover { background: #f6f5f2; }
 .portal-btn-danger { background: #fff; color: #a33a2a; border-color: #e5bcb3; }
 .portal-btn-danger:hover { background: #fbeeea; }
 .portal-btn-sm { padding: 6px 11px; font-size: 13px; border-radius: 8px; }

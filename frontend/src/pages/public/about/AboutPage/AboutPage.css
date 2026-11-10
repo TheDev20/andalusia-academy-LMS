@@ -59,7 +59,7 @@
 }
 .about-mission-section {
   padding: clamp(60px, 8vh, 88px) 0;
-  background: #f7f4ee;
+  background: #f6f5f2;
   border-bottom: 1px solid rgba(224, 216, 204, 0.6);
 }
 .mission-vision-grid {
@@ -125,7 +125,7 @@
 }
 .about-facilities-section {
   padding: clamp(60px, 8vh, 88px) 0;
-  background: #f7f4ee;
+  background: #f6f5f2;
   border-bottom: 1px solid rgba(224, 216, 204, 0.6);
 }
 .facilities-layout {
@@ -241,7 +241,7 @@
   left: 10px;
   right: 10px;
   background: rgba(31, 25, 20, 0.86);
-  color: #f7f4ee;
+  color: #f6f5f2;
   font-size: 12px;
   padding: 4px 9px;
   border-radius: 6px;
@@ -272,7 +272,7 @@
 }
 .about-timeline-section {
   padding: clamp(60px, 8vh, 88px) 0;
-  background: #f7f4ee;
+  background: #f6f5f2;
 }
 .timeline-strip {
   display: grid;
@@ -308,7 +308,7 @@
   height: 14px;
   border-radius: 50%;
   background: #8b6648;
-  border: 3px solid #f7f4ee;
+  border: 3px solid #f6f5f2;
   margin: 0 auto 16px;
   display: block;
 }

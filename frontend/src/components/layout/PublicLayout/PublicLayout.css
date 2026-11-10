@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--color-brand-bg, #f7f4ee);
+  background: var(--color-brand-bg, #f6f5f2);
   color: var(--color-brand-dark, #43392f);
 }
 

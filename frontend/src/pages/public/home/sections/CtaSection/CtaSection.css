@@ -1,11 +1,11 @@
 .cta-banner-section {
   padding: clamp(72px, 10vh, 110px) 0;
-  background: #f7f4ee;
+  background: #f6f5f2;
 }
 .cta-card {
   position: relative;
   background: #251e18;
-  color: #f7f4ee;
+  color: #f6f5f2;
   border-radius: 30px;
   padding: clamp(44px, 7vw, 76px) clamp(28px, 6vw, 68px);
   text-align: center;

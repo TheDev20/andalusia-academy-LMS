@@ -12,7 +12,7 @@ body {
   padding: 0;
   width: 100%;
   min-height: 100%;
-  background: #f7f4ee;
+  background: #f6f5f2;
   color: #43392f;
   -webkit-font-smoothing: antialiased;
 }
@@ -35,14 +35,14 @@ body.auth-mode::-webkit-scrollbar {
 /* Elegant subtle scrollbar for public academy site */
 html:not(.auth-mode) {
   scrollbar-width: thin;
-  scrollbar-color: #d8cfc2 #f7f4ee;
+  scrollbar-color: #d8cfc2 #f6f5f2;
 }
 
 html:not(.auth-mode)::-webkit-scrollbar {
   width: 8px;
 }
 html:not(.auth-mode)::-webkit-scrollbar-track {
-  background: #f7f4ee;
+  background: #f6f5f2;
 }
 html:not(.auth-mode)::-webkit-scrollbar-thumb {
   background: #d8cfc2;

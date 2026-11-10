@@ -80,7 +80,7 @@
   transition: color 0.2s;
 }
 .footer-links a:hover {
-  color: #f7f4ee;
+  color: #f6f5f2;
 }
 .footer-bottom-bar {
   display: flex;
@@ -103,6 +103,6 @@
   transition: color 0.2s;
 }
 .footer-legal-links a:hover {
-  color: #f7f4ee;
+  color: #f6f5f2;
 }
 

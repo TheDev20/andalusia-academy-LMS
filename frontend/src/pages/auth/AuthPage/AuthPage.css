@@ -7,7 +7,7 @@
   grid-template-columns: minmax(360px, 42%) 1fr;
   padding: clamp(10px, 1.6vh, 20px);
   gap: clamp(10px, 1.4vw, 20px);
-  background: #f7f4ee;
+  background: #f6f5f2;
   box-sizing: border-box;
   overflow: hidden;
 }
