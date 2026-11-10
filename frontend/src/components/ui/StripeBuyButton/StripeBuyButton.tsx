@@ -1,5 +1,9 @@
-const STRIPE_BUY_BUTTON_ID = "buy_btn_1UWOY1DOaPJthnPU6l8sbL2T";
+// Publishable identifiers (safe to ship to browsers). Override per environment with
+// VITE_STRIPE_BUY_BUTTON_ID / VITE_STRIPE_PUBLISHABLE_KEY; the defaults target the Stripe sandbox.
+const STRIPE_BUY_BUTTON_ID =
+  import.meta.env.VITE_STRIPE_BUY_BUTTON_ID || "buy_btn_1UWOY1DOaPJthnPU6l8sbL2T";
 const STRIPE_PUBLISHABLE_KEY =
+  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY ||
   "pk_test_51UWAEHDOaPJthnPUJ3YTvVw8NCLBsXCV3rj69wEiLavtkD6Lt4kmbCkPj54mIuW74vwFr6raE3o95xNe26KsASRg00YUb3cray";
 
 interface StripeBuyButtonProps {
