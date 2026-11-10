@@ -452,7 +452,7 @@ export default function HeroSection({
                     <code>
                       {currentFile.lines.map((line: CodeLine, idx: number) => (
                         <div key={idx} className="code-line-row">
-                          <span className="line-num">{line.num}</span>
+                          <span className="line-num" aria-hidden="true">{line.num}</span>
                           <span className="line-code">
                             {line.tokens.map((tok: CodeToken, tIdx: number) => (
                               <span key={tIdx} className={`tok-${tok.t}`}>

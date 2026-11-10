@@ -110,3 +110,9 @@ input:focus-visible {
     padding: 0 16px;
   }
 }
+
+/* Placeholder text must still meet 4.5:1 against white and cream inputs. */
+::placeholder {
+  color: #767069;
+  opacity: 1;
+}

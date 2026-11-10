@@ -21,7 +21,7 @@
   text-align: right;
 }
 
-.section-header h2 {
+.section-header-title {
   font-family: var(--font-display, "Libre Caslon Display", Georgia, serif);
   font-size: clamp(34px, 4.4vw, 52px);
   line-height: 1.15;
@@ -31,7 +31,7 @@
   font-weight: 400;
 }
 
-.section-header h2 em {
+.section-header-title em {
   color: var(--color-brand-primary, #8b6648);
   font-style: italic;
 }

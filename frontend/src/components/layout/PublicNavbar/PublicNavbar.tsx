@@ -358,7 +358,7 @@ export default function PublicNavbar({
                       <div style={{ fontSize: 14, fontWeight: 700, color: "#271e16" }}>
                         {user.fullName}
                       </div>
-                      <div style={{ fontSize: 12, color: "#7a6e60" }}>
+                      <div style={{ fontSize: 12, color: "#6f6456" }}>
                         {workspaceMeta.badge}
                       </div>
                     </div>

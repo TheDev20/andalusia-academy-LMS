@@ -75,7 +75,7 @@ export default function ContactPage() {
             {/* Left: Contact Form */}
             <div className="contact-form-card">
               <div className="form-card-header">
-                <h3>Submit an Academic Inquiry</h3>
+                <h2>Submit an Academic Inquiry</h2>
                 <p>
                   Fill out the form below and an admissions advisor will contact
                   you within 24 business hours.
@@ -89,7 +89,7 @@ export default function ContactPage() {
                     className="success-icon"
                     aria-hidden="true"
                   />
-                  <h4>Inquiry Successfully Received!</h4>
+                  <h3>Inquiry Successfully Received!</h3>
                   <p>
                     Thank you, <strong>{formData.name}</strong>. An admissions
                     coordinator will review your request for{" "}
@@ -253,14 +253,14 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <h4 className="hubs-heading">Academy Campuses & Tech Studios</h4>
+              <h2 className="hubs-heading">Academy Campuses & Tech Studios</h2>
               <div className="campus-cards-list">
                 <div className="campus-item">
                   <div className="campus-icon">
                     <Building size={20} aria-hidden="true" />
                   </div>
                   <div>
-                    <h5>Cairo Tech Hub & Computing Studios</h5>
+                    <h3>Cairo Tech Hub & Computing Studios</h3>
                     <p className="campus-address">
                       Andalusia Tech Hub, Ring Road (Near Carrefour Maadi),
                       Cairo, Egypt
@@ -278,7 +278,7 @@ export default function ContactPage() {
                     <Building size={20} aria-hidden="true" />
                   </div>
                   <div>
-                    <h5>Alexandria Software Innovation Center</h5>
+                    <h3>Alexandria Software Innovation Center</h3>
                     <p className="campus-address">
                       Andalusia Center Smouha, Victor Emmanuel Square,
                       Alexandria, Egypt
@@ -296,7 +296,7 @@ export default function ContactPage() {
                     <Building size={20} aria-hidden="true" />
                   </div>
                   <div>
-                    <h5>Saudi Arabia Regional Hub</h5>
+                    <h3>Saudi Arabia Regional Hub</h3>
                     <p className="campus-address">
                       Andalusia Center Al-Jamiah, Al-Sirah Al-Atirah St, Jeddah,
                       Saudi Arabia

@@ -73,7 +73,7 @@
 }
 
 .form-content .intro {
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   font-size: clamp(11px, 1.2vh, 12px);
   line-height: 1.55;
   max-width: 300px;
@@ -90,7 +90,7 @@
 .form-content .tabs a {
   padding: 0 0 clamp(5px, 0.9vh, 10px);
   font-size: clamp(11px, 1.2vh, 12px);
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   position: relative;
   text-decoration: none;
   transition: color 0.2s ease;
@@ -148,7 +148,7 @@
 .switch-copy {
   text-align: center;
   font-size: 11px;
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   margin-top: clamp(8px, 1.5vh, 20px);
 }
 
@@ -171,7 +171,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 10px;
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   gap: 12px;
   flex-shrink: 0;
   padding-top: clamp(6px, 1vh, 12px);
@@ -397,7 +397,7 @@
 .password-requirements-title {
   font-size: 11px;
   font-weight: 600;
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 2px;
@@ -408,7 +408,7 @@
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   transition: all 0.2s ease;
 }
 

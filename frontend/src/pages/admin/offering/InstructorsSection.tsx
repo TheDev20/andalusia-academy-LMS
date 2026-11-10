@@ -33,13 +33,13 @@ export default function InstructorsSection({ offering }: { offering: AdminOfferi
       <ErrorAlert error={assign.error ?? unassign.error ?? instructors.error} />
       <div className="portal-card">
         {offering.instructors.length === 0 ? (
-          <p style={{ margin: "0 0 12px", color: "#7a6e60" }}>No instructor assigned yet.</p>
+          <p style={{ margin: "0 0 12px", color: "#6f6456" }}>No instructor assigned yet.</p>
         ) : (
           <ul style={{ listStyle: "none", padding: 0, margin: "0 0 14px", display: "grid", gap: 8 }}>
             {offering.instructors.map((i) => (
               <li key={i.instructorId} className="portal-row-between">
                 <span>
-                  <strong>{i.name}</strong> <span style={{ color: "#7a6e60" }}>{i.email}</span>
+                  <strong>{i.name}</strong> <span style={{ color: "#6f6456" }}>{i.email}</span>
                 </span>
                 <button
                   type="button"

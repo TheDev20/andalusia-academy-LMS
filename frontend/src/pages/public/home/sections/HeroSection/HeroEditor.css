@@ -459,7 +459,7 @@
   align-items: center;
   gap: 6px;
   font-size: 10.5px;
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.5);
   font-family: "JetBrains Mono", monospace;
   background: rgba(0, 0, 0, 0.12);
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
@@ -638,7 +638,7 @@
   color: rgba(255, 255, 255, 0.72);
 }
 .term-line.term-dim {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.5);
 }
 .term-line.term-blank {
   height: 4px;

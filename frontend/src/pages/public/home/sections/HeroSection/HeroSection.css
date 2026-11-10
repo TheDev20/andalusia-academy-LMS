@@ -109,7 +109,7 @@
 }
 
 .time-sep {
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   font-size: 11px;
 }
 
@@ -270,13 +270,13 @@
 }
 
 .search-input-wrap input::placeholder {
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   font-size: 13px;
   opacity: 0.8;
 }
 
 .search-icon {
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   flex-shrink: 0;
 }
 
@@ -305,6 +305,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-countdown-badge,
+  .hero-visual::before,
   .hero-title,
   .hero-subtitle,
   .hero-actions,

@@ -51,7 +51,7 @@
 }
 .a-stat-label {
   font-size: 11px;
-  color: #8c7e70;
+  color: var(--color-brand-muted, #6f6456);
   text-transform: uppercase;
   letter-spacing: 0.6px;
 }
@@ -77,12 +77,12 @@
   height: 52px;
   border-radius: 14px;
   background: rgba(174, 138, 88, 0.12);
-  color: #8c683b;
+  color: #75552d;
   display: grid;
   place-items: center;
   margin-bottom: 18px;
 }
-.mission-card h3, .vision-card h3 {
+.mission-card h2, .vision-card h2 {
   font-family: 'Libre Caslon Display', Georgia, serif;
   font-size: 24px;
   color: #352b21;
@@ -117,12 +117,12 @@
   height: 44px;
   border-radius: 12px;
   background: rgba(174, 138, 88, 0.12);
-  color: #8c683b;
+  color: #75552d;
   display: grid;
   place-items: center;
   margin-bottom: 14px;
 }
-.pillar-item-card h4 {
+.pillar-item-card h3 {
   font-family: 'Libre Caslon Display', Georgia, serif;
   font-size: 18px;
   color: #352b21;
@@ -273,7 +273,7 @@
   display: block;
   font-size: 11px;
   font-weight: 600;
-  color: #8c765c;
+  color: #7d6850;
   margin-bottom: 10px;
 }
 .faculty-bio {
@@ -333,7 +333,7 @@
 .node-desc {
   font-size: 11px;
   line-height: 1.5;
-  color: #7a6e60;
+  color: #6f6456;
   margin: 0;
 }
 @media (max-width: 1024px) {

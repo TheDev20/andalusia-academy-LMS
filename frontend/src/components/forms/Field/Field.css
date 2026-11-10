@@ -21,7 +21,7 @@
   padding: 0 12px;
   height: clamp(36px, 4.2vh, 44px);
   background: var(--color-brand-bg, #f7f4ee);
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease,
@@ -46,7 +46,7 @@
 }
 
 .input-wrap input::placeholder {
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   opacity: 0.7;
 }
 
@@ -61,7 +61,7 @@
   border: 0;
   background: transparent;
   padding: 4px;
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   cursor: pointer;
   transition:
     color 0.2s ease,

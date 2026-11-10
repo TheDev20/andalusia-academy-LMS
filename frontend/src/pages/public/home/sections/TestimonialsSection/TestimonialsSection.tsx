@@ -111,7 +111,7 @@ export default function TestimonialsSection() {
                 {avatarInitials}
               </div>
               <div className="author-details">
-                <h4 className="author-name">{author}</h4>
+                <h3 className="author-name">{author}</h3>
                 <p className="author-title">{title}</p>
                 <p className="author-hospital">{institution}</p>
               </div>

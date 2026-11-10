@@ -133,7 +133,7 @@ export function ProgressBar({ percent, label }: { percent: number; label: string
   const value = Math.max(0, Math.min(100, percent));
   return (
     <div>
-      <div className="portal-row-between" style={{ fontSize: 13, color: "#7a6e60", marginBottom: 5 }}>
+      <div className="portal-row-between" style={{ fontSize: 13, color: "#6f6456", marginBottom: 5 }}>
         <span>{label}</span>
         <strong style={{ color: "#271e16" }}>{value}%</strong>
       </div>

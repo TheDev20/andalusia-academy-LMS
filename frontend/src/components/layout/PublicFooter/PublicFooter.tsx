@@ -49,7 +49,7 @@ export default function PublicFooter({ onNavigate }: PublicFooterProps) {
             </div>
           </div>
           <div className="footer-col">
-            <h5 className="footer-heading">Catalog &amp; Tracks</h5>
+            <h2 className="footer-heading">Catalog &amp; Tracks</h2>
             <ul className="footer-links">
               <li>
                 <Link to="/courses?filter=software-engineering">Software Engineering</Link>
@@ -72,7 +72,7 @@ export default function PublicFooter({ onNavigate }: PublicFooterProps) {
             </ul>
           </div>
           <div className="footer-col">
-            <h5 className="footer-heading">Academy</h5>
+            <h2 className="footer-heading">Academy</h2>
             <ul className="footer-links">
               <li>
                 <Link to="/about">About Us</Link>
@@ -90,7 +90,7 @@ export default function PublicFooter({ onNavigate }: PublicFooterProps) {
           </div>
 
           <div className="footer-col">
-            <h5 className="footer-heading">Portals</h5>
+            <h2 className="footer-heading">Portals</h2>
             <ul className="footer-links">
               <li>
                 <Link to="/login">Learner LMS Portal</Link>

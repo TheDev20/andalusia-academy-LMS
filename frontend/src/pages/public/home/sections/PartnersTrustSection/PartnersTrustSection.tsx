@@ -48,9 +48,9 @@ export default function PartnersTrustSection() {
     >
       <div className="section-container">
         <div className="partners-intro">
-          <h3 className="partners-heading">
+          <h2 className="partners-heading">
             Trusted by Top Engineering Organizations & Cloud Providers
-          </h3>
+          </h2>
         </div>
 
         <div className="partners-grid">
@@ -62,7 +62,7 @@ export default function PartnersTrustSection() {
                   <Icon size={26} aria-hidden="true" />
                 </div>
                 <div className="partner-info">
-                  <h4 className="partner-name">{partner.name}</h4>
+                  <h3 className="partner-name">{partner.name}</h3>
                   <p className="partner-type">{partner.type}</p>
                   <span className="partner-sub">{partner.sub}</span>
                 </div>

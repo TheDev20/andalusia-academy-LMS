@@ -76,7 +76,7 @@ export default function PublicLayout({
             padding: "18px 24px",
             textAlign: "center",
             fontSize: "13px",
-            color: "#7a6e60",
+            color: "#6f6456",
           }}
         >
           © {new Date().getFullYear()} Andalusia Academy LMS · Authenticated Workspace

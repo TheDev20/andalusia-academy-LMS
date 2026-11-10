@@ -138,6 +138,7 @@ export default function CoursesPage() {
           </Badge>
           <div style={{ marginTop: 12 }}>
             <SectionHeading
+              as="h1"
               title={
                 activeTab === "programs" ? (
                   <>
@@ -288,7 +289,7 @@ export default function CoursesPage() {
                 left: 14,
                 top: "50%",
                 transform: "translateY(-50%)",
-                color: "#7a6e60",
+                color: "#6f6456",
               }}
             />
             <input
@@ -319,7 +320,7 @@ export default function CoursesPage() {
                   transform: "translateY(-50%)",
                   border: "none",
                   background: "transparent",
-                  color: "#7a6e60",
+                  color: "#6f6456",
                   cursor: "pointer",
                   padding: 4,
                 }}
@@ -365,7 +366,7 @@ export default function CoursesPage() {
                 <h3 style={{ margin: "0 0 8px", color: "#271e16" }}>
                   No multi-course programs match your search
                 </h3>
-                <p style={{ margin: "0 0 16px", color: "#7a6e60", fontSize: 14 }}>
+                <p style={{ margin: "0 0 16px", color: "#6f6456", fontSize: 14 }}>
                   Try clearing your search filter or switch to Single Courses.
                 </p>
                 {searchQuery && (
@@ -531,7 +532,7 @@ export default function CoursesPage() {
                 <h3 style={{ margin: "0 0 8px", color: "#271e16" }}>
                   No career paths match your search
                 </h3>
-                <p style={{ margin: "0 0 16px", color: "#7a6e60", fontSize: 14 }}>
+                <p style={{ margin: "0 0 16px", color: "#6f6456", fontSize: 14 }}>
                   Try clearing your search query or explore all available tracks.
                 </p>
                 {searchQuery && (

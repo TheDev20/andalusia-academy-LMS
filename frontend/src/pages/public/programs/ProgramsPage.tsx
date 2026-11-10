@@ -34,7 +34,7 @@ export default function ProgramsPage() {
       <div className="portal-field" style={{ maxWidth: 420, marginBottom: 20 }}>
         <label className="portal-label" htmlFor="program-search">Search programs</label>
         <div style={{ position: "relative" }}>
-          <Search size={16} aria-hidden="true" style={{ position: "absolute", left: 11, top: 11, color: "#7a6e60" }} />
+          <Search size={16} aria-hidden="true" style={{ position: "absolute", left: 11, top: 11, color: "#6f6456" }} />
           <input
             id="program-search"
             className="portal-input"

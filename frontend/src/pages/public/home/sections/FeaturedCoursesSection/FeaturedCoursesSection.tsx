@@ -293,7 +293,7 @@ export default function FeaturedCoursesSection({
           ) : (
             <div className="courses-empty-state">
               <Terminal size={36} className="empty-icon" aria-hidden="true" />
-              <h4>No courses found matching your criteria</h4>
+              <p className="courses-empty-title">No courses found matching your criteria</p>
               <p>
                 {activeFilter !== "all" && (serverCourses?.length ?? 0) > 0 ? (
                   <>

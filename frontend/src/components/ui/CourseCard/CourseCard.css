@@ -87,7 +87,7 @@
 }
 
 .rating-count {
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
 }
 
 .course-card-title {
@@ -142,7 +142,7 @@
 
 .intake-label {
   font-size: 11px;
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   text-transform: uppercase;
   letter-spacing: 0.6px;
   font-weight: 600;
