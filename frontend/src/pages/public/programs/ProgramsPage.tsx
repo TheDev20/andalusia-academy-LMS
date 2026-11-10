@@ -79,7 +79,7 @@ export default function ProgramsPage() {
             <nav className="portal-row" aria-label="Pagination" style={{ marginTop: 20, justifyContent: "center" }}>
               <button type="button" className="portal-btn portal-btn-secondary portal-btn-sm" disabled={!data.hasPreviousPage}
                 onClick={() => setPage((p) => p - 1)}>Previous</button>
-              <span style={{ fontSize: 13.5 }}>Page {data.pageNumber} of {data.totalPages}</span>
+              <span style={{ fontSize: 14 }}>Page {data.pageNumber} of {data.totalPages}</span>
               <button type="button" className="portal-btn portal-btn-secondary portal-btn-sm" disabled={!data.hasNextPage}
                 onClick={() => setPage((p) => p + 1)}>Next</button>
             </nav>

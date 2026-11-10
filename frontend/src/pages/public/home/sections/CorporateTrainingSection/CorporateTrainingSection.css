@@ -62,7 +62,7 @@
   color: #ffffff;
   padding: 14px 28px;
   border-radius: 999px;
-  font-size: 14.5px;
+  font-size: 15px;
   font-weight: 600;
   box-shadow: 0 6px 18px rgba(139, 102, 72, 0.24);
   transition: all 0.2s;
@@ -78,7 +78,7 @@
   color: #4b3f33;
   padding: 14px 24px;
   border-radius: 999px;
-  font-size: 14.5px;
+  font-size: 15px;
   font-weight: 600;
   transition: all 0.2s;
 }

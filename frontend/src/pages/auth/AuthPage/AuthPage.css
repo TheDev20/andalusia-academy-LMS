@@ -74,7 +74,7 @@
 
 .form-content .intro {
   color: var(--color-brand-muted, #6f6456);
-  font-size: clamp(11px, 1.2vh, 12px);
+  font-size: clamp(12px, 1.4vh, 13px);
   line-height: 1.55;
   max-width: 300px;
   margin: 0 0 clamp(8px, 1.6vh, 20px);
@@ -89,7 +89,7 @@
 
 .form-content .tabs a {
   padding: 0 0 clamp(5px, 0.9vh, 10px);
-  font-size: clamp(11px, 1.2vh, 12px);
+  font-size: clamp(12px, 1.4vh, 13px);
   color: var(--color-brand-muted, #6f6456);
   position: relative;
   text-decoration: none;
@@ -125,7 +125,7 @@
   align-items: center;
   justify-content: space-between;
   padding: clamp(9px, 1.3vh, 14px) 16px;
-  font-size: clamp(11px, 1.2vh, 12px);
+  font-size: clamp(12px, 1.4vh, 13px);
   font-weight: 500;
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(139, 102, 72, 0.2);
@@ -147,7 +147,7 @@
 
 .switch-copy {
   text-align: center;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--color-brand-muted, #6f6456);
   margin-top: clamp(8px, 1.5vh, 20px);
 }
@@ -170,7 +170,7 @@
 .form-panel footer {
   display: flex;
   justify-content: space-between;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--color-brand-muted, #6f6456);
   gap: 12px;
   flex-shrink: 0;
@@ -265,7 +265,7 @@
     margin: 4px 0;
   }
   .form-content .intro {
-    font-size: 10.5px;
+    font-size: 12px;
     margin-bottom: 8px;
     line-height: 1.4;
   }
@@ -286,7 +286,7 @@
     margin-bottom: 4px;
   }
   .story-description {
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.4;
   }
   .story-bottom {
@@ -368,7 +368,7 @@
   background: rgba(139, 102, 72, 0.08);
   border: 1px solid rgba(139, 102, 72, 0.22);
   color: #6b513a;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   transition:
     background-color 0.2s ease,
@@ -395,7 +395,7 @@
 }
 
 .password-requirements-title {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--color-brand-muted, #6f6456);
   text-transform: uppercase;

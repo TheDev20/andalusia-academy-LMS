@@ -206,7 +206,7 @@ export default function CoursesPage() {
                 padding: "10px 20px",
                 borderRadius: 999,
                 border: "none",
-                fontSize: 13.5,
+                fontSize: 14,
                 fontWeight: 600,
                 background: activeTab === "courses" ? "#8b6648" : "transparent",
                 color: activeTab === "courses" ? "#ffffff" : "#43392f",
@@ -234,7 +234,7 @@ export default function CoursesPage() {
                 padding: "10px 20px",
                 borderRadius: 999,
                 border: "none",
-                fontSize: 13.5,
+                fontSize: 14,
                 fontWeight: 600,
                 background: activeTab === "programs" ? "#8b6648" : "transparent",
                 color: activeTab === "programs" ? "#ffffff" : "#43392f",
@@ -262,7 +262,7 @@ export default function CoursesPage() {
                 padding: "10px 20px",
                 borderRadius: 999,
                 border: "none",
-                fontSize: 13.5,
+                fontSize: 14,
                 fontWeight: 600,
                 background:
                   activeTab === "career-paths" ? "#8b6648" : "transparent",
@@ -400,7 +400,7 @@ export default function CoursesPage() {
                     >
                       <span
                         style={{
-                          fontSize: 11.5,
+                          fontSize: 12,
                           fontWeight: 700,
                           textTransform: "uppercase",
                           letterSpacing: "0.06em",
@@ -431,7 +431,7 @@ export default function CoursesPage() {
                     <h2
                       style={{
                         margin: 0,
-                        fontSize: 21,
+                        fontSize: 22,
                         lineHeight: 1.3,
                         fontWeight: 700,
                         color: "#271e16",
@@ -449,7 +449,7 @@ export default function CoursesPage() {
                       style={{
                         margin: 0,
                         color: "#524434",
-                        fontSize: 14.5,
+                        fontSize: 15,
                         lineHeight: 1.6,
                         flexGrow: 1,
                       }}
@@ -568,7 +568,7 @@ export default function CoursesPage() {
                           display: "inline-flex",
                           alignItems: "center",
                           gap: 6,
-                          fontSize: 11.5,
+                          fontSize: 12,
                           fontWeight: 700,
                           textTransform: "uppercase",
                           letterSpacing: "0.06em",
@@ -583,7 +583,7 @@ export default function CoursesPage() {
                       </span>
                       <span
                         style={{
-                          fontSize: 12.5,
+                          fontSize: 13,
                           fontWeight: 600,
                           color: "#6b5d4d",
                         }}
@@ -595,7 +595,7 @@ export default function CoursesPage() {
                     <h2
                       style={{
                         margin: 0,
-                        fontSize: 21,
+                        fontSize: 22,
                         lineHeight: 1.3,
                         fontWeight: 700,
                         color: "#271e16",
@@ -613,7 +613,7 @@ export default function CoursesPage() {
                       style={{
                         margin: 0,
                         color: "#524434",
-                        fontSize: 14.5,
+                        fontSize: 15,
                         lineHeight: 1.6,
                         flexGrow: 1,
                       }}

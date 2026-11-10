@@ -6,7 +6,7 @@
 .field-label,
 .field > span {
   display: block;
-  font-size: clamp(10px, 1.1vh, 11px);
+  font-size: 12px;
   font-weight: 500;
   color: var(--color-brand-dark, #43392f);
   margin-bottom: clamp(3px, 0.5vh, 6px);

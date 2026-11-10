@@ -46,7 +46,7 @@
   border-radius: 999px;
   box-shadow: 0 4px 14px rgba(67, 57, 47, 0.05);
   margin-bottom: 22px;
-  font-size: 12.5px;
+  font-size: 13px;
   animation: heroFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
 
@@ -79,7 +79,7 @@
   font-weight: 700;
   color: var(--color-brand-dark, #43392f);
   letter-spacing: 0.6px;
-  font-size: 11.5px;
+  font-size: 12px;
 }
 
 .countdown-timer {
@@ -110,7 +110,7 @@
 
 .time-sep {
   color: var(--color-brand-muted, #6f6456);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 /* Typography */
@@ -264,7 +264,7 @@
   border: none;
   background: transparent;
   width: 100%;
-  font-size: 13.5px;
+  font-size: 14px;
   color: var(--color-brand-heading, #271e16);
   outline: none;
 }
@@ -289,7 +289,7 @@
   border: none;
   border-radius: 999px;
   padding: 11px 22px;
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;

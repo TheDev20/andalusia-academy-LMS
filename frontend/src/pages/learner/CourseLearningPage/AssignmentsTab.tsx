@@ -58,7 +58,7 @@ function AssignmentCard({ courseOfferingId, assignment }: { courseOfferingId: st
         <span>Max score: {assignment.maxScore}</span>
       </div>
       {cleanInstructions && (
-        <p style={{ whiteSpace: "pre-wrap", color: "#43392f", fontSize: 14.5, marginBottom: 12 }}>
+        <p style={{ whiteSpace: "pre-wrap", color: "#43392f", fontSize: 15, marginBottom: 12 }}>
           {cleanInstructions}
         </p>
       )}
@@ -79,8 +79,8 @@ function AssignmentCard({ courseOfferingId, assignment }: { courseOfferingId: st
           <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 200 }}>
             <FileText size={22} color="#8a532b" />
             <div>
-              <div style={{ fontWeight: 600, fontSize: 13.5, color: "#2b2118", wordBreak: "break-all" }}>{attachment.name}</div>
-              <div style={{ fontSize: 11.5, color: "#877464" }}>Assignment questions / attachment</div>
+              <div style={{ fontWeight: 600, fontSize: 14, color: "#2b2118", wordBreak: "break-all" }}>{attachment.name}</div>
+              <div style={{ fontSize: 12, color: "#877464" }}>Assignment questions / attachment</div>
             </div>
           </div>
           <a
@@ -89,7 +89,7 @@ function AssignmentCard({ courseOfferingId, assignment }: { courseOfferingId: st
             rel="noopener noreferrer"
             download={attachment.name}
             className="portal-btn"
-            style={{ padding: "6px 12px", fontSize: 12.5, display: "inline-flex", alignItems: "center", gap: 6, textDecoration: "none" }}
+            style={{ padding: "6px 12px", fontSize: 13, display: "inline-flex", alignItems: "center", gap: 6, textDecoration: "none" }}
           >
             <Download size={14} />
             <span>Download Document</span>

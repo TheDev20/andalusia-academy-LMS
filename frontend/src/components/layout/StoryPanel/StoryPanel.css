@@ -61,7 +61,7 @@
   transform: translateZ(0);
   border-radius: 30px;
   padding: clamp(6px, 0.9vh, 9px) 12px;
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 1.5px;
   display: flex;
   align-items: center;
@@ -76,7 +76,7 @@
 }
 
 .edition {
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 1.4px;
   opacity: .8;
 }
@@ -90,7 +90,7 @@
 }
 
 .story-eyebrow {
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 1.8px;
   color: #e2ceb1;
   margin: 0 0 clamp(6px, 1.3vh, 16px);
@@ -111,7 +111,7 @@
 }
 
 .story-description {
-  font-size: clamp(10px, 1.15vh, 11px);
+  font-size: 13px;
   line-height: 1.65;
   color: #e6d9c8;
   max-width: 320px;
@@ -134,7 +134,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .track {
@@ -157,7 +157,7 @@
 }
 
 .scene-name {
-  font-size: 9px;
+  font-size: 12px;
   opacity: .75;
   margin-left: 8px;
 }

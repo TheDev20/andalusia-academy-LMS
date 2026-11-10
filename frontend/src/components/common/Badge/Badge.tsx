@@ -40,7 +40,7 @@ export default function Badge({
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-semibold tracking-[0.9px] uppercase whitespace-nowrap ${variantClass} ${className}`.trim()}
+      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-semibold tracking-[0.9px] uppercase whitespace-nowrap ${variantClass} ${className}`.trim()}
     >
       {dot && (
         <span
