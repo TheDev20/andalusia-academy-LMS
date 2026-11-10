@@ -17,6 +17,7 @@ public sealed class PaymentService : IPaymentService
     private readonly ApplicationDbContext _context;
     private readonly IPaymentGateway _gateway;
     private readonly IEnrollmentService _enrollments;
+    private readonly ICapacityService _capacity;
     private readonly PaymentOptions _options;
     private readonly TimeProvider _clock;
     private readonly ILogger<PaymentService> _logger;
@@ -25,6 +26,7 @@ public sealed class PaymentService : IPaymentService
         ApplicationDbContext context,
         IPaymentGateway gateway,
         IEnrollmentService enrollments,
+        ICapacityService capacity,
         IOptions<PaymentOptions> options,
         TimeProvider clock,
         ILogger<PaymentService> logger)
@@ -32,6 +34,7 @@ public sealed class PaymentService : IPaymentService
         _context = context;
         _gateway = gateway;
         _enrollments = enrollments;
+        _capacity = capacity;
         _options = options.Value;
         _clock = clock;
         _logger = logger;
@@ -157,7 +160,7 @@ public sealed class PaymentService : IPaymentService
         }
 
         if (await _context.PaymentAttempts.AnyAsync(
-            a => a.Provider == "Stripe" && a.ProviderPaymentId == providerPaymentId,
+            a => a.Provider == StripeWebhookService.Provider && a.ProviderPaymentId == providerPaymentId,
             cancellationToken))
         {
             await transaction.CommitAsync(cancellationToken);
@@ -166,24 +169,39 @@ public sealed class PaymentService : IPaymentService
 
         if (order.Status != OrderStatuses.PendingPayment)
         {
-            throw new ConflictException($"Order is '{order.Status}' and cannot be settled.");
+            throw new ConflictException(
+                $"Stripe payment {providerPaymentId} was received but order is '{order.Status}' and cannot be settled; it needs a manual refund or review.");
         }
 
         var expectedAmountMinor = decimal.ToInt64(decimal.Round(order.AmountDue * 100, 0));
         if (amountTotalMinor != expectedAmountMinor
             || !string.Equals(order.Currency, currency, StringComparison.OrdinalIgnoreCase))
         {
-            throw new ConflictException("Stripe amount or currency does not match the sales order.");
+            throw new ConflictException(
+                $"Stripe amount or currency ({amountTotalMinor} {currency.ToUpperInvariant()} minor units) does not match the sales order ({expectedAmountMinor} {order.Currency}).");
         }
 
-        await EnsureSeatHeldAsync(order.ApplicationId, now, cancellationToken);
+        // The money has already been taken, so a hold that lapsed during checkout is still honoured
+        // as long as the seat was not given away in the meantime.
+        var reservation = await _context.SeatReservations
+            .FirstOrDefaultAsync(r => r.ApplicationId == order.ApplicationId, cancellationToken);
+        if (reservation is not { Status: ReservationStatuses.Held })
+        {
+            throw new ConflictException(
+                $"Stripe payment {providerPaymentId} was received but the seat is no longer reserved; it needs a manual refund or review.");
+        }
+
+        if (reservation.ExpiresAt <= now)
+        {
+            await _capacity.EnsureLapsedHoldCanConvertAsync(reservation.Id, now, cancellationToken);
+        }
 
         var attempt = new PaymentAttempt
         {
             SalesOrderId = order.Id,
             Amount = order.AmountDue,
             Currency = order.Currency,
-            Provider = "Stripe",
+            Provider = StripeWebhookService.Provider,
             ProviderPaymentId = providerPaymentId,
             IdempotencyKey = $"stripe:{eventId}",
             Status = PaymentAttemptStatuses.Succeeded,
@@ -194,9 +212,6 @@ public sealed class PaymentService : IPaymentService
 
         order.Status = OrderStatuses.Paid;
         order.Application.Status = ApplicationStatuses.Accepted;
-
-        var reservation = await _context.SeatReservations
-            .FirstAsync(r => r.ApplicationId == order.ApplicationId, cancellationToken);
         reservation.Status = ReservationStatuses.Converted;
 
         await _enrollments.StageFulfillmentAsync(order.Application, now, cancellationToken);
