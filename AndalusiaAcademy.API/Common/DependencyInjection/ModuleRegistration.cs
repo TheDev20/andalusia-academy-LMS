@@ -46,6 +46,7 @@ public static class ModuleRegistration
         services.Configure<PaymentOptions>(configuration.GetSection(PaymentOptions.SectionName));
         services.AddSingleton<IPaymentGateway, SimulatedPaymentGateway>();
         services.AddScoped<IPaymentService, PaymentService>();
+        services.AddScoped<IStripeWebhookService, StripeWebhookService>();
         return services;
     }
 

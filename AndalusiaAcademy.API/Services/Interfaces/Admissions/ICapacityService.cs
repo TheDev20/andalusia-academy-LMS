@@ -14,5 +14,12 @@ public interface ICapacityService
     /// </summary>
     Task HoldSeatAsync(Application application, Offering offering, DateTimeOffset now, CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Re-validates a Held reservation whose hold window has lapsed (e.g. the provider confirmed payment late).
+    /// Takes the same offering lock as <see cref="HoldSeatAsync"/> and throws
+    /// <see cref="Exceptions.ConflictException"/> when the seat has since been taken.
+    /// </summary>
+    Task EnsureLapsedHoldCanConvertAsync(Guid seatReservationId, DateTimeOffset now, CancellationToken cancellationToken);
+
     Task<int> CountOccupiedSeatsAsync(Guid offeringId, DateTimeOffset now, CancellationToken cancellationToken);
 }

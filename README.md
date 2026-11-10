@@ -63,6 +63,25 @@ The frontend passes the LMS sales-order GUID as Stripe `client_reference_id`. Se
 Checkout Sessions may use either `client_reference_id` or `metadata.orderId`. Use Stripe CLI
 overrides or a signed test payload with a real pending order GUID to test settlement.
 
+Webhook behaviour:
+
+- Subscribe the endpoint to `checkout.session.completed` and
+  `checkout.session.async_payment_succeeded` (delayed payment methods settle through the latter).
+  Other event types are acknowledged and ignored.
+- Deployed environments read the signing secret from the `Payments__StripeWebhookSecret` app
+  setting. Without it the endpoint answers `503` and nothing is settled.
+- Every verified delivery is stored in `WebhookInbox` (`Received` → `Processed` / `Failed` with
+  `LastError`). Failures answer non-2xx so Stripe redelivers; settlement is idempotent per event
+  and per payment.
+- The paid amount and currency must equal the sales order. A mismatch, an unknown order, or a
+  seat that was given away after the hold lapsed is **not** fulfilled: it is logged as an error,
+  left `Failed` in the inbox and needs a manual refund or review in Stripe.
+- The Buy Button charges one fixed Stripe price, so only offerings with exactly that price and
+  currency can be paid through it.
+
+The web app's Buy Button uses sandbox identifiers by default; set `VITE_STRIPE_BUY_BUTTON_ID` and
+`VITE_STRIPE_PUBLISHABLE_KEY` at build time to target another Stripe account or live mode.
+
 ### 2. Web app
 
 ```bash

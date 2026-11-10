@@ -21,6 +21,9 @@ public sealed class SqlServerApiFactory : WebApplicationFactory<Program>, IAsync
     private readonly string _connectionString;
     private readonly string _signingKey = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
 
+    /// <summary>Per-run Stripe webhook signing secret, so tests can sign their own events.</summary>
+    public string StripeWebhookSecret { get; } = "whsec_test_" + Convert.ToHexString(RandomNumberGenerator.GetBytes(24));
+
     public SqlServerApiFactory()
     {
         var server = Environment.GetEnvironmentVariable(ServerEnvironmentVariable);
@@ -52,6 +55,7 @@ public sealed class SqlServerApiFactory : WebApplicationFactory<Program>, IAsync
                 ["ConnectionStrings:DefaultConnection"] = _connectionString,
                 ["Jwt:SigningKey"] = _signingKey,
                 ["Payments:SimulationEnabled"] = "true",
+                ["Payments:StripeWebhookSecret"] = StripeWebhookSecret,
                 ["Identity:ExposeResetTokenInResponse"] = "true",
                 ["RateLimiting:Auth:PermitLimit"] = "100000",
                 ["Seed:DemoData:Enabled"] = "false"

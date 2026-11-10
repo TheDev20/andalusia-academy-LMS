@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { admissionsApi } from "../../../services/api/admissionsApi";
 import StripeBuyButton from "../StripeBuyButton/StripeBuyButton";
+
+const POLL_INTERVAL_MS = 2000;
 
 interface StripePaymentModalProps {
   orderId: string;
@@ -21,36 +23,49 @@ export default function StripePaymentModal({
 }: StripePaymentModalProps) {
   const [confirmationError, setConfirmationError] = useState<string | null>(null);
 
+  // Parents pass inline callbacks; keeping the latest one in a ref stops every parent render
+  // from tearing down and restarting the polling loop.
+  const onPaidRef = useRef(onPaid);
   useEffect(() => {
-    if (!onPaid) return;
+    onPaidRef.current = onPaid;
+  }, [onPaid]);
+  const shouldConfirm = Boolean(onPaid);
+
+  // Stripe Checkout opens in a new tab and settlement arrives through the webhook, so the order is
+  // polled until the backend reports it paid.
+  useEffect(() => {
+    if (!shouldConfirm) return;
 
     let isActive = true;
+    let timeoutId: number | undefined;
+
     const checkPayment = async () => {
       try {
         const applications = await admissionsApi.getMyApplications();
+        if (!isActive) return;
+        setConfirmationError(null);
         const application = applications.find((item) => item.salesOrderId === orderId);
-        if (isActive && application?.orderStatus === "Paid") {
-          onPaid();
+        if (application?.orderStatus === "Paid") {
+          onPaidRef.current?.();
+          return;
         }
       } catch (error) {
-        if (isActive) {
-          setConfirmationError(
-            error instanceof Error
-              ? error.message
-              : "Unable to confirm the Stripe payment.",
-          );
-        }
+        if (!isActive) return;
+        setConfirmationError(
+          error instanceof Error ? error.message : "Unable to confirm the Stripe payment.",
+        );
       }
+      // Schedule only after the previous check finished so slow responses never overlap.
+      timeoutId = window.setTimeout(checkPayment, POLL_INTERVAL_MS);
     };
 
-    const intervalId = window.setInterval(checkPayment, 2000);
     checkPayment();
 
     return () => {
       isActive = false;
-      window.clearInterval(intervalId);
+      window.clearTimeout(timeoutId);
     };
-  }, [onPaid, orderId]);
+  }, [shouldConfirm, orderId]);
 
   return (
     <div
@@ -96,16 +111,14 @@ export default function StripePaymentModal({
         </p>
         <StripeBuyButton clientReferenceId={orderId} />
         <p style={{ margin: "14px 0 0", color: "#7b6d5e", fontSize: 12 }}>
-          Payment confirmation may take a few seconds after Stripe checkout completes.
+          Checkout opens in a new tab. Keep this window open: your enrollment is confirmed here a
+          few seconds after Stripe completes the payment.
         </p>
         {confirmationError && (
           <p role="alert" style={{ margin: "10px 0 0", color: "#b91c1c", fontSize: 12 }}>
             {confirmationError}
           </p>
         )}
-        <p style={{ margin: "18px 0 0", color: "#7b6d5e", fontSize: 12 }}>
-          This Stripe Buy Button uses the configured test payment link.
-        </p>
       </div>
     </div>
   );
