@@ -29,8 +29,8 @@
 
 .closing-cta-title {
   margin: 0;
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 700;
+  font-family: var(--font-display, 'Libre Caslon Display', Georgia, serif);
+  font-weight: 400;
   font-size: 32px;
   line-height: 1.2;
   color: #FFFFFF;

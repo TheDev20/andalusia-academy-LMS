@@ -10,8 +10,8 @@
 
 .tech-heading {
   margin: 0 0 8px;
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 700;
+  font-family: var(--font-display, 'Libre Caslon Display', Georgia, serif);
+  font-weight: 400;
   font-size: 34px;
   line-height: 1.15;
   color: #1E1A17;

@@ -24,6 +24,8 @@
   font-style: italic;
 }
 .contact-subtitle {
+  max-width: 68ch;
+  margin-inline: auto;
   font-size: clamp(14px, 1.4vw, 16px);
   line-height: 1.65;
   color: var(--color-brand-muted, #6f6456);

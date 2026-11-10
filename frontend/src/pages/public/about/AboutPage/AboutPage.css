@@ -24,6 +24,8 @@
   font-style: italic;
 }
 .about-subtitle {
+  max-width: 68ch;
+  margin-inline: auto;
   font-size: clamp(14px, 1.4vw, 16px);
   line-height: 1.65;
   color: #6e6153;

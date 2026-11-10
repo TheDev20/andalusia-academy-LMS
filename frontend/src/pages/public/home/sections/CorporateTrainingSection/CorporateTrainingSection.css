@@ -17,7 +17,7 @@
   box-shadow: 0 12px 40px rgba(67, 57, 47, 0.06);
 }
 .corporate-title {
-  font-family: Georgia, serif;
+  font-family: var(--font-display, "Libre Caslon Display", Georgia, serif);
   font-size: clamp(30px, 3.6vw, 44px);
   line-height: 1.15;
   color: #271e16;
@@ -99,12 +99,6 @@
   display: flex;
   align-items: center;
   gap: 14px;
-
-  background: #f7f4ee;
-  border: 1px solid #e2dacd;
-  border-radius: 18px;
-  padding: 24px;
-  min-height: 96px;
 }
 .pillar-icon-wrap {
   width: 48px;
@@ -117,7 +111,7 @@
   flex: 0 0 48px;
 }
 .pillar-title {
-  font-family: Georgia, serif;
+  font-family: var(--font-display, "Libre Caslon Display", Georgia, serif);
   font-size: 15px;
   color: #271e16;
   margin: 0;

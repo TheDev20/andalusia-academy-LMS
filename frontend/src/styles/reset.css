@@ -116,3 +116,8 @@ input:focus-visible {
   color: #767069;
   opacity: 1;
 }
+
+/* Avoid a single orphaned word on the last line of a paragraph. */
+p {
+  text-wrap: pretty;
+}
