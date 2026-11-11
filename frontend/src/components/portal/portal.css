@@ -42,8 +42,6 @@
 .portal-alert-success { background: #edf6ec; border-color: #c4dfc1; color: #2f6b2c; }
 .portal-alert-info { background: #f3efe6; border-color: #ded6c8; color: #43392f; }
 
-.portal-empty { text-align: center; padding: 48px 20px; color: #6f6456; background: #fff; border: 1px dashed #ded6c8; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.portal-empty-title { font-size: 18px; color: #271e16; margin: 0; }
 .portal-loading { display: flex; align-items: center; gap: 10px; color: #6f6456; padding: 32px 4px; }
 .portal-spin { animation: portal-spin 1s linear infinite; }
 @keyframes portal-spin { to { transform: rotate(360deg); } }

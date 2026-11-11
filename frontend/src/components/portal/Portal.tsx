@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useId, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Loader2, X } from "lucide-react";
+import { Empty, EmptyContent, EmptyHeader, EmptyTitle } from "../ui/Empty";
 import "./portal.css";
 
 export function PortalPage({
@@ -102,10 +103,12 @@ export function SuccessAlert({ message }: { message?: string | null }) {
 
 export function EmptyState({ title, children }: { title: string; children?: ReactNode }) {
   return (
-    <div className="portal-empty">
-      <h2 className="portal-empty-title">{title}</h2>
-      {children}
-    </div>
+    <Empty className="py-10">
+      <EmptyHeader>
+        <EmptyTitle>{title}</EmptyTitle>
+      </EmptyHeader>
+      {children && <EmptyContent>{children}</EmptyContent>}
+    </Empty>
   );
 }
 

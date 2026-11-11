@@ -10,6 +10,7 @@ import {
   Clock,
 } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "../../../components/ui/Empty";
 import { admissionsApi } from "../../../services/api/admissionsApi";
 import { ErrorAlert, ProgressBar } from "../../../components/portal/Portal";
 import { formatDate, formatDateTime, formatMoney } from "../../../utils/format";
@@ -116,7 +117,7 @@ export default function DashboardPage() {
             className={`dashboard-tab-btn ${activeTab === "learning" ? "is-active" : ""}`}
             onClick={() => setActiveTab("learning")}
           >
-            <BookOpen size={14} style={{ marginRight: 6, verticalAlign: "middle" }} />
+            <BookOpen size={14} />
             My Learning ({myLearning.length})
           </button>
           <button
@@ -126,7 +127,7 @@ export default function DashboardPage() {
             className={`dashboard-tab-btn ${activeTab === "applications" ? "is-active" : ""}`}
             onClick={() => setActiveTab("applications")}
           >
-            <FileText size={14} style={{ marginRight: 6, verticalAlign: "middle" }} />
+            <FileText size={14} />
             Applications ({myApplications.length})
           </button>
           <button
@@ -136,7 +137,7 @@ export default function DashboardPage() {
             className={`dashboard-tab-btn ${activeTab === "payments" ? "is-active" : ""}`}
             onClick={() => setActiveTab("payments")}
           >
-            <CreditCard size={14} style={{ marginRight: 6, verticalAlign: "middle" }} />
+            <CreditCard size={14} />
             Payments ({myPayments.length})
           </button>
         </div>
@@ -149,10 +150,15 @@ export default function DashboardPage() {
             {loadingLearning ? (
               <p>Loading your enrolled courses...</p>
             ) : myLearning.length === 0 ? (
-              <div className="dash-empty">
-                <h2>No active enrollments yet</h2>
-                <p>Apply to a course and verify tuition payment to unlock your learning track.</p>
-              </div>
+              <Empty>
+                <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                    <BookOpen size={20} aria-hidden="true" />
+                  </EmptyMedia>
+                  <EmptyTitle>No active enrollments yet</EmptyTitle>
+                  <EmptyDescription>Apply to a course and verify tuition payment to unlock your learning track.</EmptyDescription>
+                </EmptyHeader>
+              </Empty>
             ) : (
               <div className="dashboard-grid">
                 {myLearning.map((item) => (
@@ -188,10 +194,15 @@ export default function DashboardPage() {
             {loadingApps ? (
               <p>Loading your applications...</p>
             ) : myApplications.length === 0 ? (
-              <div className="dash-empty">
-                <h2>No applications submitted</h2>
-                <p>Select any course from the catalog to submit an admission application.</p>
-              </div>
+              <Empty>
+                <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                    <FileText size={20} aria-hidden="true" />
+                  </EmptyMedia>
+                  <EmptyTitle>No applications submitted</EmptyTitle>
+                  <EmptyDescription>Select any course from the catalog to submit an admission application.</EmptyDescription>
+                </EmptyHeader>
+              </Empty>
             ) : (
               <div className="dashboard-grid">
                 {myApplications.map((app) => {
@@ -254,10 +265,15 @@ export default function DashboardPage() {
             {loadingPayments ? (
               <p>Loading payment history...</p>
             ) : myPayments.length === 0 ? (
-              <div className="dash-empty">
-                <h2>No payment records</h2>
-                <p>Completed tuition receipts will appear here.</p>
-              </div>
+              <Empty>
+                <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                    <CreditCard size={20} aria-hidden="true" />
+                  </EmptyMedia>
+                  <EmptyTitle>No payment records</EmptyTitle>
+                  <EmptyDescription>Completed tuition receipts will appear here.</EmptyDescription>
+                </EmptyHeader>
+              </Empty>
             ) : (
               <div className="dashboard-grid">
                 {myPayments.map((pay) => (

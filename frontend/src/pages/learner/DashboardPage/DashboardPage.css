@@ -35,6 +35,9 @@
 }
 
 .dashboard-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   border: none;
   background: transparent;
   padding: 10px 18px;
@@ -125,13 +128,4 @@
 
 .dash-btn:hover {
   background: #735238;
-}
-
-.dash-empty {
-  background: #ffffff;
-  border: 1px dashed #d6c8b4;
-  border-radius: 18px;
-  padding: 48px 24px;
-  text-align: center;
-  color: #5c4e40;
 }
