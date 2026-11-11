@@ -22,7 +22,7 @@ export default function Field({
     <label className={`field ${className}`}>
       <span className="field-label">{label}</span>
       <div className={`input-wrap ${error ? "has-error" : ""}`}>
-        {Icon && <Icon size={17} strokeWidth={1.5} />}
+        {Icon && <Icon size={16} strokeWidth={2} />}
         <input type={isPassword && visible ? "text" : type} {...restProps} />
         {isPassword && (
           <button
@@ -31,7 +31,7 @@ export default function Field({
             aria-label={visible ? "Hide password" : "Show password"}
             onClick={() => setVisible(!visible)}
           >
-            {visible ? <EyeOff size={17} /> : <Eye size={17} />}
+            {visible ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>
         )}
       </div>

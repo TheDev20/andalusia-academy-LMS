@@ -1,6 +1,6 @@
 .categories-section {
   padding: clamp(72px, 10vh, 110px) 0;
-  background: #f7f4ee;
+  background: #f6f5f2;
   border-bottom: 1px solid rgba(224, 216, 204, 0.6);
 }
 .categories-grid {
@@ -88,7 +88,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 600;
   color: #8b6648;
   padding-top: 10px;

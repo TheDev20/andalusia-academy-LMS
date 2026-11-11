@@ -51,7 +51,7 @@ export function SyllabusModuleAccordion({
             {module.topics.map((topic: string, idx: number) => (
               <li key={idx} className="module-topic-item">
                 <CheckCircle2
-                  size={18}
+                  size={20}
                   className="topic-check-icon"
                   aria-hidden="true"
                 />

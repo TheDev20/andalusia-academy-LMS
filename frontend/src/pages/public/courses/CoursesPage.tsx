@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import FeaturedCoursesSection from "../home/sections/FeaturedCoursesSection";
 import SectionHeading from "../../../components/ui/SectionHeading";
-import Badge from "../../../components/common/Badge";
 import { fetchCatalogPrograms, fetchCareerPaths } from "../../../services/catalogService";
 import { useDebounce } from "../../../hooks/useDebounce";
 import { ErrorAlert, LoadingState } from "../../../components/portal/Portal";
@@ -94,7 +93,7 @@ export default function CoursesPage() {
         : "Search single courses by title, topic, or skill…";
 
   return (
-    <main style={{ background: "#eae4d9", minHeight: "calc(100vh - 80px)" }}>
+    <div style={{ background: "#eae4d9", minHeight: "calc(100vh - 80px)" }}>
       <style>{`
         @keyframes catalogTabFadeIn {
           from {
@@ -110,7 +109,7 @@ export default function CoursesPage() {
           animation: catalogTabFadeIn 0.22s ease-out;
         }
         .catalog-rich-card {
-          background: #f7f4ee;
+          background: #f6f5f2;
           border: 1px solid #ded6c8;
           border-radius: 20px;
           padding: 28px;
@@ -133,11 +132,9 @@ export default function CoursesPage() {
         style={{ paddingTop: "clamp(44px, 6vh, 68px)" }}
       >
         <div style={{ textAlign: "center", marginBottom: 28 }}>
-          <Badge variant="bronze" dot>
-            ACADEMIC CATALOG &amp; LEARNING TRACKS
-          </Badge>
           <div style={{ marginTop: 12 }}>
             <SectionHeading
+              as="h1"
               title={
                 activeTab === "programs" ? (
                   <>
@@ -174,7 +171,7 @@ export default function CoursesPage() {
             justifyContent: "space-between",
             gap: 16,
             padding: "14px 18px",
-            background: "#f7f4ee",
+            background: "#f6f5f2",
             borderRadius: 20,
             border: "1px solid #ded6c8",
             boxShadow: "0 6px 22px rgba(39, 30, 22, 0.04)",
@@ -205,7 +202,7 @@ export default function CoursesPage() {
                 padding: "10px 20px",
                 borderRadius: 999,
                 border: "none",
-                fontSize: 13.5,
+                fontSize: 14,
                 fontWeight: 600,
                 background: activeTab === "courses" ? "#8b6648" : "transparent",
                 color: activeTab === "courses" ? "#ffffff" : "#43392f",
@@ -217,7 +214,7 @@ export default function CoursesPage() {
                 transition: "all 0.18s ease",
               }}
             >
-              <BookOpen size={15} aria-hidden="true" />
+              <BookOpen size={16} aria-hidden="true" />
               <span>Single Courses</span>
             </button>
 
@@ -233,7 +230,7 @@ export default function CoursesPage() {
                 padding: "10px 20px",
                 borderRadius: 999,
                 border: "none",
-                fontSize: 13.5,
+                fontSize: 14,
                 fontWeight: 600,
                 background: activeTab === "programs" ? "#8b6648" : "transparent",
                 color: activeTab === "programs" ? "#ffffff" : "#43392f",
@@ -245,7 +242,7 @@ export default function CoursesPage() {
                 transition: "all 0.18s ease",
               }}
             >
-              <Layers size={15} aria-hidden="true" />
+              <Layers size={16} aria-hidden="true" />
               <span>Multi-Course Programs</span>
             </button>
 
@@ -261,7 +258,7 @@ export default function CoursesPage() {
                 padding: "10px 20px",
                 borderRadius: 999,
                 border: "none",
-                fontSize: 13.5,
+                fontSize: 14,
                 fontWeight: 600,
                 background:
                   activeTab === "career-paths" ? "#8b6648" : "transparent",
@@ -274,7 +271,7 @@ export default function CoursesPage() {
                 transition: "all 0.18s ease",
               }}
             >
-              <Compass size={15} aria-hidden="true" />
+              <Compass size={16} aria-hidden="true" />
               <span>Career Paths</span>
             </button>
           </div>
@@ -288,7 +285,7 @@ export default function CoursesPage() {
                 left: 14,
                 top: "50%",
                 transform: "translateY(-50%)",
-                color: "#7a6e60",
+                color: "#6f6456",
               }}
             />
             <input
@@ -319,7 +316,7 @@ export default function CoursesPage() {
                   transform: "translateY(-50%)",
                   border: "none",
                   background: "transparent",
-                  color: "#7a6e60",
+                  color: "#6f6456",
                   cursor: "pointer",
                   padding: 4,
                 }}
@@ -355,7 +352,7 @@ export default function CoursesPage() {
             ) : !programsData || programsData.items.length === 0 ? (
               <div
                 style={{
-                  background: "#f7f4ee",
+                  background: "#f6f5f2",
                   border: "1px solid #ded6c8",
                   borderRadius: 20,
                   padding: "48px 24px",
@@ -365,7 +362,7 @@ export default function CoursesPage() {
                 <h3 style={{ margin: "0 0 8px", color: "#271e16" }}>
                   No multi-course programs match your search
                 </h3>
-                <p style={{ margin: "0 0 16px", color: "#7a6e60", fontSize: 14 }}>
+                <p style={{ margin: "0 0 16px", color: "#6f6456", fontSize: 14 }}>
                   Try clearing your search filter or switch to Single Courses.
                 </p>
                 {searchQuery && (
@@ -399,11 +396,11 @@ export default function CoursesPage() {
                     >
                       <span
                         style={{
-                          fontSize: 11.5,
+                          fontSize: 12,
                           fontWeight: 700,
                           textTransform: "uppercase",
                           letterSpacing: "0.06em",
-                          color: "#8b6648",
+                          color: "#75552d",
                           background: "#ede6da",
                           padding: "5px 12px",
                           borderRadius: 999,
@@ -430,7 +427,7 @@ export default function CoursesPage() {
                     <h2
                       style={{
                         margin: 0,
-                        fontSize: 21,
+                        fontSize: 22,
                         lineHeight: 1.3,
                         fontWeight: 700,
                         color: "#271e16",
@@ -448,7 +445,7 @@ export default function CoursesPage() {
                       style={{
                         margin: 0,
                         color: "#524434",
-                        fontSize: 14.5,
+                        fontSize: 15,
                         lineHeight: 1.6,
                         flexGrow: 1,
                       }}
@@ -492,14 +489,14 @@ export default function CoursesPage() {
                           padding: "12px 18px",
                           borderRadius: 12,
                           background: "#271e16",
-                          color: "#f7f4ee",
+                          color: "#f6f5f2",
                           fontSize: 14,
                           fontWeight: 600,
                           textDecoration: "none",
                         }}
                       >
                         <span>Explore Program &amp; Curriculum</span>
-                        <ArrowUpRight size={15} aria-hidden="true" />
+                        <ArrowUpRight size={16} aria-hidden="true" />
                       </Link>
                     </div>
                   </article>
@@ -521,7 +518,7 @@ export default function CoursesPage() {
             ) : filteredCareerPaths.length === 0 ? (
               <div
                 style={{
-                  background: "#f7f4ee",
+                  background: "#f6f5f2",
                   border: "1px solid #ded6c8",
                   borderRadius: 20,
                   padding: "48px 24px",
@@ -531,7 +528,7 @@ export default function CoursesPage() {
                 <h3 style={{ margin: "0 0 8px", color: "#271e16" }}>
                   No career paths match your search
                 </h3>
-                <p style={{ margin: "0 0 16px", color: "#7a6e60", fontSize: 14 }}>
+                <p style={{ margin: "0 0 16px", color: "#6f6456", fontSize: 14 }}>
                   Try clearing your search query or explore all available tracks.
                 </p>
                 {searchQuery && (
@@ -567,22 +564,22 @@ export default function CoursesPage() {
                           display: "inline-flex",
                           alignItems: "center",
                           gap: 6,
-                          fontSize: 11.5,
+                          fontSize: 12,
                           fontWeight: 700,
                           textTransform: "uppercase",
                           letterSpacing: "0.06em",
-                          color: "#8b6648",
+                          color: "#75552d",
                           background: "#ede6da",
                           padding: "5px 12px",
                           borderRadius: 999,
                         }}
                       >
-                        <Sparkles size={12} aria-hidden="true" />
+                        <Sparkles size={14} aria-hidden="true" />
                         Career Roadmap
                       </span>
                       <span
                         style={{
-                          fontSize: 12.5,
+                          fontSize: 13,
                           fontWeight: 600,
                           color: "#6b5d4d",
                         }}
@@ -594,7 +591,7 @@ export default function CoursesPage() {
                     <h2
                       style={{
                         margin: 0,
-                        fontSize: 21,
+                        fontSize: 22,
                         lineHeight: 1.3,
                         fontWeight: 700,
                         color: "#271e16",
@@ -612,7 +609,7 @@ export default function CoursesPage() {
                       style={{
                         margin: 0,
                         color: "#524434",
-                        fontSize: 14.5,
+                        fontSize: 15,
                         lineHeight: 1.6,
                         flexGrow: 1,
                       }}
@@ -668,7 +665,7 @@ export default function CoursesPage() {
                       >
                         <GraduationCap size={16} aria-hidden="true" />
                         <span>View Full Career Roadmap</span>
-                        <ArrowUpRight size={15} aria-hidden="true" />
+                        <ArrowUpRight size={16} aria-hidden="true" />
                       </Link>
                     </div>
                   </article>
@@ -678,6 +675,6 @@ export default function CoursesPage() {
           </section>
         )}
       </div>
-    </main>
+    </div>
   );
 }

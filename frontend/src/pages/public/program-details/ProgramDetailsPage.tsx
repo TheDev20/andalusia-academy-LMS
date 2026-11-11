@@ -60,7 +60,6 @@ export default function ProgramDetailsPage() {
 
   return (
     <PortalPage
-      eyebrow={program.categories.join(" · ") || "Program"}
       title={program.title}
       subtitle={program.description}
       backTo="/courses?tab=programs"

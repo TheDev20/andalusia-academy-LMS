@@ -44,7 +44,7 @@ export default function MaterialsTab({ courseOfferingId, resources }: { courseOf
                 )}
                 {r.completedAt ? (
                   <span className="portal-badge portal-badge-success">
-                    <CheckCircle2 size={13} aria-hidden="true" style={{ marginRight: 4 }} /> Done
+                    <CheckCircle2 size={14} aria-hidden="true" style={{ marginRight: 4 }} /> Done
                   </span>
                 ) : (
                   <button

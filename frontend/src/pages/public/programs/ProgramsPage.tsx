@@ -21,7 +21,6 @@ export default function ProgramsPage() {
 
   return (
     <PortalPage
-      eyebrow="Catalog"
       title="Programs"
       subtitle="Multi-course programs that take you from fundamentals to job-ready, with a cohort and a schedule."
       actions={
@@ -34,7 +33,7 @@ export default function ProgramsPage() {
       <div className="portal-field" style={{ maxWidth: 420, marginBottom: 20 }}>
         <label className="portal-label" htmlFor="program-search">Search programs</label>
         <div style={{ position: "relative" }}>
-          <Search size={16} aria-hidden="true" style={{ position: "absolute", left: 11, top: 11, color: "#7a6e60" }} />
+          <Search size={16} aria-hidden="true" style={{ position: "absolute", left: 11, top: 11, color: "#6f6456" }} />
           <input
             id="program-search"
             className="portal-input"
@@ -79,7 +78,7 @@ export default function ProgramsPage() {
             <nav className="portal-row" aria-label="Pagination" style={{ marginTop: 20, justifyContent: "center" }}>
               <button type="button" className="portal-btn portal-btn-secondary portal-btn-sm" disabled={!data.hasPreviousPage}
                 onClick={() => setPage((p) => p - 1)}>Previous</button>
-              <span style={{ fontSize: 13.5 }}>Page {data.pageNumber} of {data.totalPages}</span>
+              <span style={{ fontSize: 14 }}>Page {data.pageNumber} of {data.totalPages}</span>
               <button type="button" className="portal-btn portal-btn-secondary portal-btn-sm" disabled={!data.hasNextPage}
                 onClick={() => setPage((p) => p + 1)}>Next</button>
             </nav>

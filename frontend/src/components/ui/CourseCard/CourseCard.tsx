@@ -7,6 +7,8 @@ import "./CourseCard.css";
 export interface CourseCardProps {
   course: Course;
   onSelect?: (course: Course) => void;
+  /** Heading level of the card title; use 2 when the card sits directly under the page h1. */
+  headingLevel?: 2 | 3;
 }
 function getCourseCover(imageUrl?: string | null, category?: string | null): string {
   if (imageUrl) return imageUrl;
@@ -19,7 +21,8 @@ function getCourseCover(imageUrl?: string | null, category?: string | null): str
   return "/images/SoftwareEngineering.jpg";
 }
 
-export default function CourseCard({ course }: CourseCardProps) {
+export default function CourseCard({ course, headingLevel = 3 }: CourseCardProps) {
+  const Heading = `h${headingLevel}` as const;
   const {
     id,
     title,
@@ -40,6 +43,8 @@ export default function CourseCard({ course }: CourseCardProps) {
         <img
           src={getCourseCover(course.imageUrl, category)}
           alt={course.title}
+          loading="lazy"
+          decoding="async"
         />
       </div>
 
@@ -51,7 +56,7 @@ export default function CourseCard({ course }: CourseCardProps) {
             aria-label={`Rated ${rating} out of 5 stars`}
           >
             <Star
-              size={13}
+              size={14}
               fill="#d4a359"
               stroke="#d4a359"
               aria-hidden="true"
@@ -63,24 +68,24 @@ export default function CourseCard({ course }: CourseCardProps) {
 
         <span className="course-category-tag">{category}</span>
 
-        <h3 id={`course-title-${id}`} className="course-card-title">
+        <Heading id={`course-title-${id}`} className="course-card-title">
           <Link
             to={`/courses/${course.id}/syllabus`}
             style={{ color: "inherit", textDecoration: "none" }}
           >
             {title}
           </Link>
-        </h3>
+        </Heading>
 
         <p className="course-card-summary">{summary}</p>
 
         <div className="course-card-specs">
           <div className="spec-item">
-            <Clock size={13} aria-hidden="true" />
+            <Clock size={14} aria-hidden="true" />
             <span>{duration}</span>
           </div>
           <div className="spec-item">
-            <Award size={13} aria-hidden="true" />
+            <Award size={14} aria-hidden="true" />
             <span>{level}</span>
           </div>
         </div>

@@ -49,7 +49,7 @@ export default function UsersTab({ role }: { role: "Learner" | "Instructor" }) {
         />
         {role === "Instructor" && (
           <button type="button" className="portal-btn" onClick={() => setCreating(true)}>
-            <UserPlus size={15} aria-hidden="true" /> New instructor
+            <UserPlus size={16} aria-hidden="true" /> New instructor
           </button>
         )}
       </div>
@@ -62,7 +62,7 @@ export default function UsersTab({ role }: { role: "Learner" | "Instructor" }) {
         <EmptyState title={`No ${label} found`} />
       ) : (
         <>
-          <div className="portal-table-wrap">
+          <div className="portal-table-wrap" tabIndex={0}>
             <table className="portal-table">
               <thead>
                 <tr>

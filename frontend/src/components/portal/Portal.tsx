@@ -1,10 +1,10 @@
 import { ReactNode, useEffect, useId, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Loader2, X } from "lucide-react";
+import { Empty, EmptyContent, EmptyHeader, EmptyTitle } from "../ui/Empty";
 import "./portal.css";
 
 export function PortalPage({
-  eyebrow,
   title,
   subtitle,
   actions,
@@ -12,7 +12,6 @@ export function PortalPage({
   backLabel,
   children,
 }: {
-  eyebrow?: string;
   title: string;
   subtitle?: ReactNode;
   actions?: ReactNode;
@@ -25,12 +24,11 @@ export function PortalPage({
       <div className="portal-container">
         {backTo && (
           <Link to={backTo} className="portal-back">
-            <ArrowLeft size={15} aria-hidden="true" /> {backLabel ?? "Back"}
+            <ArrowLeft size={16} aria-hidden="true" /> {backLabel ?? "Back"}
           </Link>
         )}
         <div className="portal-header">
           <div>
-            {eyebrow && <div className="portal-eyebrow">{eyebrow}</div>}
             <h1 className="portal-title">{title}</h1>
             {subtitle && <p className="portal-subtitle">{subtitle}</p>}
           </div>
@@ -79,7 +77,7 @@ export function Tabs<T extends string>({
 export function LoadingState({ label = "Loading…" }: { label?: string }) {
   return (
     <div className="portal-loading" role="status">
-      <Loader2 size={18} className="portal-spin" aria-hidden="true" /> {label}
+      <Loader2 size={20} className="portal-spin" aria-hidden="true" /> {label}
     </div>
   );
 }
@@ -105,10 +103,12 @@ export function SuccessAlert({ message }: { message?: string | null }) {
 
 export function EmptyState({ title, children }: { title: string; children?: ReactNode }) {
   return (
-    <div className="portal-empty">
-      <h2 className="portal-empty-title">{title}</h2>
-      {children}
-    </div>
+    <Empty className="py-10">
+      <EmptyHeader>
+        <EmptyTitle>{title}</EmptyTitle>
+      </EmptyHeader>
+      {children && <EmptyContent>{children}</EmptyContent>}
+    </Empty>
   );
 }
 
@@ -133,7 +133,7 @@ export function ProgressBar({ percent, label }: { percent: number; label: string
   const value = Math.max(0, Math.min(100, percent));
   return (
     <div>
-      <div className="portal-row-between" style={{ fontSize: 13, color: "#7a6e60", marginBottom: 5 }}>
+      <div className="portal-row-between" style={{ fontSize: 13, color: "#6f6456", marginBottom: 5 }}>
         <span>{label}</span>
         <strong style={{ color: "#271e16" }}>{value}%</strong>
       </div>
@@ -175,7 +175,7 @@ export function Modal({
             {title}
           </h2>
           <button type="button" className="portal-icon-btn" onClick={onClose} aria-label="Close dialog">
-            <X size={18} />
+            <X size={20} />
           </button>
         </div>
         {children}

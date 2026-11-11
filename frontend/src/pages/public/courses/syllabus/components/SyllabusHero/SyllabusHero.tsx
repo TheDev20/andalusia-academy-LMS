@@ -35,7 +35,7 @@ export function SyllabusHero({ syllabus, onEnroll, enrollLabel }: SyllabusHeroPr
               <span className="hero-category-badge">{syllabus.category}</span>
               <span className="hero-rating-badge">
                 <Star
-                  size={15}
+                  size={16}
                   fill="#E3B58F"
                   stroke="#E3B58F"
                   aria-hidden="true"

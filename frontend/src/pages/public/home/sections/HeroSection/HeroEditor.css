@@ -215,7 +215,6 @@
   width: 2.5px;
   background: #d8a56f;
   border-radius: 0 2px 2px 0;
-  box-shadow: 0 0 8px rgba(216, 165, 111, 0.8);
 }
 .activity-item.brand-badge {
   color: #d8a56f;
@@ -278,6 +277,7 @@
 .tree-row {
   display: flex;
   align-items: center;
+  min-height: 24px;
   gap: 6px;
   padding: 3.5px 8px;
   background: transparent;
@@ -459,7 +459,7 @@
   align-items: center;
   gap: 6px;
   font-size: 10.5px;
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.5);
   font-family: "JetBrains Mono", monospace;
   background: rgba(0, 0, 0, 0.12);
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
@@ -488,7 +488,7 @@
   width: 100%;
 }
 .line-num {
-  color: rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.5);
   user-select: none;
   text-align: right;
   width: 18px;
@@ -638,7 +638,7 @@
   color: rgba(255, 255, 255, 0.72);
 }
 .term-line.term-dim {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.5);
 }
 .term-line.term-blank {
   height: 4px;

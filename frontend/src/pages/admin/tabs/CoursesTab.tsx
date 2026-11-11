@@ -39,7 +39,7 @@ export default function CoursesTab() {
           }}
         />
         <button type="button" className="portal-btn" onClick={() => setEditing("new")}>
-          <Plus size={15} aria-hidden="true" /> New course
+          <Plus size={16} aria-hidden="true" /> New course
         </button>
       </div>
 
@@ -51,7 +51,7 @@ export default function CoursesTab() {
         <EmptyState title="No courses found" />
       ) : (
         <>
-          <div className="portal-table-wrap">
+          <div className="portal-table-wrap" tabIndex={0}>
             <table className="portal-table">
               <thead>
                 <tr>
@@ -74,6 +74,7 @@ export default function CoursesTab() {
                           <img
                             src={c.imageUrl}
                             alt=""
+                            loading="lazy"
                             style={{ width: "32px", height: "22px", objectFit: "cover", borderRadius: "4px", flexShrink: 0, border: "1px solid #e0d8cc" }}
                           />
                         )}

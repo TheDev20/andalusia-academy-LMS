@@ -33,7 +33,7 @@ export default function DisciplinesTab() {
           onSearch={(term) => setSearch(term)}
         />
         <button type="button" className="portal-btn" onClick={() => setEditing("new")}>
-          <Plus size={15} aria-hidden="true" /> New discipline
+          <Plus size={16} aria-hidden="true" /> New discipline
         </button>
       </div>
 
@@ -44,7 +44,7 @@ export default function DisciplinesTab() {
       ) : filtered.length === 0 ? (
         <EmptyState title="No disciplines found" />
       ) : (
-        <div className="portal-table-wrap">
+        <div className="portal-table-wrap" tabIndex={0}>
           <table className="portal-table">
             <thead>
               <tr>

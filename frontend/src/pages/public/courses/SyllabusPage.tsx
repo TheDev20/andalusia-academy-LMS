@@ -157,7 +157,7 @@ export default function SyllabusPage() {
   if (isLoading && !isKnownSlug) {
     return (
       <div className="syllabus-state-container">
-        <Loader2 size={36} className="syllabus-spin-icon" />
+        <Loader2 size={32} className="syllabus-spin-icon" />
         <h3 className="syllabus-state-title">
           Loading program curriculum &amp; syllabus...
         </h3>
@@ -210,12 +210,12 @@ export default function SyllabusPage() {
       />
 
       {/* 3. Main Content Grid Sections */}
-      <main className="syllabus-main-body">
+      <div className="syllabus-main-body">
         <SyllabusCurriculumSection syllabus={syllabus} />
         <SyllabusLabsSection syllabus={syllabus} />
         <SyllabusTechSection syllabus={syllabus} />
         <SyllabusOutcomesSection syllabus={syllabus} />
-      </main>
+      </div>
 
       {/* 4. Closing Enrollment CTA Card */}
       <SyllabusClosingCta

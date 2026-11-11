@@ -14,7 +14,6 @@ export default function CtaSection({ onNavigate }: CtaSectionProps) {
     >
       <div className="section-container">
         <div className="cta-card">
-          <div className="cta-glow-accent" aria-hidden="true" />
 
           <div className="cta-content">
             <h2 className="cta-heading">

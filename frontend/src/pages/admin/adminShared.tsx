@@ -53,7 +53,7 @@ export function Pagination({
       >
         Previous
       </button>
-      <span style={{ fontSize: 13, color: "#7a6e60" }}>
+      <span style={{ fontSize: 13, color: "#6f6456" }}>
         Page {pageNumber} of {totalPages}
       </span>
       <button

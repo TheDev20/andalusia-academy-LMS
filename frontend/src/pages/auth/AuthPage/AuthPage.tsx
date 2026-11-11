@@ -85,7 +85,7 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
             className="back-to-site-btn"
             title="Return to Andalusia Academy public website"
           >
-            <ArrowLeft size={13} aria-hidden="true" />
+            <ArrowLeft size={14} aria-hidden="true" />
             <span>Website</span>
           </Link>
         </div>
@@ -189,31 +189,31 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
               <span className="password-requirements-title">Password must contain:</span>
               <div className={`requirement-item ${hasMinLength ? 'valid' : ''}`}>
                 <span className="requirement-icon">
-                  {hasMinLength ? <Check size={13} strokeWidth={2.5} /> : <span className="requirement-dot" />}
+                  {hasMinLength ? <Check size={14} strokeWidth={2.5} /> : <span className="requirement-dot" />}
                 </span>
                 <span>At least 8 characters</span>
               </div>
               <div className={`requirement-item ${hasUpper ? 'valid' : ''}`}>
                 <span className="requirement-icon">
-                  {hasUpper ? <Check size={13} strokeWidth={2.5} /> : <span className="requirement-dot" />}
+                  {hasUpper ? <Check size={14} strokeWidth={2.5} /> : <span className="requirement-dot" />}
                 </span>
                 <span>One uppercase letter (A-Z)</span>
               </div>
               <div className={`requirement-item ${hasLower ? 'valid' : ''}`}>
                 <span className="requirement-icon">
-                  {hasLower ? <Check size={13} strokeWidth={2.5} /> : <span className="requirement-dot" />}
+                  {hasLower ? <Check size={14} strokeWidth={2.5} /> : <span className="requirement-dot" />}
                 </span>
                 <span>One lowercase letter (a-z)</span>
               </div>
               <div className={`requirement-item ${hasNumber ? 'valid' : ''}`}>
                 <span className="requirement-icon">
-                  {hasNumber ? <Check size={13} strokeWidth={2.5} /> : <span className="requirement-dot" />}
+                  {hasNumber ? <Check size={14} strokeWidth={2.5} /> : <span className="requirement-dot" />}
                 </span>
                 <span>One number (0-9)</span>
               </div>
               <div className={`requirement-item ${hasSpecial ? 'valid' : ''}`}>
                 <span className="requirement-icon">
-                  {hasSpecial ? <Check size={13} strokeWidth={2.5} /> : <span className="requirement-dot" />}
+                  {hasSpecial ? <Check size={14} strokeWidth={2.5} /> : <span className="requirement-dot" />}
                 </span>
                 <span>One special symbol (e.g. !@#$%^&*)</span>
               </div>
@@ -222,7 +222,7 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
 
           <button type="submit" className="submit-btn" disabled={loading}>
             <span>{loading ? 'Processing...' : isSignup ? 'Create learner account' : 'Sign in to portal'}</span>
-            <ArrowRight size={18} />
+            <ArrowRight size={20} />
           </button>
         </form>
 
@@ -230,7 +230,7 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
           {isSignup ? 'Already part of the academy?' : 'New to Andalusia Academy?'}
           <Link to={isSignup ? '/login' : '/signup'}>
             {isSignup ? 'Log in' : 'Join us'}
-            <ArrowUpRight size={13} />
+            <ArrowUpRight size={14} />
           </Link>
         </p>
       </div>
@@ -238,7 +238,7 @@ export default function AuthPage({ page, onNavigate }: AuthPageProps) {
       <footer>
         <span>© {new Date().getFullYear()} Andalusia Academy</span>
         <Link to="/about">
-          About the Academy <ArrowUpRight size={13} />
+          About the Academy <ArrowUpRight size={14} />
         </Link>
       </footer>
     </section>

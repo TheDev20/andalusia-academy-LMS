@@ -46,7 +46,7 @@
   border-radius: 999px;
   box-shadow: 0 4px 14px rgba(67, 57, 47, 0.05);
   margin-bottom: 22px;
-  font-size: 12.5px;
+  font-size: 13px;
   animation: heroFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
 
@@ -55,31 +55,14 @@
   height: 8px;
   border-radius: 50%;
   background: #2e9e4f;
-  box-shadow: 0 0 0 0 rgba(46, 158, 79, 0.7);
-  animation: pulseLiveDot 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
   flex-shrink: 0;
-}
-
-@keyframes pulseLiveDot {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(46, 158, 79, 0.7);
-  }
-  70% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 8px rgba(46, 158, 79, 0);
-  }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(46, 158, 79, 0);
-  }
 }
 
 .countdown-label {
   font-weight: 700;
   color: var(--color-brand-dark, #43392f);
   letter-spacing: 0.6px;
-  font-size: 11.5px;
+  font-size: 12px;
 }
 
 .countdown-timer {
@@ -93,7 +76,7 @@
 }
 
 .time-val {
-  background: var(--color-brand-bg, #f7f4ee);
+  background: var(--color-brand-bg, #f6f5f2);
   padding: 2px 5px;
   border-radius: 4px;
   color: var(--color-brand-heading, #271e16);
@@ -109,8 +92,8 @@
 }
 
 .time-sep {
-  color: var(--color-brand-muted, #7a6e60);
-  font-size: 11px;
+  color: var(--color-brand-muted, #6f6456);
+  font-size: 12px;
 }
 
 /* Typography */
@@ -127,7 +110,7 @@
 
 .hero-title em {
   color: var(--color-brand-primary, #8b6648);
-  font-style: italic;
+  font-style: normal;
   text-decoration: underline;
   text-decoration-color: rgba(140, 100, 59, 0.28);
   text-underline-offset: 6px;
@@ -264,19 +247,19 @@
   border: none;
   background: transparent;
   width: 100%;
-  font-size: 13.5px;
+  font-size: 14px;
   color: var(--color-brand-heading, #271e16);
   outline: none;
 }
 
 .search-input-wrap input::placeholder {
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   font-size: 13px;
   opacity: 0.8;
 }
 
 .search-icon {
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   flex-shrink: 0;
 }
 
@@ -289,7 +272,7 @@
   border: none;
   border-radius: 999px;
   padding: 11px 22px;
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
@@ -305,11 +288,11 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-countdown-badge,
+  .hero-visual::before,
   .hero-title,
   .hero-subtitle,
   .hero-actions,
-  .hero-search-bar,
-  .live-pulsing-dot {
+  .hero-search-bar {
     animation: none;
     transform: none;
   }

@@ -112,7 +112,7 @@ export default function CorporateTrainingSection({
                 return (
                   <div key={pIdx} className="corporate-pillar-card">
                     <div className="pillar-icon-wrap">
-                      <Icon size={22} aria-hidden="true" />
+                      <Icon size={24} aria-hidden="true" />
                     </div>
                     <h3 className="pillar-title">{pillar.title}</h3>
                   </div>

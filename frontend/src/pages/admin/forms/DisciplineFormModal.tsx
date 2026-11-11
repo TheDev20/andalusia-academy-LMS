@@ -139,7 +139,7 @@ export default function DisciplineFormModal({
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
               <div style={{ position: "relative" }}>
                 <Search
-                  size={15}
+                  size={16}
                   style={{
                     position: "absolute",
                     left: 10,
@@ -194,7 +194,7 @@ export default function DisciplineFormModal({
                       }}
                       onClick={() => setForm((f) => ({ ...f, icon: item.value }))}
                     >
-                      <Icon size={18} style={{ flexShrink: 0, color: isSelected ? "#9c6b23" : "#6e5d4e" }} />
+                      <Icon size={20} style={{ flexShrink: 0, color: isSelected ? "#9c6b23" : "#6e5d4e" }} />
                       <span
                         style={{
                           fontSize: "0.78rem",

@@ -10,8 +10,8 @@
 
 .labs-heading {
   margin: 0 0 8px;
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 700;
+  font-family: var(--font-display, 'Libre Caslon Display', Georgia, serif);
+  font-weight: 400;
   font-size: 34px;
   line-height: 1.15;
   color: #1E1A17;
@@ -62,8 +62,8 @@
 
 .capstone-title {
   margin: 0;
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 700;
+  font-family: var(--font-display, 'Libre Caslon Display', Georgia, serif);
+  font-weight: 400;
   font-size: 24px;
   line-height: 1.2;
   color: #1E1A17;
@@ -104,7 +104,7 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-size: 14.5px;
+  font-size: 15px;
   color: #4A4137;
   line-height: 1.45;
 }
@@ -127,21 +127,13 @@
   justify-content: space-between;
 }
 
-.infra-icon-wrap {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: rgba(227, 181, 143, 0.15);
-  color: #E3B58F;
+.infra-title {
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-.infra-title {
+  gap: 10px;
   margin: 0;
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 700;
+  font-family: var(--font-display, 'Libre Caslon Display', Georgia, serif);
+  font-weight: 400;
   font-size: 22px;
   line-height: 1.25;
   color: #FFFFFF;
@@ -149,7 +141,7 @@
 
 .infra-desc {
   margin: 0;
-  font-size: 14.5px;
+  font-size: 15px;
   line-height: 1.6;
   color: #CFC4B5;
 }
@@ -168,8 +160,8 @@
 }
 
 .stat-num {
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 700;
+  font-family: var(--font-display, 'Libre Caslon Display', Georgia, serif);
+  font-weight: 400;
   font-size: 26px;
   color: #E3B58F;
 }
@@ -184,4 +176,9 @@
   .labs-cards-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.infra-title svg {
+  flex: none;
+  color: #E3B58F;
 }

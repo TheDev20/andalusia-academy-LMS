@@ -98,16 +98,19 @@ export default function ComingSoonSection() {
                   {prog.badge}
                 </Badge>
                 <div className="launch-tag">
-                  <Calendar size={13} aria-hidden="true" />
+                  <Calendar size={14} aria-hidden="true" />
                   <span>{prog.launchDate}</span>
                 </div>
               </div>
 
-              <span className="prog-track-label">{prog.track}</span>
               <h3 className="prog-title">{prog.title}</h3>
               <p className="prog-highlight">{prog.highlight}</p>
 
               <div className="prog-details-meta">
+                <div className="prog-target">
+                  <span className="meta-label">Track:</span>
+                  <span className="meta-val">{prog.track}</span>
+                </div>
                 <div className="prog-target">
                   <span className="meta-label">Ideal For:</span>
                   <span className="meta-val">{prog.targetAudience}</span>
