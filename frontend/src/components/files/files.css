@@ -1,0 +1,41 @@
+.file-picker-zone {
+  position: relative;
+  border: 1.5px dashed #cbbfae;
+  border-radius: 12px;
+  background: #faf8f4;
+  padding: 14px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.file-picker-zone.is-dragging { border-color: #8b6648; background: #f3ece1; }
+.file-picker-zone.is-disabled { opacity: 0.6; }
+.file-picker-zone:focus-within { border-color: #8b6648; outline: 2px solid #d4a359; outline-offset: 2px; }
+
+/* The native input stays in the DOM and focusable; only its visuals are replaced by the label. */
+.file-picker-input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+.file-picker-label {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid #ded6c8; background: #fff; color: #43392f;
+  border-radius: 10px; padding: 8px 14px; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.file-picker-label:hover { background: #f6f5f2; }
+.file-picker-input:disabled + .file-picker-label { opacity: 0.55; cursor: not-allowed; }
+.file-picker-hint { margin: 0; font-size: 13px; color: #6f6456; flex: 1 1 220px; }
+
+.file-picker-errors { list-style: none; margin: 8px 0 0; padding: 0; font-size: 13px; color: #8a2e1f; }
+.file-picker-errors li + li { margin-top: 2px; }
+
+.file-list { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; }
+.file-list-item {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;
+  background: #fff; border: 1px solid #ded6c8; border-radius: 10px; padding: 8px 12px;
+}
+.file-list-icon { color: #75552d; flex: none; }
+.file-list-name { flex: 1 1 160px; min-width: 0; font-size: 14px; font-weight: 600; color: #271e16; overflow-wrap: anywhere; }
+.file-list-size { font-size: 13px; color: #6f6456; }
+.file-list-remove { border: none; background: transparent; color: #6f6456; cursor: pointer; padding: 6px; border-radius: 6px; display: inline-flex; }
+.file-list-remove:hover { background: #f1ece2; color: #8a2e1f; }
+.file-list-remove:disabled { opacity: 0.5; cursor: not-allowed; }
