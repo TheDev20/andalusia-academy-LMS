@@ -165,6 +165,25 @@ public class ResourceAssetConfiguration : IEntityTypeConfiguration<ResourceAsset
     }
 }
 
+public class AssignmentAssetConfiguration : IEntityTypeConfiguration<AssignmentAsset>
+{
+    public void Configure(EntityTypeBuilder<AssignmentAsset> builder)
+    {
+        builder.ToTable("AssignmentAsset");
+        builder.HasKey(aa => new { aa.AssignmentId, aa.FileAssetId });
+
+        builder.HasOne(aa => aa.Assignment)
+            .WithMany()
+            .HasForeignKey(aa => aa.AssignmentId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(aa => aa.FileAsset)
+            .WithMany()
+            .HasForeignKey(aa => aa.FileAssetId)
+            .OnDelete(DeleteBehavior.Restrict);
+    }
+}
+
 public class SubmissionAssetConfiguration : IEntityTypeConfiguration<SubmissionAsset>
 {
     public void Configure(EntityTypeBuilder<SubmissionAsset> builder)

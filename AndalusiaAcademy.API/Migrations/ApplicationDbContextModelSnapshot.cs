@@ -17,7 +17,7 @@ namespace AndalusiaAcademy.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.13")
+                .HasAnnotation("ProductVersion", "10.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -775,6 +775,21 @@ namespace AndalusiaAcademy.API.Migrations
                     b.HasIndex("PayoutId", "InstructorId", "Currency");
 
                     b.ToTable("PayoutAllocation", (string)null);
+                });
+
+            modelBuilder.Entity("AndalusiaAcademy.API.Models.Content.AssignmentAsset", b =>
+                {
+                    b.Property<Guid>("AssignmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FileAssetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AssignmentId", "FileAssetId");
+
+                    b.HasIndex("FileAssetId");
+
+                    b.ToTable("AssignmentAsset", (string)null);
                 });
 
             modelBuilder.Entity("AndalusiaAcademy.API.Models.Content.FAQ", b =>
@@ -2705,6 +2720,25 @@ namespace AndalusiaAcademy.API.Migrations
                     b.Navigation("EarningEntry");
 
                     b.Navigation("Payout");
+                });
+
+            modelBuilder.Entity("AndalusiaAcademy.API.Models.Content.AssignmentAsset", b =>
+                {
+                    b.HasOne("AndalusiaAcademy.API.Models.Learning.Assignment", "Assignment")
+                        .WithMany()
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AndalusiaAcademy.API.Models.Content.FileAsset", "FileAsset")
+                        .WithMany()
+                        .HasForeignKey("FileAssetId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Assignment");
+
+                    b.Navigation("FileAsset");
                 });
 
             modelBuilder.Entity("AndalusiaAcademy.API.Models.Content.FileAsset", b =>

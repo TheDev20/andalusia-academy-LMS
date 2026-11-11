@@ -1,6 +1,9 @@
 import { FormEvent, useState } from "react";
 import { ErrorAlert, Field, Modal } from "../../../components/portal/Portal";
+import FileList from "../../../components/files/FileList";
+import FilePicker from "../../../components/files/FilePicker";
 import { adminApi } from "../../../services/api/adminApi";
+import { MAX_FILES_PER_OWNER, MAX_FILES_PER_UPLOAD, type FileDto } from "../../../types/files";
 import type { AdminResourceDto, UpsertResourceRequest } from "../../../types/operations";
 import { adminKeys, useAdminMutation } from "../adminShared";
 
@@ -21,12 +24,29 @@ export default function ResourceFormModal({
     required: resource?.required ?? true,
     sequence: String(resource?.sequence ?? nextSequence),
   });
+  const [files, setFiles] = useState<File[]>([]);
+  const [existing, setExisting] = useState<FileDto[]>(resource?.files ?? []);
+  // After the first successful save of a new material, a retry (e.g. after a failed upload) updates it instead of creating a duplicate.
+  const [createdId, setCreatedId] = useState<string | null>(null);
 
   const save = useAdminMutation(
-    (request: UpsertResourceRequest) =>
-      resource ? adminApi.updateResource(resource.id, request) : adminApi.createResource(offeringId, request),
+    async (request: UpsertResourceRequest) => {
+      const targetId = resource?.id ?? createdId;
+      const saved = targetId
+        ? await adminApi.updateResource(targetId, request)
+        : await adminApi.createResource(offeringId, request);
+      if (!targetId) setCreatedId(saved.id);
+      if (files.length > 0) await adminApi.uploadResourceFiles(saved.id, files);
+      return saved;
+    },
     [adminKeys.resources(offeringId)],
     onClose,
+  );
+
+  const removeFile = useAdminMutation(
+    (file: FileDto) => adminApi.deleteResourceFile(resource!.id, file.id),
+    [adminKeys.resources(offeringId)],
+    (updated) => setExisting(updated.files),
   );
 
   const submit = (e: FormEvent) => {
@@ -39,20 +59,48 @@ export default function ResourceFormModal({
     });
   };
 
+  const room = MAX_FILES_PER_OWNER - existing.length;
+
   return (
     <Modal title={resource ? "Edit learning material" : "New learning material"} onClose={onClose}>
-      <ErrorAlert error={save.error} />
+      <ErrorAlert error={save.error ?? removeFile.error} />
       <form className="portal-form" onSubmit={submit}>
         <Field label="Title">
           {(id) => (
             <input id={id} className="portal-input" required maxLength={250} value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} />
           )}
         </Field>
-        <Field label="URL">
+        <Field label="Link (optional)">
           {(id) => (
             <input id={id} type="url" className="portal-input" maxLength={1000} placeholder="https://…" value={form.url} onChange={(e) => setForm((f) => ({ ...f, url: e.target.value }))} />
           )}
         </Field>
+
+        <div className="portal-field">
+          <span className="portal-label">Documents (optional)</span>
+          {existing.length > 0 && (
+            <FileList
+              files={existing}
+              label="Uploaded documents"
+              removing={removeFile.isPending}
+              onRemove={(file) =>
+                window.confirm(`Remove "${file.fileName}"? Learners will no longer be able to download it.`) && removeFile.mutate(file)
+              }
+            />
+          )}
+          {room > 0 ? (
+            <FilePicker
+              files={files}
+              onChange={setFiles}
+              disabled={save.isPending}
+              maxFiles={Math.min(MAX_FILES_PER_UPLOAD, room)}
+              label="Choose documents"
+            />
+          ) : (
+            <p className="portal-card-meta">This material already holds the maximum of {MAX_FILES_PER_OWNER} files.</p>
+          )}
+        </div>
+
         <div className="portal-form-grid">
           <Field label="Sequence">
             {(id) => (
@@ -69,7 +117,7 @@ export default function ResourceFormModal({
             Cancel
           </button>
           <button type="submit" className="portal-btn" disabled={save.isPending}>
-            {save.isPending ? "Saving…" : "Save material"}
+            {save.isPending ? (files.length > 0 ? "Saving and uploading…" : "Saving…") : "Save material"}
           </button>
         </div>
       </form>

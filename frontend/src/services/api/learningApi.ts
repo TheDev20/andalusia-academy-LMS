@@ -10,10 +10,21 @@ export const learningApi = {
     return apiRequest<LearnerResourceDto>(`/api/learning/resources/${resourceId}/complete`, { method: "POST" });
   },
 
-  submitAssignment(assignmentId: string, body: string): Promise<SubmissionDto> {
-    return apiRequest<SubmissionDto>(`/api/learning/assignments/${assignmentId}/submissions`, {
+  /** Text-only attempts use the JSON endpoint; attempts with files are sent as multipart form data. */
+  submitAssignment(assignmentId: string, body: string, files: File[] = []): Promise<SubmissionDto> {
+    if (files.length === 0) {
+      return apiRequest<SubmissionDto>(`/api/learning/assignments/${assignmentId}/submissions`, {
+        method: "POST",
+        body: { body },
+      });
+    }
+
+    const form = new FormData();
+    if (body) form.append("Body", body);
+    files.forEach((file) => form.append("Files", file, file.name));
+    return apiRequest<SubmissionDto>(`/api/learning/assignments/${assignmentId}/submissions/upload`, {
       method: "POST",
-      body: { body },
+      body: form,
     });
   },
 };

@@ -91,6 +91,14 @@ export const adminApi = {
   deleteResource(resourceId: string): Promise<void> {
     return apiRequest(`/api/admin/offerings/resources/${resourceId}`, { method: "DELETE" });
   },
+  uploadResourceFiles(resourceId: string, files: File[]): Promise<AdminResourceDto> {
+    const form = new FormData();
+    files.forEach((file) => form.append("Files", file, file.name));
+    return apiRequest(`/api/admin/offerings/resources/${resourceId}/files`, { method: "POST", body: form });
+  },
+  deleteResourceFile(resourceId: string, fileId: string): Promise<AdminResourceDto> {
+    return apiRequest(`/api/admin/offerings/resources/${resourceId}/files/${fileId}`, { method: "DELETE" });
+  },
 
   /* Locations & sessions */
   listLocations(signal?: AbortSignal): Promise<AdminLocationDto[]> {

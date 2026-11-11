@@ -3,6 +3,7 @@ import { CheckCircle2, ExternalLink } from "lucide-react";
 import { learningApi } from "../../../services/api/learningApi";
 import type { LearnerResourceDto } from "../../../types/learning";
 import { EmptyState, ErrorAlert } from "../../../components/portal/Portal";
+import FileList from "../../../components/files/FileList";
 import { formatDate } from "../../../utils/format";
 import { courseQueryKey } from "./queryKeys";
 
@@ -58,6 +59,7 @@ export default function MaterialsTab({ courseOfferingId, resources }: { courseOf
                 )}
               </div>
             </div>
+            <FileList files={r.files ?? []} label={`Files for ${r.title}`} />
           </li>
         ))}
       </ul>

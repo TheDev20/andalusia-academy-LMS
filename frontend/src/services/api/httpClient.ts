@@ -104,6 +104,25 @@ export async function apiRequest<T>(
   return (await response.json()) as T;
 }
 
+/** Authenticated GET that returns the response body as a Blob (file downloads). */
+export async function apiBlob(path: string, signal?: AbortSignal): Promise<Blob> {
+  const token = tokenStore.getToken();
+  const response = await fetch(`${API_BASE}${path}`, {
+    method: "GET",
+    signal,
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+
+  if (!response.ok) {
+    if (response.status === 401 && token) {
+      window.dispatchEvent(new Event(SESSION_EXPIRED_EVENT));
+    }
+    throw await toApiError(response);
+  }
+
+  return response.blob();
+}
+
 /** Builds a query string, skipping empty values. */
 export function toQuery(
   params: Record<string, string | number | boolean | undefined | null>,

@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using AndalusiaAcademy.API.DTOs.Common;
 using AndalusiaAcademy.API.DTOs.Operations;
 using AndalusiaAcademy.API.ENUMs;
 using AndalusiaAcademy.API.Services.Interfaces.Operations;
+using AndalusiaAcademy.API.Services.Interfaces.Storage;
 
 namespace AndalusiaAcademy.API.Controllers.Operations;
 
@@ -81,4 +83,25 @@ public class AdminOfferingsController : ControllerBase
         await _offerings.DeleteResourceAsync(resourceId, cancellationToken);
         return NoContent();
     }
+
+    /// <summary>Uploads up to 5 documents to a material (multipart/form-data, field "Files"). Learners download them from the course page.</summary>
+    [HttpPost("resources/{resourceId:guid}/files")]
+    [Consumes("multipart/form-data")]
+    [RequestSizeLimit(UploadLimits.MaxRequestBytes)]
+    [RequestFormLimits(MultipartBodyLengthLimit = UploadLimits.MaxRequestBytes)]
+    [ProducesResponseType(typeof(AdminResourceDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+    public async Task<ActionResult<AdminResourceDto>> UploadResourceFiles(
+        Guid resourceId, [FromForm] UploadFilesFormRequest form, CancellationToken cancellationToken)
+    {
+        var files = (form.Files ?? []).Select(f => new IncomingFile(f.FileName, f.Length, f.OpenReadStream)).ToList();
+        return Ok(await _offerings.AddResourceFilesAsync(resourceId, files, cancellationToken));
+    }
+
+    /// <summary>Removes one uploaded file from a material and deletes it from storage.</summary>
+    [HttpDelete("resources/{resourceId:guid}/files/{fileId:guid}")]
+    [ProducesResponseType(typeof(AdminResourceDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<AdminResourceDto>> RemoveResourceFile(Guid resourceId, Guid fileId, CancellationToken cancellationToken) =>
+        Ok(await _offerings.RemoveResourceFileAsync(resourceId, fileId, cancellationToken));
 }

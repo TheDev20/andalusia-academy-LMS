@@ -1,8 +1,11 @@
-import { useMemo, useRef, useState } from "react";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FileText, Paperclip, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { instructorApi } from "../../../services/api/instructorApi";
 import { EmptyState, ErrorAlert, Field, Modal, StatusBadge } from "../../../components/portal/Portal";
+import FileList from "../../../components/files/FileList";
+import FilePicker from "../../../components/files/FilePicker";
+import { MAX_FILES_PER_OWNER, MAX_FILES_PER_UPLOAD, type FileDto } from "../../../types/files";
 import { formatDateTime, fromDateTimeLocal, toDateTimeLocal } from "../../../utils/format";
 import {
   ASSIGNMENT_STATUSES,
@@ -12,8 +15,6 @@ import {
 } from "../../../types/learning";
 import SubmissionsModal from "./SubmissionsModal";
 import { cohortKeys } from "./queryKeys";
-
-const ATTACHMENT_REGEX = /\n\n📎 Attachment:\s*\[(.*?)\]\((.*?)\)/;
 
 type EditorState = { mode: "create" } | { mode: "edit"; assignment: InstructorAssignmentDto } | null;
 
@@ -116,77 +117,63 @@ function AssignmentEditor({
   onClose: () => void;
 }) {
   const queryClient = useQueryClient();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const initialData = useMemo(() => {
-    const raw = assignment?.instructions ?? "";
-    const match = raw.match(ATTACHMENT_REGEX);
-    if (match) {
-      return {
-        instructions: raw.replace(ATTACHMENT_REGEX, "").trim(),
-        attachment: { name: match[1], url: match[2] },
-      };
-    }
-    return { instructions: raw, attachment: null };
-  }, [assignment]);
 
   const [title, setTitle] = useState(assignment?.title ?? "");
-  const [instructions, setInstructions] = useState(initialData.instructions);
-  const [attachment, setAttachment] = useState<{ name: string; url: string } | null>(initialData.attachment);
-  const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [instructions, setInstructions] = useState(assignment?.instructions ?? "");
   const [maxScore, setMaxScore] = useState(String(assignment?.maxScore ?? 100));
   const [dueAt, setDueAt] = useState(toDateTimeLocal(assignment?.dueAt));
   const [status, setStatus] = useState<AssignmentStatus>(assignment?.status ?? "Draft");
+  const [files, setFiles] = useState<File[]>([]);
+  const [existing, setExisting] = useState<FileDto[]>(assignment?.files ?? []);
+  // After the first successful save of a new assignment, a retry (e.g. after a failed upload) updates it instead of creating a duplicate.
+  const [createdId, setCreatedId] = useState<string | null>(null);
 
-  const handleFileUpload = async (file: File) => {
-    setUploadError(null);
-    if (file.size > 25 * 1024 * 1024) {
-      setUploadError("File must be smaller than 25MB.");
-      return;
-    }
-    try {
-      setUploading(true);
-      const res = await instructorApi.uploadAttachment(file);
-      setAttachment({ name: res.fileName, url: res.url });
-    } catch (err: unknown) {
-      setUploadError(err instanceof Error ? err.message : "Failed to upload document.");
-    } finally {
-      setUploading(false);
-    }
+  const refresh = () => {
+    queryClient.invalidateQueries({ queryKey: cohortKeys.detail(offeringId) });
+    queryClient.invalidateQueries({ queryKey: cohortKeys.progress(offeringId) });
+    queryClient.invalidateQueries({ queryKey: cohortKeys.cohorts });
   };
 
   const save = useMutation({
-    mutationFn: (request: UpsertAssignmentRequest) =>
-      assignment
-        ? instructorApi.updateAssignment(assignment.id, request)
-        : instructorApi.createAssignment(offeringId, request),
+    mutationFn: async (request: UpsertAssignmentRequest) => {
+      const targetId = assignment?.id ?? createdId;
+      const saved = targetId
+        ? await instructorApi.updateAssignment(targetId, request)
+        : await instructorApi.createAssignment(offeringId, request);
+      if (!targetId) setCreatedId(saved.id);
+      if (files.length > 0) await instructorApi.uploadAssignmentFiles(saved.id, files);
+      return saved;
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: cohortKeys.detail(offeringId) });
-      queryClient.invalidateQueries({ queryKey: cohortKeys.progress(offeringId) });
-      queryClient.invalidateQueries({ queryKey: cohortKeys.cohorts });
+      refresh();
       onClose();
+    },
+  });
+
+  const removeFile = useMutation({
+    mutationFn: (file: FileDto) => instructorApi.deleteAssignmentFile(assignment!.id, file.id),
+    onSuccess: (updated) => {
+      setExisting(updated.files);
+      refresh();
     },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const finalInstructions = attachment
-      ? `${instructions.trim()}\n\n📎 Attachment: [${attachment.name}](${attachment.url})`
-      : instructions.trim();
-
     save.mutate({
       title: title.trim(),
-      instructions: finalInstructions,
+      instructions: instructions.trim(),
       maxScore: Number(maxScore),
       dueAt: dueAt ? fromDateTimeLocal(dueAt) : null,
       status,
     });
   };
 
+  const room = MAX_FILES_PER_OWNER - existing.length;
+
   return (
     <Modal title={assignment ? "Edit assignment" : "New assignment"} onClose={onClose}>
-      <ErrorAlert error={save.error} />
+      <ErrorAlert error={save.error ?? removeFile.error} />
       <form className="portal-form" onSubmit={handleSubmit}>
         <Field label="Title">
           {(id) => (
@@ -207,73 +194,31 @@ function AssignmentEditor({
           )}
         </Field>
 
-        <Field label="Assignment Attachment (PDF, Document, Questions Sheet)">
-          {() => (
-            <div>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".pdf,.doc,.docx,.zip,.txt,.png,.jpg"
-                style={{ display: "none" }}
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) handleFileUpload(file);
-                }}
-              />
-              {attachment ? (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "0.6rem 0.85rem",
-                    borderRadius: "8px",
-                    border: "1px solid #dfd7c8",
-                    backgroundColor: "#fdfbf7",
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.55rem" }}>
-                    <FileText size={20} color="#b5833e" />
-                    <span style={{ fontSize: "0.85rem", fontWeight: 500, color: "#3d342c" }}>{attachment.name}</span>
-                  </div>
-                  <div style={{ display: "flex", gap: "0.6rem" }}>
-                    <a
-                      href={attachment.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="portal-btn-link"
-                      style={{ fontSize: "0.8rem", textDecoration: "underline" }}
-                    >
-                      Preview document
-                    </a>
-                    <button
-                      type="button"
-                      className="portal-btn-link portal-btn-link-danger"
-                      style={{ fontSize: "0.8rem" }}
-                      onClick={() => setAttachment(null)}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  className="portal-btn portal-btn-secondary"
-                  disabled={uploading}
-                  onClick={() => fileInputRef.current?.click()}
-                  style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}
-                >
-                  <Paperclip size={16} /> {uploading ? "Uploading attachment…" : "Attach PDF or Document"}
-                </button>
-              )}
-
-              {uploadError && (
-                <div style={{ fontSize: "0.8rem", color: "#b91c1c", marginTop: "0.3rem" }}>{uploadError}</div>
-              )}
-            </div>
+        <div className="portal-field">
+          <span className="portal-label">Attachments (brief, questions sheet, data files)</span>
+          {existing.length > 0 && (
+            <FileList
+              files={existing}
+              label="Attached files"
+              removing={removeFile.isPending}
+              onRemove={(file) =>
+                window.confirm(`Remove "${file.fileName}"? Learners will no longer be able to download it.`) && removeFile.mutate(file)
+              }
+            />
           )}
-        </Field>
+          {room > 0 ? (
+            <FilePicker
+              files={files}
+              onChange={setFiles}
+              disabled={save.isPending}
+              maxFiles={Math.min(MAX_FILES_PER_UPLOAD, room)}
+              label="Attach files"
+            />
+          ) : (
+            <p className="portal-card-meta">This assignment already holds the maximum of {MAX_FILES_PER_OWNER} files.</p>
+          )}
+        </div>
+
         <div className="portal-form-grid">
           <Field label="Max score">
             {(id) => (
@@ -309,7 +254,13 @@ function AssignmentEditor({
         </div>
         <div className="portal-row">
           <button type="submit" className="portal-btn" disabled={save.isPending}>
-            {save.isPending ? "Saving…" : assignment ? "Save changes" : "Create assignment"}
+            {save.isPending
+              ? files.length > 0
+                ? "Saving and uploading…"
+                : "Saving…"
+              : assignment
+                ? "Save changes"
+                : "Create assignment"}
           </button>
           <button type="button" className="portal-btn portal-btn-secondary" onClick={onClose}>
             Cancel

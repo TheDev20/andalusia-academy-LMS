@@ -4,6 +4,7 @@ using AndalusiaAcademy.API.Common.Security;
 using AndalusiaAcademy.API.DTOs.Learning;
 using AndalusiaAcademy.API.ENUMs;
 using AndalusiaAcademy.API.Services.Interfaces.Learning;
+using AndalusiaAcademy.API.Services.Interfaces.Storage;
 
 namespace AndalusiaAcademy.API.Controllers.Learning;
 
@@ -54,6 +55,23 @@ public class LearnerController : ControllerBase
     public async Task<ActionResult<SubmissionDto>> Submit(Guid assignmentId, SubmitAssignmentRequest request, CancellationToken cancellationToken)
     {
         var submission = await _learning.SubmitAssignmentAsync(_currentUser.UserId, assignmentId, request, cancellationToken);
+        return StatusCode(StatusCodes.Status201Created, submission);
+    }
+
+    /// <summary>Submits a new attempt with an optional text answer and up to 5 attached files (multipart/form-data).</summary>
+    [HttpPost("assignments/{assignmentId:guid}/submissions/upload")]
+    [Authorize(Policy = PermissionCodes.AssignmentsSubmit)]
+    [Consumes("multipart/form-data")]
+    [RequestSizeLimit(UploadLimits.MaxRequestBytes)]
+    [RequestFormLimits(MultipartBodyLengthLimit = UploadLimits.MaxRequestBytes)]
+    [ProducesResponseType(typeof(SubmissionDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+    public async Task<ActionResult<SubmissionDto>> SubmitWithFiles(
+        Guid assignmentId, [FromForm] SubmitAssignmentFormRequest form, CancellationToken cancellationToken)
+    {
+        var files = (form.Files ?? []).Select(f => new IncomingFile(f.FileName, f.Length, f.OpenReadStream)).ToList();
+        var submission = await _learning.SubmitAssignmentAsync(_currentUser.UserId, assignmentId, form.Body, files, cancellationToken);
         return StatusCode(StatusCodes.Status201Created, submission);
     }
 }

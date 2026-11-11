@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using AndalusiaAcademy.API.DTOs.Common;
 using AndalusiaAcademy.API.DTOs.Learning;
 using AndalusiaAcademy.API.ENUMs;
 using AndalusiaAcademy.API.Services.Interfaces.Learning;
+using AndalusiaAcademy.API.Services.Interfaces.Storage;
 
 namespace AndalusiaAcademy.API.Controllers.Learning;
 
@@ -81,39 +83,26 @@ public class InstructorController : ControllerBase
     public async Task<ActionResult<SubmissionForGradingDto>> Grade(Guid submissionId, GradeSubmissionRequest request, CancellationToken cancellationToken) =>
         Ok(await _instructor.GradeSubmissionAsync(submissionId, request, cancellationToken));
 
-    [HttpPost("upload-attachment")]
+    /// <summary>Attaches up to 5 files (brief, questions sheet, data) to an assignment. Learners see them once it is published.</summary>
+    [HttpPost("assignments/{assignmentId:guid}/files")]
     [Authorize(Policy = PermissionCodes.AssignmentsManage)]
     [Consumes("multipart/form-data")]
-    [ProducesResponseType(typeof(UploadAttachmentResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<UploadAttachmentResponse>> UploadAttachment(IFormFile file, CancellationToken cancellationToken)
+    [RequestSizeLimit(UploadLimits.MaxRequestBytes)]
+    [RequestFormLimits(MultipartBodyLengthLimit = UploadLimits.MaxRequestBytes)]
+    [ProducesResponseType(typeof(InstructorAssignmentDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+    public async Task<ActionResult<InstructorAssignmentDto>> UploadAssignmentFiles(
+        Guid assignmentId, [FromForm] UploadFilesFormRequest form, CancellationToken cancellationToken)
     {
-        if (file == null || file.Length == 0)
-            return BadRequest(new { message = "No file uploaded." });
-
-        if (file.Length > 25 * 1024 * 1024)
-            return BadRequest(new { message = "File must be under 25MB." });
-
-        var allowedExtensions = new[] { ".pdf", ".doc", ".docx", ".txt", ".zip", ".png", ".jpg", ".jpeg" };
-        var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
-        if (!allowedExtensions.Contains(ext))
-            return BadRequest(new { message = "Only documents (.pdf, .doc, .docx, .txt, .zip, .png, .jpg) are allowed." });
-
-        var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-        Directory.CreateDirectory(uploadsDir);
-
-        var originalName = Path.GetFileNameWithoutExtension(file.FileName);
-        var safeOriginal = System.Text.RegularExpressions.Regex.Replace(originalName, @"[^a-zA-Z0-9_\-]", "");
-        if (safeOriginal.Length > 30) safeOriginal = safeOriginal[..30];
-        var fileName = $"{Guid.NewGuid():N}_{safeOriginal}{ext}";
-        var filePath = Path.Combine(uploadsDir, fileName);
-
-        using (var stream = new FileStream(filePath, FileMode.Create))
-        {
-            await file.CopyToAsync(stream, cancellationToken);
-        }
-
-        var url = $"/api/uploads/{fileName}";
-        return Ok(new UploadAttachmentResponse(url, file.FileName, file.Length));
+        var files = (form.Files ?? []).Select(f => new IncomingFile(f.FileName, f.Length, f.OpenReadStream)).ToList();
+        return Ok(await _instructor.AddAssignmentFilesAsync(assignmentId, files, cancellationToken));
     }
+
+    /// <summary>Removes one attached file from an assignment and deletes it from storage.</summary>
+    [HttpDelete("assignments/{assignmentId:guid}/files/{fileId:guid}")]
+    [Authorize(Policy = PermissionCodes.AssignmentsManage)]
+    [ProducesResponseType(typeof(InstructorAssignmentDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<InstructorAssignmentDto>> RemoveAssignmentFile(Guid assignmentId, Guid fileId, CancellationToken cancellationToken) =>
+        Ok(await _instructor.RemoveAssignmentFileAsync(assignmentId, fileId, cancellationToken));
 }

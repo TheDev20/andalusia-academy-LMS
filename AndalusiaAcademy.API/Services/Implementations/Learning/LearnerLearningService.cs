@@ -1,11 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using AndalusiaAcademy.API.Data;
+using AndalusiaAcademy.API.DTOs.Common;
 using AndalusiaAcademy.API.DTOs.Learning;
 using AndalusiaAcademy.API.ENUMs;
 using AndalusiaAcademy.API.Exceptions;
 using AndalusiaAcademy.API.Models.Admissions;
+using AndalusiaAcademy.API.Models.Content;
 using AndalusiaAcademy.API.Models.Learning;
 using AndalusiaAcademy.API.Services.Interfaces.Learning;
+using AndalusiaAcademy.API.Services.Interfaces.Storage;
 
 namespace AndalusiaAcademy.API.Services.Implementations.Learning;
 
@@ -14,12 +17,14 @@ public sealed class LearnerLearningService : ILearnerLearningService
     private readonly ApplicationDbContext _context;
     private readonly ProgressQueries _progress;
     private readonly TimeProvider _clock;
+    private readonly IFileAssetService _files;
 
-    public LearnerLearningService(ApplicationDbContext context, ProgressQueries progress, TimeProvider clock)
+    public LearnerLearningService(ApplicationDbContext context, ProgressQueries progress, TimeProvider clock, IFileAssetService files)
     {
         _context = context;
         _progress = progress;
         _clock = clock;
+        _files = files;
     }
 
     public async Task<IReadOnlyList<MyCourseDto>> GetMyCoursesAsync(Guid learnerId, CancellationToken cancellationToken = default)
@@ -92,7 +97,12 @@ public sealed class LearnerLearningService : ILearnerLearningService
             .OrderBy(r => r.Sequence)
             .Select(r => new LearnerResourceDto(
                 r.Id, r.Title, r.Url, r.Required, r.Sequence,
-                r.ProgressRecords.Where(p => p.LearningEnrollmentId == enrollment.Id).Select(p => (DateTimeOffset?)p.CompletedAt).FirstOrDefault()))
+                r.ProgressRecords.Where(p => p.LearningEnrollmentId == enrollment.Id).Select(p => (DateTimeOffset?)p.CompletedAt).FirstOrDefault(),
+                _context.ResourceAssets
+                    .Where(ra => ra.ResourceId == r.Id)
+                    .OrderBy(ra => ra.FileAsset.UploadedAt).ThenBy(ra => ra.FileAsset.OriginalName)
+                    .Select(ra => new FileDto(ra.FileAsset.Id, ra.FileAsset.OriginalName, ra.FileAsset.MediaType, ra.FileAsset.SizeBytes))
+                    .ToList()))
             .ToListAsync(cancellationToken);
 
         var assignments = await _context.Assignments
@@ -104,8 +114,18 @@ public sealed class LearnerLearningService : ILearnerLearningService
                 a.Submissions
                     .Where(s => s.LearningEnrollmentId == enrollment.Id)
                     .OrderByDescending(s => s.AttemptNumber)
-                    .Select(s => new SubmissionDto(s.Id, s.AssignmentId, s.AttemptNumber, s.Body, s.Score, s.SubmittedAt, s.GradedAt))
-                    .FirstOrDefault()))
+                    .Select(s => new SubmissionDto(s.Id, s.AssignmentId, s.AttemptNumber, s.Body, s.Score, s.SubmittedAt, s.GradedAt,
+                        _context.SubmissionAssets
+                            .Where(sa => sa.SubmissionId == s.Id)
+                            .OrderBy(sa => sa.FileAsset.UploadedAt).ThenBy(sa => sa.FileAsset.OriginalName)
+                            .Select(sa => new FileDto(sa.FileAsset.Id, sa.FileAsset.OriginalName, sa.FileAsset.MediaType, sa.FileAsset.SizeBytes))
+                            .ToList()))
+                    .FirstOrDefault(),
+                _context.AssignmentAssets
+                    .Where(aa => aa.AssignmentId == a.Id)
+                    .OrderBy(aa => aa.FileAsset.UploadedAt).ThenBy(aa => aa.FileAsset.OriginalName)
+                    .Select(aa => new FileDto(aa.FileAsset.Id, aa.FileAsset.OriginalName, aa.FileAsset.MediaType, aa.FileAsset.SizeBytes))
+                    .ToList()))
             .ToListAsync(cancellationToken);
 
         var progress = await _progress.ForEnrollmentsAsync([enrollment.Id], now, cancellationToken);
@@ -138,12 +158,27 @@ public sealed class LearnerLearningService : ILearnerLearningService
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        return new LearnerResourceDto(resource.Id, resource.Title, resource.Url, resource.Required, resource.Sequence, progress.CompletedAt);
+        var files = await _context.ResourceAssets.AsNoTracking()
+            .Where(ra => ra.ResourceId == resourceId)
+            .OrderBy(ra => ra.FileAsset.UploadedAt).ThenBy(ra => ra.FileAsset.OriginalName)
+            .Select(ra => new FileDto(ra.FileAsset.Id, ra.FileAsset.OriginalName, ra.FileAsset.MediaType, ra.FileAsset.SizeBytes))
+            .ToListAsync(cancellationToken);
+        return new LearnerResourceDto(resource.Id, resource.Title, resource.Url, resource.Required, resource.Sequence, progress.CompletedAt, files);
     }
 
+    public Task<SubmissionDto> SubmitAssignmentAsync(
+        Guid learnerId, Guid assignmentId, SubmitAssignmentRequest request, CancellationToken cancellationToken = default) =>
+        SubmitAssignmentAsync(learnerId, assignmentId, request.Body, [], cancellationToken);
+
     public async Task<SubmissionDto> SubmitAssignmentAsync(
-        Guid learnerId, Guid assignmentId, SubmitAssignmentRequest request, CancellationToken cancellationToken = default)
+        Guid learnerId, Guid assignmentId, string? body, IReadOnlyList<IncomingFile> files, CancellationToken cancellationToken = default)
     {
+        var text = string.IsNullOrWhiteSpace(body) ? null : body.Trim();
+        if (text is null && files.Count == 0)
+        {
+            throw new BusinessRuleException("Write an answer or attach at least one file.");
+        }
+
         var assignment = await _context.Assignments.AsNoTracking().FirstOrDefaultAsync(a => a.Id == assignmentId, cancellationToken)
             ?? throw new NotFoundException("Assignment not found.");
         var enrollment = await RequireEnrollmentAsync(learnerId, assignment.CourseOfferingId, cancellationToken);
@@ -157,21 +192,37 @@ public sealed class LearnerLearningService : ILearnerLearningService
             .Where(s => s.AssignmentId == assignmentId && s.LearningEnrollmentId == enrollment.Id)
             .MaxAsync(s => (int?)s.AttemptNumber, cancellationToken) ?? 0;
 
+        var assets = await _files.StoreAsync(files, learnerId, cancellationToken);
+
         var submission = new Submission
         {
             AssignmentId = assignmentId,
             LearningEnrollmentId = enrollment.Id,
             CourseOfferingId = assignment.CourseOfferingId,
             AttemptNumber = lastAttempt + 1,
-            Body = request.Body.Trim(),
+            Body = text,
             SubmittedAt = _clock.GetUtcNow()
         };
         _context.Submissions.Add(submission);
-        // Unique (AssignmentId, LearningEnrollmentId, AttemptNumber) rejects racing double-submits with 409.
-        await _context.SaveChangesAsync(cancellationToken);
+        foreach (var asset in assets)
+        {
+            _context.SubmissionAssets.Add(new SubmissionAsset { Submission = submission, FileAsset = asset });
+        }
+
+        try
+        {
+            // Unique (AssignmentId, LearningEnrollmentId, AttemptNumber) rejects racing double-submits with 409.
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        catch
+        {
+            await _files.DiscardAsync(assets, CancellationToken.None);
+            throw;
+        }
 
         return new SubmissionDto(submission.Id, submission.AssignmentId, submission.AttemptNumber, submission.Body,
-            submission.Score, submission.SubmittedAt, submission.GradedAt);
+            submission.Score, submission.SubmittedAt, submission.GradedAt,
+            assets.Select(a => new FileDto(a.Id, a.OriginalName, a.MediaType, a.SizeBytes)).ToList());
     }
 
     private IQueryable<LearningEnrollment> ActiveEnrollments(Guid learnerId) =>

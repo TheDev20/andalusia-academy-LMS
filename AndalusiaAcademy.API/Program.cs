@@ -110,6 +110,7 @@ builder.Services.AddScoped<IOfferingCatalogService, OfferingCatalogService>();
 builder.Services.AddIdentityModule(builder.Configuration);
 builder.Services.AddAdmissionsModule(builder.Configuration);
 builder.Services.AddPaymentsModule(builder.Configuration);
+builder.Services.AddStorageModule(builder.Configuration);
 builder.Services.AddLearningModule();
 builder.Services.AddOperationsModule(builder.Configuration);
 
