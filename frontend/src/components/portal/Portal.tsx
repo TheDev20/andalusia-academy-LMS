@@ -4,7 +4,6 @@ import { ArrowLeft, Loader2, X } from "lucide-react";
 import "./portal.css";
 
 export function PortalPage({
-  eyebrow,
   title,
   subtitle,
   actions,
@@ -12,7 +11,6 @@ export function PortalPage({
   backLabel,
   children,
 }: {
-  eyebrow?: string;
   title: string;
   subtitle?: ReactNode;
   actions?: ReactNode;
@@ -30,7 +28,6 @@ export function PortalPage({
         )}
         <div className="portal-header">
           <div>
-            {eyebrow && <div className="portal-eyebrow">{eyebrow}</div>}
             <h1 className="portal-title">{title}</h1>
             {subtitle && <p className="portal-subtitle">{subtitle}</p>}
           </div>

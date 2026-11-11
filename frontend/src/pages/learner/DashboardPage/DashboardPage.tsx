@@ -98,7 +98,6 @@ export default function DashboardPage() {
       <div className="dashboard-container">
         <div className="dashboard-header">
           <div>
-            <div className="dashboard-eyebrow">Learner Portal</div>
             <h1 className="dashboard-title">
               Welcome back, {user?.fullName || "Scholar"}
             </h1>
@@ -112,6 +111,8 @@ export default function DashboardPage() {
         <div className="dashboard-tabs" role="tablist">
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === "learning"}
             className={`dashboard-tab-btn ${activeTab === "learning" ? "is-active" : ""}`}
             onClick={() => setActiveTab("learning")}
           >
@@ -120,6 +121,8 @@ export default function DashboardPage() {
           </button>
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === "applications"}
             className={`dashboard-tab-btn ${activeTab === "applications" ? "is-active" : ""}`}
             onClick={() => setActiveTab("applications")}
           >
@@ -128,6 +131,8 @@ export default function DashboardPage() {
           </button>
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === "payments"}
             className={`dashboard-tab-btn ${activeTab === "payments" ? "is-active" : ""}`}
             onClick={() => setActiveTab("payments")}
           >
@@ -145,7 +150,7 @@ export default function DashboardPage() {
               <p>Loading your enrolled courses...</p>
             ) : myLearning.length === 0 ? (
               <div className="dash-empty">
-                <h3>No active enrollments yet</h3>
+                <h2>No active enrollments yet</h2>
                 <p>Apply to a course and verify tuition payment to unlock your learning track.</p>
               </div>
             ) : (
@@ -156,7 +161,7 @@ export default function DashboardPage() {
                       <span className="dash-badge active">
                         <CheckCircle2 size={14} /> {item.status}
                       </span>
-                      <h3 className="dash-card-title">{item.courseTitle}</h3>
+                      <h2 className="dash-card-title">{item.courseTitle}</h2>
                       <div className="dash-meta">
                         {item.category && <span>Discipline: {item.category}</span>}
                         <span>Cohort starts: {formatDate(item.startsAt)}</span>
@@ -184,7 +189,7 @@ export default function DashboardPage() {
               <p>Loading your applications...</p>
             ) : myApplications.length === 0 ? (
               <div className="dash-empty">
-                <h3>No applications submitted</h3>
+                <h2>No applications submitted</h2>
                 <p>Select any course from the catalog to submit an admission application.</p>
               </div>
             ) : (
@@ -209,7 +214,7 @@ export default function DashboardPage() {
                             <>{app.status}</>
                           )}
                         </span>
-                        <h3 className="dash-card-title">{app.title}</h3>
+                        <h2 className="dash-card-title">{app.title}</h2>
                         <div className="dash-meta">
                           <span>Submitted: {formatDate(app.submittedAt)}</span>
                           <span>Tuition: {formatMoney(app.amountDue, app.currency)}</span>
@@ -250,7 +255,7 @@ export default function DashboardPage() {
               <p>Loading payment history...</p>
             ) : myPayments.length === 0 ? (
               <div className="dash-empty">
-                <h3>No payment records</h3>
+                <h2>No payment records</h2>
                 <p>Completed tuition receipts will appear here.</p>
               </div>
             ) : (
@@ -261,7 +266,7 @@ export default function DashboardPage() {
                       <span className={`dash-badge ${pay.status === "Succeeded" ? "settled" : "pending"}`}>
                         {pay.status === "Succeeded" && <CheckCircle2 size={14} />} {pay.status}
                       </span>
-                      <h3 className="dash-card-title">{pay.title}</h3>
+                      <h2 className="dash-card-title">{pay.title}</h2>
                       <div className="dash-meta">
                         <span>Amount: {formatMoney(pay.amount, pay.currency)}</span>
                         <span>Receipt ID: {pay.providerPaymentId ?? "—"}</span>

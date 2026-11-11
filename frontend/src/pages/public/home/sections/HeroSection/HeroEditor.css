@@ -277,6 +277,7 @@
 .tree-row {
   display: flex;
   align-items: center;
+  min-height: 24px;
   gap: 6px;
   padding: 3.5px 8px;
   background: transparent;

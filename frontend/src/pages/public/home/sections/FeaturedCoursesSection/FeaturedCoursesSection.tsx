@@ -287,6 +287,7 @@ export default function FeaturedCoursesSection({
               <CourseCard
                 key={course.id}
                 course={course}
+                headingLevel={hideHeader ? 2 : 3}
                 onSelect={onSelectCourse}
               />
             ))

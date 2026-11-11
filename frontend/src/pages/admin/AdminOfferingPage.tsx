@@ -25,7 +25,6 @@ export default function AdminOfferingPage() {
 
   return (
     <PortalPage
-      eyebrow="Schedule management"
       title={o ? o.courseTitle : "Offering"}
       subtitle={o ? `${formatDateTime(o.startsAt)} – ${formatDateTime(o.endsAt)} (${o.timeZoneId})` : undefined}
       backTo="/admin"

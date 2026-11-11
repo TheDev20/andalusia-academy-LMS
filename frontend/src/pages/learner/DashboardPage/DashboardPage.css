@@ -18,15 +18,6 @@
   margin-bottom: 32px;
 }
 
-.dashboard-eyebrow {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #8b6648;
-  margin-bottom: 6px;
-}
-
 .dashboard-title {
   font-family: "Libre Caslon Display", Georgia, serif;
   font-size: clamp(28px, 3.2vw, 40px);

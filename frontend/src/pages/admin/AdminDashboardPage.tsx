@@ -81,7 +81,6 @@ export default function AdminDashboardPage() {
 
   return (
     <PortalPage
-      eyebrow={canUsers ? "Management Portal" : "Content Management Portal"}
       title={canUsers ? "Academy administration" : "Catalog & content management"}
       subtitle={`Signed in as ${user?.fullName ?? ""} — manage ${
         canUsers ? "students, instructors, courses, disciplines, schedules and payments." : "courses, cover media and technical disciplines."

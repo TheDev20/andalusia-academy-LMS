@@ -7,6 +7,8 @@ import "./CourseCard.css";
 export interface CourseCardProps {
   course: Course;
   onSelect?: (course: Course) => void;
+  /** Heading level of the card title; use 2 when the card sits directly under the page h1. */
+  headingLevel?: 2 | 3;
 }
 function getCourseCover(imageUrl?: string | null, category?: string | null): string {
   if (imageUrl) return imageUrl;
@@ -19,7 +21,8 @@ function getCourseCover(imageUrl?: string | null, category?: string | null): str
   return "/images/SoftwareEngineering.jpg";
 }
 
-export default function CourseCard({ course }: CourseCardProps) {
+export default function CourseCard({ course, headingLevel = 3 }: CourseCardProps) {
+  const Heading = `h${headingLevel}` as const;
   const {
     id,
     title,
@@ -40,6 +43,8 @@ export default function CourseCard({ course }: CourseCardProps) {
         <img
           src={getCourseCover(course.imageUrl, category)}
           alt={course.title}
+          loading="lazy"
+          decoding="async"
         />
       </div>
 
@@ -63,14 +68,14 @@ export default function CourseCard({ course }: CourseCardProps) {
 
         <span className="course-category-tag">{category}</span>
 
-        <h3 id={`course-title-${id}`} className="course-card-title">
+        <Heading id={`course-title-${id}`} className="course-card-title">
           <Link
             to={`/courses/${course.id}/syllabus`}
             style={{ color: "inherit", textDecoration: "none" }}
           >
             {title}
           </Link>
-        </h3>
+        </Heading>
 
         <p className="course-card-summary">{summary}</p>
 

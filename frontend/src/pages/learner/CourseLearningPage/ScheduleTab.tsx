@@ -9,7 +9,7 @@ export default function ScheduleTab({ sessions, timeZoneId }: { sessions: Learne
   }
 
   return (
-    <div className="portal-table-wrap">
+    <div className="portal-table-wrap" tabIndex={0}>
       <table className="portal-table">
         <caption className="sr-only" style={{ position: "absolute", left: -9999 }}>
           Session schedule (times shown in your local time; cohort time zone {timeZoneId})

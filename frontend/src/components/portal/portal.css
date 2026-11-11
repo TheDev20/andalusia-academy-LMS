@@ -2,7 +2,6 @@
 .portal-page { min-height: 80vh; background: #f6f5f2; padding: 48px 24px 80px; }
 .portal-container { max-width: 1160px; margin: 0 auto; }
 .portal-header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
-.portal-eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8b6648; margin-bottom: 6px; }
 .portal-title { font-family: "Libre Caslon Display", Georgia, serif; font-size: clamp(26px, 3vw, 38px); color: #271e16; margin: 0; }
 .portal-subtitle { color: #6f6456; margin: 6px 0 0; font-size: 15px; }
 .portal-back { display: inline-flex; align-items: center; gap: 6px; color: #8b6648; font-weight: 600; font-size: 14px; text-decoration: none; margin-bottom: 14px; }
@@ -49,7 +48,7 @@
 .portal-spin { animation: portal-spin 1s linear infinite; }
 @keyframes portal-spin { to { transform: rotate(360deg); } }
 
-.portal-table-wrap { overflow-x: auto; background: #fff; border: 1px solid #ded6c8; border-radius: 14px; }
+.portal-table-wrap { position: relative; overflow-x: auto; background: #fff; border: 1px solid #ded6c8; border-radius: 14px; }
 .portal-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .portal-table th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #6f6456; padding: 11px 14px; border-bottom: 1px solid #ded6c8; background: #faf8f4; white-space: nowrap; }
 .portal-table td { padding: 11px 14px; border-bottom: 1px solid #efe9df; color: #43392f; vertical-align: middle; }

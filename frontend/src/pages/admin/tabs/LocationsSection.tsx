@@ -30,7 +30,7 @@ export default function LocationsSection() {
       ) : !locations.data || locations.data.length === 0 ? (
         <EmptyState title="No locations yet" />
       ) : (
-        <div className="portal-table-wrap">
+        <div className="portal-table-wrap" tabIndex={0}>
           <table className="portal-table">
             <thead>
               <tr>
