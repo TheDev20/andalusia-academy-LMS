@@ -133,12 +133,6 @@ export default function PublicNavbar({
             isActive: (p: string) => p.startsWith("/instructor"),
           },
           {
-            label: "Course Catalog",
-            to: "/courses",
-            icon: <BookOpen size={16} aria-hidden="true" />,
-            isActive: isCatalogPath,
-          },
-          {
             label: "Account Settings",
             to: "/profile",
             icon: <UserCircle2 size={16} aria-hidden="true" />,
