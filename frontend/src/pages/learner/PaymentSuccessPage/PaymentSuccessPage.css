@@ -1,0 +1,115 @@
+.payment-success {
+  min-height: 80vh;
+  background: #f6f5f2;
+  padding: 48px 24px 80px;
+}
+
+.payment-success-card {
+  max-width: 640px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #e8dfd1;
+  border-radius: 20px;
+  padding: 40px 32px;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(39, 30, 22, 0.08);
+}
+
+.payment-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin-bottom: 18px;
+}
+
+.payment-success-icon.is-done {
+  background: #e6f4ea;
+  color: #1e7a3c;
+}
+
+.payment-success-icon.is-waiting {
+  background: #fbf1df;
+  color: #8b6648;
+}
+
+.payment-success-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8b6648;
+  margin-bottom: 6px;
+}
+
+.payment-success-title {
+  font-family: "Libre Caslon Display", Georgia, serif;
+  font-size: clamp(26px, 3vw, 36px);
+  color: #271e16;
+  margin: 0 0 10px;
+}
+
+.payment-success-lead {
+  color: #5c4e40;
+  line-height: 1.6;
+  margin: 0 0 26px;
+}
+
+.payment-receipt {
+  text-align: left;
+  border: 1px solid #e8dfd1;
+  border-radius: 14px;
+  background: #fffdf9;
+  padding: 6px 20px;
+  margin: 0 0 26px;
+}
+
+.payment-receipt-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0e8da;
+  font-size: 14px;
+}
+
+.payment-receipt-row:last-child {
+  border-bottom: none;
+}
+
+.payment-receipt-row dt {
+  color: #7b6d5e;
+}
+
+.payment-receipt-row dd {
+  margin: 0;
+  color: #271e16;
+  font-weight: 600;
+  text-align: right;
+  word-break: break-word;
+}
+
+.payment-success-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.payment-success-spin {
+  animation: payment-success-spin 1s linear infinite;
+}
+
+@keyframes payment-success-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .payment-success-spin {
+    animation: none;
+  }
+}

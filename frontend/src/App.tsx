@@ -18,6 +18,7 @@ import ProgramDetailsPage from "./pages/public/program-details/ProgramDetailsPag
 import CareerPathDetailsPage from "./pages/public/career-paths/CareerPathDetailsPage";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import DashboardPage from "./pages/learner/DashboardPage";
+import PaymentSuccessPage from "./pages/learner/PaymentSuccessPage";
 import CourseLearningPage from "./pages/learner/CourseLearningPage/CourseLearningPage";
 import ProfilePage from "./pages/account/ProfilePage";
 import InstructorDashboardPage from "./pages/instructor/InstructorDashboardPage";
@@ -80,6 +81,7 @@ export default function App() {
               {/* Learner LMS */}
               <Route element={<ProtectedRoute allowedRoles={["Learner"]} />}>
                 <Route path="dashboard" element={<DashboardPage />} />
+                <Route path="payment/success" element={<PaymentSuccessPage />} />
                 <Route path="learn/:courseOfferingId" element={<CourseLearningPage />} />
               </Route>
 
