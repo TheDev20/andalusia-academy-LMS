@@ -21,7 +21,6 @@ export default function ProgramsPage() {
 
   return (
     <PortalPage
-      eyebrow="Catalog"
       title="Programs"
       subtitle="Multi-course programs that take you from fundamentals to job-ready, with a cohort and a schedule."
       actions={

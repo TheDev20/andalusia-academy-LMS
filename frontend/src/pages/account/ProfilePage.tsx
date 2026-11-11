@@ -79,7 +79,6 @@ export default function ProfilePage() {
 
   return (
     <PortalPage
-      eyebrow="My account"
       title="Profile"
       subtitle={profile ? `${profile.email} · member since ${formatDate(profile.createdAt)} · ${profile.roles.join(", ")}` : undefined}
     >

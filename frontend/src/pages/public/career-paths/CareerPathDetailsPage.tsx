@@ -29,7 +29,7 @@ export default function CareerPathDetailsPage() {
   }
 
   return (
-    <PortalPage eyebrow="Career path" title={path.title} subtitle={path.description} backTo="/courses?tab=career-paths" backLabel="Back to Career Paths">
+    <PortalPage title={path.title} subtitle={path.description} backTo="/courses?tab=career-paths" backLabel="Back to Career Paths">
       <h2 className="portal-section-title">Recommended programs</h2>
       {path.recommendedPrograms.length === 0 ? (
         <EmptyState title="No programs linked yet" />

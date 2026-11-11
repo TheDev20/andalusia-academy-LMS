@@ -93,7 +93,7 @@ export default function CoursesPage() {
         : "Search single courses by title, topic, or skill…";
 
   return (
-    <main style={{ background: "#eae4d9", minHeight: "calc(100vh - 80px)" }}>
+    <div style={{ background: "#eae4d9", minHeight: "calc(100vh - 80px)" }}>
       <style>{`
         @keyframes catalogTabFadeIn {
           from {
@@ -400,7 +400,7 @@ export default function CoursesPage() {
                           fontWeight: 700,
                           textTransform: "uppercase",
                           letterSpacing: "0.06em",
-                          color: "#8b6648",
+                          color: "#75552d",
                           background: "#ede6da",
                           padding: "5px 12px",
                           borderRadius: 999,
@@ -568,7 +568,7 @@ export default function CoursesPage() {
                           fontWeight: 700,
                           textTransform: "uppercase",
                           letterSpacing: "0.06em",
-                          color: "#8b6648",
+                          color: "#75552d",
                           background: "#ede6da",
                           padding: "5px 12px",
                           borderRadius: 999,
@@ -675,6 +675,6 @@ export default function CoursesPage() {
           </section>
         )}
       </div>
-    </main>
+    </div>
   );
 }

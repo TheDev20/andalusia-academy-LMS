@@ -11,7 +11,6 @@ export default function CareerPathsPage() {
 
   return (
     <PortalPage
-      eyebrow="Catalog"
       title="Career paths"
       subtitle="Pick the role you want; each path recommends the programs and courses that get you there."
       actions={

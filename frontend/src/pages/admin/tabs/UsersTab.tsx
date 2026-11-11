@@ -62,7 +62,7 @@ export default function UsersTab({ role }: { role: "Learner" | "Instructor" }) {
         <EmptyState title={`No ${label} found`} />
       ) : (
         <>
-          <div className="portal-table-wrap">
+          <div className="portal-table-wrap" tabIndex={0}>
             <table className="portal-table">
               <thead>
                 <tr>

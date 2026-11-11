@@ -11,6 +11,7 @@ import {
   Clock,
 } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "../../../components/ui/Empty";
 import { admissionsApi } from "../../../services/api/admissionsApi";
 import { ErrorAlert, ProgressBar } from "../../../components/portal/Portal";
 import { formatDate, formatDateTime, formatMoney } from "../../../utils/format";
@@ -101,7 +102,6 @@ export default function DashboardPage() {
       <div className="dashboard-container">
         <div className="dashboard-header">
           <div>
-            <div className="dashboard-eyebrow">Learner Portal</div>
             <h1 className="dashboard-title">
               Welcome back, {user?.fullName || "Scholar"}
             </h1>
@@ -115,26 +115,32 @@ export default function DashboardPage() {
         <div className="dashboard-tabs" role="tablist">
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === "learning"}
             className={`dashboard-tab-btn ${activeTab === "learning" ? "is-active" : ""}`}
             onClick={() => setActiveTab("learning")}
           >
-            <BookOpen size={14} style={{ marginRight: 6, verticalAlign: "middle" }} />
+            <BookOpen size={14} />
             My Learning ({myLearning.length})
           </button>
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === "applications"}
             className={`dashboard-tab-btn ${activeTab === "applications" ? "is-active" : ""}`}
             onClick={() => setActiveTab("applications")}
           >
-            <FileText size={14} style={{ marginRight: 6, verticalAlign: "middle" }} />
+            <FileText size={14} />
             Applications ({myApplications.length})
           </button>
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === "payments"}
             className={`dashboard-tab-btn ${activeTab === "payments" ? "is-active" : ""}`}
             onClick={() => setActiveTab("payments")}
           >
-            <CreditCard size={14} style={{ marginRight: 6, verticalAlign: "middle" }} />
+            <CreditCard size={14} />
             Payments ({myPayments.length})
           </button>
         </div>
@@ -147,10 +153,15 @@ export default function DashboardPage() {
             {loadingLearning ? (
               <p>Loading your enrolled courses...</p>
             ) : myLearning.length === 0 ? (
-              <div className="dash-empty">
-                <h3>No active enrollments yet</h3>
-                <p>Apply to a course and verify tuition payment to unlock your learning track.</p>
-              </div>
+              <Empty>
+                <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                    <BookOpen size={20} aria-hidden="true" />
+                  </EmptyMedia>
+                  <EmptyTitle>No active enrollments yet</EmptyTitle>
+                  <EmptyDescription>Apply to a course and verify tuition payment to unlock your learning track.</EmptyDescription>
+                </EmptyHeader>
+              </Empty>
             ) : (
               <div className="dashboard-grid">
                 {myLearning.map((item) => (
@@ -159,7 +170,7 @@ export default function DashboardPage() {
                       <span className="dash-badge active">
                         <CheckCircle2 size={14} /> {item.status}
                       </span>
-                      <h3 className="dash-card-title">{item.courseTitle}</h3>
+                      <h2 className="dash-card-title">{item.courseTitle}</h2>
                       <div className="dash-meta">
                         {item.category && <span>Discipline: {item.category}</span>}
                         <span>Cohort starts: {formatDate(item.startsAt)}</span>
@@ -186,10 +197,15 @@ export default function DashboardPage() {
             {loadingApps ? (
               <p>Loading your applications...</p>
             ) : myApplications.length === 0 ? (
-              <div className="dash-empty">
-                <h3>No applications submitted</h3>
-                <p>Select any course from the catalog to submit an admission application.</p>
-              </div>
+              <Empty>
+                <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                    <FileText size={20} aria-hidden="true" />
+                  </EmptyMedia>
+                  <EmptyTitle>No applications submitted</EmptyTitle>
+                  <EmptyDescription>Select any course from the catalog to submit an admission application.</EmptyDescription>
+                </EmptyHeader>
+              </Empty>
             ) : (
               <div className="dashboard-grid">
                 {myApplications.map((app) => {
@@ -212,7 +228,7 @@ export default function DashboardPage() {
                             <>{app.status}</>
                           )}
                         </span>
-                        <h3 className="dash-card-title">{app.title}</h3>
+                        <h2 className="dash-card-title">{app.title}</h2>
                         <div className="dash-meta">
                           <span>Submitted: {formatDate(app.submittedAt)}</span>
                           <span>Tuition: {formatMoney(app.amountDue, app.currency)}</span>
@@ -252,10 +268,15 @@ export default function DashboardPage() {
             {loadingPayments ? (
               <p>Loading payment history...</p>
             ) : myPayments.length === 0 ? (
-              <div className="dash-empty">
-                <h3>No payment records</h3>
-                <p>Completed tuition receipts will appear here.</p>
-              </div>
+              <Empty>
+                <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                    <CreditCard size={20} aria-hidden="true" />
+                  </EmptyMedia>
+                  <EmptyTitle>No payment records</EmptyTitle>
+                  <EmptyDescription>Completed tuition receipts will appear here.</EmptyDescription>
+                </EmptyHeader>
+              </Empty>
             ) : (
               <div className="dashboard-grid">
                 {myPayments.map((pay) => (
@@ -264,7 +285,7 @@ export default function DashboardPage() {
                       <span className={`dash-badge ${pay.status === "Succeeded" ? "settled" : "pending"}`}>
                         {pay.status === "Succeeded" && <CheckCircle2 size={14} />} {pay.status}
                       </span>
-                      <h3 className="dash-card-title">{pay.title}</h3>
+                      <h2 className="dash-card-title">{pay.title}</h2>
                       <div className="dash-meta">
                         <span>Amount: {formatMoney(pay.amount, pay.currency)}</span>
                         <span>Receipt ID: {pay.providerPaymentId ?? "—"}</span>

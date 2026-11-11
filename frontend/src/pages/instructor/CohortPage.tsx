@@ -29,7 +29,6 @@ export default function CohortPage() {
 
   return (
     <PortalPage
-      eyebrow="Instructor Portal"
       title={data?.cohort.courseTitle ?? "Cohort"}
       subtitle={
         data ? (

@@ -13,7 +13,6 @@ export default function InstructorDashboardPage() {
 
   return (
     <PortalPage
-      eyebrow="Instructor Portal"
       title="My cohorts"
       subtitle="Run sessions, record attendance, manage assignments and follow learner progress."
     >

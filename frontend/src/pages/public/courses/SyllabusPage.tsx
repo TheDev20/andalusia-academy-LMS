@@ -211,12 +211,12 @@ export default function SyllabusPage() {
       />
 
       {/* 3. Main Content Grid Sections */}
-      <main className="syllabus-main-body">
+      <div className="syllabus-main-body">
         <SyllabusCurriculumSection syllabus={syllabus} />
         <SyllabusLabsSection syllabus={syllabus} />
         <SyllabusTechSection syllabus={syllabus} />
         <SyllabusOutcomesSection syllabus={syllabus} />
-      </main>
+      </div>
 
       {/* 4. Closing Enrollment CTA Card */}
       <SyllabusClosingCta

@@ -17,7 +17,7 @@ export default function ProgressTab({ offeringId }: { offeringId: string }) {
       {rows.length === 0 && !error ? (
         <EmptyState title="No learners enrolled yet" />
       ) : (
-        <div className="portal-table-wrap">
+        <div className="portal-table-wrap" tabIndex={0}>
           <table className="portal-table">
             <thead>
               <tr>
