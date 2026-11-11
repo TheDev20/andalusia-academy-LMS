@@ -97,7 +97,12 @@ public sealed class LearnerLearningService : ILearnerLearningService
             .OrderBy(r => r.Sequence)
             .Select(r => new LearnerResourceDto(
                 r.Id, r.Title, r.Url, r.Required, r.Sequence,
-                r.ProgressRecords.Where(p => p.LearningEnrollmentId == enrollment.Id).Select(p => (DateTimeOffset?)p.CompletedAt).FirstOrDefault()))
+                r.ProgressRecords.Where(p => p.LearningEnrollmentId == enrollment.Id).Select(p => (DateTimeOffset?)p.CompletedAt).FirstOrDefault(),
+                _context.ResourceAssets
+                    .Where(ra => ra.ResourceId == r.Id)
+                    .OrderBy(ra => ra.FileAsset.UploadedAt).ThenBy(ra => ra.FileAsset.OriginalName)
+                    .Select(ra => new FileDto(ra.FileAsset.Id, ra.FileAsset.OriginalName, ra.FileAsset.MediaType, ra.FileAsset.SizeBytes))
+                    .ToList()))
             .ToListAsync(cancellationToken);
 
         var assignments = await _context.Assignments
@@ -148,7 +153,12 @@ public sealed class LearnerLearningService : ILearnerLearningService
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        return new LearnerResourceDto(resource.Id, resource.Title, resource.Url, resource.Required, resource.Sequence, progress.CompletedAt);
+        var files = await _context.ResourceAssets.AsNoTracking()
+            .Where(ra => ra.ResourceId == resourceId)
+            .OrderBy(ra => ra.FileAsset.UploadedAt).ThenBy(ra => ra.FileAsset.OriginalName)
+            .Select(ra => new FileDto(ra.FileAsset.Id, ra.FileAsset.OriginalName, ra.FileAsset.MediaType, ra.FileAsset.SizeBytes))
+            .ToListAsync(cancellationToken);
+        return new LearnerResourceDto(resource.Id, resource.Title, resource.Url, resource.Required, resource.Sequence, progress.CompletedAt, files);
     }
 
     public Task<SubmissionDto> SubmitAssignmentAsync(

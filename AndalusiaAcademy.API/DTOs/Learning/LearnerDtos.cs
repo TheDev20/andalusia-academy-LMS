@@ -46,7 +46,8 @@ public sealed record LearnerResourceDto(
     string? Url,
     bool Required,
     int Sequence,
-    DateTimeOffset? CompletedAt);
+    DateTimeOffset? CompletedAt,
+    IReadOnlyList<FileDto> Files);
 
 public sealed record SubmissionDto(
     Guid Id,

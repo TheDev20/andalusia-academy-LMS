@@ -1,4 +1,5 @@
 import type { PagedResult } from "./catalog";
+import type { FileDto } from "./files";
 
 export type { PagedResult };
 
@@ -76,6 +77,7 @@ export interface AdminResourceDto {
   url?: string | null;
   required: boolean;
   sequence: number;
+  files: FileDto[];
 }
 
 export interface UpsertResourceRequest {

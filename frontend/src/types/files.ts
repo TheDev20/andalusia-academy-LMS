@@ -9,6 +9,8 @@ export interface FileDto {
 /** Mirrors the server's UploadLimits / UploadedFileValidator; the server remains the authority. */
 export const MAX_FILE_BYTES = 25 * 1024 * 1024;
 export const MAX_FILES_PER_UPLOAD = 5;
+/** Total files one material or assignment brief may hold. */
+export const MAX_FILES_PER_OWNER = 10;
 export const ALLOWED_EXTENSIONS = [
   ".pdf", ".doc", ".docx", ".ppt", ".pptx", ".xls", ".xlsx", ".txt", ".csv", ".md", ".zip", ".png", ".jpg", ".jpeg",
 ] as const;

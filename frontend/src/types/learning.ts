@@ -25,6 +25,7 @@ export interface LearnerResourceDto {
   required: boolean;
   sequence: number;
   completedAt?: string | null;
+  files: FileDto[];
 }
 
 export interface SubmissionDto {

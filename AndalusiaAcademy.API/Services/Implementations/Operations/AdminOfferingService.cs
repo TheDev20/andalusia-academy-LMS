@@ -1,13 +1,17 @@
 using Microsoft.EntityFrameworkCore;
+using AndalusiaAcademy.API.Common.Security;
 using AndalusiaAcademy.API.Data;
+using AndalusiaAcademy.API.DTOs.Common;
 using AndalusiaAcademy.API.DTOs.Operations;
 using AndalusiaAcademy.API.ENUMs;
 using AndalusiaAcademy.API.Exceptions;
 using AndalusiaAcademy.API.Models.Catalog;
+using AndalusiaAcademy.API.Models.Content;
 using AndalusiaAcademy.API.Models.Learning;
 using AndalusiaAcademy.API.Services.Interfaces.Admissions;
 using AndalusiaAcademy.API.Services.Implementations.Catalog;
 using AndalusiaAcademy.API.Services.Interfaces.Operations;
+using AndalusiaAcademy.API.Services.Interfaces.Storage;
 
 namespace AndalusiaAcademy.API.Services.Implementations.Operations;
 
@@ -21,13 +25,19 @@ public sealed class AdminOfferingService : IAdminOfferingService
     private readonly CatalogCacheInvalidator _catalogCache;
     private readonly ICapacityService _capacity;
     private readonly TimeProvider _clock;
+    private readonly IFileAssetService _files;
+    private readonly ICurrentUser _currentUser;
 
-    public AdminOfferingService(ApplicationDbContext context, CatalogCacheInvalidator catalogCache, ICapacityService capacity, TimeProvider clock)
+    public AdminOfferingService(
+        ApplicationDbContext context, CatalogCacheInvalidator catalogCache, ICapacityService capacity, TimeProvider clock,
+        IFileAssetService files, ICurrentUser currentUser)
     {
         _context = context;
         _catalogCache = catalogCache;
         _capacity = capacity;
         _clock = clock;
+        _files = files;
+        _currentUser = currentUser;
     }
 
     public async Task<IReadOnlyList<AdminOfferingDto>> ListAsync(Guid? courseId, CancellationToken cancellationToken = default)
@@ -126,7 +136,12 @@ public sealed class AdminOfferingService : IAdminOfferingService
         return await _context.Resources.AsNoTracking()
             .Where(r => r.CourseOfferingId == offeringId)
             .OrderBy(r => r.Sequence)
-            .Select(r => new AdminResourceDto(r.Id, r.CourseOfferingId, r.Title, r.Url, r.Required, r.Sequence))
+            .Select(r => new AdminResourceDto(r.Id, r.CourseOfferingId, r.Title, r.Url, r.Required, r.Sequence,
+                _context.ResourceAssets
+                    .Where(ra => ra.ResourceId == r.Id)
+                    .OrderBy(ra => ra.FileAsset.UploadedAt).ThenBy(ra => ra.FileAsset.OriginalName)
+                    .Select(ra => new FileDto(ra.FileAsset.Id, ra.FileAsset.OriginalName, ra.FileAsset.MediaType, ra.FileAsset.SizeBytes))
+                    .ToList()))
             .ToListAsync(cancellationToken);
     }
 
@@ -140,7 +155,7 @@ public sealed class AdminOfferingService : IAdminOfferingService
         _context.Resources.Add(resource);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return ToDto(resource);
+        return await GetResourceDtoAsync(resource.Id, cancellationToken);
     }
 
     public async Task<AdminResourceDto> UpdateResourceAsync(Guid resourceId, UpsertResourceRequest request, CancellationToken cancellationToken = default)
@@ -152,7 +167,7 @@ public sealed class AdminOfferingService : IAdminOfferingService
         Apply(resource, request);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return ToDto(resource);
+        return await GetResourceDtoAsync(resourceId, cancellationToken);
     }
 
     public async Task DeleteResourceAsync(Guid resourceId, CancellationToken cancellationToken = default)
@@ -165,9 +180,78 @@ public sealed class AdminOfferingService : IAdminOfferingService
             throw new ConflictException("Learners have already completed this resource; it cannot be deleted.");
         }
 
+        // Uploaded files are removed with their material (the join rows and file records first, then the stored objects).
+        var links = await _context.ResourceAssets.Include(ra => ra.FileAsset)
+            .Where(ra => ra.ResourceId == resourceId).ToListAsync(cancellationToken);
+        var assets = links.Select(l => l.FileAsset).ToList();
+        _context.ResourceAssets.RemoveRange(links);
+        _context.FileAssets.RemoveRange(assets);
         _context.Resources.Remove(resource);
         await _context.SaveChangesAsync(cancellationToken);
+
+        await _files.DiscardAsync(assets, cancellationToken);
     }
+
+    public async Task<AdminResourceDto> AddResourceFilesAsync(
+        Guid resourceId, IReadOnlyList<IncomingFile> files, CancellationToken cancellationToken = default)
+    {
+        var resource = await _context.Resources.AsNoTracking().FirstOrDefaultAsync(r => r.Id == resourceId, cancellationToken)
+            ?? throw new NotFoundException("Resource not found.");
+        if (files.Count == 0)
+        {
+            throw new BusinessRuleException("Choose at least one file to upload.");
+        }
+
+        var existing = await _context.ResourceAssets.CountAsync(ra => ra.ResourceId == resourceId, cancellationToken);
+        if (existing + files.Count > UploadLimits.MaxFilesPerOwner)
+        {
+            throw new BusinessRuleException($"A material can hold at most {UploadLimits.MaxFilesPerOwner} files.");
+        }
+
+        var assets = await _files.StoreAsync(files, _currentUser.UserId, cancellationToken);
+        foreach (var asset in assets)
+        {
+            _context.ResourceAssets.Add(new ResourceAsset { ResourceId = resource.Id, FileAsset = asset });
+        }
+
+        try
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        catch
+        {
+            await _files.DiscardAsync(assets, CancellationToken.None);
+            throw;
+        }
+
+        return await GetResourceDtoAsync(resourceId, cancellationToken);
+    }
+
+    public async Task<AdminResourceDto> RemoveResourceFileAsync(Guid resourceId, Guid fileId, CancellationToken cancellationToken = default)
+    {
+        var link = await _context.ResourceAssets.Include(ra => ra.FileAsset)
+            .FirstOrDefaultAsync(ra => ra.ResourceId == resourceId && ra.FileAssetId == fileId, cancellationToken)
+            ?? throw new NotFoundException("File not found on this material.");
+
+        var asset = link.FileAsset;
+        _context.ResourceAssets.Remove(link);
+        _context.FileAssets.Remove(asset);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        await _files.DiscardAsync([asset], cancellationToken);
+        return await GetResourceDtoAsync(resourceId, cancellationToken);
+    }
+
+    private async Task<AdminResourceDto> GetResourceDtoAsync(Guid resourceId, CancellationToken cancellationToken) =>
+        await _context.Resources.AsNoTracking()
+            .Where(r => r.Id == resourceId)
+            .Select(r => new AdminResourceDto(r.Id, r.CourseOfferingId, r.Title, r.Url, r.Required, r.Sequence,
+                _context.ResourceAssets
+                    .Where(ra => ra.ResourceId == r.Id)
+                    .OrderBy(ra => ra.FileAsset.UploadedAt).ThenBy(ra => ra.FileAsset.OriginalName)
+                    .Select(ra => new FileDto(ra.FileAsset.Id, ra.FileAsset.OriginalName, ra.FileAsset.MediaType, ra.FileAsset.SizeBytes))
+                    .ToList()))
+            .FirstAsync(cancellationToken);
 
     private async Task<Offering> FindAsync(Guid offeringId, CancellationToken cancellationToken) =>
         await _context.Offerings.FirstOrDefaultAsync(o => o.Id == offeringId && o.Kind == OfferingKinds.Course, cancellationToken)
@@ -208,8 +292,6 @@ public sealed class AdminOfferingService : IAdminOfferingService
         resource.Required = request.Required;
         resource.Sequence = request.Sequence;
     }
-
-    private static AdminResourceDto ToDto(Resource r) => new(r.Id, r.CourseOfferingId, r.Title, r.Url, r.Required, r.Sequence);
 
     private IQueryable<AdminOfferingDto> Project(IQueryable<Offering> offerings)
     {
