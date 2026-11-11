@@ -1,14 +1,8 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  NavigateFunction,
-  ROUTES,
-  SECTION_IDS,
-} from "../../../../types/navigation";
+import { NavigateFunction } from "../../../../types/navigation";
+import Alumni from "../../../../components/common/Alumni-logos";
 import HeroSection from "../sections/HeroSection";
-import CareerPathDiscoverySection from "../sections/CareerPathDiscoverySection";
 import PopularCategoriesSection from "../sections/PopularCategoriesSection";
-import FeaturedCoursesSection from "../sections/FeaturedCoursesSection";
 import ComingSoonSection from "../sections/ComingSoonSection";
 import CorporateTrainingSection from "../sections/CorporateTrainingSection";
 import PartnersTrustSection from "../sections/PartnersTrustSection";
@@ -22,50 +16,19 @@ export interface HomePageProps {
 export default function HomePage({ onNavigate }: HomePageProps) {
   const navigate = useNavigate();
 
-  const [searchQuery, setSearchQuery] = useState("");
-
   const handleCategorySelect = (categoryId: string) => {
     navigate(`/courses?filter=${encodeURIComponent(categoryId)}`);
   };
 
-  const [courseFilter, setCourseFilter] = useState("all");
-
-  const handleTrackSelect = (filterId: string) => {
-    setCourseFilter(filterId);
-    const el = document.getElementById(SECTION_IDS.COURSES);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    } else if (onNavigate) {
-      onNavigate(ROUTES.COURSES);
-    }
-  };
-
-  const handleHeroSearch = (query: string) => {
-    setSearchQuery(query);
-    if (query.trim().length > 0) {
-      setCourseFilter("all");
-    }
-  };
-
-  const handleCourseSelect = () => {
-    if (onNavigate) {
-      onNavigate(ROUTES.SIGNUP);
-    }
-  };
-
   return (
     <div className="homepage-wrapper">
-      <HeroSection onNavigate={onNavigate} onSearch={handleHeroSearch} />
-      <CareerPathDiscoverySection onExploreTrack={handleTrackSelect} />
+      <HeroSection onNavigate={onNavigate} />
+      <section className="alumni-section" aria-label="Where our alumni work">
+        <div className="section-container">
+          <Alumni />
+        </div>
+      </section>
       <PopularCategoriesSection onSelectCategory={handleCategorySelect} />
-      <FeaturedCoursesSection
-        searchQuery={searchQuery}
-        activeFilter={courseFilter}
-        onFilterChange={setCourseFilter}
-        onClearSearch={() => setSearchQuery("")}
-        onSelectCourse={handleCourseSelect}
-        onNavigate={onNavigate}
-      />
       <ComingSoonSection />
       <CorporateTrainingSection onNavigate={onNavigate} />
       <PartnersTrustSection />

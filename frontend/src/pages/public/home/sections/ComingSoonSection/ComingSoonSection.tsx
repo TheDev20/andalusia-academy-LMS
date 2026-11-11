@@ -77,7 +77,8 @@ export default function ComingSoonSection() {
 
   return (
     <section
-      className="coming-soon-section"
+      id="cohort-schedule"
+      className="coming-soon-section scroll-section"
       aria-label="Upcoming Programs and Bootcamps"
     >
       <div className="section-container">

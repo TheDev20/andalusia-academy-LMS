@@ -38,7 +38,6 @@ interface PortalNavItem {
 
 const HOME_SECTION_IDS = [
   "home",
-  "career-paths",
   "corporate",
 ] as const;
 
@@ -183,7 +182,7 @@ export default function PublicNavbar({
   const navItems: NavItem[] = useMemo(
     () => [
       { label: "Home", href: "/", key: "home" },
-      { label: "Career Paths", href: "/#career-paths", key: "career-paths" },
+      { label: "Career Paths", href: "/courses?tab=career-paths", key: "career-paths" },
       { label: "Courses & Programs", href: "/courses", key: "courses" },
       { label: "Corporate Training", href: "/#corporate", key: "corporate" },
       { label: "About Us", href: "/about", key: "about" },

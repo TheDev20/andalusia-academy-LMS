@@ -21,8 +21,9 @@ import {
   Maximize2,
   Minus,
 } from "lucide-react";
-import { NavigateFunction } from "../../../../../types/navigation";
+import { NavigateFunction, ROUTES } from "../../../../../types/navigation";
 import { useCountdown } from "../../../../../hooks/useCountdown";
+import HeroSearch from "./HeroSearch";
 import "./HeroSection.css";
 import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
 
@@ -37,14 +38,9 @@ export type { CodeToken, CodeLine, TerminalLine, IdeFile };
 
 export interface HeroSectionProps {
   onNavigate?: NavigateFunction;
-  onSearch?: (query: string) => void;
 }
 
-export default function HeroSection({
-  onNavigate,
-  onSearch,
-}: HeroSectionProps) {
-  const [query, setQuery] = useState("");
+export default function HeroSection({ onNavigate }: HeroSectionProps) {
   const [activeFile, setActiveFile] = useState("App.tsx");
 
   const timeLeft = useCountdown({
@@ -54,20 +50,7 @@ export default function HeroSection({
     seconds: 30,
   });
 
-  const scrollToCourses = () => {
-    const el = document.getElementById("courses");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (onSearch) {
-      onSearch(query);
-    }
-    scrollToCourses();
-  };
+  const goToCatalog = () => onNavigate?.(ROUTES.COURSES);
 
   const currentFile = IDE_FILES[activeFile] || IDE_FILES["App.tsx"];
 
@@ -117,11 +100,11 @@ export default function HeroSection({
           {/* Primary Action Buttons */}
           <div className="hero-actions">
             <a
-              href="#courses"
+              href="/courses"
               className="btn-primary-hero"
               onClick={(e) => {
                 e.preventDefault();
-                scrollToCourses();
+                goToCatalog();
               }}
             >
               <span>Explore All Programs</span>
@@ -133,53 +116,17 @@ export default function HeroSection({
               className="btn-secondary-hero"
               onClick={(e) => {
                 e.preventDefault();
-                const el =
-                  document.getElementById("cohort-schedule") ||
-                  document.getElementById("courses");
+                const el = document.getElementById("cohort-schedule");
                 if (el) el.scrollIntoView({ behavior: "smooth" });
+                else goToCatalog();
               }}
             >
               <span>Upcoming Cohorts</span>
             </a>
           </div>
 
-          {/* Unified Discovery Search Bar */}
-          <form className="hero-search-bar" onSubmit={handleSearchSubmit}>
-            <div className="search-input-wrap">
-              <Search size={20} className="search-icon" aria-hidden="true" />
-              <input
-                type="text"
-                placeholder="Search courses, tracks, or skills (e.g. AI, Python)..."
-                value={query}
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                  if (onSearch) {
-                    onSearch(e.target.value);
-                  }
-                }}
-                aria-label="Search academy courses and programs"
-              />
-              {query && (
-                <button
-                  type="button"
-                  className="hero-search-clear-btn"
-                  onClick={() => {
-                    setQuery("");
-                    if (onSearch) {
-                      onSearch("");
-                    }
-                  }}
-                  title="Clear search"
-                >
-                  <X size={14} />
-                </button>
-              )}
-            </div>
-            <button type="submit" className="hero-search-btn">
-              <span>Find Course</span>
-              <ArrowRight size={16} aria-hidden="true" />
-            </button>
-          </form>
+          {/* Unified Discovery Search Bar with live suggestions */}
+          <HeroSearch />
         </div>
 
         {/* Right Column: Full Authentic VS Code Studio in Website Theme */}

@@ -8,3 +8,9 @@
   scroll-margin-top: 96px;
 }
 
+
+.alumni-section {
+  padding: clamp(40px, 6vh, 64px) 0;
+  background: #f2eee6;
+  border-bottom: 1px solid rgba(224, 216, 204, 0.6);
+}
