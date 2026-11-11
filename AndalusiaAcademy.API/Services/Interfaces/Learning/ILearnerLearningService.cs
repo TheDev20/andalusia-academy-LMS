@@ -1,4 +1,5 @@
 using AndalusiaAcademy.API.DTOs.Learning;
+using AndalusiaAcademy.API.Services.Interfaces.Storage;
 
 namespace AndalusiaAcademy.API.Services.Interfaces.Learning;
 
@@ -14,4 +15,7 @@ public interface ILearnerLearningService
     Task<LearnerResourceDto> CompleteResourceAsync(Guid learnerId, Guid resourceId, CancellationToken cancellationToken = default);
 
     Task<SubmissionDto> SubmitAssignmentAsync(Guid learnerId, Guid assignmentId, SubmitAssignmentRequest request, CancellationToken cancellationToken = default);
+
+    /// <summary>Submits text and/or files as a new attempt; at least one of the two is required.</summary>
+    Task<SubmissionDto> SubmitAssignmentAsync(Guid learnerId, Guid assignmentId, string? body, IReadOnlyList<IncomingFile> files, CancellationToken cancellationToken = default);
 }

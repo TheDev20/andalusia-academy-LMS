@@ -7,11 +7,13 @@ using AndalusiaAcademy.API.Services.Implementations.Learning;
 using AndalusiaAcademy.API.Services.Implementations.Notifications;
 using AndalusiaAcademy.API.Services.Implementations.Operations;
 using AndalusiaAcademy.API.Services.Implementations.Payments;
+using AndalusiaAcademy.API.Services.Implementations.Storage;
 using AndalusiaAcademy.API.Services.Interfaces.Admissions;
 using AndalusiaAcademy.API.Services.Interfaces.Identity;
 using AndalusiaAcademy.API.Services.Interfaces.Learning;
 using AndalusiaAcademy.API.Services.Interfaces.Operations;
 using AndalusiaAcademy.API.Services.Interfaces.Payments;
+using AndalusiaAcademy.API.Services.Interfaces.Storage;
 using IdentityOptions = AndalusiaAcademy.API.Services.Implementations.Identity.IdentityOptions;
 
 namespace AndalusiaAcademy.API.Common.DependencyInjection;
@@ -47,6 +49,15 @@ public static class ModuleRegistration
         services.AddSingleton<IPaymentGateway, SimulatedPaymentGateway>();
         services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<IStripeWebhookService, StripeWebhookService>();
+        return services;
+    }
+
+    public static IServiceCollection AddStorageModule(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<FileStorageOptions>(configuration.GetSection(FileStorageOptions.SectionName));
+        services.AddSingleton<IFileStorage, LocalFileStorage>();
+        services.AddScoped<IFileAssetService, FileAssetService>();
+        services.AddScoped<IFileDownloadService, FileDownloadService>();
         return services;
     }
 

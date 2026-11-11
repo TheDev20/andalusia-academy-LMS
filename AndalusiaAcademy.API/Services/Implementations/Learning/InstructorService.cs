@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using AndalusiaAcademy.API.Common.Security;
 using AndalusiaAcademy.API.Data;
+using AndalusiaAcademy.API.DTOs.Common;
 using AndalusiaAcademy.API.DTOs.Learning;
 using AndalusiaAcademy.API.ENUMs;
 using AndalusiaAcademy.API.Exceptions;
@@ -209,7 +210,12 @@ public sealed class InstructorService : IInstructorService
             .Select(s => new SubmissionForGradingDto(
                 s.Id, s.LearningEnrollmentId,
                 s.LearningEnrollment.Learner.FirstName + " " + s.LearningEnrollment.Learner.LastName,
-                s.AttemptNumber, s.Body, s.SubmittedAt, s.Score, s.GradedAt))
+                s.AttemptNumber, s.Body, s.SubmittedAt, s.Score, s.GradedAt,
+                _context.SubmissionAssets
+                    .Where(sa => sa.SubmissionId == s.Id)
+                    .OrderBy(sa => sa.FileAsset.UploadedAt).ThenBy(sa => sa.FileAsset.OriginalName)
+                    .Select(sa => new FileDto(sa.FileAsset.Id, sa.FileAsset.OriginalName, sa.FileAsset.MediaType, sa.FileAsset.SizeBytes))
+                    .ToList()))
             .ToListAsync(cancellationToken);
     }
 
@@ -233,8 +239,13 @@ public sealed class InstructorService : IInstructorService
         await _context.SaveChangesAsync(cancellationToken);
 
         var learner = submission.LearningEnrollment.Learner;
+        var files = await _context.SubmissionAssets.AsNoTracking()
+            .Where(sa => sa.SubmissionId == submissionId)
+            .OrderBy(sa => sa.FileAsset.UploadedAt).ThenBy(sa => sa.FileAsset.OriginalName)
+            .Select(sa => new FileDto(sa.FileAsset.Id, sa.FileAsset.OriginalName, sa.FileAsset.MediaType, sa.FileAsset.SizeBytes))
+            .ToListAsync(cancellationToken);
         return new SubmissionForGradingDto(submission.Id, submission.LearningEnrollmentId, $"{learner.FirstName} {learner.LastName}",
-            submission.AttemptNumber, submission.Body, submission.SubmittedAt, submission.Score, submission.GradedAt);
+            submission.AttemptNumber, submission.Body, submission.SubmittedAt, submission.Score, submission.GradedAt, files);
     }
 
     public async Task<IReadOnlyList<LearnerProgressDto>> GetProgressAsync(Guid offeringId, CancellationToken cancellationToken = default)

@@ -21,6 +21,9 @@ public sealed class SqlServerApiFactory : WebApplicationFactory<Program>, IAsync
     private readonly string _connectionString;
     private readonly string _signingKey = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
 
+    /// <summary>Private upload directory for this run; removed on dispose.</summary>
+    public string StorageRoot { get; } = Path.Combine(Path.GetTempPath(), "andalusia-tests-" + Guid.NewGuid().ToString("N"));
+
     /// <summary>Per-run Stripe webhook signing secret, so tests can sign their own events.</summary>
     public string StripeWebhookSecret { get; } = "whsec_test_" + Convert.ToHexString(RandomNumberGenerator.GetBytes(24));
 
@@ -58,7 +61,8 @@ public sealed class SqlServerApiFactory : WebApplicationFactory<Program>, IAsync
                 ["Payments:StripeWebhookSecret"] = StripeWebhookSecret,
                 ["Identity:ExposeResetTokenInResponse"] = "true",
                 ["RateLimiting:Auth:PermitLimit"] = "100000",
-                ["Seed:DemoData:Enabled"] = "false"
+                ["Seed:DemoData:Enabled"] = "false",
+                ["Storage:RootPath"] = StorageRoot
             };
             foreach (var (key, value) in Overrides)
             {
@@ -85,6 +89,18 @@ public sealed class SqlServerApiFactory : WebApplicationFactory<Program>, IAsync
         }
 
         await base.DisposeAsync();
+
+        try
+        {
+            if (Directory.Exists(StorageRoot))
+            {
+                Directory.Delete(StorageRoot, recursive: true);
+            }
+        }
+        catch (IOException)
+        {
+            // Temp files are cleaned by the OS eventually.
+        }
     }
 
     public async Task WithDbAsync(Func<ApplicationDbContext, Task> action)

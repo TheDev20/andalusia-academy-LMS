@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using AndalusiaAcademy.API.DTOs.Common;
 
 namespace AndalusiaAcademy.API.DTOs.Learning;
 
@@ -84,7 +85,8 @@ public sealed record SubmissionForGradingDto(
     string? Body,
     DateTimeOffset SubmittedAt,
     decimal? Score,
-    DateTimeOffset? GradedAt);
+    DateTimeOffset? GradedAt,
+    IReadOnlyList<FileDto> Files);
 
 public sealed record GradeSubmissionRequest(
     [Range(typeof(decimal), "0", "10000")] decimal Score);
