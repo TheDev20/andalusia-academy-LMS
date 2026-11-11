@@ -37,19 +37,19 @@ export default function PublicFooter({ onNavigate }: PublicFooterProps) {
             </p>
             <div className="footer-contact-items">
               <div className="contact-line">
-                <Phone size={13} aria-hidden="true" />
+                <Phone size={14} aria-hidden="true" />
                 <span>
                   Admissions: <strong>16781</strong>
                 </span>
               </div>
               <div className="contact-line">
-                <Mail size={13} aria-hidden="true" />
+                <Mail size={14} aria-hidden="true" />
                 <span>admissions@andalusia-academy.com</span>
               </div>
             </div>
           </div>
           <div className="footer-col">
-            <h5 className="footer-heading">Catalog &amp; Tracks</h5>
+            <h2 className="footer-heading">Catalog &amp; Tracks</h2>
             <ul className="footer-links">
               <li>
                 <Link to="/courses?filter=software-engineering">Software Engineering</Link>
@@ -72,7 +72,7 @@ export default function PublicFooter({ onNavigate }: PublicFooterProps) {
             </ul>
           </div>
           <div className="footer-col">
-            <h5 className="footer-heading">Academy</h5>
+            <h2 className="footer-heading">Academy</h2>
             <ul className="footer-links">
               <li>
                 <Link to="/about">About Us</Link>
@@ -90,7 +90,7 @@ export default function PublicFooter({ onNavigate }: PublicFooterProps) {
           </div>
 
           <div className="footer-col">
-            <h5 className="footer-heading">Portals</h5>
+            <h2 className="footer-heading">Portals</h2>
             <ul className="footer-links">
               <li>
                 <Link to="/login">Learner LMS Portal</Link>

@@ -39,7 +39,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--color-brand-dark, #726252);
   background: rgba(139, 102, 72, 0.08);
@@ -57,7 +57,7 @@
 }
 
 .portal-label {
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 1.4px;
   color: var(--color-brand-muted, #9a8e80);
   text-transform: uppercase;

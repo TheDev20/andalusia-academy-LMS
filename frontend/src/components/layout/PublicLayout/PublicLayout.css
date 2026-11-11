@@ -2,14 +2,14 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--color-brand-bg, #f7f4ee);
+  background: var(--color-brand-bg, #f6f5f2);
   color: var(--color-brand-dark, #43392f);
 }
 
 .announcement-bar {
   background: var(--color-brand-heading, #271e16);
   color: var(--color-brand-cream, #ede7dc);
-  font-size: 13.5px;
+  font-size: 14px;
   padding: 9px 18px;
   text-align: center;
   border-bottom: 1px solid rgba(174, 138, 88, 0.25);

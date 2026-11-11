@@ -88,10 +88,10 @@ export default function StoryPanel({
             {motion ? <Pause size={14} /> : <Play size={14} />}
           </button>
           <button type="button" onClick={handlePrev} aria-label="Previous scene">
-            <ArrowLeft size={18} />
+            <ArrowLeft size={20} />
           </button>
           <button type="button" onClick={handleNext} aria-label="Next scene">
-            <ArrowRight size={18} />
+            <ArrowRight size={20} />
           </button>
         </div>
       </div>

@@ -33,7 +33,7 @@ export default function DisciplinesTab() {
           onSearch={(term) => setSearch(term)}
         />
         <button type="button" className="portal-btn" onClick={() => setEditing("new")}>
-          <Plus size={15} aria-hidden="true" /> New discipline
+          <Plus size={16} aria-hidden="true" /> New discipline
         </button>
       </div>
 

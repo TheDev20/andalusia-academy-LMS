@@ -130,7 +130,7 @@ export default function PopularCategoriesSection({
                   </p>
                   <div className="cat-explore-link">
                     <span>Browse Tracks</span>
-                    <ArrowRight size={13} aria-hidden="true" />
+                    <ArrowRight size={14} aria-hidden="true" />
                   </div>
                 </MagicCard>
               </div>

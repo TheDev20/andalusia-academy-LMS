@@ -6,7 +6,7 @@
 .field-label,
 .field > span {
   display: block;
-  font-size: clamp(10px, 1.1vh, 11px);
+  font-size: 12px;
   font-weight: 500;
   color: var(--color-brand-dark, #43392f);
   margin-bottom: clamp(3px, 0.5vh, 6px);
@@ -20,8 +20,8 @@
   gap: 10px;
   padding: 0 12px;
   height: clamp(36px, 4.2vh, 44px);
-  background: var(--color-brand-bg, #f7f4ee);
-  color: var(--color-brand-muted, #7a6e60);
+  background: var(--color-brand-bg, #f6f5f2);
+  color: var(--color-brand-muted, #6f6456);
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease,
@@ -46,7 +46,7 @@
 }
 
 .input-wrap input::placeholder {
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   opacity: 0.7;
 }
 
@@ -61,7 +61,7 @@
   border: 0;
   background: transparent;
   padding: 4px;
-  color: var(--color-brand-muted, #7a6e60);
+  color: var(--color-brand-muted, #6f6456);
   cursor: pointer;
   transition:
     color 0.2s ease,

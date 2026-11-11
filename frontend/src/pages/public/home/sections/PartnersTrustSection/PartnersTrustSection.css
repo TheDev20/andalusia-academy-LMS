@@ -1,7 +1,7 @@
 /* 7. Partners & Trust Section */
 .partners-section {
   padding: clamp(64px, 8vh, 96px) 0;
-  background: #f7f4ee;
+  background: #f6f5f2;
   border-bottom: 1px solid rgba(224, 216, 204, 0.6);
 }
 .partners-intro {
@@ -37,11 +37,11 @@
   background: #ffffff;
   border: 1px solid #ded6c8;
   border-radius: 22px;
-  padding: 36px 26px;
+  padding: 26px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  gap: 14px;
+  text-align: left;
   box-shadow: 0 4px 18px rgba(67, 57, 47, 0.04);
   transition: all 0.25s ease;
 }
@@ -51,25 +51,20 @@
   box-shadow: 0 12px 30px rgba(67, 57, 47, 0.08);
 }
 .partner-icon-frame {
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
-  background: rgba(174, 138, 88, 0.12);
+  flex: none;
   color: #8b6648;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
+  margin-top: 1px;
 }
 .partner-info {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
+  align-items: flex-start;
+  min-width: 0;
 }
 .partner-name {
   display: block;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   color: #261d15;
   margin: 0 0 6px;
@@ -91,3 +86,9 @@
   margin: 0;
 }
 
+.partner-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+}

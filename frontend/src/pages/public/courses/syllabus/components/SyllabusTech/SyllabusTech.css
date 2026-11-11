@@ -10,8 +10,8 @@
 
 .tech-heading {
   margin: 0 0 8px;
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 700;
+  font-family: var(--font-display, 'Libre Caslon Display', Georgia, serif);
+  font-weight: 400;
   font-size: 34px;
   line-height: 1.15;
   color: #1E1A17;
@@ -45,7 +45,7 @@
   border: 1px solid #EADFCF;
   color: #1E1A17;
   font-weight: 600;
-  font-size: 14.5px;
+  font-size: 15px;
   transition: all 0.2s ease;
   cursor: default;
 }
@@ -61,4 +61,11 @@
   color: #8A5A3B;
   display: flex;
   align-items: center;
+}
+
+.tech-chip-logo {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  display: block;
 }

@@ -24,7 +24,7 @@
   flex-shrink: 0;
   border-radius: 50%;
   border: 1px solid #ded6c8;
-  background: #f7f4ee;
+  background: #f6f5f2;
   color: #4f4233;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -49,7 +49,7 @@
   overflow-x: auto;
   width: 100%;
   padding: 8px 12px;
-  background: #f7f4ee;
+  background: #f6f5f2;
   border: 1px solid #ded6c8;
   border-radius: 999px;
   scrollbar-width: thin;

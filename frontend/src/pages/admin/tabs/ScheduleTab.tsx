@@ -39,7 +39,7 @@ export default function ScheduleTab() {
           )}
         </Field>
         <button type="button" className="portal-btn" onClick={() => setCreating(true)}>
-          <Plus size={15} aria-hidden="true" /> New offering
+          <Plus size={16} aria-hidden="true" /> New offering
         </button>
       </div>
 

@@ -58,7 +58,7 @@ export default function PublicLayout({
               Engineering, AI &amp; Data Science Cohorts. Priority Seat Reservations Available.
             </span>
             <Link to="/courses" className="announcement-link">
-              Explore Tech Programs <ArrowRight size={12} aria-hidden="true" />
+              Explore Tech Programs <ArrowRight size={14} aria-hidden="true" />
             </Link>
           </div>
         </div>
@@ -76,7 +76,7 @@ export default function PublicLayout({
             padding: "18px 24px",
             textAlign: "center",
             fontSize: "13px",
-            color: "#7a6e60",
+            color: "#6f6456",
           }}
         >
           © {new Date().getFullYear()} Andalusia Academy LMS · Authenticated Workspace

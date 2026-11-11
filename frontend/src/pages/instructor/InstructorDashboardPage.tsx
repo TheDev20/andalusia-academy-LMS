@@ -34,14 +34,14 @@ export default function InstructorDashboardPage() {
               <h2 className="portal-card-title">{cohort.courseTitle}</h2>
               <div className="portal-card-meta" style={{ marginBottom: 14 }}>
                 <span>
-                  <CalendarDays size={13} aria-hidden="true" /> {formatDate(cohort.startsAt)} – {formatDate(cohort.endsAt)}
+                  <CalendarDays size={14} aria-hidden="true" /> {formatDate(cohort.startsAt)} – {formatDate(cohort.endsAt)}
                 </span>
                 <span>
-                  <Users size={13} aria-hidden="true" /> {cohort.learnerCount} learners
+                  <Users size={14} aria-hidden="true" /> {cohort.learnerCount} learners
                 </span>
                 <span>{cohort.sessionCount} sessions</span>
                 <span>
-                  <ClipboardList size={13} aria-hidden="true" /> {cohort.assignmentCount} assignments
+                  <ClipboardList size={14} aria-hidden="true" /> {cohort.assignmentCount} assignments
                 </span>
               </div>
               <Link to={`/instructor/cohorts/${cohort.offeringId}`} className="portal-btn">

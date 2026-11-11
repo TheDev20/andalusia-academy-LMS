@@ -7,18 +7,21 @@ export default function PartnersTrustSection() {
       name: "Microsoft Learn Partner",
       type: "Official .NET & Azure Curriculum",
       icon: Cloud,
+      logo: "/images/logos/tech/microsoft-mark.svg",
       sub: "Enterprise Cloud & C# Standards",
     },
     {
       name: "AWS Academy Member",
       type: "Cloud Architecture & DevOps",
       icon: Globe,
+      logo: "/images/logos/tech/aws.svg",
       sub: "Authorized Cloud Certification Prep",
     },
     {
       name: "Google Cloud Education",
       type: "BigQuery & Machine Learning",
       icon: Cpu,
+      logo: "/images/logos/tech/google-cloud.svg",
       sub: "Modern Data Stack & AI Frameworks",
     },
     {
@@ -48,9 +51,9 @@ export default function PartnersTrustSection() {
     >
       <div className="section-container">
         <div className="partners-intro">
-          <h3 className="partners-heading">
+          <h2 className="partners-heading">
             Trusted by Top Engineering Organizations & Cloud Providers
-          </h3>
+          </h2>
         </div>
 
         <div className="partners-grid">
@@ -59,10 +62,14 @@ export default function PartnersTrustSection() {
             return (
               <div key={pIdx} className="partner-card">
                 <div className="partner-icon-frame">
-                  <Icon size={26} aria-hidden="true" />
+                  {partner.logo ? (
+                    <img src={partner.logo} alt="" width={24} height={24} className="partner-logo" />
+                  ) : (
+                    <Icon size={24} aria-hidden="true" />
+                  )}
                 </div>
                 <div className="partner-info">
-                  <h4 className="partner-name">{partner.name}</h4>
+                  <h3 className="partner-name">{partner.name}</h3>
                   <p className="partner-type">{partner.type}</p>
                   <span className="partner-sub">{partner.sub}</span>
                 </div>

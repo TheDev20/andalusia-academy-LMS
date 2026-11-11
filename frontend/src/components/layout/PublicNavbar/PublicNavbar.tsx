@@ -69,25 +69,25 @@ export default function PublicNavbar({
           {
             label: "Admin Console",
             to: "/admin",
-            icon: <ShieldCheck size={15} aria-hidden="true" />,
+            icon: <ShieldCheck size={16} aria-hidden="true" />,
             isActive: (p: string) => p.startsWith("/admin"),
           },
           {
             label: "Instructor Cohorts",
             to: "/instructor",
-            icon: <GraduationCap size={15} aria-hidden="true" />,
+            icon: <GraduationCap size={16} aria-hidden="true" />,
             isActive: (p: string) => p.startsWith("/instructor"),
           },
           {
             label: "Course Catalog",
             to: "/courses",
-            icon: <BookOpen size={15} aria-hidden="true" />,
+            icon: <BookOpen size={16} aria-hidden="true" />,
             isActive: isCatalogPath,
           },
           {
             label: "Account Settings",
             to: "/profile",
-            icon: <UserCircle2 size={15} aria-hidden="true" />,
+            icon: <UserCircle2 size={16} aria-hidden="true" />,
             isActive: (p: string) => p.startsWith("/profile"),
           },
         ] satisfies PortalNavItem[],
@@ -102,19 +102,19 @@ export default function PublicNavbar({
           {
             label: "Curriculum Manager",
             to: "/admin",
-            icon: <LayoutDashboard size={15} aria-hidden="true" />,
+            icon: <LayoutDashboard size={16} aria-hidden="true" />,
             isActive: (p: string) => p.startsWith("/admin"),
           },
           {
             label: "Course Catalog",
             to: "/courses",
-            icon: <BookOpen size={15} aria-hidden="true" />,
+            icon: <BookOpen size={16} aria-hidden="true" />,
             isActive: isCatalogPath,
           },
           {
             label: "Account Settings",
             to: "/profile",
-            icon: <UserCircle2 size={15} aria-hidden="true" />,
+            icon: <UserCircle2 size={16} aria-hidden="true" />,
             isActive: (p: string) => p.startsWith("/profile"),
           },
         ] satisfies PortalNavItem[],
@@ -129,19 +129,19 @@ export default function PublicNavbar({
           {
             label: "My Cohorts",
             to: "/instructor",
-            icon: <GraduationCap size={15} aria-hidden="true" />,
+            icon: <GraduationCap size={16} aria-hidden="true" />,
             isActive: (p: string) => p.startsWith("/instructor"),
           },
           {
             label: "Course Catalog",
             to: "/courses",
-            icon: <BookOpen size={15} aria-hidden="true" />,
+            icon: <BookOpen size={16} aria-hidden="true" />,
             isActive: isCatalogPath,
           },
           {
             label: "Account Settings",
             to: "/profile",
-            icon: <UserCircle2 size={15} aria-hidden="true" />,
+            icon: <UserCircle2 size={16} aria-hidden="true" />,
             isActive: (p: string) => p.startsWith("/profile"),
           },
         ] satisfies PortalNavItem[],
@@ -155,19 +155,19 @@ export default function PublicNavbar({
         {
           label: "My Learning",
           to: "/dashboard",
-          icon: <LayoutDashboard size={15} aria-hidden="true" />,
+          icon: <LayoutDashboard size={16} aria-hidden="true" />,
           isActive: (p: string) => p.startsWith("/dashboard") || p.startsWith("/learn"),
         },
         {
           label: "Browse Catalog",
           to: "/courses",
-          icon: <BookOpen size={15} aria-hidden="true" />,
+          icon: <BookOpen size={16} aria-hidden="true" />,
           isActive: isCatalogPath,
         },
         {
           label: "Account Settings",
           to: "/profile",
-          icon: <UserCircle2 size={15} aria-hidden="true" />,
+          icon: <UserCircle2 size={16} aria-hidden="true" />,
           isActive: (p: string) => p.startsWith("/profile"),
         },
       ] satisfies PortalNavItem[],
@@ -312,7 +312,7 @@ export default function PublicNavbar({
               aria-expanded={mobileMenuOpen}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
@@ -358,7 +358,7 @@ export default function PublicNavbar({
                       <div style={{ fontSize: 14, fontWeight: 700, color: "#271e16" }}>
                         {user.fullName}
                       </div>
-                      <div style={{ fontSize: 12, color: "#7a6e60" }}>
+                      <div style={{ fontSize: 12, color: "#6f6456" }}>
                         {workspaceMeta.badge}
                       </div>
                     </div>
@@ -439,7 +439,7 @@ export default function PublicNavbar({
             aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>

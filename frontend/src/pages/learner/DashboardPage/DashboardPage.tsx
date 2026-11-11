@@ -105,7 +105,7 @@ export default function DashboardPage() {
           </div>
           <Link to="/courses" className="dash-btn">
             <span>Browse Catalog</span>
-            <ArrowUpRight size={15} />
+            <ArrowUpRight size={16} />
           </Link>
         </div>
 
@@ -154,7 +154,7 @@ export default function DashboardPage() {
                   <div key={item.learningEnrollmentId} className="dash-card">
                     <div>
                       <span className="dash-badge active">
-                        <CheckCircle2 size={12} /> {item.status}
+                        <CheckCircle2 size={14} /> {item.status}
                       </span>
                       <h3 className="dash-card-title">{item.courseTitle}</h3>
                       <div className="dash-meta">
@@ -199,11 +199,11 @@ export default function DashboardPage() {
                         <span className={`dash-badge ${isAccepted ? "approved" : "pending"}`}>
                           {isAccepted ? (
                             <>
-                              <CheckCircle2 size={12} /> Accepted &amp; Enrolled
+                              <CheckCircle2 size={14} /> Accepted &amp; Enrolled
                             </>
                           ) : isOpen ? (
                             <>
-                              <Clock size={12} /> Awaiting Tuition Payment
+                              <Clock size={14} /> Awaiting Tuition Payment
                             </>
                           ) : (
                             <>{app.status}</>
@@ -259,7 +259,7 @@ export default function DashboardPage() {
                   <div key={pay.id} className="dash-card">
                     <div>
                       <span className={`dash-badge ${pay.status === "Succeeded" ? "settled" : "pending"}`}>
-                        {pay.status === "Succeeded" && <CheckCircle2 size={12} />} {pay.status}
+                        {pay.status === "Succeeded" && <CheckCircle2 size={14} />} {pay.status}
                       </span>
                       <h3 className="dash-card-title">{pay.title}</h3>
                       <div className="dash-meta">

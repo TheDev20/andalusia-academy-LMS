@@ -1,6 +1,5 @@
 import { Target, Sparkles, ArrowRight } from "lucide-react";
 import { NavigateFunction } from "../../../../types/navigation";
-import Badge from "../../../../components/common/Badge";
 import SectionHeading from "../../../../components/ui/SectionHeading";
 import { pillars, faculty, milestones } from "./index";
 import "./AboutPage.css";
@@ -14,9 +13,6 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
       <section className="about-hero-section">
         <div className="section-container">
           <div className="about-hero-content">
-            <Badge variant="bronze" dot>
-              OUR HERITAGE &amp; MISSION
-            </Badge>
             <h1 className="about-title">
               Rooted in Engineering, Dedicated to{" "}
               <em>Technical Distinction.</em>
@@ -62,10 +58,10 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
         <div className="section-container">
           <div className="mission-vision-grid">
             <div className="mission-card">
-              <div className="mv-icon-frame">
-                <Target size={28} aria-hidden="true" />
-              </div>
-              <h3>Our Engineering Mission</h3>
+              <h2>
+                <Target size={24} aria-hidden="true" />
+                Our Engineering Mission
+              </h2>
               <p>
                 To empower developers, data scientists, and engineers through
                 transformative, hands-on technical education, fostering a
@@ -74,10 +70,10 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
               </p>
             </div>
             <div className="vision-card">
-              <div className="mv-icon-frame">
-                <Sparkles size={28} aria-hidden="true" />
-              </div>
-              <h3>Our Vision for Tech Education</h3>
+              <h2>
+                <Sparkles size={24} aria-hidden="true" />
+                Our Vision for Tech Education
+              </h2>
               <p>
                 To be the Middle East's preeminent technology academy,
                 internationally recognized for producing world-class software
@@ -104,10 +100,10 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
               const Icon = pillar.icon;
               return (
                 <div key={idx} className="pillar-item-card">
-                  <div className="p-icon-wrap">
-                    <Icon size={24} aria-hidden="true" />
-                  </div>
-                  <h4>{pillar.title}</h4>
+                  <h3>
+                    <Icon size={20} aria-hidden="true" />
+                    {pillar.title}
+                  </h3>
                   <p>{pillar.desc}</p>
                 </div>
               );
@@ -120,9 +116,6 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
         <div className="section-container">
           <div className="facilities-layout">
             <div className="facilities-text">
-              <Badge variant="bronze" dot>
-                INNOVATION &amp; CODING STUDIOS
-              </Badge>
               <h2>State-of-the-Art Computing Labs &amp; Offline Cohort Studios</h2>
               <p>
                 Our physical campus tech hubs feature high-performance
@@ -224,7 +217,7 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
               <div key={idx} className="timeline-node">
                 <span className="node-year">{m.year}</span>
                 <span className="node-dot" />
-                <h4 className="node-title">{m.title}</h4>
+                <h3 className="node-title">{m.title}</h3>
                 <p className="node-desc">{m.desc}</p>
               </div>
             ))}

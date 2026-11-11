@@ -17,12 +17,19 @@
   --color-brand-primary-hover: #77553b;
   --color-brand-dark: #43392f;
   --color-brand-heading: #271e16;
-  --color-brand-bg: #f7f4ee;
+  --color-brand-bg: #f6f5f2;
   --color-brand-cream: #ede7dc;
   --color-brand-sand: #eae4d9;
   --color-brand-gold: #d4a359;
   --color-brand-gold-dark: #ae8a58;
   --color-brand-border: #ded6c8;
-  --color-brand-muted: #7a6e60;
+  --color-brand-muted: #6f6456;
 }
 
+
+/*
+ * Type scale (px): 12 · 13 · 14 · 15 · 16 · 18 · 20 · 22 · 24 · 26 · 28 · 32 · 34 · 36,
+ * plus clamp()-based display sizes for headings.
+ * 12px is the floor for labels and captions; body copy is 14px or larger.
+ * The decorative code editor in the home hero (HeroEditor.css) is exempt.
+ */

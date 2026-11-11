@@ -114,7 +114,7 @@ export default function AdminDashboardPage() {
                 }}
               >
                 <div className="portal-row-between" style={{ marginBottom: 6 }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#7a6e60" }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#6f6456" }}>
                     Enrolled Students
                   </span>
                   <Users size={16} color="#8b6648" aria-hidden="true" />
@@ -122,7 +122,7 @@ export default function AdminDashboardPage() {
                 <div style={{ fontSize: 26, fontWeight: 700, color: "#271e16", fontFamily: "Libre Caslon Display, Georgia, serif" }}>
                   {learnersKpi.data?.totalCount ?? "—"}
                 </div>
-                <div style={{ fontSize: 12, color: "#7a6e60", marginTop: 2 }}>Active learner accounts</div>
+                <div style={{ fontSize: 12, color: "#6f6456", marginTop: 2 }}>Active learner accounts</div>
               </button>
             )}
 
@@ -139,7 +139,7 @@ export default function AdminDashboardPage() {
                 }}
               >
                 <div className="portal-row-between" style={{ marginBottom: 6 }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#7a6e60" }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#6f6456" }}>
                     Faculty &amp; Mentors
                   </span>
                   <GraduationCap size={16} color="#8b6648" aria-hidden="true" />
@@ -147,7 +147,7 @@ export default function AdminDashboardPage() {
                 <div style={{ fontSize: 26, fontWeight: 700, color: "#271e16", fontFamily: "Libre Caslon Display, Georgia, serif" }}>
                   {instructorsKpi.data?.totalCount ?? "—"}
                 </div>
-                <div style={{ fontSize: 12, color: "#7a6e60", marginTop: 2 }}>Assigned instructors</div>
+                <div style={{ fontSize: 12, color: "#6f6456", marginTop: 2 }}>Assigned instructors</div>
               </button>
             )}
 
@@ -164,7 +164,7 @@ export default function AdminDashboardPage() {
                 }}
               >
                 <div className="portal-row-between" style={{ marginBottom: 6 }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#7a6e60" }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#6f6456" }}>
                     Catalog Courses
                   </span>
                   <BookOpen size={16} color="#8b6648" aria-hidden="true" />
@@ -172,7 +172,7 @@ export default function AdminDashboardPage() {
                 <div style={{ fontSize: 26, fontWeight: 700, color: "#271e16", fontFamily: "Libre Caslon Display, Georgia, serif" }}>
                   {coursesKpi.data?.totalCount ?? "—"}
                 </div>
-                <div style={{ fontSize: 12, color: "#7a6e60", marginTop: 2 }}>Published &amp; draft curricula</div>
+                <div style={{ fontSize: 12, color: "#6f6456", marginTop: 2 }}>Published &amp; draft curricula</div>
               </button>
             )}
 
@@ -189,7 +189,7 @@ export default function AdminDashboardPage() {
                 }}
               >
                 <div className="portal-row-between" style={{ marginBottom: 6 }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#7a6e60" }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#6f6456" }}>
                     Scheduled Cohorts
                   </span>
                   <CalendarDays size={16} color="#8b6648" aria-hidden="true" />
@@ -197,7 +197,7 @@ export default function AdminDashboardPage() {
                 <div style={{ fontSize: 26, fontWeight: 700, color: "#271e16", fontFamily: "Libre Caslon Display, Georgia, serif" }}>
                   {offeringsKpi.data?.length ?? "—"}
                 </div>
-                <div style={{ fontSize: 12, color: "#7a6e60", marginTop: 2 }}>
+                <div style={{ fontSize: 12, color: "#6f6456", marginTop: 2 }}>
                   {totalSeatsTaken} seats reserved / active
                 </div>
               </button>
@@ -216,7 +216,7 @@ export default function AdminDashboardPage() {
                 }}
               >
                 <div className="portal-row-between" style={{ marginBottom: 6 }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#7a6e60" }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#6f6456" }}>
                     Verified Revenue
                   </span>
                   <CreditCard size={16} color="#8b6648" aria-hidden="true" />
@@ -224,7 +224,7 @@ export default function AdminDashboardPage() {
                 <div style={{ fontSize: 26, fontWeight: 700, color: "#271e16", fontFamily: "Libre Caslon Display, Georgia, serif" }}>
                   {paidOrdersKpi.data ? formatMoney(verifiedRevenueUsd, "USD") : "—"}
                 </div>
-                <div style={{ fontSize: 12, color: "#7a6e60", marginTop: 2 }}>
+                <div style={{ fontSize: 12, color: "#6f6456", marginTop: 2 }}>
                   {paidOrdersKpi.data?.totalCount ?? 0} settled orders
                 </div>
               </button>

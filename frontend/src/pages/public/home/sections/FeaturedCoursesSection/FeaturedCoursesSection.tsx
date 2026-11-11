@@ -238,7 +238,7 @@ export default function FeaturedCoursesSection({
               aria-label="Scroll filter tabs left"
               title="Scroll left"
             >
-              <ChevronLeft size={18} />
+              <ChevronLeft size={20} />
             </button>
 
             <div
@@ -275,7 +275,7 @@ export default function FeaturedCoursesSection({
               aria-label="Scroll filter tabs right"
               title="Scroll right"
             >
-              <ChevronRight size={18} />
+              <ChevronRight size={20} />
             </button>
           </div>
         </div>
@@ -292,8 +292,8 @@ export default function FeaturedCoursesSection({
             ))
           ) : (
             <div className="courses-empty-state">
-              <Terminal size={36} className="empty-icon" aria-hidden="true" />
-              <h4>No courses found matching your criteria</h4>
+              <Terminal size={32} className="empty-icon" aria-hidden="true" />
+              <p className="courses-empty-title">No courses found matching your criteria</p>
               <p>
                 {activeFilter !== "all" && (serverCourses?.length ?? 0) > 0 ? (
                   <>

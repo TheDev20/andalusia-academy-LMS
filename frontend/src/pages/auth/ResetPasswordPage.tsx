@@ -47,7 +47,7 @@ export default function ResetPasswordPage() {
         <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
           <Brand href="/" />
           <Link to="/login" className="back-to-site-btn">
-            <ArrowLeft size={13} aria-hidden="true" />
+            <ArrowLeft size={14} aria-hidden="true" />
             <span>Back to log in</span>
           </Link>
         </div>
@@ -81,7 +81,7 @@ export default function ResetPasswordPage() {
             value={confirm} onChange={(e) => setConfirm(e.target.value)} required />
           <button type="submit" className="submit-btn" disabled={loading}>
             <span>{loading ? "Saving..." : "Reset password"}</span>
-            <ArrowRight size={18} />
+            <ArrowRight size={20} />
           </button>
         </form>
       </div>

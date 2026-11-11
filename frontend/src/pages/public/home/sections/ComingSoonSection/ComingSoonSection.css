@@ -1,7 +1,7 @@
 /* 5. Coming Soon Section */
 .coming-soon-section {
   padding: clamp(72px, 10vh, 110px) 0;
-  background: #f7f4ee;
+  background: #f6f5f2;
   border-bottom: 1px solid rgba(224, 216, 204, 0.6);
 }
 .coming-soon-grid {
@@ -30,29 +30,21 @@
   gap: 7px;
   font-size: 13px;
   font-weight: 600;
-  color: #8c683b;
+  color: #75552d;
   background: rgba(174, 138, 88, 0.12);
   padding: 5px 12px;
   border-radius: 999px;
 }
-.prog-track-label {
-  font-size: 13px;
-  font-weight: 700;
-  color: #7a5a35;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 10px;
-}
 .prog-title {
   font-family: 'Libre Caslon Display', Georgia, serif;
-  font-size: 23px;
+  font-size: 24px;
   line-height: 1.35;
   color: #281f16;
   margin: 0 0 14px;
   font-weight: 400;
 }
 .prog-highlight {
-  font-size: 14.5px;
+  font-size: 15px;
   line-height: 1.65;
   color: #4e4033;
   margin: 0 0 24px;
@@ -62,10 +54,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 16px 18px;
-  background: #f7f4ee;
-  border: 1px solid #e8e0d4;
-  border-radius: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e8e0d4;
   margin-bottom: 26px;
 }
 .prog-target,
@@ -119,7 +109,7 @@
   font-family: 'Libre Caslon Display', Georgia, serif;
   font-size: 22px;
   margin: 0;
-  color: #f7f4ee;
+  color: #f6f5f2;
   font-weight: 400;
 }
 .drawer-desc {
@@ -143,7 +133,7 @@
   outline: none;
 }
 .drawer-form input::placeholder {
-  color: #b5aba0;
+  color: #767069;
 }
 .drawer-success {
   display: flex;

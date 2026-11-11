@@ -20,13 +20,13 @@ export interface BadgeProps {
 }
 
 const VARIANT_STYLES: Record<BadgeVariant, string> = {
-  bronze: "bg-[#ae8a58]/12 text-[#8c683b] border-[#ae8a58]/25",
+  bronze: "bg-[#ae8a58]/12 text-[#75552d] border-[#ae8a58]/25",
   gold: "bg-[#d4a359]/15 text-[#ae8a58] border-[#d4a359]/30",
   cream: "bg-[#fdfbf7] text-[#5c4e3f] border-[#dfd7cc]",
   espresso: "bg-white/12 text-[#e8ded1] border-white/22",
   glass: "bg-white/40 text-[#43392f] border-white/60 backdrop-blur-sm",
   emerald: "bg-emerald-500/10 text-emerald-700 border-emerald-500/20",
-  subtle: "bg-black/5 text-[#7a6e60] border-black/5",
+  subtle: "bg-black/5 text-[#6f6456] border-black/5",
 };
 
 export default function Badge({
@@ -40,7 +40,7 @@ export default function Badge({
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-semibold tracking-[0.9px] uppercase whitespace-nowrap ${variantClass} ${className}`.trim()}
+      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-semibold tracking-[0.9px] uppercase whitespace-nowrap ${variantClass} ${className}`.trim()}
     >
       {dot && (
         <span

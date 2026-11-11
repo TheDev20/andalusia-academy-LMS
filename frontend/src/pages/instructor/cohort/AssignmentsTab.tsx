@@ -34,7 +34,7 @@ export default function AssignmentsTab({
           Draft assignments are hidden from learners; closed assignments stop accepting submissions.
         </p>
         <button type="button" className="portal-btn" onClick={() => setEditor({ mode: "create" })}>
-          <Plus size={15} aria-hidden="true" /> New assignment
+          <Plus size={16} aria-hidden="true" /> New assignment
         </button>
       </div>
 
@@ -233,7 +233,7 @@ function AssignmentEditor({
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: "0.55rem" }}>
-                    <FileText size={18} color="#b5833e" />
+                    <FileText size={20} color="#b5833e" />
                     <span style={{ fontSize: "0.85rem", fontWeight: 500, color: "#3d342c" }}>{attachment.name}</span>
                   </div>
                   <div style={{ display: "flex", gap: "0.6rem" }}>
@@ -264,7 +264,7 @@ function AssignmentEditor({
                   onClick={() => fileInputRef.current?.click()}
                   style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}
                 >
-                  <Paperclip size={15} /> {uploading ? "Uploading attachment…" : "Attach PDF or Document"}
+                  <Paperclip size={16} /> {uploading ? "Uploading attachment…" : "Attach PDF or Document"}
                 </button>
               )}
 

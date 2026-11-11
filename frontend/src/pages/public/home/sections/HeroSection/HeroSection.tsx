@@ -146,7 +146,7 @@ export default function HeroSection({
           {/* Unified Discovery Search Bar */}
           <form className="hero-search-bar" onSubmit={handleSearchSubmit}>
             <div className="search-input-wrap">
-              <Search size={18} className="search-icon" aria-hidden="true" />
+              <Search size={20} className="search-icon" aria-hidden="true" />
               <input
                 type="text"
                 placeholder="Search courses, tracks, or skills (e.g. AI, Python)..."
@@ -177,7 +177,7 @@ export default function HeroSection({
             </div>
             <button type="submit" className="hero-search-btn">
               <span>Find Course</span>
-              <ArrowRight size={15} aria-hidden="true" />
+              <ArrowRight size={16} aria-hidden="true" />
             </button>
           </form>
         </div>
@@ -452,7 +452,7 @@ export default function HeroSection({
                     <code>
                       {currentFile.lines.map((line: CodeLine, idx: number) => (
                         <div key={idx} className="code-line-row">
-                          <span className="line-num">{line.num}</span>
+                          <span className="line-num" aria-hidden="true">{line.num}</span>
                           <span className="line-code">
                             {line.tokens.map((tok: CodeToken, tIdx: number) => (
                               <span key={tIdx} className={`tok-${tok.t}`}>

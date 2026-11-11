@@ -25,7 +25,7 @@ export function PortalPage({
       <div className="portal-container">
         {backTo && (
           <Link to={backTo} className="portal-back">
-            <ArrowLeft size={15} aria-hidden="true" /> {backLabel ?? "Back"}
+            <ArrowLeft size={16} aria-hidden="true" /> {backLabel ?? "Back"}
           </Link>
         )}
         <div className="portal-header">
@@ -79,7 +79,7 @@ export function Tabs<T extends string>({
 export function LoadingState({ label = "Loading…" }: { label?: string }) {
   return (
     <div className="portal-loading" role="status">
-      <Loader2 size={18} className="portal-spin" aria-hidden="true" /> {label}
+      <Loader2 size={20} className="portal-spin" aria-hidden="true" /> {label}
     </div>
   );
 }
@@ -133,7 +133,7 @@ export function ProgressBar({ percent, label }: { percent: number; label: string
   const value = Math.max(0, Math.min(100, percent));
   return (
     <div>
-      <div className="portal-row-between" style={{ fontSize: 13, color: "#7a6e60", marginBottom: 5 }}>
+      <div className="portal-row-between" style={{ fontSize: 13, color: "#6f6456", marginBottom: 5 }}>
         <span>{label}</span>
         <strong style={{ color: "#271e16" }}>{value}%</strong>
       </div>
@@ -175,7 +175,7 @@ export function Modal({
             {title}
           </h2>
           <button type="button" className="portal-icon-btn" onClick={onClose} aria-label="Close dialog">
-            <X size={18} />
+            <X size={20} />
           </button>
         </div>
         {children}
