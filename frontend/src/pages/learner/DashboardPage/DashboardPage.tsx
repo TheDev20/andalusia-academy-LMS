@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { paymentSuccessPath } from "../../../utils/paymentSuccess";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   BookOpen,
@@ -23,6 +24,7 @@ type DashboardTab = "learning" | "applications" | "payments";
 export default function DashboardPage() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<DashboardTab>("learning");
   const [selectedOrder, setSelectedOrder] = useState<ApplicationDto | null>(null);
   const [actionError, setActionError] = useState<unknown>(null);
@@ -87,11 +89,12 @@ export default function DashboardPage() {
   };
 
   const handlePaymentSuccess = () => {
+    const orderId = selectedOrder?.salesOrderId;
     setSelectedOrder(null);
     queryClient.invalidateQueries({ queryKey: ["myLearning"] });
     queryClient.invalidateQueries({ queryKey: ["myApplications"] });
     queryClient.invalidateQueries({ queryKey: ["myPayments"] });
-    setActiveTab("learning");
+    navigate(paymentSuccessPath(orderId));
   };
 
   return (
