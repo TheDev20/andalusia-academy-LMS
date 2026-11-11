@@ -127,18 +127,10 @@
   justify-content: space-between;
 }
 
-.infra-icon-wrap {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: rgba(227, 181, 143, 0.15);
-  color: #E3B58F;
+.infra-title {
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-.infra-title {
+  gap: 10px;
   margin: 0;
   font-family: var(--font-display, 'Libre Caslon Display', Georgia, serif);
   font-weight: 400;
@@ -184,4 +176,9 @@
   .labs-cards-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.infra-title svg {
+  flex: none;
+  color: #E3B58F;
 }

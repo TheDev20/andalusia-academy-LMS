@@ -57,10 +57,10 @@ export function SyllabusLabsSection({ syllabus }: SyllabusLabsSectionProps) {
 
         {/* Infrastructure Highlights Card */}
         <div className="infra-highlight-card">
-          <div className="infra-icon-wrap">
-            <Cpu size={24} aria-hidden="true" />
-          </div>
-          <h3 className="infra-title">Dedicated Lab Cloud Compute</h3>
+          <h3 className="infra-title">
+            <Cpu size={20} aria-hidden="true" />
+            Dedicated Lab Cloud Compute
+          </h3>
           <p className="infra-desc">
             Every enrolled student receives dedicated cloud GPU instance access (NVIDIA H100 / A100 clusters) pre-configured with CUDA drivers, PyTorch, Hugging Face endpoints, and vector search indices.
           </p>

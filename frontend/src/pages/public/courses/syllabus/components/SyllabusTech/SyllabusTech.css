@@ -62,3 +62,10 @@
   display: flex;
   align-items: center;
 }
+
+.tech-chip-logo {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  display: block;
+}

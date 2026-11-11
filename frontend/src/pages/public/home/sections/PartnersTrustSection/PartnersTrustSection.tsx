@@ -7,18 +7,21 @@ export default function PartnersTrustSection() {
       name: "Microsoft Learn Partner",
       type: "Official .NET & Azure Curriculum",
       icon: Cloud,
+      logo: "/images/logos/tech/microsoft-mark.svg",
       sub: "Enterprise Cloud & C# Standards",
     },
     {
       name: "AWS Academy Member",
       type: "Cloud Architecture & DevOps",
       icon: Globe,
+      logo: "/images/logos/tech/aws.svg",
       sub: "Authorized Cloud Certification Prep",
     },
     {
       name: "Google Cloud Education",
       type: "BigQuery & Machine Learning",
       icon: Cpu,
+      logo: "/images/logos/tech/google-cloud.svg",
       sub: "Modern Data Stack & AI Frameworks",
     },
     {
@@ -59,7 +62,11 @@ export default function PartnersTrustSection() {
             return (
               <div key={pIdx} className="partner-card">
                 <div className="partner-icon-frame">
-                  <Icon size={24} aria-hidden="true" />
+                  {partner.logo ? (
+                    <img src={partner.logo} alt="" width={24} height={24} className="partner-logo" />
+                  ) : (
+                    <Icon size={24} aria-hidden="true" />
+                  )}
                 </div>
                 <div className="partner-info">
                   <h3 className="partner-name">{partner.name}</h3>
