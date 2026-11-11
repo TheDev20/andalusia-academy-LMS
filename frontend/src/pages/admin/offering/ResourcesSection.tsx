@@ -34,7 +34,7 @@ export default function ResourcesSection({ offeringId }: { offeringId: string })
       ) : !resources.data || resources.data.length === 0 ? (
         <EmptyState title="No learning materials yet" />
       ) : (
-        <div className="portal-table-wrap">
+        <div className="portal-table-wrap" tabIndex={0}>
           <table className="portal-table">
             <thead>
               <tr>

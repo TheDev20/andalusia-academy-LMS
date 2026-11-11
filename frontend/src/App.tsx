@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { AppRoute, NavigateFunction, ROUTE_PATHS } from "./types/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -13,18 +14,20 @@ import CoursesPage from "./pages/public/courses/CoursesPage";
 import AuthPage from "./pages/auth/AuthPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
-import SyllabusPage from "./pages/public/courses/SyllabusPage";
-import ProgramDetailsPage from "./pages/public/program-details/ProgramDetailsPage";
-import CareerPathDetailsPage from "./pages/public/career-paths/CareerPathDetailsPage";
 import ProtectedRoute from "./components/common/ProtectedRoute";
-import DashboardPage from "./pages/learner/DashboardPage";
-import CourseLearningPage from "./pages/learner/CourseLearningPage/CourseLearningPage";
-import ProfilePage from "./pages/account/ProfilePage";
-import InstructorDashboardPage from "./pages/instructor/InstructorDashboardPage";
-import CohortPage from "./pages/instructor/CohortPage";
-import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
-import AdminOfferingPage from "./pages/admin/AdminOfferingPage";
 import "./styles.css";
+
+// Routes that need a sign-in or sit deep in the catalogue are split into their own chunks.
+const SyllabusPage = lazy(() => import("./pages/public/courses/SyllabusPage"));
+const ProgramDetailsPage = lazy(() => import("./pages/public/program-details/ProgramDetailsPage"));
+const CareerPathDetailsPage = lazy(() => import("./pages/public/career-paths/CareerPathDetailsPage"));
+const DashboardPage = lazy(() => import("./pages/learner/DashboardPage"));
+const CourseLearningPage = lazy(() => import("./pages/learner/CourseLearningPage/CourseLearningPage"));
+const ProfilePage = lazy(() => import("./pages/account/ProfilePage"));
+const InstructorDashboardPage = lazy(() => import("./pages/instructor/InstructorDashboardPage"));
+const CohortPage = lazy(() => import("./pages/instructor/CohortPage"));
+const AdminDashboardPage = lazy(() => import("./pages/admin/AdminDashboardPage"));
+const AdminOfferingPage = lazy(() => import("./pages/admin/AdminOfferingPage"));
 
 // Level 1: Client Query Cache (RFC Option B - 5 min staleTime matching backend IMemoryCache)
 const queryClient = new QueryClient({
@@ -59,6 +62,13 @@ export default function App() {
         <BrowserRouter>
           <ScrollToTopOrHash />
 
+          <Suspense
+            fallback={
+              <div role="status" aria-live="polite" style={{ padding: "48px 16px", textAlign: "center" }}>
+                Loading…
+              </div>
+            }
+          >
           <Routes>
             <Route element={<PublicLayout />}>
               <Route index element={<PageWithNavigate Component={HomePage} />} />
@@ -107,6 +117,7 @@ export default function App() {
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          </Suspense>
         </BrowserRouter>
       </AuthProvider>
     </QueryClientProvider>

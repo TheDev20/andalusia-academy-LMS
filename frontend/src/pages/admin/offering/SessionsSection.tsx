@@ -34,7 +34,7 @@ export default function SessionsSection({ offeringId }: { offeringId: string }) 
       ) : !sessions.data || sessions.data.length === 0 ? (
         <EmptyState title="No sessions scheduled" />
       ) : (
-        <div className="portal-table-wrap">
+        <div className="portal-table-wrap" tabIndex={0}>
           <table className="portal-table">
             <thead>
               <tr>

@@ -7,6 +7,14 @@ import { useDebounce } from "../../../../../hooks/useDebounce";
 import { useCatalogCourses } from "../../../../../hooks/useCatalogCourses";
 import { CourseSummaryDto } from "../../../../../types/catalog";
 import CourseCard from "../../../../../components/ui/CourseCard";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "../../../../../components/ui/Empty";
 import SectionHeading from "../../../../../components/ui/SectionHeading";
 import "./FeaturedCoursesSection.css";
 
@@ -287,27 +295,34 @@ export default function FeaturedCoursesSection({
               <CourseCard
                 key={course.id}
                 course={course}
+                headingLevel={hideHeader ? 2 : 3}
                 onSelect={onSelectCourse}
               />
             ))
           ) : (
-            <div className="courses-empty-state">
-              <Terminal size={32} className="empty-icon" aria-hidden="true" />
-              <p className="courses-empty-title">No courses found matching your criteria</p>
-              <p>
-                {activeFilter !== "all" && (serverCourses?.length ?? 0) > 0 ? (
-                  <>
-                    No courses in <strong>{filterTabs.find((t) => t.id === activeFilter)?.label}</strong> match "<strong>{searchQuery}</strong>",
-                    but <strong>{serverCourses?.length}</strong> programs were found in other technical disciplines.
-                  </>
-                ) : (
-                  "Try clearing your search query or selecting another technical discipline."
-                )}
-              </p>
-              <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginTop: "14px" }}>
+            <Empty className="col-span-full">
+              <EmptyHeader>
+                <EmptyMedia variant="icon">
+                  <Terminal size={20} aria-hidden="true" />
+                </EmptyMedia>
+                <EmptyTitle as={hideHeader ? "h2" : "h3"}>
+                  No courses found matching your criteria
+                </EmptyTitle>
+                <EmptyDescription>
+                  {activeFilter !== "all" && (serverCourses?.length ?? 0) > 0 ? (
+                    <>
+                      No courses in <strong>{filterTabs.find((t) => t.id === activeFilter)?.label}</strong> match "<strong>{searchQuery}</strong>",
+                      but <strong>{serverCourses?.length}</strong> programs were found in other technical disciplines.
+                    </>
+                  ) : (
+                    "Try clearing your search query or selecting another technical discipline."
+                  )}
+                </EmptyDescription>
+              </EmptyHeader>
+              <EmptyContent>
                 <button
                   type="button"
-                  className="btn-reset-filter"
+                  className="inline-flex h-10 items-center justify-center rounded-full bg-brand-primary px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-primary-hover"
                   onClick={() => handleTabChange("all")}
                 >
                   {activeFilter !== "all" && (serverCourses?.length ?? 0) > 0
@@ -317,14 +332,14 @@ export default function FeaturedCoursesSection({
                 {searchQuery && onClearSearch && (
                   <button
                     type="button"
-                    className="btn-reset-filter"
+                    className="inline-flex h-10 items-center justify-center rounded-full border border-brand-border bg-white px-5 text-sm font-semibold text-brand-dark transition-colors hover:border-brand-primary"
                     onClick={onClearSearch}
                   >
                     Clear Search
                   </button>
                 )}
-              </div>
-            </div>
+              </EmptyContent>
+            </Empty>
           )}
         </div>
       </div>

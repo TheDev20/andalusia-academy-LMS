@@ -42,7 +42,6 @@ export default function CourseLearningPage() {
 
   return (
     <PortalPage
-      eyebrow="My course"
       title={course.courseTitle}
       subtitle={`${formatDate(course.startsAt)} – ${formatDate(course.endsAt)}${
         course.instructors.length ? ` · Instructor${course.instructors.length > 1 ? "s" : ""}: ${course.instructors.join(", ")}` : ""

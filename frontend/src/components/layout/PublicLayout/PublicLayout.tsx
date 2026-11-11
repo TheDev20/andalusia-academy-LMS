@@ -46,7 +46,7 @@ export default function PublicLayout({
     <div className="public-shell">
       {/* Top Admissions Announcement Bar — only shown on public marketing site when logged out */}
       {!isAuthenticated && (
-        <div className="announcement-bar">
+        <aside className="announcement-bar" aria-label="Admissions announcement">
           <div className="announcement-content">
             <Sparkles
               size={14}
@@ -61,7 +61,7 @@ export default function PublicLayout({
               Explore Tech Programs <ArrowRight size={14} aria-hidden="true" />
             </Link>
           </div>
-        </div>
+        </aside>
       )}
 
       <PublicNavbar currentPath={activeRoute} onNavigate={handleNavigate} />

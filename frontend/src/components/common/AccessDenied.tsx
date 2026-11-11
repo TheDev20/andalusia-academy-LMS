@@ -1,6 +1,14 @@
 import { Link } from "react-router-dom";
 import { ShieldAlert } from "lucide-react";
 import { homePathFor, useAuth } from "../../context/AuthContext";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "../ui/Empty";
 import "../portal/portal.css";
 
 export default function AccessDenied() {
@@ -8,14 +16,20 @@ export default function AccessDenied() {
   return (
     <div className="portal-page">
       <div className="portal-container">
-        <div className="portal-empty" role="alert">
-          <ShieldAlert size={32} aria-hidden="true" />
-          <h1 className="portal-empty-title">You don't have access to this page</h1>
-          <p>Your account role does not include this area of the academy.</p>
-          <Link to={homePathFor(user)} className="portal-btn">
-            Go to my home
-          </Link>
-        </div>
+        <Empty role="alert">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <ShieldAlert size={20} aria-hidden="true" />
+            </EmptyMedia>
+            <EmptyTitle as="h1">You don't have access to this page</EmptyTitle>
+            <EmptyDescription>Your account role does not include this area of the academy.</EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent>
+            <Link to={homePathFor(user)} className="portal-btn">
+              Go to my home
+            </Link>
+          </EmptyContent>
+        </Empty>
       </div>
     </div>
   );
