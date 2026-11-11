@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { admissionsApi } from "../services/api/admissionsApi";
 import { ApiError } from "../services/api/httpClient";
 import type { ApplicationDto } from "../types/admissions";
+import { paymentSuccessPath } from "../utils/paymentSuccess";
 
 /**
  * Apply → checkout flow shared by course and program pages. Signs visitors in first, and resumes an
@@ -58,8 +59,9 @@ export function useApplyAndPay() {
     pendingOrder,
     closePayment: () => setPendingOrder(null),
     onPaid: () => {
+      const orderId = pendingOrder?.salesOrderId;
       setPendingOrder(null);
-      navigate("/dashboard");
+      navigate(paymentSuccessPath(orderId));
     },
   };
 }

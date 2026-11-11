@@ -6,6 +6,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { admissionsApi } from "../../../services/api/admissionsApi";
 import { ApiError } from "../../../services/api/httpClient";
 import { ApplicationDto } from "../../../types/admissions";
+import { paymentSuccessPath } from "../../../utils/paymentSuccess";
 import StripePaymentModal from "../../../components/ui/StripePaymentModal/StripePaymentModal";
 import {
   getProgramSyllabus,
@@ -239,7 +240,7 @@ export default function SyllabusPage() {
           amount={activeOrder.amountDue}
           currency={activeOrder.currency}
           onClose={() => setActiveOrder(null)}
-          onPaid={() => navigate("/dashboard")}
+          onPaid={() => navigate(paymentSuccessPath(activeOrder.salesOrderId))}
         />
       )}
     </div>

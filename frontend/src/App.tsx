@@ -22,6 +22,7 @@ const SyllabusPage = lazy(() => import("./pages/public/courses/SyllabusPage"));
 const ProgramDetailsPage = lazy(() => import("./pages/public/program-details/ProgramDetailsPage"));
 const CareerPathDetailsPage = lazy(() => import("./pages/public/career-paths/CareerPathDetailsPage"));
 const DashboardPage = lazy(() => import("./pages/learner/DashboardPage"));
+const PaymentSuccessPage = lazy(() => import("./pages/learner/PaymentSuccessPage"));
 const CourseLearningPage = lazy(() => import("./pages/learner/CourseLearningPage/CourseLearningPage"));
 const ProfilePage = lazy(() => import("./pages/account/ProfilePage"));
 const InstructorDashboardPage = lazy(() => import("./pages/instructor/InstructorDashboardPage"));
@@ -90,6 +91,7 @@ export default function App() {
               {/* Learner LMS */}
               <Route element={<ProtectedRoute allowedRoles={["Learner"]} />}>
                 <Route path="dashboard" element={<DashboardPage />} />
+                <Route path="payment/success" element={<PaymentSuccessPage />} />
                 <Route path="learn/:courseOfferingId" element={<CourseLearningPage />} />
               </Route>
 
