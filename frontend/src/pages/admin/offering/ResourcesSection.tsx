@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { EmptyState, ErrorAlert, LoadingState } from "../../../components/portal/Portal";
 import { adminApi } from "../../../services/api/adminApi";
+import FileList from "../../../components/files/FileList";
 import type { AdminResourceDto } from "../../../types/operations";
 import { adminKeys, useAdminMutation } from "../adminShared";
 import ResourceFormModal from "../forms/ResourceFormModal";
@@ -41,6 +42,7 @@ export default function ResourcesSection({ offeringId }: { offeringId: string })
                 <th scope="col">#</th>
                 <th scope="col">Title</th>
                 <th scope="col">Link</th>
+                <th scope="col">Files</th>
                 <th scope="col">Required</th>
                 <th scope="col">
                   <span className="sr-only">Actions</span>
@@ -60,6 +62,9 @@ export default function ResourcesSection({ offeringId }: { offeringId: string })
                     ) : (
                       "—"
                     )}
+                  </td>
+                  <td style={{ minWidth: 220 }}>
+                    {r.files && r.files.length > 0 ? <FileList files={r.files} label={`Files for ${r.title}`} /> : "—"}
                   </td>
                   <td>{r.required ? "Yes" : "No"}</td>
                   <td>

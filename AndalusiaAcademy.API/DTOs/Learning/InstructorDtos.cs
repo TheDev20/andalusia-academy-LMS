@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using AndalusiaAcademy.API.DTOs.Common;
 
 namespace AndalusiaAcademy.API.DTOs.Learning;
 
@@ -30,7 +31,8 @@ public sealed record InstructorAssignmentDto(
     DateTimeOffset? DueAt,
     string Status,
     int SubmissionCount,
-    int UngradedCount);
+    int UngradedCount,
+    IReadOnlyList<FileDto> Files);
 
 public sealed record RosterEntryDto(
     Guid LearningEnrollmentId,
@@ -74,8 +76,6 @@ public sealed record UpsertAssignmentRequest(
     DateTimeOffset? DueAt,
     [Required, RegularExpression("^(Draft|Published|Closed)$")] string Status);
 
-public sealed record UploadAttachmentResponse(string Url, string FileName, long SizeBytes);
-
 public sealed record SubmissionForGradingDto(
     Guid Id,
     Guid LearningEnrollmentId,
@@ -84,7 +84,8 @@ public sealed record SubmissionForGradingDto(
     string? Body,
     DateTimeOffset SubmittedAt,
     decimal? Score,
-    DateTimeOffset? GradedAt);
+    DateTimeOffset? GradedAt,
+    IReadOnlyList<FileDto> Files);
 
 public sealed record GradeSubmissionRequest(
     [Range(typeof(decimal), "0", "10000")] decimal Score);

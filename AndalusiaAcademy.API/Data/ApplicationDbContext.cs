@@ -81,6 +81,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Testimonial> Testimonials => Set<Testimonial>();
     public DbSet<FAQ> FAQs => Set<FAQ>();
     public DbSet<ResourceAsset> ResourceAssets => Set<ResourceAsset>();
+    public DbSet<AssignmentAsset> AssignmentAssets => Set<AssignmentAsset>();
     public DbSet<SubmissionAsset> SubmissionAssets => Set<SubmissionAsset>();
 
     // 8. Compensation

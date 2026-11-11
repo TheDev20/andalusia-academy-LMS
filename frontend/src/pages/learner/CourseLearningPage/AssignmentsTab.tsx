@@ -4,9 +4,12 @@ import { Download, FileText } from "lucide-react";
 import { learningApi } from "../../../services/api/learningApi";
 import type { LearnerAssignmentDto } from "../../../types/learning";
 import { EmptyState, ErrorAlert, Field, StatusBadge, SuccessAlert } from "../../../components/portal/Portal";
+import FilePicker from "../../../components/files/FilePicker";
+import FileList from "../../../components/files/FileList";
 import { formatDateTime } from "../../../utils/format";
 import { courseQueryKey } from "./queryKeys";
 
+/** Older assignments embedded a public link in the instructions; new ones use real attachments (see FileList). */
 const ATTACHMENT_REGEX = /\n\n📎 Attachment:\s*\[(.*?)\]\((.*?)\)/;
 
 export default function AssignmentsTab({ courseOfferingId, assignments }: { courseOfferingId: string; assignments: LearnerAssignmentDto[] }) {
@@ -26,15 +29,17 @@ export default function AssignmentsTab({ courseOfferingId, assignments }: { cour
 function AssignmentCard({ courseOfferingId, assignment }: { courseOfferingId: string; assignment: LearnerAssignmentDto }) {
   const queryClient = useQueryClient();
   const [body, setBody] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
   const [saved, setSaved] = useState<string | null>(null);
   const latest = assignment.latestSubmission;
   const isOverdue = !!assignment.dueAt && new Date(assignment.dueAt) < new Date();
   const canSubmit = assignment.status === "Published";
 
   const submit = useMutation({
-    mutationFn: () => learningApi.submitAssignment(assignment.id, body.trim()),
+    mutationFn: () => learningApi.submitAssignment(assignment.id, body.trim(), files),
     onSuccess: (submission) => {
       setBody("");
+      setFiles([]);
       setSaved(`Attempt ${submission.attemptNumber} submitted.`);
       queryClient.invalidateQueries({ queryKey: courseQueryKey(courseOfferingId) });
       queryClient.invalidateQueries({ queryKey: ["myLearning"] });
@@ -62,6 +67,10 @@ function AssignmentCard({ courseOfferingId, assignment }: { courseOfferingId: st
           {cleanInstructions}
         </p>
       )}
+
+      <div style={{ marginBottom: 16 }}>
+        <FileList files={assignment.attachments ?? []} label={`Files for ${assignment.title}`} />
+      </div>
 
       {attachment && (
         <div style={{
@@ -101,6 +110,7 @@ function AssignmentCard({ courseOfferingId, assignment }: { courseOfferingId: st
         <div className="portal-alert portal-alert-info">
           <strong>Your latest submission</strong> (attempt {latest.attemptNumber}, {formatDateTime(latest.submittedAt)}) —{" "}
           {latest.gradedAt ? `graded ${latest.score}/${assignment.maxScore}` : "awaiting grading"}
+          <FileList files={latest.files ?? []} label="Files in your latest submission" />
         </div>
       )}
 
@@ -117,12 +127,15 @@ function AssignmentCard({ courseOfferingId, assignment }: { courseOfferingId: st
           <ErrorAlert error={submit.error} />
           <Field label={latest ? "Submit a new attempt" : "Your answer"}>
             {(id) => (
-              <textarea id={id} className="portal-textarea" value={body} maxLength={20000} required
+              <textarea id={id} className="portal-textarea" value={body} maxLength={20000}
+                required={files.length === 0}
+                placeholder="Write your answer, attach files, or both."
                 onChange={(e) => setBody(e.target.value)} />
             )}
           </Field>
+          <FilePicker files={files} onChange={setFiles} disabled={submit.isPending} label="Attach files" />
           <div>
-            <button type="submit" className="portal-btn" disabled={submit.isPending || !body.trim()}>
+            <button type="submit" className="portal-btn" disabled={submit.isPending || (!body.trim() && files.length === 0)}>
               {submit.isPending ? "Submitting…" : "Submit assignment"}
             </button>
           </div>

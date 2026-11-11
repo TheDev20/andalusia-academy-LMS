@@ -1,5 +1,6 @@
 using AndalusiaAcademy.API.DTOs.Common;
 using AndalusiaAcademy.API.DTOs.Operations;
+using AndalusiaAcademy.API.Services.Interfaces.Storage;
 
 namespace AndalusiaAcademy.API.Services.Interfaces.Operations;
 
@@ -34,6 +35,8 @@ public interface IAdminOfferingService
     Task<AdminResourceDto> CreateResourceAsync(Guid offeringId, UpsertResourceRequest request, CancellationToken cancellationToken = default);
     Task<AdminResourceDto> UpdateResourceAsync(Guid resourceId, UpsertResourceRequest request, CancellationToken cancellationToken = default);
     Task DeleteResourceAsync(Guid resourceId, CancellationToken cancellationToken = default);
+    Task<AdminResourceDto> AddResourceFilesAsync(Guid resourceId, IReadOnlyList<IncomingFile> files, CancellationToken cancellationToken = default);
+    Task<AdminResourceDto> RemoveResourceFileAsync(Guid resourceId, Guid fileId, CancellationToken cancellationToken = default);
 }
 
 public interface IAdminScheduleService

@@ -1,4 +1,5 @@
 import type { ProgressDto } from "./admissions";
+import type { FileDto } from "./files";
 
 export interface LocationDto {
   id: string;
@@ -24,6 +25,7 @@ export interface LearnerResourceDto {
   required: boolean;
   sequence: number;
   completedAt?: string | null;
+  files: FileDto[];
 }
 
 export interface SubmissionDto {
@@ -34,6 +36,7 @@ export interface SubmissionDto {
   score?: number | null;
   submittedAt: string;
   gradedAt?: string | null;
+  files: FileDto[];
 }
 
 export interface LearnerAssignmentDto {
@@ -44,6 +47,7 @@ export interface LearnerAssignmentDto {
   dueAt?: string | null;
   status: string;
   latestSubmission?: SubmissionDto | null;
+  attachments: FileDto[];
 }
 
 export interface CourseLearningDto {
@@ -100,6 +104,7 @@ export interface InstructorAssignmentDto {
   status: AssignmentStatus;
   submissionCount: number;
   ungradedCount: number;
+  files: FileDto[];
 }
 
 export interface RosterEntryDto {
@@ -156,6 +161,7 @@ export interface SubmissionForGradingDto {
   submittedAt: string;
   score?: number | null;
   gradedAt?: string | null;
+  files: FileDto[];
 }
 
 export interface LearnerProgressDto {

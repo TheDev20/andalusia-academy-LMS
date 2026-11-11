@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using AndalusiaAcademy.API.DTOs.Common;
 using AndalusiaAcademy.API.DTOs.Identity;
 
 namespace AndalusiaAcademy.API.DTOs.Operations;
@@ -99,7 +100,8 @@ public sealed record UpsertOfferingRequest(
 
 public sealed record AssignInstructorRequest([Required] Guid InstructorId);
 
-public sealed record AdminResourceDto(Guid Id, Guid CourseOfferingId, string Title, string? Url, bool Required, int Sequence);
+public sealed record AdminResourceDto(
+    Guid Id, Guid CourseOfferingId, string Title, string? Url, bool Required, int Sequence, IReadOnlyList<FileDto> Files);
 
 public sealed record UpsertResourceRequest(
     [Required, StringLength(250, MinimumLength = 1)] string Title,

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using AndalusiaAcademy.API.DTOs.Common;
 
 namespace AndalusiaAcademy.API.DTOs.Learning;
 
@@ -45,7 +46,8 @@ public sealed record LearnerResourceDto(
     string? Url,
     bool Required,
     int Sequence,
-    DateTimeOffset? CompletedAt);
+    DateTimeOffset? CompletedAt,
+    IReadOnlyList<FileDto> Files);
 
 public sealed record SubmissionDto(
     Guid Id,
@@ -54,7 +56,8 @@ public sealed record SubmissionDto(
     string? Body,
     decimal? Score,
     DateTimeOffset SubmittedAt,
-    DateTimeOffset? GradedAt);
+    DateTimeOffset? GradedAt,
+    IReadOnlyList<FileDto> Files);
 
 public sealed record LearnerAssignmentDto(
     Guid Id,
@@ -63,7 +66,8 @@ public sealed record LearnerAssignmentDto(
     decimal MaxScore,
     DateTimeOffset? DueAt,
     string Status,
-    SubmissionDto? LatestSubmission);
+    SubmissionDto? LatestSubmission,
+    IReadOnlyList<FileDto> Attachments);
 
 public sealed record CourseLearningDto(
     Guid LearningEnrollmentId,
@@ -81,3 +85,12 @@ public sealed record CourseLearningDto(
 
 public sealed record SubmitAssignmentRequest(
     [Required, StringLength(20000, MinimumLength = 1)] string Body);
+
+/// <summary>Multipart submission: optional text plus up to <c>UploadLimits.MaxFilesPerUpload</c> files (at least one of the two).</summary>
+public sealed class SubmitAssignmentFormRequest
+{
+    [StringLength(20000)]
+    public string? Body { get; init; }
+
+    public List<IFormFile>? Files { get; init; }
+}

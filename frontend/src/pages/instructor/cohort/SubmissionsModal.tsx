@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { instructorApi } from "../../../services/api/instructorApi";
 import { EmptyState, ErrorAlert, LoadingState, Modal, SuccessAlert } from "../../../components/portal/Portal";
+import FileList from "../../../components/files/FileList";
 import { formatDateTime } from "../../../utils/format";
 import type { InstructorAssignmentDto, SubmissionForGradingDto } from "../../../types/learning";
 import { cohortKeys } from "./queryKeys";
@@ -92,6 +93,9 @@ function SubmissionCard({
         }}
       >
         {submission.body || <em>No text submitted.</em>}
+      </div>
+      <div style={{ marginBottom: 12 }}>
+        <FileList files={submission.files ?? []} label={`Files submitted by ${submission.learnerName}`} />
       </div>
       <ErrorAlert error={grade.error} />
       <SuccessAlert message={saved} />

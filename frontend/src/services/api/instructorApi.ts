@@ -59,12 +59,13 @@ export const instructorApi = {
     });
   },
 
-  uploadAttachment(file: File): Promise<{ url: string; fileName: string; sizeBytes: number }> {
-    const data = new FormData();
-    data.append("file", file);
-    return apiRequest<{ url: string; fileName: string; sizeBytes: number }>("/api/instructor/upload-attachment", {
-      method: "POST",
-      body: data,
-    });
+  uploadAssignmentFiles(assignmentId: string, files: File[]): Promise<InstructorAssignmentDto> {
+    const form = new FormData();
+    files.forEach((file) => form.append("Files", file, file.name));
+    return apiRequest<InstructorAssignmentDto>(`/api/instructor/assignments/${assignmentId}/files`, { method: "POST", body: form });
+  },
+
+  deleteAssignmentFile(assignmentId: string, fileId: string): Promise<InstructorAssignmentDto> {
+    return apiRequest<InstructorAssignmentDto>(`/api/instructor/assignments/${assignmentId}/files/${fileId}`, { method: "DELETE" });
   },
 };
