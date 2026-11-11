@@ -1,3 +1,21 @@
+import { useEffect } from "react";
+
+const STRIPE_BUY_BUTTON_SCRIPT = "https://js.stripe.com/v3/buy-button.js";
+
+/**
+ * Loads Stripe's Buy Button script the first time a button is shown, instead of on every page view.
+ * The custom element upgrades itself once the script defines it, so rendering it earlier is fine.
+ */
+function useStripeBuyButtonScript() {
+  useEffect(() => {
+    if (document.querySelector(`script[src="${STRIPE_BUY_BUTTON_SCRIPT}"]`)) return;
+    const script = document.createElement("script");
+    script.src = STRIPE_BUY_BUTTON_SCRIPT;
+    script.async = true;
+    document.head.appendChild(script);
+  }, []);
+}
+
 // Publishable identifiers (safe to ship to browsers). Override per environment with
 // VITE_STRIPE_BUY_BUTTON_ID / VITE_STRIPE_PUBLISHABLE_KEY; the defaults target the Stripe sandbox.
 const STRIPE_BUY_BUTTON_ID =
@@ -11,6 +29,8 @@ interface StripeBuyButtonProps {
 }
 
 export default function StripeBuyButton({ clientReferenceId }: StripeBuyButtonProps) {
+  useStripeBuyButtonScript();
+
   return (
     <stripe-buy-button
       buy-button-id={STRIPE_BUY_BUTTON_ID}

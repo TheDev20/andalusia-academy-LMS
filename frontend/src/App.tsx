@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { AppRoute, NavigateFunction, ROUTE_PATHS } from "./types/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -8,16 +8,17 @@ import PublicLayout from "./components/layout/PublicLayout";
 import AuthLayout from "./components/layout/AuthLayout";
 import ScrollToTopOrHash from "./components/common/ScrollToTopOrHash";
 import HomePage from "./pages/public/home/HomePage";
-import AboutPage from "./pages/public/about/AboutPage";
-import ContactPage from "./pages/public/contact/ContactPage";
-import CoursesPage from "./pages/public/courses/CoursesPage";
-import AuthPage from "./pages/auth/AuthPage";
-import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
-import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import "./styles.css";
 
 // Routes that need a sign-in or sit deep in the catalogue are split into their own chunks.
+// Pages other than the landing page load on demand, so a visitor only downloads the code for what they open.
+const AboutPage = lazy(() => import("./pages/public/about/AboutPage"));
+const ContactPage = lazy(() => import("./pages/public/contact/ContactPage"));
+const CoursesPage = lazy(() => import("./pages/public/courses/CoursesPage"));
+const AuthPage = lazy(() => import("./pages/auth/AuthPage"));
+const ForgotPasswordPage = lazy(() => import("./pages/auth/ForgotPasswordPage"));
+const ResetPasswordPage = lazy(() => import("./pages/auth/ResetPasswordPage"));
 const SyllabusPage = lazy(() => import("./pages/public/courses/SyllabusPage"));
 const ProgramDetailsPage = lazy(() => import("./pages/public/program-details/ProgramDetailsPage"));
 const CareerPathDetailsPage = lazy(() => import("./pages/public/career-paths/CareerPathDetailsPage"));
@@ -56,7 +57,24 @@ function PageWithNavigate({
   return <Component onNavigate={handleNavigate} />;
 }
 
+/** After the landing page has settled, fetch the pages visitors most often open next, so clicking feels instant. */
+function usePrefetchLikelyPages() {
+  useEffect(() => {
+    const prefetch = () => {
+      void import("./pages/public/courses/CoursesPage");
+      void import("./pages/auth/AuthPage");
+    };
+    if (typeof window.requestIdleCallback === "function") {
+      const id = window.requestIdleCallback(prefetch, { timeout: 4000 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const id = window.setTimeout(prefetch, 2000);
+    return () => window.clearTimeout(id);
+  }, []);
+}
+
 export default function App() {
+  usePrefetchLikelyPages();
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
