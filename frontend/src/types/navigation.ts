@@ -57,7 +57,7 @@ export const ROUTE_PATHS: Record<AppRoute, string> = {
   login: "/login",
   signup: "/signup",
   courses: "/courses",
-  "career-paths": "/#career-paths",
+  "career-paths": "/courses?tab=career-paths",
   corporate: "/#corporate",
   dashboard: "/dashboard",
 };
