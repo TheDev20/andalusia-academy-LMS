@@ -7,8 +7,10 @@ using AndalusiaAcademy.API.ENUMs;
 using AndalusiaAcademy.API.Exceptions;
 using AndalusiaAcademy.API.Models.Admissions;
 using AndalusiaAcademy.API.Models.Catalog;
+using AndalusiaAcademy.API.Models.Content;
 using AndalusiaAcademy.API.Models.Learning;
 using AndalusiaAcademy.API.Services.Interfaces.Learning;
+using AndalusiaAcademy.API.Services.Interfaces.Storage;
 
 namespace AndalusiaAcademy.API.Services.Implementations.Learning;
 
@@ -18,13 +20,16 @@ public sealed class InstructorService : IInstructorService
     private readonly ICurrentUser _currentUser;
     private readonly ProgressQueries _progress;
     private readonly TimeProvider _clock;
+    private readonly IFileAssetService _files;
 
-    public InstructorService(ApplicationDbContext context, ICurrentUser currentUser, ProgressQueries progress, TimeProvider clock)
+    public InstructorService(
+        ApplicationDbContext context, ICurrentUser currentUser, ProgressQueries progress, TimeProvider clock, IFileAssetService files)
     {
         _context = context;
         _currentUser = currentUser;
         _progress = progress;
         _clock = clock;
+        _files = files;
     }
 
     private bool IsAdmin => _currentUser.IsInRole(AppRoles.Admin);
@@ -197,6 +202,61 @@ public sealed class InstructorService : IInstructorService
         return await AssignmentsQuery().Where(a => a.Id == assignment.Id).Select(ToAssignmentDto).FirstAsync(cancellationToken);
     }
 
+    public async Task<InstructorAssignmentDto> AddAssignmentFilesAsync(
+        Guid assignmentId, IReadOnlyList<IncomingFile> files, CancellationToken cancellationToken = default)
+    {
+        var assignment = await _context.Assignments.AsNoTracking().FirstOrDefaultAsync(a => a.Id == assignmentId, cancellationToken)
+            ?? throw new NotFoundException("Assignment not found.");
+        await EnsureCanManageAsync(assignment.CourseOfferingId, cancellationToken);
+        if (files.Count == 0)
+        {
+            throw new BusinessRuleException("Choose at least one file to upload.");
+        }
+
+        var existing = await _context.AssignmentAssets.CountAsync(aa => aa.AssignmentId == assignmentId, cancellationToken);
+        if (existing + files.Count > UploadLimits.MaxFilesPerOwner)
+        {
+            throw new BusinessRuleException($"An assignment can hold at most {UploadLimits.MaxFilesPerOwner} files.");
+        }
+
+        var assets = await _files.StoreAsync(files, _currentUser.UserId, cancellationToken);
+        foreach (var asset in assets)
+        {
+            _context.AssignmentAssets.Add(new AssignmentAsset { AssignmentId = assignmentId, FileAsset = asset });
+        }
+
+        try
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        catch
+        {
+            await _files.DiscardAsync(assets, CancellationToken.None);
+            throw;
+        }
+
+        return await AssignmentsQuery().Where(a => a.Id == assignmentId).Select(ToAssignmentDto).FirstAsync(cancellationToken);
+    }
+
+    public async Task<InstructorAssignmentDto> RemoveAssignmentFileAsync(Guid assignmentId, Guid fileId, CancellationToken cancellationToken = default)
+    {
+        var assignment = await _context.Assignments.AsNoTracking().FirstOrDefaultAsync(a => a.Id == assignmentId, cancellationToken)
+            ?? throw new NotFoundException("Assignment not found.");
+        await EnsureCanManageAsync(assignment.CourseOfferingId, cancellationToken);
+
+        var link = await _context.AssignmentAssets.Include(aa => aa.FileAsset)
+            .FirstOrDefaultAsync(aa => aa.AssignmentId == assignmentId && aa.FileAssetId == fileId, cancellationToken)
+            ?? throw new NotFoundException("File not found on this assignment.");
+
+        var asset = link.FileAsset;
+        _context.AssignmentAssets.Remove(link);
+        _context.FileAssets.Remove(asset);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        await _files.DiscardAsync([asset], cancellationToken);
+        return await AssignmentsQuery().Where(a => a.Id == assignmentId).Select(ToAssignmentDto).FirstAsync(cancellationToken);
+    }
+
     public async Task<IReadOnlyList<SubmissionForGradingDto>> GetSubmissionsAsync(Guid assignmentId, CancellationToken cancellationToken = default)
     {
         var assignment = await _context.Assignments.AsNoTracking().FirstOrDefaultAsync(a => a.Id == assignmentId, cancellationToken)
@@ -313,11 +373,16 @@ public sealed class InstructorService : IInstructorService
 
     private IQueryable<Assignment> AssignmentsQuery() => _context.Assignments.AsNoTracking();
 
-    private static readonly System.Linq.Expressions.Expression<Func<Assignment, InstructorAssignmentDto>> ToAssignmentDto =
+    private System.Linq.Expressions.Expression<Func<Assignment, InstructorAssignmentDto>> ToAssignmentDto =>
         a => new InstructorAssignmentDto(
             a.Id, a.Title, a.Instructions, a.MaxScore, a.DueAt, a.Status,
             a.Submissions.Count,
-            a.Submissions.Count(s => s.GradedAt == null));
+            a.Submissions.Count(s => s.GradedAt == null),
+            _context.AssignmentAssets
+                .Where(aa => aa.AssignmentId == a.Id)
+                .OrderBy(aa => aa.FileAsset.UploadedAt).ThenBy(aa => aa.FileAsset.OriginalName)
+                .Select(aa => new FileDto(aa.FileAsset.Id, aa.FileAsset.OriginalName, aa.FileAsset.MediaType, aa.FileAsset.SizeBytes))
+                .ToList());
 
     private static void Apply(Assignment assignment, UpsertAssignmentRequest request)
     {

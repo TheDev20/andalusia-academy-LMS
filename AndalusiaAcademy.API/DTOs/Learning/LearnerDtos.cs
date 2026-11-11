@@ -66,7 +66,8 @@ public sealed record LearnerAssignmentDto(
     decimal MaxScore,
     DateTimeOffset? DueAt,
     string Status,
-    SubmissionDto? LatestSubmission);
+    SubmissionDto? LatestSubmission,
+    IReadOnlyList<FileDto> Attachments);
 
 public sealed record CourseLearningDto(
     Guid LearningEnrollmentId,

@@ -47,6 +47,7 @@ export interface LearnerAssignmentDto {
   dueAt?: string | null;
   status: string;
   latestSubmission?: SubmissionDto | null;
+  attachments: FileDto[];
 }
 
 export interface CourseLearningDto {
@@ -103,6 +104,7 @@ export interface InstructorAssignmentDto {
   status: AssignmentStatus;
   submissionCount: number;
   ungradedCount: number;
+  files: FileDto[];
 }
 
 export interface RosterEntryDto {

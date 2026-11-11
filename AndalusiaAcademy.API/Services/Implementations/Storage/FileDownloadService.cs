@@ -65,6 +65,23 @@ public sealed class FileDownloadService : IFileDownloadService
             throw new ForbiddenException("You do not have access to this file.");
         }
 
+        var attachment = await _context.AssignmentAssets.AsNoTracking()
+            .Where(aa => aa.FileAssetId == fileId)
+            .Select(aa => new { aa.Assignment.CourseOfferingId, aa.Assignment.Status })
+            .FirstOrDefaultAsync(cancellationToken);
+        if (attachment is not null)
+        {
+            // Learners only see attachments of assignments that have been published (Draft stays staff-only).
+            if (await IsStaffOfAsync(attachment.CourseOfferingId, userId, cancellationToken)
+                || (attachment.Status != AssignmentStatuses.Draft
+                    && await IsActivelyEnrolledAsync(attachment.CourseOfferingId, userId, cancellationToken)))
+            {
+                return;
+            }
+
+            throw new ForbiddenException("You do not have access to this file.");
+        }
+
         var submission = await _context.SubmissionAssets.AsNoTracking()
             .Where(sa => sa.FileAssetId == fileId)
             .Select(sa => new { sa.Submission.CourseOfferingId, LearnerId = sa.Submission.LearningEnrollment.LearnerId })

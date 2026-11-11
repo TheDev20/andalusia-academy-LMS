@@ -111,6 +111,15 @@ public class ResourceAsset
     public FileAsset FileAsset { get; set; } = null!;
 }
 
+public class AssignmentAsset
+{
+    public Guid AssignmentId { get; set; }
+    public Assignment Assignment { get; set; } = null!;
+
+    public Guid FileAssetId { get; set; }
+    public FileAsset FileAsset { get; set; } = null!;
+}
+
 public class SubmissionAsset
 {
     public Guid SubmissionId { get; set; }

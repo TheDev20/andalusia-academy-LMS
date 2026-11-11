@@ -1,4 +1,5 @@
 using AndalusiaAcademy.API.DTOs.Learning;
+using AndalusiaAcademy.API.Services.Interfaces.Storage;
 
 namespace AndalusiaAcademy.API.Services.Interfaces.Learning;
 
@@ -15,6 +16,8 @@ public interface IInstructorService
 
     Task<InstructorAssignmentDto> CreateAssignmentAsync(Guid offeringId, UpsertAssignmentRequest request, CancellationToken cancellationToken = default);
     Task<InstructorAssignmentDto> UpdateAssignmentAsync(Guid assignmentId, UpsertAssignmentRequest request, CancellationToken cancellationToken = default);
+    Task<InstructorAssignmentDto> AddAssignmentFilesAsync(Guid assignmentId, IReadOnlyList<IncomingFile> files, CancellationToken cancellationToken = default);
+    Task<InstructorAssignmentDto> RemoveAssignmentFileAsync(Guid assignmentId, Guid fileId, CancellationToken cancellationToken = default);
 
     Task<IReadOnlyList<SubmissionForGradingDto>> GetSubmissionsAsync(Guid assignmentId, CancellationToken cancellationToken = default);
     Task<SubmissionForGradingDto> GradeSubmissionAsync(Guid submissionId, GradeSubmissionRequest request, CancellationToken cancellationToken = default);

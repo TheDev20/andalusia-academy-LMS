@@ -9,6 +9,7 @@ import FileList from "../../../components/files/FileList";
 import { formatDateTime } from "../../../utils/format";
 import { courseQueryKey } from "./queryKeys";
 
+/** Older assignments embedded a public link in the instructions; new ones use real attachments (see FileList). */
 const ATTACHMENT_REGEX = /\n\n📎 Attachment:\s*\[(.*?)\]\((.*?)\)/;
 
 export default function AssignmentsTab({ courseOfferingId, assignments }: { courseOfferingId: string; assignments: LearnerAssignmentDto[] }) {
@@ -66,6 +67,10 @@ function AssignmentCard({ courseOfferingId, assignment }: { courseOfferingId: st
           {cleanInstructions}
         </p>
       )}
+
+      <div style={{ marginBottom: 16 }}>
+        <FileList files={assignment.attachments ?? []} label={`Files for ${assignment.title}`} />
+      </div>
 
       {attachment && (
         <div style={{

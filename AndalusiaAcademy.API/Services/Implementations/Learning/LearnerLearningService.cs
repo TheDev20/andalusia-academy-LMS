@@ -120,7 +120,12 @@ public sealed class LearnerLearningService : ILearnerLearningService
                             .OrderBy(sa => sa.FileAsset.UploadedAt).ThenBy(sa => sa.FileAsset.OriginalName)
                             .Select(sa => new FileDto(sa.FileAsset.Id, sa.FileAsset.OriginalName, sa.FileAsset.MediaType, sa.FileAsset.SizeBytes))
                             .ToList()))
-                    .FirstOrDefault()))
+                    .FirstOrDefault(),
+                _context.AssignmentAssets
+                    .Where(aa => aa.AssignmentId == a.Id)
+                    .OrderBy(aa => aa.FileAsset.UploadedAt).ThenBy(aa => aa.FileAsset.OriginalName)
+                    .Select(aa => new FileDto(aa.FileAsset.Id, aa.FileAsset.OriginalName, aa.FileAsset.MediaType, aa.FileAsset.SizeBytes))
+                    .ToList()))
             .ToListAsync(cancellationToken);
 
         var progress = await _progress.ForEnrollmentsAsync([enrollment.Id], now, cancellationToken);
