@@ -128,17 +128,24 @@ if (app.Environment.IsDevelopment())
 
 if (!app.Environment.IsEnvironment("Testing"))
 {
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    // Retries transient database errors, then fails startup: serving requests against a schema that is behind
+    // the code only produces unexplained 500s.
+    var migrationOptions = app.Configuration.GetSection(StartupMigrationOptions.SectionName).Get<StartupMigrationOptions>()
+        ?? new StartupMigrationOptions();
+    await StartupMigration.RunAsync(cancellationToken => db.Database.MigrateAsync(cancellationToken), migrationOptions, app.Logger);
+
     try
     {
-        using var scope = app.Services.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        await db.Database.MigrateAsync();
         await CatalogDbSeeder.SeedCatalogAsync(db);
         await scope.ServiceProvider.GetRequiredService<DemoDataSeeder>().SeedAsync();
     }
     catch (Exception ex)
     {
-        app.Logger.LogWarning(ex, "Database migration or seeding skipped on startup.");
+        // Seed data is a convenience, not a prerequisite: keep serving, but make the failure visible.
+        app.Logger.LogError(ex, "Seeding catalog or demo data failed; continuing without it.");
     }
 }
 
