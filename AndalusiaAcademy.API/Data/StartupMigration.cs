@@ -29,10 +29,23 @@ public sealed class StartupMigrationOptions
 /// </summary>
 public static class StartupMigration
 {
-    // Connection-level SQL Server errors that SqlException.IsTransient does not cover: unreachable or refused
-    // server, timeouts, a database that is not open yet, and 0, which the driver uses for failures while
-    // establishing the connection (including a pre-login handshake against a server that is still starting).
-    private static readonly HashSet<int> ConnectionErrorNumbers = [0, -2, -1, 2, 53, 64, 233, 258, 4060, 10053, 10054, 10060, 10061, 11001];
+    // SQL Server / Azure SQL error numbers that clear up on their own. SqlException.IsTransient does not cover them
+    // reliably (it is false for 40613, the error an auto-paused Azure SQL database returns while it resumes), so the
+    // list is explicit. 0 is the driver's number for failures while establishing a connection, including a
+    // pre-login handshake against a server that is still starting.
+    private static readonly HashSet<int> TransientSqlErrors =
+    [
+        0, -2, -1, 2, 53, 64, 233, 258,                 // connection and network failures, timeouts
+        1204, 1205, 1222,                               // lock resource shortage, deadlock victim, lock timeout
+        4060, 4221,                                     // database not open yet, secondary not ready
+        10053, 10054, 10060, 10061, 11001,              // connection dropped, timed out, refused, host not found
+        10928, 10929,                                   // Azure SQL resource limits
+        40143, 40197, 40501, 40540, 40613,              // Azure SQL service busy, error, database not available (paused)
+        49918, 49919, 49920                             // Azure SQL not enough resources / too many operations
+    ];
+
+    // EF Core wraps errors it recognises as transient in an InvalidOperationException carrying this phrase.
+    private const string EfTransientMarker = "likely due to a transient failure";
 
     public static async Task RunAsync(
         Func<CancellationToken, Task> migrate,
@@ -92,8 +105,8 @@ public static class StartupMigration
         {
             switch (current)
             {
-                case SqlException sql when sql.IsTransient || ConnectionErrorNumbers.Contains(sql.Number):
-                // A refused or dropped connection can also surface with the socket or IO error as the root cause.
+                case SqlException sql when sql.IsTransient || sql.Errors.Cast<SqlError>().Any(e => TransientSqlErrors.Contains(e.Number)) || TransientSqlErrors.Contains(sql.Number):
+                case InvalidOperationException when current.Message.Contains(EfTransientMarker, StringComparison.Ordinal):
                 // A refused or dropped connection can also surface with the socket or IO error as the root cause.
                 case SocketException:
                 case IOException:

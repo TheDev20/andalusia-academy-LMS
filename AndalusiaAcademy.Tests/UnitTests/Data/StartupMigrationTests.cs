@@ -215,6 +215,55 @@ public class StartupMigrationTests
         }
     }
 
+    /// <summary>Builds a real <see cref="SqlException"/> with the given server error number (the type has no public constructor).</summary>
+    private static SqlException SqlServerError(int number, string message)
+    {
+        const System.Reflection.BindingFlags all = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public;
+        // The constructor differs slightly between driver versions, so fill the arguments by parameter name.
+        var constructor = typeof(SqlError).GetConstructors(all).OrderByDescending(c => c.GetParameters().Length).First();
+        var arguments = constructor.GetParameters().Select(p => p.Name switch
+        {
+            "infoNumber" => number,
+            "errorState" => (object)(byte)0,
+            "errorClass" => (byte)20,
+            "server" => "server",
+            "errorMessage" => message,
+            "procedure" => "",
+            _ => p.ParameterType.IsValueType ? Activator.CreateInstance(p.ParameterType) : null
+        }).ToArray();
+        var error = (SqlError)constructor.Invoke(arguments);
+        var errors = (SqlErrorCollection)Activator.CreateInstance(typeof(SqlErrorCollection), true)!;
+        typeof(SqlErrorCollection).GetMethod("Add", all)!.Invoke(errors, [error]);
+        return (SqlException)typeof(SqlException).GetMethod("CreateException", all, [typeof(SqlErrorCollection), typeof(string)])!
+            .Invoke(null, [errors, "11.0.0"])!;
+    }
+
+    [Theory]
+    [InlineData(40613, "Database 'db' on server 'x.database.windows.net' is not currently available. Please retry the connection later.")]
+    [InlineData(40197, "The service has encountered an error processing your request. Please try again.")]
+    [InlineData(40501, "The service is currently busy. Retry the request after 10 seconds.")]
+    [InlineData(49918, "Cannot process request. Not enough resources to process request.")]
+    [InlineData(10928, "Resource ID: 1. The request limit for the database has been reached.")]
+    [InlineData(1205, "Transaction was deadlocked on lock resources with another process and has been chosen as the deadlock victim.")]
+    public void Azure_sql_transient_errors_are_retried_even_when_ef_wraps_them(int number, string message)
+    {
+        // EF Core wraps these in an InvalidOperationException that says the failure is "likely transient".
+        var wrapped = new InvalidOperationException(
+            "An exception has been raised that is likely due to a transient failure. Consider enabling transient error resiliency by adding 'EnableRetryOnFailure' to the 'UseSqlServer' call.",
+            SqlServerError(number, message));
+
+        Assert.True(StartupMigration.IsTransientDatabaseError(wrapped));
+        Assert.True(StartupMigration.IsTransientDatabaseError(SqlServerError(number, message)));
+    }
+
+    [Fact]
+    public void A_wrong_password_or_a_broken_script_is_not_retried()
+    {
+        Assert.False(StartupMigration.IsTransientDatabaseError(SqlServerError(18456, "Login failed for user 'sa'.")));
+        Assert.False(StartupMigration.IsTransientDatabaseError(SqlServerError(2714, "There is already an object named 'X' in the database.")));
+        Assert.False(StartupMigration.IsTransientDatabaseError(SqlServerError(207, "Invalid column name 'Y'.")));
+    }
+
     private static IEnumerable<Exception> Flatten(Exception ex)
     {
         for (var current = ex; current is not null; current = current.InnerException)
